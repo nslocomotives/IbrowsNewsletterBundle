@@ -1,0 +1,31 @@
+{% extends 'IbrowsNewsletterBundle::layout.html.twig' %}
+{% trans_default_domain "IbrowsNewsletterBundle" %}
+
+{% block newsletter_wizard %}
+<ul class="wizard">
+	<li class="active">
+		<span>{{ ('newsletter.wizard.create')|trans({}, "IbrowsNewsletterBundle") }}</span>        
+	</li>
+	<li>
+		<span>{{ 'newsletter.wizard.edit'|trans }}</span>        
+	</li>
+	<li>
+		<span>{{ 'newsletter.wizard.recipient'|trans }}</span>        
+	</li>
+	<li>
+		<span>{{ 'newsletter.wizard.summary'|trans }}</span>        
+	</li>
+</ul>
+{% endblock %}
+
+{% block newsletter_content %}
+<form action="{{ path('ibrows_newsletter_create', {'client' : client}) }}" method="post" {{ form_enctype(form) }}>
+{{ form_errors(form) }}
+{{ form_rest(form) }}
+
+<div class="form-actions">
+	<button type="submit" class="btn btn-primary">{{ 'form.save'|trans({}, "IbrowsNewsletterBundle") }}</button>
+	<button type="button" class="btn">{{ 'form.cancel'|trans({}, "IbrowsNewsletterBundle") }}</button>
+</div>
+</form>
+{% endblock %}
