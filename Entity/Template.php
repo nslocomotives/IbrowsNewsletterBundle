@@ -14,6 +14,7 @@ class Template extends AbstractTemplate
 	 * @ORM\Column(type="string")
 	 */
 	protected $name;
+    
 	/**
 	 * @var string
 	 *
