@@ -1,7 +1,7 @@
 <?php
 namespace Ibrows\Bundle\NewsletterBundle\Controller;
 
-class AdminController
+class AdminController extends AbstractController
 {
-
+    
 }
