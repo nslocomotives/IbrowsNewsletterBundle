@@ -1,5 +1,5 @@
 <?php
-namespace Ibrows\Bundle\NewsletterBundle\Service\Doctrine;
+namespace Ibrows\Bundle\NewsletterBundle\Service\orm;
 
 use Doctrine\DBAL\DriverManager;
 use Ibrows\Bundle\NewsletterBundle\Model\Client;
@@ -10,14 +10,20 @@ class ClientManager extends BaseClientManager
 {
 	private $doctrine;
 	private $connection;
+	private $clientClass;
+	private $newsletterClass;
+	private $subscriberClass;
 
-	public function __construct(Registry $doctrine, $connection = null)
+	public function __construct(Registry $doctrine, $clientClass, $newsletterClass, $subscriberClass, $connection = null)
 	{
 		$this->doctrine = $doctrine;
+		$this->clientClass = $clientClass;
+		$this->newsletterClass = $newsletterClass;
+		$this->subscriberClass = $subscriberClass;
 		$this->connection = $connection;
 	}
 
-	public function createClient($name)
+	public function create($name)
 	{
 		$name = $this->canonicalizeName($name);
 		// get default connection
@@ -39,10 +45,15 @@ class ClientManager extends BaseClientManager
 		$tmpConnection->close();
 	}
 	
-	public function getClient($name = null)
+	public function get($name = null)
 	{
 		$name = $this->canonicalizeName($name);
-		return new Client($this->doctrine->getEntityManager($name));
+		return new Client($this->getManager($name), $this->newsletterClass);
+	}
+	
+	private function getManager($name)
+	{
+		return $this->doctrine->getManager();
 	}
 	
 }

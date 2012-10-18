@@ -5,8 +5,14 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-        <service id="ibrows_newsletter.client_manager" class="Ibrows\Bundle\NewsletterBundle\Service\Doctrine\ClientManager">
-			<argument type="service" id ="doctrine" />
+        <service id="ibrows_newsletter.template_manager" class="Ibrows\Bundle\NewsletterBundle\Service\TemplateManager">
+			<argument>%ibrows_newsletter.templates%</argument>
+			<argument>%ibrows_newsletter.templates.newsletter%</argument>
+        </service>
+        
+        <service id="ibrows_newsletter.class_manager" class="Ibrows\Bundle\NewsletterBundle\Service\ClassManager">
+			<argument>%ibrows_newsletter.classes.model%</argument>
+			<argument>%ibrows_newsletter.classes.form%</argument>
         </service>
     </services>
 

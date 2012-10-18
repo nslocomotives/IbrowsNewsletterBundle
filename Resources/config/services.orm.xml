@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="ibrows_newsletter.client_manager" class="Ibrows\Bundle\NewsletterBundle\Service\orm\ClientManager">
+			<argument type="service" id ="doctrine" />
+			<argument>%ibrows_newsletter.classes.model.client%</argument>
+			<argument>%ibrows_newsletter.classes.model.newsletter%</argument>
+			<argument>%ibrows_newsletter.classes.model.subscriber%</argument>
+        </service>
+    </services>
+
+</container>
