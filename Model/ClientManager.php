@@ -4,12 +4,14 @@ namespace Ibrows\Bundle\NewsletterBundle\Model;
 
 abstract class ClientManager implements ClientManagerInterface
 {
+	const DEFAULT_NAME = 'default';
+	
 	protected function canonicalizeName($name = null)
 	{
 		if ($name === null){
-			return null;
+			return self::DEFAULT_NAME;
 		}
 
-		return 'ibrows_newsletter_client_'.$name;
+		return $name;
 	}
 }

@@ -1,6 +1,8 @@
 <?php
 namespace Ibrows\Bundle\NewsletterBundle\Service\orm;
 
+use Symfony\Component\Serializer\Exception\UnsupportedException;
+
 use Doctrine\DBAL\DriverManager;
 use Ibrows\Bundle\NewsletterBundle\Model\Client;
 use Doctrine\Bundle\DoctrineBundle\Registry;
@@ -23,37 +25,18 @@ class ClientManager extends BaseClientManager
 		$this->connection = $connection;
 	}
 
-	public function create($name)
-	{
-		$name = $this->canonicalizeName($name);
-		// get default connection
-		$connection = $this->doctrine->getConnection();
-		
-		$params = $connection->getParams();
-		unset($params['dbname']);
-		
-		$tmpConnection = DriverManager::getConnection($params);
-		$name = $tmpConnection->getDatabasePlatform()->quoteSingleIdentifier($name);
-		
-		$error = false;
-		try {
-			$tmpConnection->getSchemaManager()->createDatabase($name);
-		} catch (\Exception $e) {
-			var_dump($e); die();
-		}
-		
-		$tmpConnection->close();
-	}
-	
 	public function get($name = null)
 	{
 		$name = $this->canonicalizeName($name);
-		return new Client($this->getManager($name), $this->newsletterClass);
+		return new $this->clientClass($this->getManager($name), $name, $this->newsletterClass);
 	}
 	
 	private function getManager($name)
 	{
-		return $this->doctrine->getManager();
+		if ($name === parent::DEFAULT_NAME)
+			return $this->doctrine->getManager();
+		
+		throw new UnsupportedException('Only the default client is supported as of now.');
 	}
 	
 }

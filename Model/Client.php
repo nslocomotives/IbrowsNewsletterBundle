@@ -8,16 +8,15 @@ class Client implements ClientInterface
 	private $newsletterClass;
 	private $name;
 	
-	public function __construct(ObjectManager $om, $newsletterClass)
+	public function __construct(ObjectManager $om, $name, $newsletterClass)
 	{
 		$this->om = $om;
 		$this->newsletterClass = $newsletterClass;
-		$this->name = $om->getConnection()->getDatabase();
+		$this->name = $name;
 	}
 	
 	public function setName($name)
 	{
-		// ?
 		$this->name = $name;
 		return $this;
 	}
