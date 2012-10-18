@@ -1,33 +1,33 @@
 <?php
+
 namespace Ibrows\Bundle\NewsletterBundle\Service;
-use Symfony\Component\Serializer\Exception\UnexpectedValueException;
 
 class TemplateManager
 {
-	private $client;
-	private $newsletter;
+	private $mandants;
+	private $newsletters;
 	
-	public function __construct(array $client, array $newsletter)
+	public function __construct(array $mandants, array $newsletters)
 	{
-		$this->client = $client;
-		$this->newsletter = $newsletter;
+		$this->mandants = $mandants;
+		$this->newsletters = $newsletters;
 	}
 	
 	public function getNewsletter($name)
 	{
-		if (!key_exists($name, $this->newsletter)) {
-			throw new UnexpectedValueException("The template for view $name can not be configured.", $code, $previous);
+		if(!key_exists($name, $this->newsletters)) {
+			throw new \InvalidArgumentException("The newsletter-view with name $name can not be found.");
 		}
 		
-		return $this->newsletter[$name];
+		return $this->newsletters[$name];
 	}
-	
-	public function getClient($name)
+    
+    public function getMandant($name)
 	{
-		if (!key_exists($name, $this->client)) {
-			throw new UnexpectedValueException("The template for view $name can not be configured.", $code, $previous);
+		if(!key_exists($name, $this->mandants)) {
+			throw new \InvalidArgumentException("The mandant-view with name $name can not be found.");
 		}
-	
-		return $this->client[$name];
+		
+		return $this->mandants[$name];
 	}
 }

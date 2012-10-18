@@ -2,7 +2,7 @@
 namespace Ibrows\Bundle\NewsletterBundle\Model;
 use Doctrine\Common\Persistence\ObjectManager;
 
-class Client implements ClientInterface
+class Mandant implements MandantInterface
 {
 	private $om;
 	private $newsletterClass;

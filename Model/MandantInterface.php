@@ -1,7 +1,7 @@
 <?php
 namespace Ibrows\Bundle\NewsletterBundle\Model;
 
-interface ClientInterface
+interface MandantInterface
 {
 	public function getNewsletters();
 	public function getNewsletter($id);

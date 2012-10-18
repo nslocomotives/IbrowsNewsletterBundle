@@ -25,7 +25,7 @@ abstract class AbstractController extends Controller
      */
     public function getMandant()
     {
-        $mandant = 'foo'; // get from auth token
+        $mandant = MandantManager::DEFAULT_NAME; // get from auth token
         return $this->getMandantManager()->get($mandant);
     }
     

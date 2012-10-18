@@ -2,7 +2,7 @@
 
 namespace Ibrows\Bundle\NewsletterBundle\Model;
 
-abstract class ClientManager implements ClientManagerInterface
+abstract class MandantManager implements MandantManagerInterface
 {
 	const DEFAULT_NAME = 'default';
 	

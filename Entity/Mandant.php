@@ -2,9 +2,9 @@
 
 namespace Ibrows\Bundle\NewsletterBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
-use Ibrows\Bundle\NewsletterBundle\Model\Client as AbstractClient;
+use Ibrows\Bundle\NewsletterBundle\Model\Mandant as AbstractMandant;
 
-class Client extends AbstractClient
+class Mandant extends AbstractMandant
 {
 	/**
 	 * @var string

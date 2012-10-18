@@ -2,7 +2,7 @@
 
 namespace Ibrows\Bundle\NewsletterBundle\Model;
 
-interface ClientManagerInterface
+interface MandantManagerInterface
 {
 	public function get($name);
 }
