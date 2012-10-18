@@ -9,6 +9,6 @@ Features:
 - E-Mail Body richt text editor
 - Wizard for creating Newsletters
 - Body-Block handling
-- E-Mail que handling
+- E-Mail messages queuing
 - Statistics
 - Different Users for each Newsletter
