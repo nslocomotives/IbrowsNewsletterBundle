@@ -1,6 +1,6 @@
 <?php
 
-namespace Ibrows\Bundle\NewsletterBundle\Model;
+namespace Ibrows\Bundle\NewsletterBundle\Model\Mandant;
 
 abstract class MandantManager implements MandantManagerInterface
 {

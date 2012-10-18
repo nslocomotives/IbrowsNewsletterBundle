@@ -1,12 +1,13 @@
 <?php
 namespace Ibrows\Bundle\NewsletterBundle\Service\orm;
 
+use Ibrows\Bundle\NewsletterBundle\Model\Mandant\Mandant;
+use Ibrows\Bundle\NewsletterBundle\Model\Mandant\MandantManager as BaseMandantManager;
+
 use Symfony\Component\Serializer\Exception\UnsupportedException;
 
-use Doctrine\DBAL\DriverManager;
-use Ibrows\Bundle\NewsletterBundle\Model\Mandant;
 use Doctrine\Bundle\DoctrineBundle\Registry;
-use Ibrows\Bundle\NewsletterBundle\Model\MandantManager as BaseMandantManager;
+use Doctrine\DBAL\DriverManager;
 
 class MandantManager extends BaseMandantManager
 {

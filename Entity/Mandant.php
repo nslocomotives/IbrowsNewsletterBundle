@@ -2,7 +2,7 @@
 
 namespace Ibrows\Bundle\NewsletterBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
-use Ibrows\Bundle\NewsletterBundle\Model\Mandant as AbstractMandant;
+use Ibrows\Bundle\NewsletterBundle\Model\Mandant\Mandant as AbstractMandant;
 
 class Mandant extends AbstractMandant
 {

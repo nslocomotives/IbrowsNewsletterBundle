@@ -1,7 +1,7 @@
 <?php
 namespace Ibrows\Bundle\NewsletterBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
-use Ibrows\Bundle\NewsletterBundle\Model\Newsletter as AbstractNewsletter;
+use Ibrows\Bundle\NewsletterBundle\Model\Newsletter\Newsletter as AbstractNewsletter;
 
 class Newsletter extends AbstractNewsletter
 {

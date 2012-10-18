@@ -1,5 +1,6 @@
 <?php
-namespace Ibrows\Bundle\NewsletterBundle\Model;
+namespace Ibrows\Bundle\NewsletterBundle\Model\Mandant;
+
 use Doctrine\Common\Persistence\ObjectManager;
 
 class Mandant implements MandantInterface

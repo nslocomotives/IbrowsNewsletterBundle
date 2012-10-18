@@ -2,7 +2,7 @@
 
 namespace Ibrows\Bundle\NewsletterBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
-use Ibrows\Bundle\NewsletterBundle\Model\Template as AbstractTemplate;
+use Ibrows\Bundle\NewsletterBundle\Model\Template\Template as AbstractTemplate;
 
 class Template extends AbstractTemplate
 {

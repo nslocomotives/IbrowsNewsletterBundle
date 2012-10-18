@@ -6,7 +6,7 @@ use Ibrows\Bundle\NewsletterBundle\Service\orm\MandantManager;
 use Ibrows\Bundle\NewsletterBundle\Service\TemplateManager;
 use Ibrows\Bundle\NewsletterBundle\Service\ClassManager;
 
-use Ibrows\Bundle\NewsletterBundle\Model\Mandant;
+use Ibrows\Bundle\NewsletterBundle\Model\Mandant\Mandant;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
