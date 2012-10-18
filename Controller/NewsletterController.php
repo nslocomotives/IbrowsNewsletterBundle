@@ -1,4 +1,5 @@
 <?php
+
 namespace Ibrows\Bundle\NewsletterBundle\Controller;
 
 use Ibrows\Bundle\NewsletterBundle\Form\NewsletterFormType;

@@ -1,8 +1,10 @@
 <?php
 
 namespace Ibrows\Bundle\NewsletterBundle\Entity;
-use Doctrine\ORM\Mapping as ORM;
+
 use Ibrows\Bundle\NewsletterBundle\Model\Template\Template as AbstractTemplate;
+
+use Doctrine\ORM\Mapping as ORM;
 
 class Template extends AbstractTemplate
 {
@@ -18,5 +20,4 @@ class Template extends AbstractTemplate
 	 * @ORM\Column(type="text")
 	 */
 	protected $content;
-
 }

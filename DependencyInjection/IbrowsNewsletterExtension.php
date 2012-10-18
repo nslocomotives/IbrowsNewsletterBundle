@@ -1,4 +1,5 @@
 <?php
+
 namespace Ibrows\Bundle\NewsletterBundle\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
@@ -8,7 +9,6 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 class IbrowsNewsletterExtension extends Extension
 {
-
 	public function load(array $configs, ContainerBuilder $container)
 	{
         $configuration = new Configuration();
