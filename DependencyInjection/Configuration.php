@@ -23,6 +23,7 @@ class Configuration implements ConfigurationInterface
 		
 		$this->addTemplatesSection($rootNode);
 		$this->addClassesSection($rootNode);
+        $this->addBlockSection($rootNode);
 
 		return $treeBuilder;
 	}
@@ -76,6 +77,23 @@ class Configuration implements ConfigurationInterface
 								->scalarNode('subscriber')->defaultValue('Ibrows\\Bundle\\NewsletterBundle\\Form\\SubscriberType')->end()
 							->end()
 						->end()
+				->end()
+			->end()
+		;
+	}
+    
+    public function addBlockSection(ArrayNodeDefinition $node)
+	{           
+		$node->children()
+				->arrayNode('defaultblocks')
+                    ->children()
+                        ->scalarNode('TextBlock')->defaultValue('Ibrows\\Bundle\\NewsletterBundle\\Entity\\Block\\TextBlock')->cannotBeOverwritten()->end()
+                    ->end()
+				->end()
+                ->arrayNode('blocks')
+                    ->useAttributeAsKey('name')
+                        ->prototype('scalar')->end()
+                    ->end()
 				->end()
 			->end()
 		;
