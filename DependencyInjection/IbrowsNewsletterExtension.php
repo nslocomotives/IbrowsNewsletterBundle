@@ -14,15 +14,18 @@ class IbrowsNewsletterExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
         
-		$loader = new XmlFileLoader($container,
-				new FileLocator(__DIR__ . '/../Resources/config'));
+		$loader = new XmlFileLoader(
+            $container, 
+            new FileLocator(__DIR__ . '/../Resources/config')
+        );
+        
 		$loader->load('services.xml');
 		
-		if ('custom' !== $config['db_driver']) {
+		if('custom' !== $config['db_driver']){
 			$loader->load(sprintf('services.%s.xml', $config['db_driver']));
 		}
-
-		$this	->registerContainerParametersRecursive($container, $this->getAlias(), $config);
+        
+		$this->registerContainerParametersRecursive($container, $this->getAlias(), $config);
 	}
 
 	protected function registerContainerParametersRecursive(ContainerBuilder $container, $alias, $config)
