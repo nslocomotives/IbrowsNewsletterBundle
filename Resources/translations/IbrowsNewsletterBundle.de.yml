@@ -1,1 +1,15 @@
-layout.header.title.newsletterbundle: 'asd'
+newsletter:
+  wizard:
+    create:     __newsletter.wizard.create
+    edit:       __newsletter.wizard.edit
+    recipient:  __newsletter.wizard.recipient
+    summary:    __newsletter.wizard.summary
+
+form:
+  save: __form.save
+  cancel: __form.cancel
+  
+layout:
+  header:
+    title:
+      newsletterbundle: __layout.header.title.newsletterbundle

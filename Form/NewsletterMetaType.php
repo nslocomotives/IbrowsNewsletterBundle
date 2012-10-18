@@ -15,9 +15,9 @@ class NewsletterMetaType extends AbstractType
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$builder
 			->add('subject')
-			->add('sender_mail', 'email')
-			->add('sender_name')
-			->add('return_mail', 'email')
+			->add('senderMail', 'email')
+			->add('senderName')
+			->add('returnMail', 'email')
 		;
 	}
 

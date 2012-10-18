@@ -1,0 +1,4 @@
+layout.header.title.newsletterbundle: __layout.header.title.newsletterbundle
+newsletter.wizard.edit: __newsletter.wizard.edit
+newsletter.wizard.recipient: __newsletter.wizard.recipient
+newsletter.wizard.summary: __newsletter.wizard.summary

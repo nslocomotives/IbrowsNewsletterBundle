@@ -5,9 +5,9 @@ namespace Ibrows\Bundle\NewsletterBundle\Model\Newsletter;
 class Newsletter implements NewsletterInterface
 {
 	protected $subject;
-	protected $sender_mail;
-	protected $sender_name;
-	protected $return_mail;
+	protected $senderMail;
+	protected $senderName;
+	protected $returnMail;
 
 	public function getSubject()
 	{
@@ -22,34 +22,34 @@ class Newsletter implements NewsletterInterface
 
 	public function getSenderMail()
 	{
-	    return $this->sender_mail;
+	    return $this->senderMail;
 	}
 
-	public function setSenderMail($sender_mail)
+	public function setSenderMail($senderMail)
 	{
-	    $this->sender_mail = $sender_mail;
+	    $this->senderMail = $senderMail;
 	    return $this;
 	}
 
 	public function getSenderName()
 	{
-	    return $this->sender_name;
+	    return $this->senderName;
 	}
 
-	public function setSenderName($sender_name)
+	public function setSenderName($senderName)
 	{
-	    $this->sender_name = $sender_name;
+	    $this->senderName = $senderName;
 	    return $this;
 	}
 
 	public function getReturnMail()
 	{
-	    return $this->return_mail;
+	    return $this->returnMail;
 	}
 
-	public function setReturnMail($return_mail)
+	public function setReturnMail($returnMail)
 	{
-	    $this->return_mail = $return_mail;
+	    $this->returnMail = $returnMail;
 	    return $this;
 	}
 }
