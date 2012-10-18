@@ -1,12 +1,9 @@
 <?php
-
 namespace Ibrows\Bundle\NewsletterBundle\DependencyInjection;
+
 use Symfony\Component\Config\FileLocator;
-
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
-
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 class IbrowsNewsletterExtension extends Extension
@@ -20,24 +17,26 @@ class IbrowsNewsletterExtension extends Extension
 		$loader = new XmlFileLoader($container,
 				new FileLocator(__DIR__ . '/../Resources/config'));
 		$loader->load('services.xml');
+		
+		if ('custom' !== $config['db_driver']) {
+			$loader->load(sprintf('services.%s.xml', $config['db_driver']));
+		}
 
-		$this	->registerContainerParameters($container, $this->getAlias(), $config);
+		$this	->registerContainerParametersRecursive($container, $this->getAlias(), $config);
 	}
 
-	protected function registerContainerParameters(ContainerBuilder $container,	$alias, $config)
+	protected function registerContainerParametersRecursive(ContainerBuilder $container, $alias, $config)
 	{
 		$iterator = new \RecursiveIteratorIterator(new \RecursiveArrayIterator($config),
 				\RecursiveIteratorIterator::SELF_FIRST);
 		
 		foreach ($iterator as $value) {
-			if ($iterator->hasChildren()) {
-				continue;
-			}
 			$path = array( );
 			for ($i = 0; $i <= $iterator->getDepth(); $i++) {
 				$path[] = $iterator->getSubIterator($i)->key();
 			}
-			$container->setParameter($alias . '.' . implode(".", $path), $value);
+			$key = $alias . '.' . implode(".", $path);
+			$container->setParameter($key, $value);
 		}
 	}
 }
