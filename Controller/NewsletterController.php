@@ -3,107 +3,92 @@ namespace Ibrows\Bundle\NewsletterBundle\Controller;
 
 use Ibrows\Bundle\NewsletterBundle\Form\NewsletterFormType;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
-class NewsletterController extends Controller
+class NewsletterController extends AbstractController
 {
 	/**
-	 * @Route("/{client}/", defaults={"client" = "default"}, name="ibrows_newsletter_index")
+	 * @Route("/", name="ibrows_newsletter_index")
 	 */
-	public function indexAction($client)
+	public function indexAction()
 	{
-		$templates = $this->get('ibrows_newsletter.template_manager');
-		$client = $this->get('ibrows_newsletter.client_manager')->get($client);
-		$newsletters = $client->getNewsletters();
-		
-		return $this->render($templates->getNewsletter('index'), array(
-				'newsletters' => $newsletters
+		return $this->render($this->getTemplateManager()->getNewsletter('index'), array(
+            'newsletters' => $this->getMandant()->getNewsletters()
 		));
 	}
 	
 	/**
-	 * @Route("/{client}/create", defaults={"client" = "default"}, name="ibrows_newsletter_create")
+	 * @Route("/create", name="ibrows_newsletter_create")
 	 */
-	public function createAction($client)
+	public function createAction()
 	{
-		$templates = $this->get('ibrows_newsletter.template_manager');
-		$classes = $this->get('ibrows_newsletter.class_manager');
-
-		$client = $this->get('ibrows_newsletter.client_manager')->get($client);
-		$newsletter = $client->createNewsletter();
+        $mandant = $this->getMandant();
+		$newsletter = $mandant->createNewsletter();
 		
-		$formtype = $classes->getForm('newsletter_meta');
+		$formtype = $this->getClassManager()->getForm('newsletter_meta');
 		$form = $this->createForm(new $formtype(), $newsletter);
 		
 		$request = $this->getRequest();
-		if ($request->getMethod() == 'POST') {
+		if($request->getMethod() == 'POST'){
 			$form->bindRequest($request);
 			
-			if ($form->isValid()) {
-				$client->persist($newsletter);
+			if($form->isValid()){
+				$mandant->persist($newsletter);
 				
 				return $this->redirect($this->generateUrl('ibrows_newsletter_edit', array(
-						'client' => $client->getName(),
-						'id' => $newsletter->getId(),
+                    'id' => $newsletter->getId(),
 				)));
 			}
 		}
 	
-		return $this->render($templates->getNewsletter('create'), array(
-				'newsletter' => $newsletter,
-				'client' => $client->getName(),
-				'form' => $form->createView(),
+		return $this->render($this->getTemplateManager()->getNewsletter('create'), array(
+            'newsletter' => $newsletter,
+            'form' => $form->createView(),
 		));
 	}
 	
 	/**
-	 * @Route("/{client}/edit/{id}", defaults={"client" = "default"}, name="ibrows_newsletter_edit")
+	 * @Route("/edit/{id}", name="ibrows_newsletter_edit")
 	 */
-	public function editAction($client, $id)
+	public function editAction($id)
 	{
-		$templates = $this->get('ibrows_newsletter.template_manager');
-		$classes = $this->get('ibrows_newsletter.class_manager');
-
-		$object = $this->get('ibrows_newsletter.client_manager')->get($client);
-		$newsletter = $object->createNewsletter();
-		
-		$formtype = $classes->getForm('newsletter_content');
+        $newsletter = $this->getMandant()->getNewsletter($id);
+        if(!$newsletter){
+            throw $this->createNotFoundException("Newsletter with id $id not found");
+        }
+        
+        $formtype = $this->getClassManager()->getForm('newsletter_content');
 		$form = $this->createForm(new $formtype(), $newsletter);
-	
-		return $this->render($templates->getNewsletter('edit'), array(
-				'newsletter' => $newsletter,
-				'client' => $client,
-				'form' => $form->createView(),
+        
+		return $this->render($this->getTemplateManager()->getNewsletter('edit'), array(
+            'newsletter' => $newsletter,
+            'form' => $form->createView(),
 		));
 	}
 	
 	/**
-	 * @Route("/{client}/send/{id}", defaults={"client" = "default"}, name="ibrows_newsletter_send")
+	 * @Route("/send/{id}", name="ibrows_newsletter_send")
 	 */
-	public function sendAction($client, $id)
+	public function sendAction($id)
 	{
-		$templates = $this->get('ibrows_newsletter.template_manager');
-		$client = $this->get('ibrows_newsletter.client_manager')->get($client);
-		$newsletter = $client->getNewsletter($id);
-		
-		return $this->render($templates->getNewsletter('send'), array(
-				'newsletter' => $newsletter
+        $newsletter = $this->getMandant()->getNewsletter($id);
+        if(!$newsletter){
+            throw $this->createNotFoundException("Newsletter with id $id not found");
+        }
+        
+		return $this->render($this->getTemplateManager()->getNewsletter('send'), array(
+            'newsletter' => $newsletter
 		));
 	}
 	
 	/**
-	 * @Route("/{client}/summary/{id}", defaults={"client" = "default"}, name="ibrows_newsletter_summary")
+	 * @Route("/summary/{id}", name="ibrows_newsletter_summary")
 	 */
-	public function summaryAction($client, $id)
+	public function summaryAction($id)
 	{
-		$templates = $this->get('ibrows_newsletter.template_manager');
-		$client = $this->get('ibrows_newsletter.client_manager')->get($client);
-		$newsletter = $client->getNewsletter($id);
-		
-		return $this->render($templates->getNewsletter('summary'), array(
-				'newsletter' => $newsletter
+		return $this->render($this->getTemplateManager()->getNewsletter('summary'), array(
+            'newsletter' => $this->getMandant()->getNewsletter($id)
 		));
 	}
 }
