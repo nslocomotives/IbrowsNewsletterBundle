@@ -1,4 +1,5 @@
 <?php
+
 namespace Ibrows\Bundle\NewsletterBundle\Model\Mandant;
 
 use Ibrows\Bundle\NewsletterBundle\Model\Newsletter\NewsletterInterface;
