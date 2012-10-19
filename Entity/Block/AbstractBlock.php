@@ -2,12 +2,12 @@
 
 namespace Ibrows\Bundle\NewsletterBundle\Entity\Block;
 
-use Ibrows\Bundle\NewsletterBundle\Model\Block\Block as AbstractBlock;
+use Ibrows\Bundle\NewsletterBundle\Model\Block\Block as BaseBlock;
 
 use Doctrine\ORM\Mapping as ORM;
 
 
-abstract class AbstractBlock extends AbstractBlock
+abstract class AbstractBlock extends BaseBlock
 {
 	/**
 	 * @var string
