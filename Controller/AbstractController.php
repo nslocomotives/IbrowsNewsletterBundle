@@ -13,6 +13,7 @@ use Ibrows\Bundle\NewsletterBundle\Model\Mandant\MandantInterface;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 abstract class AbstractController extends Controller
 {
@@ -22,6 +23,14 @@ abstract class AbstractController extends Controller
     protected function getMandantManager()
     {
         return $this->get('ibrows_newsletter.mandant_manager');
+    }
+    
+    /**
+     * @return Session
+     */
+    protected function getSession()
+    {
+        return $this->get('session');
     }
     
     /**
@@ -81,10 +90,16 @@ abstract class AbstractController extends Controller
         return $this->getMandant()->createNewsletter();
     }
     
-    protected function setNewsletter(NewsletterInterface $newsletter)
+    protected function setNewsletter(NewsletterInterface $newsletter = null)
     {
+        $session = $this->getSession();
+        if(is_null($newsletter)){
+            $session->set('ibrows_newsletter.wizard.newsletterid', null);
+            return;
+        }
+        
         $this->getMandant()->persist($newsletter);
-        $this->get('session')->set('ibrows_newsletter.wizard.newsletterid', $newsletter->getId());
+        $session->set('ibrows_newsletter.wizard.newsletterid', $newsletter->getId());
     }
     
     /**
@@ -93,7 +108,7 @@ abstract class AbstractController extends Controller
      */
     protected function getNewsletter()
     {
-        $newsletterId = $this->get('session')->get('ibrows_newsletter.wizard.newsletterid', null);
+        $newsletterId = $this->getSession()->get('ibrows_newsletter.wizard.newsletterid', null);
         if(is_null($newsletterId)){
             return null;
         }

@@ -27,31 +27,58 @@ class WizardActionAnnotationHandler implements AnnotationHandlerInterface
         $controller = $controllerArray[0];
         
         usort($annotations, function($a, $b){
-            return $a['handler']->number > $b['handler']->number;
+            return $a['handler']->getNumber() > $b['handler']->getNumber();
         });
         
         $this->annotations = $annotations;
         
-        $defaultValidation = true;
+        $wizardValidation = true;
+        $hasFoundCurrentMethod = false;
+        $hasFoundError = false;
         
         /* @var $annotation WizardActionAnnotation */
         foreach($annotations as $key => $annotationArray){
             $annotation = $annotationArray['handler'];
             
-            $validationMethodName = $annotation->validationMethod;
-            $validation = $controller->$validationMethodName();
+            $validationMethodName = $annotation->getValidationMethod();
+            $validation = $controller->$validationMethodName($this);
             
             if($validation instanceof Response){
-                $defaultValidation = $validation;
+                $hasFoundError = true;
             }
             
+            if(!$wizardValidation instanceof Response && $validation instanceof Response && !$hasFoundCurrentMethod){
+                $wizardValidation = $validation;
+            }
+            
+            $isValid = ($hasFoundError OR $wizardValidation instanceof Response OR $validation instanceof Response) ? false : true;
+            $annotation->setIsValid($isValid);
+            
             if(true === $annotation->isCurrentMethod()){
+                $hasFoundCurrentMethod = true;
                 $this->currentAnnotationKey = $key;
-                break;
             }
         }
         
-        $this->validation = $defaultValidation;
+        $this->validation = $wizardValidation;
+    }
+    
+    public function getLastValidStep()
+    {
+        $lastStep = null;
+        foreach($this->annotations as $key => $annotation){
+            $handlerAnnotation = $annotation['handler'];
+            if(!$handlerAnnotation->isValid()){
+                return $lastStep;
+            }
+            $lastStep = $annotation;
+        }
+        throw new \RuntimeException("Not valid step found");
+    }
+    
+    public function getSteps()
+    {
+        return $this->annotations;
     }
     
     /**
@@ -62,29 +89,37 @@ class WizardActionAnnotationHandler implements AnnotationHandlerInterface
         return $this->validation;
     }
     
+    /**
+     * @return string
+     * @throws \InvalidArgumentException
+     */
     public function getNextStepUrl()
     {
         $key = $this->currentAnnotationKey+1;
         
         if(array_key_exists($key, $this->annotations)){
-            return $this->getRoute($this->annotations[$key]);
+            return $this->getStepUrl($this->annotations[$key]);
         }
         
         throw new \InvalidArgumentException("No route found");
     }
     
+    /**
+     * @return string
+     * @throws \InvalidArgumentException
+     */
     public function getPrevStepUrl()
     {
         $key = $this->currentAnnotationKey-1;
         
         if(array_key_exists($key, $this->annotations)){
-            return $this->getRoute($this->annotations[$key]);
+            return $this->getStepUrl($this->annotations[$key]);
         }
         
         throw new \InvalidArgumentException("No route found");
     }
     
-    protected function getRoute(array $annotation)
+    public function getStepUrl(array $annotation)
     {
         foreach($annotation['all'] as $annotation){
             if($annotation instanceof Route){

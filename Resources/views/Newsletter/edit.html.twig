@@ -2,9 +2,9 @@
 
 {% import "IbrowsNewsletterBundle::macros.html.twig" as macros %}
 {% block newsletter_wizard %}
-    {{ macros.displayWizard('edit') }}
+    {{ macros.displayWizard(wizard) }}
 {% endblock %}
 
 {% block newsletter_content %}
-    asd
+    {{ 'newsletter' }} #{{ newsletter.id }}
 {% endblock %}
