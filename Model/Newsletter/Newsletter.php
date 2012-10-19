@@ -4,11 +4,20 @@ namespace Ibrows\Bundle\NewsletterBundle\Model\Newsletter;
 
 class Newsletter implements NewsletterInterface
 {
+    protected $id;
 	protected $subject;
 	protected $senderMail;
 	protected $senderName;
 	protected $returnMail;
 
+    /**
+     * @return integer
+     */
+	public function getId()
+	{
+	    return $this->id;
+	}
+    
     /**
      * @return string
      */

@@ -24,6 +24,7 @@ class Configuration implements ConfigurationInterface
 		$this->addTemplatesSection($rootNode);
 		$this->addClassesSection($rootNode);
         $this->addBlockSection($rootNode);
+        $this->addAnnotationsSection($rootNode);
 
 		return $treeBuilder;
 	}
@@ -95,6 +96,27 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('blocks')
                     ->useAttributeAsKey('name')
                     ->prototype('scalar')->end()
+                ->end()
+			->end()
+		;
+	}
+    
+    public function addAnnotationsSection(ArrayNodeDefinition $node)
+	{           
+		$node->children()
+                ->arrayNode('annotations')
+                    ->cannotBeOverwritten()
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->arrayNode('wizardAction')
+                            ->cannotBeOverwritten()
+                            ->addDefaultsIfNotSet()
+                            ->children()
+                                ->scalarNode('annotation')->defaultValue('Ibrows\\Bundle\\NewsletterBundle\\Annotation\\WizardAction\\WizardActionAnnotation')->end()
+                                ->scalarNode('handler')->defaultValue('ibrows_newsletter.annotation.handler.wizardaction')->end()
+                            ->end()
+                        ->end()
+                    ->end()
                 ->end()
 			->end()
 		;

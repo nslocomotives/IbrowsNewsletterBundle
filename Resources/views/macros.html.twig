@@ -1,0 +1,26 @@
+{% macro displayWizard(activeKey) %}
+    {% trans_default_domain "IbrowsNewsletterBundle" %}
+    {% 
+        set wizard = {
+            create: {
+                name: 'create'
+            },
+            edit: {
+                name: 'edit'
+            },
+            recipient: {
+                name: 'recipient'
+            },
+            summary: {
+                name: 'summary'
+            }
+        } 
+    %}
+    <ul class="wizard">
+        {% for key, step in wizard %}
+            <li class="{% if(activeKey == key) %}active{% endif %}">
+                <span>{{ ('newsletter.wizard.'~step.name)|trans }}</span>        
+            </li>
+        {% endfor %}
+    </ul>
+{% endmacro displayWizard %}

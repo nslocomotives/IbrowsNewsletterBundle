@@ -8,4 +8,5 @@ interface NewsletterInterface
 	public function getSenderMail();
 	public function getSenderName();
 	public function getReturnMail();
+    public function getId();
 }

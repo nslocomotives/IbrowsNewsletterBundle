@@ -34,11 +34,11 @@ class IbrowsNewsletterExtension extends Extension
 	protected function registerContainerParametersRecursive(ContainerBuilder $container, $alias, $config)
 	{
 		$iterator = new \RecursiveIteratorIterator(new \RecursiveArrayIterator($config),
-				\RecursiveIteratorIterator::SELF_FIRST);
+            \RecursiveIteratorIterator::SELF_FIRST);
 		
 		foreach ($iterator as $value) {
 			$path = array( );
-			for ($i = 0; $i <= $iterator->getDepth(); $i++) {
+			for($i = 0; $i <= $iterator->getDepth(); $i++){
 				$path[] = $iterator->getSubIterator($i)->key();
 			}
 			$key = $alias . '.' . implode(".", $path);

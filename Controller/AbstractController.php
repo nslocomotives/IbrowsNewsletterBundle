@@ -7,24 +7,27 @@ use Ibrows\Bundle\NewsletterBundle\Service\TemplateManager;
 use Ibrows\Bundle\NewsletterBundle\Service\ClassManager;
 use Ibrows\Bundle\NewsletterBundle\Service\BlockManager;
 
-use Ibrows\Bundle\NewsletterBundle\Model\Mandant\Mandant;
+use Ibrows\Bundle\NewsletterBundle\Model\Newsletter\NewsletterInterface;;
+use Ibrows\Bundle\NewsletterBundle\Annotation\WizardAction\WizardActionAnnotationHandler;
+use Ibrows\Bundle\NewsletterBundle\Model\Mandant\MandantInterface;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Response;
 
 abstract class AbstractController extends Controller
 {
     /**
      * @return MandantManager
      */
-    public function getMandantManager()
+    protected function getMandantManager()
     {
         return $this->get('ibrows_newsletter.mandant_manager');
     }
     
     /**
-     * @return Mandant
+     * @return MandantInterface
      */
-    public function getMandant()
+    protected function getMandant()
     {
         $mandant = MandantManager::DEFAULT_NAME; // get from auth token
         return $this->getMandantManager()->get($mandant);
@@ -33,7 +36,7 @@ abstract class AbstractController extends Controller
     /**
      * @return TemplateManager
      */
-    public function getTemplateManager()
+    protected function getTemplateManager()
     {
         return $this->get('ibrows_newsletter.template_manager');
     }
@@ -41,7 +44,7 @@ abstract class AbstractController extends Controller
     /**
      * @return BlockManager
      */
-    public function getBlockManager()
+    protected function getBlockManager()
     {
         return $this->get('ibrows_newsletter.block_manager');
     }
@@ -49,8 +52,57 @@ abstract class AbstractController extends Controller
     /**
      * @return ClassManager
      */
-    public function getClassManager()
+    protected function getClassManager()
     {
         return $this->get('ibrows_newsletter.class_manager');
+    }
+    
+    /**
+     * @return WizardActionAnnotationHandler
+     */
+    protected function getWizardActionAnnotationHandler()
+    {
+        return $this->get('ibrows_newsletter.annotation.handler.wizardaction');
+    }
+    
+    /**
+     * @return true|Response
+     */
+    protected function getWizardActionValidation()
+    {
+        return $this->getWizardActionAnnotationHandler()->getValidation();
+    }
+    
+    /**
+     * @return NewsletterInterface
+     */
+    protected function createNewsletter()
+    {
+        return $this->getMandant()->createNewsletter();
+    }
+    
+    protected function setNewsletter(NewsletterInterface $newsletter)
+    {
+        $this->getMandant()->persist($newsletter);
+        $this->get('session')->set('ibrows_newsletter.wizard.newsletterid', $newsletter->getId());
+    }
+    
+    /**
+     * @return Newsletter
+     * @throws NotFoundException
+     */
+    protected function getNewsletter()
+    {
+        $newsletterId = $this->get('session')->get('ibrows_newsletter.wizard.newsletterid', null);
+        if(is_null($newsletterId)){
+            return null;
+        }
+        
+        $newsletter = $this->getMandant()->getNewsletter($newsletterId);
+        if(!$newsletter){
+            throw $this->createNotFoundException("Newsletter with id $id not found");
+        }
+        
+        return $newsletter;
     }
 }
