@@ -7,6 +7,7 @@
     <services>
         <service id="ibrows_newsletter.mandant_manager" class="Ibrows\Bundle\NewsletterBundle\Service\orm\MandantManager">
 			<argument type="service" id ="doctrine" />
+            <argument type="service" id ="ibrows_newsletter.block_manager" />
 			<argument>%ibrows_newsletter.classes.model.mandant%</argument>
 			<argument>%ibrows_newsletter.classes.model.newsletter%</argument>
 			<argument>%ibrows_newsletter.classes.model.subscriber%</argument>

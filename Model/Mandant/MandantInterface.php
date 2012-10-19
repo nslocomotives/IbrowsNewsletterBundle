@@ -6,4 +6,5 @@ interface MandantInterface
 	public function getNewsletters();
 	public function getNewsletter($id);
 	public function createNewsletter();
+    public function getBlocks();
 }
