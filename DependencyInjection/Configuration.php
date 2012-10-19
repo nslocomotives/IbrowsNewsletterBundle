@@ -85,16 +85,17 @@ class Configuration implements ConfigurationInterface
     public function addBlockSection(ArrayNodeDefinition $node)
 	{           
 		$node->children()
-				->arrayNode('defaultblocks')
+                ->arrayNode('defaultblocks')
+                    ->addDefaultsIfNotSet()
                     ->children()
-                        ->scalarNode('TextBlock')->defaultValue('Ibrows\\Bundle\\NewsletterBundle\\Entity\\Block\\TextBlock')->cannotBeOverwritten()->end()
+                        ->scalarNode('TextBlock')->defaultValue('Ibrows\\Bundle\\NewsletterBundle\\Entity\\Block\\TextBlock')->end()
+                        ->scalarNode('TextAndImageBlock')->defaultValue('Ibrows\\Bundle\\NewsletterBundle\\Entity\\Block\\TextAndImageBlock')->end()
                     ->end()
-				->end()
+                ->end()
                 ->arrayNode('blocks')
                     ->useAttributeAsKey('name')
-                        ->prototype('scalar')->end()
-                    ->end()
-				->end()
+                    ->prototype('scalar')->end()
+                ->end()
 			->end()
 		;
 	}
