@@ -27,7 +27,14 @@ class BlockManager
 			throw new \InvalidArgumentException("The model class $name can not be found.");
 		}
         
-        $blockClassName = $this->blocks[$name];
-        return new $blockClassName();
+        return $this->blocks[$name];
+    }
+    
+    /**
+     * @return array
+     */
+    public function getBlocks()
+    {
+        return $this->blocks;
     }
 }

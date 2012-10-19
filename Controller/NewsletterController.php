@@ -28,7 +28,7 @@ class NewsletterController extends AbstractController
 		$newsletter = $mandant->createNewsletter();
 		
 		$formtype = $this->getClassManager()->getForm('newsletter_meta');
-		$form = $this->createForm($formtype, $newsletter);
+		$form = $this->createForm(new $formtype(), $newsletter);
 		
 		$request = $this->getRequest();
 		if($request->getMethod() == 'POST'){
@@ -60,7 +60,7 @@ class NewsletterController extends AbstractController
         }
         
         $formtype = $this->getClassManager()->getForm('newsletter_content');
-		$form = $this->createForm($formtype, $newsletter);
+		$form = $this->createForm(new $formtype(), $newsletter);
         
 		return $this->render($this->getTemplateManager()->getNewsletter('edit'), array(
             'newsletter' => $newsletter,

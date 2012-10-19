@@ -4,32 +4,30 @@ namespace Ibrows\Bundle\NewsletterBundle\Service;
 
 class ClassManager
 {
-	private $model;
-	private $form;
+	private $models;
+	private $forms;
 	
-	public function __construct($model, $form)
+	public function __construct($models, $forms)
 	{
-		$this->model = $model;
-		$this->form = $form;
+		$this->models = $models;
+		$this->forms = $forms;
 	}
 	
 	public function getModel($name)
 	{
-		if(!key_exists($name, $this->model)){
+		if(!key_exists($name, $this->models)){
 			throw new \InvalidArgumentException("The model class $name can not be found.");
 		}
 		
-		$className = $this->model[$name];
-        return new $className();
+		return $this->models[$name];
 	}
 	
 	public function getForm($name)
 	{
-		if(!key_exists($name, $this->form)){
+		if(!key_exists($name, $this->forms)){
 			throw new \InvalidArgumentException("The form class $name can not be found.");
 		}
         
-        $className = $this->form[$name];
-        return new $className();
+        return $this->forms[$name];
 	}
 }
