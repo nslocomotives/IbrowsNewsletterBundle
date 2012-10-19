@@ -15,11 +15,6 @@
 			<argument>%ibrows_newsletter.classes.form%</argument>
         </service>
         
-        <service id="ibrows_newsletter.registration.form.type" class="brows\Bundle\NewsletterBundle\Form\RegistrationType">
-            <tag name="form.type" alias="ibrows_newsletter_user_registration" />
-            <argument>%fos_user.model.user.class%</argument>
-        </service>
-        
     </services>
 
 </container>
