@@ -14,6 +14,10 @@
 			<argument>%ibrows_newsletter.classes.model%</argument>
 			<argument>%ibrows_newsletter.classes.form%</argument>
         </service>
+        
+        <service id="ibrows_newsletter.block_manager" class="Ibrows\Bundle\NewsletterBundle\Service\BlockManager">
+			<argument>%ibrows_newsletter.blocks%</argument>
+        </service>
     </services>
 
 </container>

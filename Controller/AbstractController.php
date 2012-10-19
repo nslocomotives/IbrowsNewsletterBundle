@@ -5,6 +5,7 @@ namespace Ibrows\Bundle\NewsletterBundle\Controller;
 use Ibrows\Bundle\NewsletterBundle\Service\orm\MandantManager;
 use Ibrows\Bundle\NewsletterBundle\Service\TemplateManager;
 use Ibrows\Bundle\NewsletterBundle\Service\ClassManager;
+use Ibrows\Bundle\NewsletterBundle\Service\BlockManager;
 
 use Ibrows\Bundle\NewsletterBundle\Model\Mandant\Mandant;
 
@@ -35,6 +36,14 @@ abstract class AbstractController extends Controller
     public function getTemplateManager()
     {
         return $this->get('ibrows_newsletter.template_manager');
+    }
+    
+    /**
+     * @return BlockManager
+     */
+    public function getBlockManager()
+    {
+        return $this->get('ibrows_newsletter.block_manager');
     }
     
     /**
