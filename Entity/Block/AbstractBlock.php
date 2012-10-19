@@ -1,12 +1,13 @@
 <?php
 
-namespace Ibrows\Bundle\NewsletterBundle\Entity;
+namespace Ibrows\Bundle\NewsletterBundle\Entity\Block;
 
-use Ibrows\Bundle\NewsletterBundle\Model\Template\Template as AbstractTemplate;
+use Ibrows\Bundle\NewsletterBundle\Model\Block\Block as AbstractBlock;
 
 use Doctrine\ORM\Mapping as ORM;
 
-class Template extends AbstractTemplate
+
+abstract class AbstractBlock extends AbstractBlock
 {
 	/**
 	 * @var string
@@ -15,9 +16,9 @@ class Template extends AbstractTemplate
 	 */
 	protected $name;
     
-	/**
+    /**
 	 * @var string
-	 *
+	 * 
 	 * @ORM\Column(type="text")
 	 */
 	protected $content;

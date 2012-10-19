@@ -1,4 +1,5 @@
 <?php
+
 namespace Ibrows\Bundle\NewsletterBundle\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
@@ -8,21 +9,23 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 class IbrowsNewsletterExtension extends Extension
 {
-
 	public function load(array $configs, ContainerBuilder $container)
 	{
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
         
-		$loader = new XmlFileLoader($container,
-				new FileLocator(__DIR__ . '/../Resources/config'));
+		$loader = new XmlFileLoader(
+            $container, 
+            new FileLocator(__DIR__ . '/../Resources/config')
+        );
+        
 		$loader->load('services.xml');
 		
-		if ('custom' !== $config['db_driver']) {
+		if('custom' !== $config['db_driver']){
 			$loader->load(sprintf('services.%s.xml', $config['db_driver']));
 		}
-
-		$this	->registerContainerParametersRecursive($container, $this->getAlias(), $config);
+        
+		$this->registerContainerParametersRecursive($container, $this->getAlias(), $config);
 	}
 
 	protected function registerContainerParametersRecursive(ContainerBuilder $container, $alias, $config)

@@ -1,10 +1,12 @@
 <?php
 
 namespace Ibrows\Bundle\NewsletterBundle\Entity;
+
+use Ibrows\Bundle\NewsletterBundle\Model\Subscriber\Subscriber as AbstractSubscriber;
+
 use Doctrine\ORM\Mapping as ORM;
-use Ibrows\Bundle\NewsletterBundle\Model\Subscriber as AbstractSubscriber;
 
 class Subscriber extends AbstractSubscriber
 {
-
+    
 }

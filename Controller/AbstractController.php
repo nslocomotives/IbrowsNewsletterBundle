@@ -6,7 +6,7 @@ use Ibrows\Bundle\NewsletterBundle\Service\orm\MandantManager;
 use Ibrows\Bundle\NewsletterBundle\Service\TemplateManager;
 use Ibrows\Bundle\NewsletterBundle\Service\ClassManager;
 
-use Ibrows\Bundle\NewsletterBundle\Model\Mandant;
+use Ibrows\Bundle\NewsletterBundle\Model\Mandant\Mandant;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -25,7 +25,7 @@ abstract class AbstractController extends Controller
      */
     public function getMandant()
     {
-        $mandant = 'foo'; // get from auth token
+        $mandant = MandantManager::DEFAULT_NAME; // get from auth token
         return $this->getMandantManager()->get($mandant);
     }
     

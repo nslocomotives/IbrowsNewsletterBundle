@@ -1,8 +1,12 @@
 <?php
-namespace Ibrows\Bundle\NewsletterBundle\Model;
+
+namespace Ibrows\Bundle\NewsletterBundle\Model\Mandant;
+
+use Ibrows\Bundle\NewsletterBundle\Model\Newsletter\NewsletterInterface;
+
 use Doctrine\Common\Persistence\ObjectManager;
 
-class Client implements ClientInterface
+class Mandant implements MandantInterface
 {
 	private $om;
 	private $newsletterClass;

@@ -1,11 +1,10 @@
 <?php
 
-namespace Ibrows\Bundle\NewsletterBundle\Model;
+namespace Ibrows\Bundle\NewsletterBundle\Model\Template;
 
 class Template
 {
 	protected $name;
-	
 	protected $content;
 
 	public function getName()

@@ -18,7 +18,7 @@
 {% endblock %}
 
 {% block newsletter_content %}
-<form action="{{ path('ibrows_newsletter_edit', {'client' : client, 'id' : newsletter.id}) }}" method="post" {{ form_enctype(form) }}>
+<form action="{{ path('ibrows_newsletter_edit', {'id' : newsletter.id}) }}" method="post" {{ form_enctype(form) }}>
 {{ form_errors(form) }}
 {{ form_rest(form) }}
 

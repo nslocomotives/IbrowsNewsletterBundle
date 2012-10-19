@@ -1,6 +1,7 @@
 <?php
 
 namespace Ibrows\Bundle\NewsletterBundle\DependencyInjection;
+
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
@@ -8,7 +9,6 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 class Configuration implements ConfigurationInterface
 {
-
 	public function getConfigTreeBuilder()
 	{
 		$treeBuilder = new TreeBuilder();
@@ -23,6 +23,7 @@ class Configuration implements ConfigurationInterface
 		
 		$this->addTemplatesSection($rootNode);
 		$this->addClassesSection($rootNode);
+        $this->addBlockSection($rootNode);
 
 		return $treeBuilder;
 	}
@@ -34,14 +35,11 @@ class Configuration implements ConfigurationInterface
 				->arrayNode('templates')
 					->addDefaultsIfNotSet()
 					->children()
-						->arrayNode('client')
+						->arrayNode('mandant')
 							->addDefaultsIfNotSet()
 							->children()
-								->scalarNode('index')->defaultValue('IbrowsNewsletterBundle:Client:index.html.twig')->end()
-								->scalarNode('edit')->defaultValue('IbrowsNewsletterBundle:Client:edit.html.twig')->end()
-								->scalarNode('create')->defaultValue('IbrowsNewsletterBundle:Client:create.html.twig')->end()
-								->scalarNode('send')->defaultValue('IbrowsNewsletterBundle:Client:send.html.twig')->end()
-								->scalarNode('summary')->defaultValue('IbrowsNewsletterBundle:Client:summary.html.twig')->end()
+								->scalarNode('index')->defaultValue('IbrowsNewsletterBundle:Mandant:index.html.twig')->end()
+								->scalarNode('edit')->defaultValue('IbrowsNewsletterBundle:Mandant:edit.html.twig')->end()
 							->end()
 						->end()
 						->arrayNode('newsletter')
@@ -67,7 +65,7 @@ class Configuration implements ConfigurationInterface
 						->arrayNode('model')
 							->children()
 								->scalarNode('newsletter')->isRequired()->cannotBeEmpty()->end()
-								->scalarNode('client')->isRequired()->cannotBeEmpty()->end()
+								->scalarNode('mandant')->isRequired()->cannotBeEmpty()->end()
 								->scalarNode('subscriber')->isRequired()->cannotBeEmpty()->end()
 							->end()
 						->end()
@@ -83,5 +81,21 @@ class Configuration implements ConfigurationInterface
 			->end()
 		;
 	}
-
+    
+    public function addBlockSection(ArrayNodeDefinition $node)
+	{           
+		$node->children()
+				->arrayNode('defaultblocks')
+                    ->children()
+                        ->scalarNode('TextBlock')->defaultValue('Ibrows\\Bundle\\NewsletterBundle\\Entity\\Block\\TextBlock')->cannotBeOverwritten()->end()
+                    ->end()
+				->end()
+                ->arrayNode('blocks')
+                    ->useAttributeAsKey('name')
+                        ->prototype('scalar')->end()
+                    ->end()
+				->end()
+			->end()
+		;
+	}
 }
