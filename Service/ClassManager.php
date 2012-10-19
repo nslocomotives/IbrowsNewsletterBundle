@@ -1,7 +1,6 @@
 <?php
-namespace Ibrows\Bundle\NewsletterBundle\Service;
 
-use Symfony\Component\Serializer\Exception\UnexpectedValueException;
+namespace Ibrows\Bundle\NewsletterBundle\Service;
 
 class ClassManager
 {
@@ -16,19 +15,21 @@ class ClassManager
 	
 	public function getModel($name)
 	{
-		if (!key_exists($name, $this->model)) {
-			throw new UnexpectedValueException("The model class $name can not be found.");
+		if(!key_exists($name, $this->model)){
+			throw new \InvalidArgumentException("The model class $name can not be found.");
 		}
 		
-		return $this->model[$name];
+		$className = $this->model[$name];
+        return new $className();
 	}
 	
 	public function getForm($name)
 	{
-		if (!key_exists($name, $this->form)) {
-			throw new UnexpectedValueException("The form class $name can not be found.");
+		if(!key_exists($name, $this->form)){
+			throw new \InvalidArgumentException("The form class $name can not be found.");
 		}
-	
-		return $this->form[$name];
+        
+        $className = $this->form[$name];
+        return new $className();
 	}
 }
