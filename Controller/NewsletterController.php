@@ -54,7 +54,10 @@ class NewsletterController extends AbstractController
 	 */
 	public function editAction($id)
 	{
-        $newsletter = $this->getMandant()->getNewsletter($id);
+        
+        $mandant = $this->getMandant();
+        
+        $newsletter = $mandant->getNewsletter($id);
         if(!$newsletter){
             throw $this->createNotFoundException("Newsletter with id $id not found");
         }
@@ -64,7 +67,8 @@ class NewsletterController extends AbstractController
         
 		return $this->render($this->getTemplateManager()->getNewsletter('edit'), array(
             'newsletter' => $newsletter,
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'blocks' => $mandant->getBlocks()
 		));
 	}
 	
