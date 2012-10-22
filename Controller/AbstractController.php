@@ -36,13 +36,17 @@ abstract class AbstractController extends Controller
         return $this->get('session');
     }
     
+    protected function getMandantName()
+    {
+        $mandant = MandantManager::DEFAULT_NAME; // get from auth token
+		return $mandant;    		
+    }
     /**
      * @return MandantInterface
      */
     protected function getMandant()
     {
-        $mandant = MandantManager::DEFAULT_NAME; // get from auth token
-        return $this->getMandantManager()->get($mandant);
+        return $this->getMandantManager()->get($this->getMandantName());
     }
     
     /**
@@ -74,8 +78,7 @@ abstract class AbstractController extends Controller
      */
     protected function getNewsletterManager()
     {
-    		$mandant = MandantManager::DEFAULT_NAME; // get from auth token
-    		return $this->getMandantManager()->getNewsletterManager($mandant);
+    		return $this->getMandantManager()->getNewsletterManager($this->getMandantName());
     }
     
     /**
@@ -107,7 +110,8 @@ abstract class AbstractController extends Controller
             return $this;
         }
         
-        $this->getMandant()->persist($newsletter);
+        $mandantName = $this->getMandantName();
+        $this->getMandantManager()->persistNewsletter($mandantName, $newsletter);
         $session->set('ibrows_newsletter.wizard.newsletterid', $newsletter->getId());
         
         return $this;
@@ -124,7 +128,7 @@ abstract class AbstractController extends Controller
             return null;
         }
         
-        $newsletter = $this->getMandant()->getNewsletter($newsletterId);
+        $newsletter = $this->getNewsletterManager()->get($newsletterId);
         if(!$newsletter){
             throw $this->createNotFoundException("Newsletter with id $id not found");
         }
