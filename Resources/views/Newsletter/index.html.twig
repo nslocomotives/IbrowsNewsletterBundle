@@ -1,1 +1,6 @@
 {% extends basetemplate %}
+{% trans_default_domain "IbrowsNewsletterBundle" %}
+
+{% block newsletter_content %}
+    <a href="{{ url('ibrows_newsletter_create') }}">{{ 'newsletter.create'|trans }}</a>
+{% endblock newsletter_content %}
