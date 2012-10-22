@@ -3,4 +3,10 @@
 
 {% block newsletter_content %}
     <a href="{{ url('ibrows_newsletter_create') }}">{{ 'newsletter.create'|trans }}</a>
+    
+    <ul>
+        {% for newsletter in newsletters %}
+            <li><a href="{{ url('ibrows_newsletter_edit_redirection', {id: newsletter.id}) }}">#{{ newsletter.id }}</a></li>
+        {% endfor %}
+    </ul>
 {% endblock newsletter_content %}
