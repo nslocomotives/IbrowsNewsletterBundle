@@ -4,6 +4,9 @@ namespace Ibrows\Bundle\NewsletterBundle\Model\Block;
 
 class Block implements BlockInterface
 {
+    protected $name;
+    protected $content;
+    
     /**
      * @return string
      */
