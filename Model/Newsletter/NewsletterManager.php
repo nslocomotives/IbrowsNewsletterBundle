@@ -2,18 +2,17 @@
 
 namespace Ibrows\Bundle\NewsletterBundle\Model\Newsletter;
 
-class NewsletterManager implements NewsletterManagerInterface
+abstract class NewsletterManager implements NewsletterManagerInterface
 {
-
-	public function get($id)
+	protected $class;
+	
+	public function __construct($class)
 	{
-		
+		$this->class = $class;
 	}
-
+	
 	public function create()
 	{
-		// TODO: Auto-generated method stub
-
+		return new $this->class();
 	}
-
 }

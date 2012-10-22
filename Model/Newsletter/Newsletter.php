@@ -10,6 +10,9 @@ use Doctrine\Common\Collections\ArrayCollection;
 class Newsletter implements NewsletterInterface
 {
 	protected $id;
+	protected $mandant;
+	protected $subscribers;
+	
 	/**
 	 * @Assert\NotBlank(groups={"newsletter"})
 	 */
@@ -28,107 +31,121 @@ class Newsletter implements NewsletterInterface
 	 * @Assert\NotBlank(groups={"newsletter"})
 	 */
 	protected $returnMail;
-    protected $subscribers;
-    
-    public function __construct()
-    {
-        $this->subscribers = new ArrayCollection();
-    }
-    
-    /**
-     * @return integer
-     */
+
+	public function __construct()
+	{
+		$this->subscribers = new ArrayCollection();
+	}
+
+	/**
+	 * @return integer
+	 */
+
 	public function getId()
 	{
-	    return $this->id;
+		return $this->id;
 	}
-    
-    /**
-     * @return string
-     */
+
+	/**
+	 * @return string
+	 */
+
 	public function getSubject()
 	{
-	    return $this->subject;
+		return $this->subject;
 	}
 
-    /**
-     * @param string $subject
-     * @return Newsletter
-     */
+	/**
+	 * @param string $subject
+	 * @return Newsletter
+	 */
+
 	public function setSubject($subject)
 	{
-	    $this->subject = $subject;
-	    return $this;
+		$this->subject = $subject;
+		return $this;
 	}
 
-    /**
-     * @return string
-     */
+	/**
+	 * @return string
+	 */
+
 	public function getSenderMail()
 	{
-	    return $this->senderMail;
+		return $this->senderMail;
 	}
 
-    /**
-     * @param string $senderMail
-     * @return Newsletter
-     */
+	/**
+	 * @param string $senderMail
+	 * @return Newsletter
+	 */
+
 	public function setSenderMail($senderMail)
 	{
-	    $this->senderMail = $senderMail;
-	    return $this;
+		$this->senderMail = $senderMail;
+		return $this;
 	}
 
-    /**
-     * @return string
-     */
+	/**
+	 * @return string
+	 */
+
 	public function getSenderName()
 	{
-	    return $this->senderName;
+		return $this->senderName;
 	}
 
-    /**
-     * @param string $senderName
-     * @return Newsletter
-     */
+	/**
+	 * @param string $senderName
+	 * @return Newsletter
+	 */
+
 	public function setSenderName($senderName)
 	{
-	    $this->senderName = $senderName;
-	    return $this;
+		$this->senderName = $senderName;
+		return $this;
 	}
 
-    /**
-     * @return string
-     */
+	/**
+	 * @return string
+	 */
+
 	public function getReturnMail()
 	{
-	    return $this->returnMail;
+		return $this->returnMail;
 	}
 
-    /**
-     * @param type $returnMail
-     * @return Newsletter
-     */
+	/**
+	 * @param type $returnMail
+	 * @return Newsletter
+	 */
+
 	public function setReturnMail($returnMail)
 	{
-	    $this->returnMail = $returnMail;
-	    return $this;
+		$this->returnMail = $returnMail;
+		return $this;
 	}
-    
-    public function getSubscribers()
-    {
-        return $this->subscribers;
-    }
-    
-    public function removeSubscriber(SubscriberInterface $subscriber)
-    {
-        $this->subscribers->remove($subscriber);
-        return $this;
-    }
-    
-    public function addSubscriber(SubscriberInterface $subscriber)
-    {
-        $this->subscribers->add($subscriber);
-        return $this;
-    }
+
+	public function getSubscribers()
+	{
+		return $this->subscribers;
+	}
+
+	public function removeSubscriber(SubscriberInterface $subscriber)
+	{
+		$this->subscribers->remove($subscriber);
+		return $this;
+	}
+
+	public function addSubscriber(SubscriberInterface $subscriber)
+	{
+		$this->subscribers->add($subscriber);
+		return $this;
+	}
+
+	public function getMandant()
+	{
+		return $this->mandant;
+	}
+
 }
