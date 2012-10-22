@@ -114,6 +114,20 @@ abstract class AbstractController extends Controller
      * @return Newsletter
      * @throws NotFoundException
      */
+    protected function getNewsletterById($id)
+    {
+        $newsletter = $this->getMandant()->getNewsletter($id);
+        if(!$newsletter){
+            throw $this->createNotFoundException("Newsletter with id $id not found");
+        }
+        
+        return $newsletter;
+    }
+    
+    /**
+     * @return Newsletter
+     * @throws NotFoundException
+     */
     protected function getNewsletter()
     {
         $newsletterId = $this->getSession()->get('ibrows_newsletter.wizard.newsletterid', null);
@@ -121,12 +135,7 @@ abstract class AbstractController extends Controller
             return null;
         }
         
-        $newsletter = $this->getMandant()->getNewsletter($newsletterId);
-        if(!$newsletter){
-            throw $this->createNotFoundException("Newsletter with id $id not found");
-        }
-        
-        return $newsletter;
+        return $this->getNewsletterById($newsletterId);
     }
     
     /**
