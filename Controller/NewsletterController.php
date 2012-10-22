@@ -35,7 +35,7 @@ class NewsletterController extends AbstractController
 	{
         $this->setNewsletter(null);
         
-		$newsletter = $this->createNewsletter();
+		$newsletter = $this->getNewsletterManager()->create();
 		
 		$formtype = $this->getClassManager()->getForm('newsletter_meta');
 		$form = $this->createForm(new $formtype(), $newsletter);

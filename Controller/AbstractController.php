@@ -2,6 +2,8 @@
 
 namespace Ibrows\Bundle\NewsletterBundle\Controller;
 
+use Ibrows\Bundle\NewsletterBundle\Model\NewsletterManager;
+
 use Ibrows\Bundle\NewsletterBundle\Service\orm\MandantManager;
 use Ibrows\Bundle\NewsletterBundle\Service\TemplateManager;
 use Ibrows\Bundle\NewsletterBundle\Service\ClassManager;
@@ -68,6 +70,15 @@ abstract class AbstractController extends Controller
     }
     
     /**
+     * @return NewsletterManager
+     */
+    protected function getNewsletterManager()
+    {
+    		$mandant = MandantManager::DEFAULT_NAME; // get from auth token
+    		return $this->getMandantManager()->getNewsletterManager($mandant);
+    }
+    
+    /**
      * @return WizardActionAnnotationHandler
      */
     protected function getWizardActionAnnotationHandler()
@@ -81,14 +92,6 @@ abstract class AbstractController extends Controller
     protected function getWizardActionValidation()
     {
         return $this->getWizardActionAnnotationHandler()->getValidation();
-    }
-    
-    /**
-     * @return NewsletterInterface
-     */
-    protected function createNewsletter()
-    {
-        return $this->getMandant()->createNewsletter();
     }
     
     /**

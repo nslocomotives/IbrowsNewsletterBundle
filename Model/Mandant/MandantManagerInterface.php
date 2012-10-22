@@ -4,6 +4,8 @@ namespace Ibrows\Bundle\NewsletterBundle\Model\Mandant;
 
 interface MandantManagerInterface
 {
+	const DEFAULT_NAME = 'default';
+	
 	/**
 	 * 
 	 * @param unknown_type $name
@@ -15,4 +17,6 @@ interface MandantManagerInterface
 	 * @return \Symfony\Component\Security\Core\User\UserProviderInterface
 	 */
 	public function getUserProvider($name);
+	
+	public function getNewsletterManager($name);
 }
