@@ -5,6 +5,9 @@ newsletter:
     subscriber: Empfänger
     summary:    Zusammenfassung
   create: Neuer Newsletter
+  
+design:
+  create: Neues Design
 
 form:
   save: Speichern

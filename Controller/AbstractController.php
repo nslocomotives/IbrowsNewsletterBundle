@@ -149,7 +149,7 @@ abstract class AbstractController extends Controller
      */
     protected function getNewsletterById($id)
     {
-        $newsletter = $this->getMandant()->getNewsletter($id);
+        $newsletter = $this->getNewsletterManager()->get($id);
         if(!$newsletter){
             throw $this->createNotFoundException("Newsletter with id $id not found");
         }
