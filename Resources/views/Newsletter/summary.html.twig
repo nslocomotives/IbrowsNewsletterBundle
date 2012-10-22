@@ -1,2 +1,10 @@
 {% extends 'IbrowsNewsletterBundle::layout.html.twig' %}
-{% trans_default_domain "IbrowsNewsletterBundle" %}
+
+{% import "IbrowsNewsletterBundle::macros.html.twig" as macros %}
+{% block newsletter_wizard %}
+    {{ macros.displayWizard(wizard) }}
+{% endblock %}
+
+{% block newsletter_content %}
+    {{ 'newsletter' }} #{{ newsletter.id }}
+{% endblock %}

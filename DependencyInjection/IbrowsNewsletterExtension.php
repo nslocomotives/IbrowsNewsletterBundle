@@ -25,17 +25,20 @@ class IbrowsNewsletterExtension extends Extension
 			$loader->load(sprintf('services.%s.xml', $config['db_driver']));
 		}
         
+        $config['blocks'] = array_merge($config['defaultblocks'], $config['blocks']);
+        unset($config['defaultblocks']);
+        
 		$this->registerContainerParametersRecursive($container, $this->getAlias(), $config);
 	}
 
 	protected function registerContainerParametersRecursive(ContainerBuilder $container, $alias, $config)
 	{
 		$iterator = new \RecursiveIteratorIterator(new \RecursiveArrayIterator($config),
-				\RecursiveIteratorIterator::SELF_FIRST);
+            \RecursiveIteratorIterator::SELF_FIRST);
 		
 		foreach ($iterator as $value) {
 			$path = array( );
-			for ($i = 0; $i <= $iterator->getDepth(); $i++) {
+			for($i = 0; $i <= $iterator->getDepth(); $i++){
 				$path[] = $iterator->getSubIterator($i)->key();
 			}
 			$key = $alias . '.' . implode(".", $path);

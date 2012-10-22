@@ -1,21 +1,8 @@
 {% extends 'IbrowsNewsletterBundle::layout.html.twig' %}
-{% trans_default_domain "IbrowsNewsletterBundle" %}
 
+{% import "IbrowsNewsletterBundle::macros.html.twig" as macros %}
 {% block newsletter_wizard %}
-<ul class="wizard">
-	<li class="active">
-		<span>{{ ('newsletter.wizard.create')|trans({}, "IbrowsNewsletterBundle") }}</span>        
-	</li>
-	<li>
-		<span>{{ 'newsletter.wizard.edit'|trans }}</span>        
-	</li>
-	<li>
-		<span>{{ 'newsletter.wizard.recipient'|trans }}</span>        
-	</li>
-	<li>
-		<span>{{ 'newsletter.wizard.summary'|trans }}</span>        
-	</li>
-</ul>
+    {{ macros.displayWizard(wizard) }}
 {% endblock %}
 
 {% block newsletter_content %}

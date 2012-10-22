@@ -15,6 +15,20 @@
 			<argument>%ibrows_newsletter.classes.form%</argument>
         </service>
         
+        
+        <service id="ibrows_newsletter.block_manager" class="Ibrows\Bundle\NewsletterBundle\Service\BlockManager">
+			<argument>%ibrows_newsletter.blocks%</argument>
+        </service>
+        
+        <service id="ibrows_newsletter.annotation_driver" class="Ibrows\Bundle\NewsletterBundle\Annotation\AnnotationDriver">
+			<argument type="service" id ="service_container" />
+            <argument>%ibrows_newsletter.annotations%</argument>
+            <tag name="kernel.event_listener" event="kernel.controller" method="onKernelController" />
+        </service>
+        
+        <service id="ibrows_newsletter.annotation.handler.wizardaction" class="Ibrows\Bundle\NewsletterBundle\Annotation\WizardAction\WizardActionAnnotationHandler">
+            <argument type="service" id ="router" />
+        </service>
     </services>
 
 </container>

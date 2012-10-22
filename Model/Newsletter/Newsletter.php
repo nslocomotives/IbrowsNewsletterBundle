@@ -5,6 +5,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class Newsletter implements NewsletterInterface
 {
+	protected $id;
 	/**
 	 * @Assert\NotBlank(groups={"newsletter"})
 	 */
@@ -24,6 +25,14 @@ class Newsletter implements NewsletterInterface
 	 */
 	protected $returnMail;
 
+    /**
+     * @return integer
+     */
+	public function getId()
+	{
+	    return $this->id;
+	}
+    
     /**
      * @return string
      */

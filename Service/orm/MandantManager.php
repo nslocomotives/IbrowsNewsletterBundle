@@ -3,8 +3,7 @@ namespace Ibrows\Bundle\NewsletterBundle\Service\orm;
 
 use Ibrows\Bundle\NewsletterBundle\Model\Mandant\Mandant;
 use Ibrows\Bundle\NewsletterBundle\Model\Mandant\MandantManager as BaseMandantManager;
-
-use Symfony\Component\Serializer\Exception\UnsupportedException;
+use Ibrows\Bundle\NewsletterBundle\Service\BlockManager;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\DBAL\DriverManager;
@@ -12,14 +11,22 @@ use Doctrine\DBAL\DriverManager;
 class MandantManager extends BaseMandantManager
 {
 	private $doctrine;
+    private $blockManager;
 	private $connection;
 	private $mandantClass;
 	private $newsletterClass;
 	private $subscriberClass;
 
-	public function __construct(Registry $doctrine, $mandantClass, $newsletterClass, $subscriberClass, $connection = null)
-	{
+	public function __construct(
+        Registry $doctrine, 
+        BlockManager $blockManager,
+        $mandantClass, 
+        $newsletterClass, 
+        $subscriberClass, 
+        $connection = null
+    ){
 		$this->doctrine = $doctrine;
+        $this->blockManager = $blockManager;
 		$this->mandantClass = $mandantClass;
 		$this->newsletterClass = $newsletterClass;
 		$this->subscriberClass = $subscriberClass;
@@ -32,7 +39,7 @@ class MandantManager extends BaseMandantManager
         $manager = $this->getManager($canonicalizeName);
         
         $mandantClass = $this->mandantClass;
-		return new $mandantClass($manager, $canonicalizeName, $this->newsletterClass);
+		return new $mandantClass($manager, $this->blockManager, $canonicalizeName, $this->newsletterClass);
 	}
 	
 	private function getManager($name)
