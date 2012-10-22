@@ -1,5 +1,5 @@
 <?php
-namespace Ibrows\Bundle\NewsletterBundle\Security\UserProvider;
+namespace Ibrows\Bundle\NewsletterBundle\Service\orm;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 
 use Doctrine\Common\Persistence\ObjectRepository;
@@ -11,10 +11,10 @@ class MandantDoctrineUserProvider implements UserProviderInterface
 	protected $repository;
 	protected $class;
 	
-	public function __construct(ObjectRepository $repository, $userclass)
+	public function __construct(ObjectRepository $repository)
 	{
 		$this->repository = $repository;
-		$this->class = $userclass;
+		$this->class = $repository->getClassName();
 	}
 
 	/**
