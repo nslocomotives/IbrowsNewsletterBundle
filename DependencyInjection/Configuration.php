@@ -36,6 +36,7 @@ class Configuration implements ConfigurationInterface
 				->arrayNode('templates')
 					->addDefaultsIfNotSet()
 					->children()
+						->scalarNode('base_template')->defaultValue('IbrowsNewsletterBundle::layout.html.twig')->end()
 						->arrayNode('mandant')
 							->addDefaultsIfNotSet()
 							->children()

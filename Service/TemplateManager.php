@@ -4,11 +4,13 @@ namespace Ibrows\Bundle\NewsletterBundle\Service;
 
 class TemplateManager
 {
-	private $mandants;
-	private $newsletters;
+	protected $mandants;
+	protected $newsletters;
+	protected $base_template;
 	
-	public function __construct(array $mandants, array $newsletters)
+	public function __construct($base_template, array $mandants, array $newsletters)
 	{
+		$this->base_template = $base_template;
 		$this->mandants = $mandants;
 		$this->newsletters = $newsletters;
 	}
@@ -29,5 +31,10 @@ class TemplateManager
 		}
 		
 		return $this->mandants[$name];
+	}
+	
+	public function getBaseTemplate()
+	{
+		return $this->base_template;
 	}
 }

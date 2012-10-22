@@ -6,7 +6,8 @@
 
     <services>
         <service id="ibrows_newsletter.template_manager" class="Ibrows\Bundle\NewsletterBundle\Service\TemplateManager">
-			<argument>%ibrows_newsletter.templates%</argument>
+        		<argument>%ibrows_newsletter.templates.base_template%</argument>
+			<argument>%ibrows_newsletter.templates.mandant%</argument>
 			<argument>%ibrows_newsletter.templates.newsletter%</argument>
         </service>
         
@@ -14,7 +15,6 @@
 			<argument>%ibrows_newsletter.classes.model%</argument>
 			<argument>%ibrows_newsletter.classes.form%</argument>
         </service>
-        
         
         <service id="ibrows_newsletter.block_manager" class="Ibrows\Bundle\NewsletterBundle\Service\BlockManager">
 			<argument>%ibrows_newsletter.blocks%</argument>
