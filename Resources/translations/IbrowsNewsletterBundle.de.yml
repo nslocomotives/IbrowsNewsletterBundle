@@ -4,6 +4,7 @@ newsletter:
     edit:       Editieren
     subscriber: Empfänger
     summary:    Zusammenfassung
+  create: Neuer Newsletter
 
 form:
   save: Speichern
