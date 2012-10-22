@@ -20,13 +20,14 @@
 			<argument>%ibrows_newsletter.blocks%</argument>
         </service>
         
-        <service id="ibrows_newsletter.annotation_driver" class="Ibrows\Bundle\NewsletterBundle\Annotation\AnnotationDriver">
+        <service id="ibrows_newsletter.annotation.wizard.driver" class="Ibrows\Bundle\NewsletterBundle\Annotation\Wizard\AnnotationDriver">
 			<argument type="service" id ="service_container" />
-            <argument>%ibrows_newsletter.annotations%</argument>
+            <argument type="service" id ="ibrows_newsletter.annotation.wizard.handler" />
+            <argument>Ibrows\Bundle\NewsletterBundle\Annotation\Wizard\Annotation</argument>
             <tag name="kernel.event_listener" event="kernel.controller" method="onKernelController" />
         </service>
         
-        <service id="ibrows_newsletter.annotation.handler.wizardaction" class="Ibrows\Bundle\NewsletterBundle\Annotation\WizardAction\WizardActionAnnotationHandler">
+        <service id="ibrows_newsletter.annotation.wizard.handler" class="Ibrows\Bundle\NewsletterBundle\Annotation\Wizard\AnnotationHandler">
             <argument type="service" id ="router" />
         </service>
     </services>

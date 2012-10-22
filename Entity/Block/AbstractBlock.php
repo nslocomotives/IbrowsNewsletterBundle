@@ -6,7 +6,6 @@ use Ibrows\Bundle\NewsletterBundle\Model\Block\Block as BaseBlock;
 
 use Doctrine\ORM\Mapping as ORM;
 
-
 abstract class AbstractBlock extends BaseBlock
 {
 	/**

@@ -24,7 +24,6 @@ class Configuration implements ConfigurationInterface
 		$this->addTemplatesSection($rootNode);
 		$this->addClassesSection($rootNode);
         $this->addBlockSection($rootNode);
-        $this->addAnnotationsSection($rootNode);
 
 		return $treeBuilder;
 	}
@@ -50,7 +49,7 @@ class Configuration implements ConfigurationInterface
 								->scalarNode('index')->defaultValue('IbrowsNewsletterBundle:Newsletter:index.html.twig')->end()
                                 ->scalarNode('create')->defaultValue('IbrowsNewsletterBundle:Newsletter:create.html.twig')->end()
 								->scalarNode('edit')->defaultValue('IbrowsNewsletterBundle:Newsletter:edit.html.twig')->end()
-								->scalarNode('recipient')->defaultValue('IbrowsNewsletterBundle:Newsletter:recipient.html.twig')->end()
+								->scalarNode('subscriber')->defaultValue('IbrowsNewsletterBundle:Newsletter:subscriber.html.twig')->end()
 								->scalarNode('summary')->defaultValue('IbrowsNewsletterBundle:Newsletter:summary.html.twig')->end()
                                 ->scalarNode('send')->defaultValue('IbrowsNewsletterBundle:Newsletter:send.html.twig')->end()
 							->end()
@@ -103,24 +102,4 @@ class Configuration implements ConfigurationInterface
 		;
 	}
     
-    public function addAnnotationsSection(ArrayNodeDefinition $node)
-	{           
-		$node->children()
-                ->arrayNode('annotations')
-                    ->cannotBeOverwritten()
-                    ->addDefaultsIfNotSet()
-                    ->children()
-                        ->arrayNode('wizardAction')
-                            ->cannotBeOverwritten()
-                            ->addDefaultsIfNotSet()
-                            ->children()
-                                ->scalarNode('annotation')->defaultValue('Ibrows\\Bundle\\NewsletterBundle\\Annotation\\WizardAction\\WizardActionAnnotation')->end()
-                                ->scalarNode('handler')->defaultValue('ibrows_newsletter.annotation.handler.wizardaction')->end()
-                            ->end()
-                        ->end()
-                    ->end()
-                ->end()
-			->end()
-		;
-	}
 }

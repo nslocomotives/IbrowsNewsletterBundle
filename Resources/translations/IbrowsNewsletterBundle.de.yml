@@ -2,7 +2,7 @@ newsletter:
   wizard:
     create:     Erstellen
     edit:       Editieren
-    recipient:  Empfänger
+    subscriber: Empfänger
     summary:    Zusammenfassung
 
 form:
