@@ -19,11 +19,24 @@
         <service id="ibrows_newsletter.block_provider_manager" class="Ibrows\Bundle\NewsletterBundle\Service\BlockProviderManager">
         </service>
         
+        <service id="ibrows_newsletter.block.provider.textarea" class="Ibrows\Bundle\NewsletterBundle\Block\Provider\TextAreaProvider">
+            <call method="setBlockProviderManager">
+                <argument type="service" id="ibrows_newsletter.block_provider_manager" />
+           </call>
+            <tag name="ibrows_newsletter.block.provider" />
+        </service>
+        
         <service id="ibrows_newsletter.block.provider.textareaandimage" class="Ibrows\Bundle\NewsletterBundle\Block\Provider\TextAreaAndImageProvider">
+            <call method="setBlockProviderManager">
+                <argument type="service" id="ibrows_newsletter.block_provider_manager" />
+           </call>
             <tag name="ibrows_newsletter.block.provider" />
         </service>
         
         <service id="ibrows_newsletter.block.provider.image" class="Ibrows\Bundle\NewsletterBundle\Block\Provider\ImageProvider">
+            <call method="setBlockProviderManager">
+                <argument type="service" id="ibrows_newsletter.block_provider_manager" />
+           </call>
             <tag name="ibrows_newsletter.block.provider" />
         </service>
         

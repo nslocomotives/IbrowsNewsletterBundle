@@ -4,6 +4,7 @@ namespace Ibrows\Bundle\NewsletterBundle\Model\Block;
 
 interface BlockInterface
 {
+    public function getId();
     public function getName();
     public function getContent();
     public function getPosition();

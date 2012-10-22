@@ -37,10 +37,12 @@ abstract class Newsletter implements NewsletterInterface
 	protected $returnMail;
     
     protected $subscribers;
+    protected $blocks;
     
     public function __construct()
     {
         $this->subscribers = new ArrayCollection();
+        $this->blocks = new ArrayCollection();
     }
     
     /**
@@ -147,7 +149,38 @@ abstract class Newsletter implements NewsletterInterface
      */
     public function addSubscriber(SubscriberInterface $subscriber)
     {
+        $subscriber->addNewsletter($this);
         $this->subscribers->add($subscriber);
+        return $this;
+    }
+    
+    /**
+     * @return Collection
+     */
+    public function getBlocks()
+    {
+        return $this->blocks;
+    }
+    
+    /**
+     * @param BlockInterface $block
+     * @return Newsletter
+     */
+    public function addBlock(BlockInterface $block)
+    {
+        $block->addNewsletter($this);
+        $this->blocks->add($block);
+        return $this;
+    }
+    
+    /**
+     * @param BlockInterface $block
+     * @return Newsletter
+     */
+    public function removeBlock(BlockInterface $block)
+    {
+        $block->removeNewsletter($this);
+        $this->blocks->remove($block);
         return $this;
     }
 }

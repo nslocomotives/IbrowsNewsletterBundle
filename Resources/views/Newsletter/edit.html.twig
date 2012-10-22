@@ -8,4 +8,11 @@
 
 {% block newsletter_content %}
     {{ 'newsletter' }} #{{ newsletter.id }}
+    
+    <ul>
+        {% for block in newsletter.blocks %}
+            #{{ block.id }} - {{ block.providerName }}
+            {{ blockProviderManager.get(block.providerName).blockDisplayContent(block)|raw }}
+        {% endfor %}
+    </ul>
 {% endblock %}

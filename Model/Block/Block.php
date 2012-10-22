@@ -7,6 +7,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 abstract class Block implements BlockInterface
 {
+    protected $id;
+    
     protected $name;
     protected $content;
     protected $position;
@@ -20,6 +22,11 @@ abstract class Block implements BlockInterface
     public function __construct()
     {
         $this->blocks = new ArrayCollection();
+    }
+    
+    public function getId()
+    {
+        return $this->id;
     }
     
     /**
