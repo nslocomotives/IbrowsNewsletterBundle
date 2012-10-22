@@ -91,22 +91,22 @@ class NewsletterController extends AbstractController
     }
     
     /**
-	 * @Route("/recipient", name="ibrows_newsletter_recipient")
-     * @WizardAction(name="recipient", number=3, validationMethod="recipientValidation")
+	 * @Route("/subscriber", name="ibrows_newsletter_subscriber")
+     * @WizardAction(name="subscriber", number=3, validationMethod="subscriberValidation")
 	 */
-	public function recipientAction()
+	public function subscriberAction()
 	{
         if(($response = $this->getWizardActionValidation()) instanceof Response){
             return $response;
         }
         
-		return $this->render($this->getTemplateManager()->getNewsletter('recipient'), array(
+		return $this->render($this->getTemplateManager()->getNewsletter('subscriber'), array(
             'newsletter' => $this->getNewsletter(),
             'wizard' => $this->getWizardActionAnnotationHandler(),
 		));
 	}
     
-    public function recipientValidation(WizardActionHandler $handler)
+    public function subscriberValidation(WizardActionHandler $handler)
     {
         if(is_null($this->getNewsletter())){
             return $this->redirect($handler->getStepUrl($handler->getLastValidAnnotation()));
@@ -138,7 +138,7 @@ class NewsletterController extends AbstractController
         }
         
         if(count($newsletter->getSubscribers()) <= 0){
-            return $this->redirect($this->generateUrl('ibrows_newsletter_recipient'));
+            return $this->redirect($this->generateUrl('ibrows_newsletter_subscriber'));
         }
     }
     
