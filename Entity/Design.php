@@ -2,11 +2,11 @@
 
 namespace Ibrows\Bundle\NewsletterBundle\Entity;
 
-use Ibrows\Bundle\NewsletterBundle\Model\Template\Template as AbstractTemplate;
+use Ibrows\Bundle\NewsletterBundle\Model\Design\Design as AbstractDesign;
 
 use Doctrine\ORM\Mapping as ORM;
 
-class Template extends AbstractTemplate
+class Design extends AbstractDesign
 {
 	/**
 	 * @var string

@@ -12,16 +12,18 @@ use Doctrine\Bundle\DoctrineBundle\Registry;
 
 class MandantManager extends BaseMandantManager
 {
-	private $doctrine;
-    private $blockManager;
-	private $connection;
-	private $mandantClass;
-	private $newsletterClass;
-	private $subscriberClass;
-	private $userClass;
+	protected $doctrine;
+    protected $blockManager;
+	protected $connection;
+	protected $mandantClass;
+	protected $newsletterClass;
+	protected $subscriberClass;
+	protected $designClass;
+	protected $userClass;
 	
-	private $newsletterManager;
-	private $userProvider;
+	protected $newsletterManager;
+	protected $designManager;
+	protected $userProvider;
 
 	public function __construct(
         Registry $doctrine, 
@@ -29,6 +31,7 @@ class MandantManager extends BaseMandantManager
         $mandantClass, 
         $newsletterClass, 
         $subscriberClass,
+		$designClass,
 		$userClass
     ){
 		$this->doctrine = $doctrine;
@@ -36,6 +39,7 @@ class MandantManager extends BaseMandantManager
 		$this->mandantClass = $mandantClass;
 		$this->newsletterClass = $newsletterClass;
 		$this->subscriberClass = $subscriberClass;
+		$this->designClass = $designClass;
 		$this->userClass = $userClass;
 	}
 
@@ -71,6 +75,17 @@ class MandantManager extends BaseMandantManager
 		}
 		
 		return $this->newsletterManager;
+	}
+	
+	public function getDesignManager($name)
+	{
+		if ($this->designManager === null) {
+			$manager = $this->getManager($name);
+			$repository = $manager->getRepository($this->designClass);
+			$this->designManager = new DesignManager($repository);
+		}
+	
+		return $this->designManager;
 	}
 	
 	public function persistNewsletter($name, NewsletterInterface $newsletter)

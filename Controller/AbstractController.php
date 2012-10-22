@@ -2,6 +2,8 @@
 
 namespace Ibrows\Bundle\NewsletterBundle\Controller;
 
+use Ibrows\Bundle\NewsletterBundle\Service\orm\DesignManager;
+
 use Ibrows\Bundle\NewsletterBundle\Model\NewsletterManager;
 
 use Ibrows\Bundle\NewsletterBundle\Service\orm\MandantManager;
@@ -79,6 +81,14 @@ abstract class AbstractController extends Controller
     protected function getNewsletterManager()
     {
     		return $this->getMandantManager()->getNewsletterManager($this->getMandantName());
+    }
+    
+    /**
+     * @return DesignManager
+     */
+    protected function getDesignManager()
+    {
+    		return $this->getMandantManager()->getDesignManager($this->getMandantName());
     }
     
     /**
