@@ -1,12 +1,12 @@
 <?php
 namespace Ibrows\Bundle\NewsletterBundle\Service\orm;
 
+use Ibrows\Bundle\NewsletterBundle\Security\UserProvider\MandantDoctrineUserProvider;
+
 use Ibrows\Bundle\NewsletterBundle\Model\Mandant\Mandant;
 use Ibrows\Bundle\NewsletterBundle\Model\Mandant\MandantManager as BaseMandantManager;
 use Ibrows\Bundle\NewsletterBundle\Service\BlockManager;
-
 use Doctrine\Bundle\DoctrineBundle\Registry;
-use Doctrine\DBAL\DriverManager;
 
 class MandantManager extends BaseMandantManager
 {
@@ -16,32 +16,51 @@ class MandantManager extends BaseMandantManager
 	private $mandantClass;
 	private $newsletterClass;
 	private $subscriberClass;
+	private $userClass;
 
 	public function __construct(
         Registry $doctrine, 
         BlockManager $blockManager,
         $mandantClass, 
         $newsletterClass, 
-        $subscriberClass, 
-        $connection = null
+        $subscriberClass,
+		$userClass
     ){
 		$this->doctrine = $doctrine;
         $this->blockManager = $blockManager;
 		$this->mandantClass = $mandantClass;
 		$this->newsletterClass = $newsletterClass;
 		$this->subscriberClass = $subscriberClass;
-		$this->connection = $connection;
+		$this->userClass = $userClass;
 	}
 
-	public function get($name = null)
+	public function get($name)
 	{
-		$canonicalizeName = $this->canonicalizeName($name);
-        $manager = $this->getManager($canonicalizeName);
-        
+        $manager = $this->getManager($name);
         $mandantClass = $this->mandantClass;
-		return new $mandantClass($manager, $this->blockManager, $canonicalizeName, $this->newsletterClass);
+        
+        
+		return new $mandantClass();
 	}
 	
+	/**
+	 * (non-PHPdoc)
+	 * @see Ibrows\Bundle\NewsletterBundle\Model\Mandant.MandantManagerInterface::getUserProvider()
+	 */
+	public function getUserProvider($name)
+	{
+		$manager = $this->getManager($name);
+		$repository = $manager->getRepository($this->mandantClass);
+		
+		return new MandantDoctrineUserProvider($repository, $this->userClass);
+	}
+	
+	/**
+	 * 
+	 * @param string $name
+	 * @return \Doctrine\Common\Persistence\ObjectManager
+	 * @throws \InvalidArgumentException
+	 */
 	private function getManager($name)
 	{
 		if($name !== self::DEFAULT_NAME){

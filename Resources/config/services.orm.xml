@@ -11,6 +11,7 @@
 			<argument>%ibrows_newsletter.classes.model.mandant%</argument>
 			<argument>%ibrows_newsletter.classes.model.newsletter%</argument>
 			<argument>%ibrows_newsletter.classes.model.subscriber%</argument>
+			<argument>%fos_user.model.user.class%</argument>
         </service>
     </services>
 
