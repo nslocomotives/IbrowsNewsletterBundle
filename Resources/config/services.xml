@@ -16,6 +16,9 @@
 			<argument>%ibrows_newsletter.classes.form%</argument>
         </service>
         
+        <service id="ibrows_newsletter.block_provider_manager" class="Ibrows\Bundle\NewsletterBundle\Service\BlockProviderManager">
+        </service>
+        
         <service id="ibrows_newsletter.block.provider.textareaandimage" class="Ibrows\Bundle\NewsletterBundle\Block\Provider\TextAreaAndImageProvider">
             <tag name="ibrows_newsletter.block.provider" />
         </service>
