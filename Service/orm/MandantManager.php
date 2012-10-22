@@ -13,7 +13,6 @@ use Doctrine\Bundle\DoctrineBundle\Registry;
 class MandantManager extends BaseMandantManager
 {
 	protected $doctrine;
-    protected $blockManager;
 	protected $connection;
 	protected $mandantClass;
 	protected $newsletterClass;
@@ -26,8 +25,7 @@ class MandantManager extends BaseMandantManager
 	protected $userProvider;
 
 	public function __construct(
-        Registry $doctrine, 
-        BlockManager $blockManager,
+        Registry $doctrine,
         $mandantClass, 
         $newsletterClass, 
         $subscriberClass,
@@ -35,7 +33,6 @@ class MandantManager extends BaseMandantManager
 		$userClass
     ){
 		$this->doctrine = $doctrine;
-        $this->blockManager = $blockManager;
 		$this->mandantClass = $mandantClass;
 		$this->newsletterClass = $newsletterClass;
 		$this->subscriberClass = $subscriberClass;

@@ -3,7 +3,6 @@
 namespace Ibrows\Bundle\NewsletterBundle\Model\Mandant;
 
 use Ibrows\Bundle\NewsletterBundle\Model\Newsletter\NewsletterInterface;
-use Ibrows\Bundle\NewsletterBundle\Service\BlockManager;
 
 use Doctrine\Common\Persistence\ObjectManager;
 
@@ -31,6 +30,6 @@ class Mandant implements MandantInterface
 	
     public function getBlocks()
     {
-    		return $this->blocks;
+		return $this->blocks;
     }
 }

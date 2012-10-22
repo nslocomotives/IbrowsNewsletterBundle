@@ -25,9 +25,6 @@ class IbrowsNewsletterExtension extends Extension
 			$loader->load(sprintf('services.%s.xml', $config['db_driver']));
 		}
         
-        $config['blocks'] = array_merge($config['defaultblocks'], $config['blocks']);
-        unset($config['defaultblocks']);
-        
 		$this->registerContainerParametersRecursive($container, $this->getAlias(), $config);
 	}
 

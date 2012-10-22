@@ -1,7 +1,8 @@
 <?php
+
 namespace Ibrows\Bundle\NewsletterBundle\Model\Design;
 
-class Design
+abstract class Design
 {
 	protected $name;
 	protected $content;

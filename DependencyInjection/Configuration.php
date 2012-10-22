@@ -23,7 +23,6 @@ class Configuration implements ConfigurationInterface
 		
 		$this->addTemplatesSection($rootNode);
 		$this->addClassesSection($rootNode);
-        $this->addBlockSection($rootNode);
 
 		return $treeBuilder;
 	}
@@ -89,24 +88,6 @@ class Configuration implements ConfigurationInterface
 							->end()
 						->end()
 				->end()
-			->end()
-		;
-	}
-    
-    public function addBlockSection(ArrayNodeDefinition $node)
-	{           
-		$node->children()
-                ->arrayNode('defaultblocks')
-                    ->addDefaultsIfNotSet()
-                    ->children()
-                        ->scalarNode('TextBlock')->defaultValue('Ibrows\\Bundle\\NewsletterBundle\\Entity\\Block\\TextBlock')->end()
-                        ->scalarNode('TextAndImageBlock')->defaultValue('Ibrows\\Bundle\\NewsletterBundle\\Entity\\Block\\TextAndImageBlock')->end()
-                    ->end()
-                ->end()
-                ->arrayNode('blocks')
-                    ->useAttributeAsKey('name')
-                    ->prototype('scalar')->end()
-                ->end()
 			->end()
 		;
 	}

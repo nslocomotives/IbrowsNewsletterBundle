@@ -3,13 +3,13 @@
 namespace Ibrows\Bundle\NewsletterBundle\Controller;
 
 use Ibrows\Bundle\NewsletterBundle\Service\orm\DesignManager;
-
 use Ibrows\Bundle\NewsletterBundle\Model\NewsletterManager;
-
 use Ibrows\Bundle\NewsletterBundle\Service\orm\MandantManager;
 use Ibrows\Bundle\NewsletterBundle\Service\TemplateManager;
 use Ibrows\Bundle\NewsletterBundle\Service\ClassManager;
-use Ibrows\Bundle\NewsletterBundle\Service\BlockManager;
+
+use Ibrows\Bundle\NewsletterBundle\Service\BlockProviderManager;
+use Ibrows\Bundle\NewsletterBundle\Service\BlockRendererManager;
 
 use Ibrows\Bundle\NewsletterBundle\Model\Newsletter\NewsletterInterface;
 use Ibrows\Bundle\NewsletterBundle\Model\Mandant\MandantInterface;
@@ -44,6 +44,14 @@ abstract class AbstractController extends Controller
 		return $mandant;    		
     }
     /**
+     * @return Collection
+     */
+    protected function getBlocks()
+    {
+        return $this->getMandant()->getBlocks();
+    }
+    
+    /**
      * @return MandantInterface
      */
     protected function getMandant()
@@ -60,19 +68,27 @@ abstract class AbstractController extends Controller
     }
     
     /**
-     * @return BlockManager
-     */
-    protected function getBlockManager()
-    {
-        return $this->get('ibrows_newsletter.block_manager');
-    }
-    
-    /**
      * @return ClassManager
      */
     protected function getClassManager()
     {
         return $this->get('ibrows_newsletter.class_manager');
+    }
+    
+    /**
+     * @return BlockProviderManager
+     */
+    protected function getBlockProviderManager()
+    {
+        return $this->get('ibrows_newsletter.block_provider_manager');
+    }
+    
+    /**
+     * @return BlockRendererManager
+     */
+    protected function getBlockRendererManager()
+    {
+        return $this->get('ibrows_newsletter.block_renderer_manager');
     }
     
     /**
@@ -131,14 +147,9 @@ abstract class AbstractController extends Controller
      * @return Newsletter
      * @throws NotFoundException
      */
-    protected function getNewsletter()
+    protected function getNewsletterById($id)
     {
-        $newsletterId = $this->getSession()->get('ibrows_newsletter.wizard.newsletterid', null);
-        if(is_null($newsletterId)){
-            return null;
-        }
-        
-        $newsletter = $this->getNewsletterManager()->get($newsletterId);
+        $newsletter = $this->getMandant()->getNewsletter($id);
         if(!$newsletter){
             throw $this->createNotFoundException("Newsletter with id $id not found");
         }
@@ -147,13 +158,27 @@ abstract class AbstractController extends Controller
     }
     
     /**
+     * @return Newsletter
+     * @throws NotFoundException
+     */
+    protected function getNewsletter()
+    {
+        $newsletterId = $this->getSession()->get('ibrows_newsletter.wizard.newsletterid', null);
+        if(is_null($newsletterId)){
+            return null;
+        }
+        
+        return $this->getNewsletterById($newsletterId);
+    }
+    
+    /**
      * (non-PHPdoc)
      * @see Symfony\Bundle\FrameworkBundle\Controller.Controller::render()
      */
 	public function render($view, array $parameters = array(), Response $response = null)
     {
-    		$basetemplate = $this->getTemplateManager()->getBaseTemplate();
-    		$parameters = array_merge($parameters, array('basetemplate' => $basetemplate));
+        $basetemplate = $this->getTemplateManager()->getBaseTemplate();
+        $parameters = array_merge($parameters, array('basetemplate' => $basetemplate));
     		
         return $this->container->get('templating')->renderResponse($view, $parameters, $response);
     }

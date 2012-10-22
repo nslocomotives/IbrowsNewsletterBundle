@@ -1,4 +1,5 @@
 {% extends basetemplate %}
+{% trans_default_domain "IbrowsNewsletterBundle" %}
 
 {% import "IbrowsNewsletterBundle::macros.html.twig" as macros %}
 {% block newsletter_wizard %}
@@ -7,4 +8,11 @@
 
 {% block newsletter_content %}
     {{ 'newsletter' }} #{{ newsletter.id }}
+    
+    <ul>
+        {% for block in newsletter.blocks %}
+            #{{ block.id }} - {{ block.providerName }}
+            {{ blockProviderManager.get(block.providerName).blockDisplayContent(block)|raw }}
+        {% endfor %}
+    </ul>
 {% endblock %}
