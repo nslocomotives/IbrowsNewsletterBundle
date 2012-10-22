@@ -1,10 +1,10 @@
 <?php
 
-namespace Ibrows\Bundle\NewsletterBundle\Model\Block\Provider;
+namespace Ibrows\Bundle\NewsletterBundle\Block\Provider;
 
 use Ibrows\Bundle\NewsletterBundle\Model\Block\BlockInterface;
 
-class ImageProvider implements ProviderInterface
+abstract class AbstractProvider implements ProviderInterface
 {
     public function getBlockDisplayContent(BlockInterface $block)
     {

@@ -6,7 +6,7 @@
 
     <services>
         <service id="ibrows_newsletter.template_manager" class="Ibrows\Bundle\NewsletterBundle\Service\TemplateManager">
-        		<argument>%ibrows_newsletter.templates.base_template%</argument>
+            <argument>%ibrows_newsletter.templates.base_template%</argument>
 			<argument>%ibrows_newsletter.templates.mandant%</argument>
 			<argument>%ibrows_newsletter.templates.newsletter%</argument>
         </service>
@@ -16,16 +16,16 @@
 			<argument>%ibrows_newsletter.classes.form%</argument>
         </service>
         
-        <service id="ibrows_newsletter.block_renderer_manager" class="Ibrows\Bundle\NewsletterBundle\Service\BlockRendererManager">
-			<argument>%ibrows_newsletter.blockrenderer%</argument>
+        <service id="ibrows_newsletter.block.provider.textareaandimage" class="Ibrows\Bundle\NewsletterBundle\Block\Provider\TextAreaAndImageProvider">
+            <tag name="ibrows_newsletter.block.provider" />
         </service>
         
-        <service id="ibrows_newsletter.block_composition_manager" class="Ibrows\Bundle\NewsletterBundle\Service\BlockRendererManager">
-			<argument>%ibrows_newsletter.blockcomposition%</argument>
+        <service id="ibrows_newsletter.block.provider.image" class="Ibrows\Bundle\NewsletterBundle\Block\Provider\ImageProvider">
+            <tag name="ibrows_newsletter.block.provider" />
         </service>
         
-        <service id="ibrows_newsletter.block_provider_manager" class="Ibrows\Bundle\NewsletterBundle\Service\BlockCompositionManager">
-			<argument>%ibrows_newsletter.blockprovider%</argument>
+        <service id="ibrows_newsletter.block.renderer.null" class="Ibrows\Bundle\NewsletterBundle\Block\Renderer\NullRenderer">
+            <tag name="ibrows_newsletter.block.renderer" />
         </service>
         
         <service id="ibrows_newsletter.annotation.wizard.driver" class="Ibrows\Bundle\NewsletterBundle\Annotation\Wizard\AnnotationDriver">

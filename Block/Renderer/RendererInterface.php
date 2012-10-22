@@ -1,6 +1,6 @@
 <?php
 
-namespace Ibrows\Bundle\NewsletterBundle\Model\Block\Renderer;
+namespace Ibrows\Bundle\NewsletterBundle\Block\Renderer;
 
 use Ibrows\Bundle\NewsletterBundle\Model\Block\BlockInterface;
 

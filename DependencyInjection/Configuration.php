@@ -23,9 +23,6 @@ class Configuration implements ConfigurationInterface
 		
 		$this->addTemplatesSection($rootNode);
 		$this->addClassesSection($rootNode);
-        $this->addBlockProviderSection($rootNode);
-        $this->addBlockRendererSection($rootNode);
-        $this->addBlockCompositionSection($rootNode);
 
 		return $treeBuilder;
 	}
@@ -82,58 +79,6 @@ class Configuration implements ConfigurationInterface
 							->end()
 						->end()
 				->end()
-			->end()
-		;
-	}
-    
-    public function addBlockCompositionSection(ArrayNodeDefinition $node)
-	{           
-		$node->children()
-                ->arrayNode('defaultblockcomposition')
-                    ->addDefaultsIfNotSet()
-                    ->children()
-                        ->scalarNode('TextAndImage')->defaultValue('Ibrows\\Bundle\\NewsletterBundle\\Entity\\Block\\Composition\\TextAndImageComposition')->end()
-                    ->end()
-                ->end()
-                ->arrayNode('blockcomposition')
-                    ->useAttributeAsKey('name')
-                    ->prototype('scalar')->end()
-                ->end()
-			->end()
-		;
-	}
-    
-    public function addBlockRendererSection(ArrayNodeDefinition $node)
-	{           
-		$node->children()
-                ->arrayNode('defaultblockrenderer')
-                    ->addDefaultsIfNotSet()
-                    ->children()
-                        ->scalarNode('Null')->defaultValue('Ibrows\\Bundle\\NewsletterBundle\\Model\\Block\\Renderer\\NullRenderer')->end()
-                    ->end()
-                ->end()
-                ->arrayNode('blockrenderer')
-                    ->useAttributeAsKey('name')
-                    ->prototype('scalar')->end()
-                ->end()
-			->end()
-		;
-	}
-    
-    public function addBlockProviderSection(ArrayNodeDefinition $node)
-	{           
-		$node->children()
-                ->arrayNode('defaultblockprovider')
-                    ->addDefaultsIfNotSet()
-                    ->children()
-                        ->scalarNode('Image')->defaultValue('Ibrows\\Bundle\\NewsletterBundle\\Model\\Block\\Provider\\ImageProvider')->end()
-                        ->scalarNode('TextArea')->defaultValue('Ibrows\\Bundle\\NewsletterBundle\\Model\\Block\\Provider\\TextAreaProvider')->end()
-                    ->end()
-                ->end()
-                ->arrayNode('blockprovider')
-                    ->useAttributeAsKey('name')
-                    ->prototype('scalar')->end()
-                ->end()
 			->end()
 		;
 	}

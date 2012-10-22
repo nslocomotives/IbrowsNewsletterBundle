@@ -1,9 +1,10 @@
 <?php
+
 namespace Ibrows\Bundle\NewsletterBundle\Model\Newsletter;
 
-use Symfony\Component\Validator\Constraints as Assert;
-
 use Ibrows\Bundle\NewsletterBundle\Model\Subscriber\SubscriberInterface;
+
+use Symfony\Component\Validator\Constraints as Assert;
 
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
