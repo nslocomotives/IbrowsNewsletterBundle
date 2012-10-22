@@ -26,6 +26,16 @@ class NewsletterController extends AbstractController
             'newsletters' => $this->getMandant()->getNewsletters()
 		));
 	}
+    /**
+	 * @Route("/edit/redirection/{id}", name="ibrows_newsletter_edit_redirection")
+	 */
+	public function editredirectionAction($id)
+	{
+        $newsletter = $this->getNewsletterById($id);
+        $this->setNewsletter($newsletter);
+        
+        return $this->redirect($this->generateUrl('ibrows_newsletter_edit'));
+	}
 	
 	/**
 	 * @Route("/create", name="ibrows_newsletter_create")
