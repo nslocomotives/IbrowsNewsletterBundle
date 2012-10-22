@@ -3,25 +3,21 @@
 namespace Ibrows\Bundle\NewsletterBundle\Model\Mandant;
 
 use Ibrows\Bundle\NewsletterBundle\Model\Newsletter\NewsletterInterface;
-use Ibrows\Bundle\NewsletterBundle\Service\BlockManager;
 
 use Doctrine\Common\Persistence\ObjectManager;
 
-class Mandant implements MandantInterface
+abstract class Mandant implements MandantInterface
 {
 	private $om;
-    private $blockManager;
 	private $newsletterClass;
 	private $name;
 	
 	public function __construct(
         ObjectManager $om, 
-        BlockManager $blockManager, 
         $name, 
         $newsletterClass
     ){
 		$this->om = $om;
-        $this->blockManager = $blockManager;
 		$this->newsletterClass = $newsletterClass;
 		$this->name = $name;
 	}
@@ -49,7 +45,7 @@ class Mandant implements MandantInterface
     
     public function getBlocks()
     {
-        return $this->blockManager->getBlocks();
+        return $this->om->getRepository('Ibrows\\Bundle\\NewsletterBundle\\Block\\Block')->findAll();
     }
 	
 	public function createNewsletter()
