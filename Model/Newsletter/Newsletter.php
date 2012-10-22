@@ -1,6 +1,7 @@
 <?php
-
 namespace Ibrows\Bundle\NewsletterBundle\Model\Newsletter;
+
+use Symfony\Component\Validator\Constraints as Assert;
 
 use Ibrows\Bundle\NewsletterBundle\Model\Subscriber\SubscriberInterface;
 
@@ -9,11 +10,29 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 class Newsletter implements NewsletterInterface
 {
+
     protected $id;
     
+	/**
+	 * @Assert\NotBlank(groups={"newsletter"})
+	 */
 	protected $subject;
+    
+	/**
+	 * @Assert\Email(groups={"newsletter"})
+	 * @Assert\NotBlank(groups={"newsletter"})
+	 */
 	protected $senderMail;
+    
+	/**
+	 * @Assert\NotBlank(groups={"newsletter"})
+	 */
 	protected $senderName;
+    
+	/**
+	 * @Assert\Email(groups={"newsletter"})
+	 * @Assert\NotBlank(groups={"newsletter"})
+	 */
 	protected $returnMail;
     
     protected $subscribers;
