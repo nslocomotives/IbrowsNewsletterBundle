@@ -7,9 +7,10 @@ use Ibrows\Bundle\NewsletterBundle\Service\TemplateManager;
 use Ibrows\Bundle\NewsletterBundle\Service\ClassManager;
 use Ibrows\Bundle\NewsletterBundle\Service\BlockManager;
 
-use Ibrows\Bundle\NewsletterBundle\Model\Newsletter\NewsletterInterface;;
-use Ibrows\Bundle\NewsletterBundle\Annotation\WizardAction\WizardActionAnnotationHandler;
+use Ibrows\Bundle\NewsletterBundle\Model\Newsletter\NewsletterInterface;
 use Ibrows\Bundle\NewsletterBundle\Model\Mandant\MandantInterface;
+
+use Ibrows\Bundle\NewsletterBundle\Annotation\Wizard\WizardActionAnnotationHandler;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
@@ -71,7 +72,7 @@ abstract class AbstractController extends Controller
      */
     protected function getWizardActionAnnotationHandler()
     {
-        return $this->get('ibrows_newsletter.annotation.handler.wizardaction');
+        return $this->get('ibrows_newsletter.annotation.wizard.handler');
     }
     
     /**
@@ -90,16 +91,23 @@ abstract class AbstractController extends Controller
         return $this->getMandant()->createNewsletter();
     }
     
+    /**
+     * @param NewsletterInterface $newsletter
+     * @return AbstractController
+     */
     protected function setNewsletter(NewsletterInterface $newsletter = null)
     {
         $session = $this->getSession();
+        
         if(is_null($newsletter)){
             $session->set('ibrows_newsletter.wizard.newsletterid', null);
-            return;
+            return $this;
         }
         
         $this->getMandant()->persist($newsletter);
         $session->set('ibrows_newsletter.wizard.newsletterid', $newsletter->getId());
+        
+        return $this;
     }
     
     /**

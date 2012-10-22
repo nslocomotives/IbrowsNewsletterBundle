@@ -2,6 +2,10 @@
 
 namespace Ibrows\Bundle\NewsletterBundle\Model\Newsletter;
 
+use Ibrows\Bundle\NewsletterBundle\Model\Subscriber\SubscriberInterface;
+
+use Doctrine\Common\Collections\ArrayCollection;
+
 class Newsletter implements NewsletterInterface
 {
     protected $id;
@@ -9,7 +13,13 @@ class Newsletter implements NewsletterInterface
 	protected $senderMail;
 	protected $senderName;
 	protected $returnMail;
-
+    protected $subscribers;
+    
+    public function __construct()
+    {
+        $this->subscribers = new ArrayCollection();
+    }
+    
     /**
      * @return integer
      */
@@ -89,4 +99,21 @@ class Newsletter implements NewsletterInterface
 	    $this->returnMail = $returnMail;
 	    return $this;
 	}
+    
+    public function getSubscribers()
+    {
+        return $this->subscribers;
+    }
+    
+    public function removeSubscriber(SubscriberInterface $subscriber)
+    {
+        $this->subscribers->remove($subscriber);
+        return $this;
+    }
+    
+    public function addSubscriber(SubscriberInterface $subscriber)
+    {
+        $this->subscribers->add($subscriber);
+        return $this;
+    }
 }

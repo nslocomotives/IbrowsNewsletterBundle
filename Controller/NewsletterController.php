@@ -3,11 +3,13 @@
 namespace Ibrows\Bundle\NewsletterBundle\Controller;
 
 use Ibrows\Bundle\NewsletterBundle\Form\NewsletterFormType;
-use Ibrows\Bundle\NewsletterBundle\Annotation\WizardAction\WizardActionAnnotation;
-use Ibrows\Bundle\NewsletterBundle\Annotation\WizardAction\WizardActionAnnotationHandler;
+
+use Ibrows\Bundle\NewsletterBundle\Annotation\Wizard\Annotation as WizardAction;
+use Ibrows\Bundle\NewsletterBundle\Annotation\Wizard\AnnotationHandler as WizardActionHandler;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -27,7 +29,7 @@ class NewsletterController extends AbstractController
 	
 	/**
 	 * @Route("/create", name="ibrows_newsletter_create")
-     * @WizardActionAnnotation(name="create", number=1, validationMethod="createValidation")
+     * @WizardAction(name="create", number=1, validationMethod="createValidation")
 	 */
 	public function createAction()
 	{
@@ -55,14 +57,14 @@ class NewsletterController extends AbstractController
 		));
 	}
 	
-    public function createValidation(WizardActionAnnotationHandler $handler)
+    public function createValidation(WizardActionHandler $handler)
     {
         
     }
     
 	/**
 	 * @Route("/edit", name="ibrows_newsletter_edit")
-     * @WizardActionAnnotation(name="edit", number=2, validationMethod="editValidation")
+     * @WizardAction(name="edit", number=2, validationMethod="editValidation")
 	 */
 	public function editAction()
 	{
@@ -81,16 +83,16 @@ class NewsletterController extends AbstractController
 		));
 	}
     
-    public function editValidation(WizardActionAnnotationHandler $handler)
+    public function editValidation(WizardActionHandler $handler)
     {
         if(is_null($this->getNewsletter())){
-            return $this->redirect($handler->getStepUrl($handler->getLastValidStep()));
+            return $this->redirect($handler->getStepUrl($handler->getLastValidAnnotation()));
         }
     }
     
     /**
 	 * @Route("/recipient", name="ibrows_newsletter_recipient")
-     * @WizardActionAnnotation(name="recipient", number=3, validationMethod="recipientValidation")
+     * @WizardAction(name="recipient", number=3, validationMethod="recipientValidation")
 	 */
 	public function recipientAction()
 	{
@@ -104,16 +106,16 @@ class NewsletterController extends AbstractController
 		));
 	}
     
-    public function recipientValidation(WizardActionAnnotationHandler $handler)
+    public function recipientValidation(WizardActionHandler $handler)
     {
         if(is_null($this->getNewsletter())){
-            return $this->redirect($handler->getStepUrl($handler->getLastValidStep()));
+            return $this->redirect($handler->getStepUrl($handler->getLastValidAnnotation()));
         }
     }
 	
 	/**
 	 * @Route("/summary", name="ibrows_newsletter_summary")
-     * @WizardActionAnnotation(name="summary", number=4, validationMethod="summaryValidation")
+     * @WizardAction(name="summary", number=4, validationMethod="summaryValidation")
 	 */
 	public function summaryAction()
 	{
@@ -127,10 +129,16 @@ class NewsletterController extends AbstractController
 		));
 	}
     
-    public function summaryValidation(WizardActionAnnotationHandler $handler)
+    public function summaryValidation(WizardActionHandler $handler)
     {
-        if(is_null($this->getNewsletter())){
-            return $this->redirect($handler->getStepUrl($handler->getLastValidStep()));
+        $newsletter = $this->getNewsletter();
+        
+        if(is_null($newsletter)){
+            return $this->redirect($handler->getStepUrl($handler->getLastValidAnnotation()));
+        }
+        
+        if(count($newsletter->getSubscribers()) <= 0){
+            return $this->redirect($this->generateUrl('ibrows_newsletter_recipient'));
         }
     }
     

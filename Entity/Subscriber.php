@@ -8,5 +8,17 @@ use Doctrine\ORM\Mapping as ORM;
 
 class Subscriber extends AbstractSubscriber
 {
+    /**
+	 * @var string
+	 * 
+	 * @ORM\Column(type="string")
+	 */
+    protected $locale;
     
+    /**
+	 * @var string
+	 * 
+	 * @ORM\Column(type="string")
+	 */
+    protected $email;
 }
