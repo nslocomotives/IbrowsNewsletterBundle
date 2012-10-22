@@ -135,8 +135,8 @@ abstract class AbstractController extends Controller
      */
 	public function render($view, array $parameters = array(), Response $response = null)
     {
-    		$basetemplate = $this->getTemplateManager()->getBaseTemplate();
-    		$parameters = array_merge($parameters, array('basetemplate' => $basetemplate));
+        $basetemplate = $this->getTemplateManager()->getBaseTemplate();
+        $parameters = array_merge($parameters, array('basetemplate' => $basetemplate));
     		
         return $this->container->get('templating')->renderResponse($view, $parameters, $response);
     }
