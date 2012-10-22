@@ -7,7 +7,6 @@ use Ibrows\Bundle\NewsletterBundle\Service\TemplateManager;
 use Ibrows\Bundle\NewsletterBundle\Service\ClassManager;
 
 use Ibrows\Bundle\NewsletterBundle\Service\BlockProviderManager;
-use Ibrows\Bundle\NewsletterBundle\Service\BlockCompositionManager;
 use Ibrows\Bundle\NewsletterBundle\Service\BlockRendererManager;
 
 use Ibrows\Bundle\NewsletterBundle\Model\Newsletter\NewsletterInterface;
@@ -71,22 +70,6 @@ abstract class AbstractController extends Controller
     }
     
     /**
-     * @return WizardActionAnnotationHandler
-     */
-    protected function getWizardActionAnnotationHandler()
-    {
-        return $this->get('ibrows_newsletter.annotation.wizard.handler');
-    }
-    
-    /**
-     * @return BlockCompositionManager
-     */
-    protected function getBlockCompositionManager()
-    {
-        return $this->get('ibrows_newsletter.block_composition_manager');
-    }
-    
-    /**
      * @return BlockProviderManager
      */
     protected function getBlockProviderManager()
@@ -100,6 +83,14 @@ abstract class AbstractController extends Controller
     protected function getBlockRendererManager()
     {
         return $this->get('ibrows_newsletter.block_renderer_manager');
+    }
+    
+    /**
+     * @return WizardActionAnnotationHandler
+     */
+    protected function getWizardActionAnnotationHandler()
+    {
+        return $this->get('ibrows_newsletter.annotation.wizard.handler');
     }
     
     /**
