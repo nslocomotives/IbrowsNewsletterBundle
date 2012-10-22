@@ -9,7 +9,9 @@ use Doctrine\Common\Persistence\ObjectManager;
 
 class Mandant implements MandantInterface
 {
-	private $name;
+	protected $name;
+	protected $blocks;
+	protected $newsletters;
 	
 	public function setName($name)
 	{
@@ -24,9 +26,11 @@ class Mandant implements MandantInterface
 	
 	public function getNewsletters()
 	{
+		return $this->newsletters;
 	}
 	
     public function getBlocks()
     {
+    		return $this->blocks;
     }
 }
