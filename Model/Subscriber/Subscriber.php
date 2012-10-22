@@ -6,7 +6,7 @@ use Ibrows\Bundle\NewsletterBundle\Model\Newsletter\NewsletterInterface;
 
 use Doctrine\Common\Collections\ArrayCollection;
 
-class Subscriber implements SubscriberInterface
+abstract class Subscriber implements SubscriberInterface
 {
     protected $locale;
     protected $email;

@@ -2,7 +2,7 @@
 
 namespace Ibrows\Bundle\NewsletterBundle\Model\Template;
 
-class Template
+abstract class Template
 {
 	protected $name;
 	protected $content;

@@ -8,7 +8,7 @@ use Ibrows\Bundle\NewsletterBundle\Model\Subscriber\SubscriberInterface;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 
-class Newsletter implements NewsletterInterface
+abstract class Newsletter implements NewsletterInterface
 {
 
     protected $id;
