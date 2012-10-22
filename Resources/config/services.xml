@@ -16,8 +16,16 @@
 			<argument>%ibrows_newsletter.classes.form%</argument>
         </service>
         
-        <service id="ibrows_newsletter.block_manager" class="Ibrows\Bundle\NewsletterBundle\Service\BlockManager">
-			<argument>%ibrows_newsletter.blocks%</argument>
+        <service id="ibrows_newsletter.block_renderer_manager" class="Ibrows\Bundle\NewsletterBundle\Service\BlockRendererManager">
+			<argument>%ibrows_newsletter.blockrenderer%</argument>
+        </service>
+        
+        <service id="ibrows_newsletter.block_composition_manager" class="Ibrows\Bundle\NewsletterBundle\Service\BlockRendererManager">
+			<argument>%ibrows_newsletter.blockcomposition%</argument>
+        </service>
+        
+        <service id="ibrows_newsletter.block_provider_manager" class="Ibrows\Bundle\NewsletterBundle\Service\BlockCompositionManager">
+			<argument>%ibrows_newsletter.blockprovider%</argument>
         </service>
         
         <service id="ibrows_newsletter.annotation.wizard.driver" class="Ibrows\Bundle\NewsletterBundle\Annotation\Wizard\AnnotationDriver">
