@@ -1,8 +1,10 @@
 <?php
 namespace Ibrows\Bundle\NewsletterBundle\Service\orm;
 
-use Ibrows\Bundle\NewsletterBundle\Security\UserProvider\MandantDoctrineUserProvider;
+use Ibrows\Bundle\NewsletterBundle\Model\Newsletter\NewsletterInterface;
 
+use Ibrows\Bundle\NewsletterBundle\Service\orm\NewsletterManager;
+use Ibrows\Bundle\NewsletterBundle\Service\orm\MandantUserProvider;
 use Ibrows\Bundle\NewsletterBundle\Model\Mandant\Mandant;
 use Ibrows\Bundle\NewsletterBundle\Model\Mandant\MandantManager as BaseMandantManager;
 use Ibrows\Bundle\NewsletterBundle\Service\BlockManager;
@@ -17,6 +19,9 @@ class MandantManager extends BaseMandantManager
 	private $newsletterClass;
 	private $subscriberClass;
 	private $userClass;
+	
+	private $newsletterManager;
+	private $userProvider;
 
 	public function __construct(
         Registry $doctrine, 
@@ -37,10 +42,9 @@ class MandantManager extends BaseMandantManager
 	public function get($name)
 	{
         $manager = $this->getManager($name);
-        $mandantClass = $this->mandantClass;
+        $repository = $manager->getRepository($this->mandantClass);
         
-        
-		return new $mandantClass();
+		return $repository->findOneBy(array('name' => $name));
 	}
 	
 	/**
@@ -49,10 +53,33 @@ class MandantManager extends BaseMandantManager
 	 */
 	public function getUserProvider($name)
 	{
-		$manager = $this->getManager($name);
-		$repository = $manager->getRepository($this->mandantClass);
+		if ($this->userProvider === null) {
+			$manager = $this->getManager($name);
+			$repository = $manager->getRepository($this->userClass);
+			$this->userProvider = new MandantUserProvider($repository);
+		}
 		
-		return new MandantDoctrineUserProvider($repository, $this->userClass);
+		return $this->userProvider;
+	}
+	
+	public function getNewsletterManager($name)
+	{
+		if ($this->newsletterManager === null) {
+			$manager = $this->getManager($name);
+			$repository = $manager->getRepository($this->newsletterClass);
+			$this->newsletterManager = new NewsletterManager($repository);
+		}
+		
+		return $this->newsletterManager;
+	}
+	
+	public function persistNewsletter($name, NewsletterInterface $newsletter)
+	{
+		$manager = $this->getManager($name);
+		$manager->persist($newsletter);
+		$manager->flush();
+		
+		return $newsletter;
 	}
 	
 	/**
