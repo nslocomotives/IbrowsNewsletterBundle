@@ -2,10 +2,11 @@
 
 namespace Ibrows\Bundle\NewsletterBundle\Model\Block;
 
-class Block implements BlockInterface
+abstract class Block implements BlockInterface
 {
     protected $name;
     protected $content;
+    protected $providerName;
     
     /**
      * @return string
@@ -34,12 +35,30 @@ class Block implements BlockInterface
     }
     
     /**
-     * @param type $content
+     * @param string $content
      * @return Block
      */
     public function setContent($content)
     {
         $this->content = $content;
+        return $this;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getProviderName()
+    {
+        return $this->providerName;
+    }
+    
+    /**
+     * @param string $providerName
+     * @return Block
+     */
+    public function setProviderName($providerName)
+    {
+        $this->providerName = $providerName;
         return $this;
     }
 }

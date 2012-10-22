@@ -6,4 +6,5 @@ interface BlockInterface
 {
     public function getName();
     public function getContent();
+    public function getProviderName();
 }
