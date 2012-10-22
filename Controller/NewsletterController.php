@@ -87,8 +87,14 @@ class NewsletterController extends AbstractController
 			return $this->redirect($this->getWizardActionAnnotationHandler()->getNextStepUrl());
 		}
         
+        $compositions = array();
+        foreach($this->getBlockCompositionManager()->getCompositions() as $compositionClassName){
+            $compositions[] = new $compositionClassName($this->getBlockProviderManager());
+        }
+        
 		return $this->render($this->getTemplateManager()->getNewsletter('edit'), array(
             'newsletter' => $this->getNewsletter(),
+            'compositions' => $compositions,
             'wizard' => $this->getWizardActionAnnotationHandler(),
 		));
 	}
