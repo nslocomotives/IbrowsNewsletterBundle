@@ -5,7 +5,10 @@ namespace Ibrows\Bundle\NewsletterBundle\Controller;
 use Ibrows\Bundle\NewsletterBundle\Service\orm\MandantManager;
 use Ibrows\Bundle\NewsletterBundle\Service\TemplateManager;
 use Ibrows\Bundle\NewsletterBundle\Service\ClassManager;
-use Ibrows\Bundle\NewsletterBundle\Service\BlockManager;
+
+use Ibrows\Bundle\NewsletterBundle\Service\BlockProviderManager;
+use Ibrows\Bundle\NewsletterBundle\Service\BlockCompositionManager;
+use Ibrows\Bundle\NewsletterBundle\Service\BlockRendererManager;
 
 use Ibrows\Bundle\NewsletterBundle\Model\Newsletter\NewsletterInterface;
 use Ibrows\Bundle\NewsletterBundle\Model\Mandant\MandantInterface;
@@ -35,6 +38,14 @@ abstract class AbstractController extends Controller
     }
     
     /**
+     * @return Collection
+     */
+    protected function getBlocks()
+    {
+        return $this->getMandant()->getBlocks();
+    }
+    
+    /**
      * @return MandantInterface
      */
     protected function getMandant()
@@ -52,14 +63,6 @@ abstract class AbstractController extends Controller
     }
     
     /**
-     * @return BlockManager
-     */
-    protected function getBlockManager()
-    {
-        return $this->get('ibrows_newsletter.block_manager');
-    }
-    
-    /**
      * @return ClassManager
      */
     protected function getClassManager()
@@ -73,6 +76,30 @@ abstract class AbstractController extends Controller
     protected function getWizardActionAnnotationHandler()
     {
         return $this->get('ibrows_newsletter.annotation.wizard.handler');
+    }
+    
+    /**
+     * @return BlockCompositionManager
+     */
+    protected function getBlockCompositionManager()
+    {
+        return $this->get('ibrows_newsletter.block_composition_manager');
+    }
+    
+    /**
+     * @return BlockProviderManager
+     */
+    protected function getBlockProviderManager()
+    {
+        return $this->get('ibrows_newsletter.block_provider_manager');
+    }
+    
+    /**
+     * @return BlockRendererManager
+     */
+    protected function getBlockRendererManager()
+    {
+        return $this->get('ibrows_newsletter.block_renderer_manager');
     }
     
     /**
