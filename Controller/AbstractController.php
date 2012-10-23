@@ -38,9 +38,13 @@ abstract class AbstractController extends Controller
         return $this->get('session');
     }
     
+    /**
+     * @return string
+     * @todo return MandantName from Auth Token
+     */
     protected function getMandantName()
     {
-        $mandant = MandantManager::DEFAULT_NAME; // get from auth token
+        $mandant = MandantManager::DEFAULT_NAME;
 		return $mandant;    		
     }
     /**
@@ -150,6 +154,7 @@ abstract class AbstractController extends Controller
     protected function getNewsletterById($id)
     {
         $newsletter = $this->getNewsletterManager()->get($id);
+        
         if(!$newsletter){
             throw $this->createNotFoundException("Newsletter with id $id not found");
         }
@@ -164,6 +169,7 @@ abstract class AbstractController extends Controller
     protected function getNewsletter()
     {
         $newsletterId = $this->getSession()->get('ibrows_newsletter.wizard.newsletterid', null);
+        
         if(is_null($newsletterId)){
             return null;
         }
@@ -172,7 +178,6 @@ abstract class AbstractController extends Controller
     }
     
     /**
-     * (non-PHPdoc)
      * @see Symfony\Bundle\FrameworkBundle\Controller.Controller::render()
      */
 	public function render($view, array $parameters = array(), Response $response = null)
