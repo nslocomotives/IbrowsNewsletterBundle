@@ -1,6 +1,8 @@
 <?php
 namespace Ibrows\Bundle\NewsletterBundle\Model\Newsletter;
 
+use Symfony\Component\Validator\Constraints\Collection;
+
 use Ibrows\Bundle\NewsletterBundle\Model\Design\DesignInterface;
 use Ibrows\Bundle\NewsletterBundle\Model\Subscriber\SubscriberInterface;
 use Ibrows\Bundle\NewsletterBundle\Model\Mandant\MandantInterface;
@@ -12,10 +14,20 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Newsletter implements NewsletterInterface
 {
 	protected $id;
-	protected $mandant;
-	protected $subscribers;
 	protected $blocks;
+
+	/**
+	 * @var Mandant
+     * @Assert\NotNull(groups={"newsletter"})
+	 */
+	protected $mandant;
 	
+	/**
+	 * @var Collection
+     * @Assert\NotNull(groups={"newsletter"})
+	 */
+	protected $subscribers;
+
 	/**
      * @var string $subject
 	 * @Assert\NotBlank(groups={"newsletter"})
