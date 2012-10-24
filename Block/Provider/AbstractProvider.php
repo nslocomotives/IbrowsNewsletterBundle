@@ -9,6 +9,11 @@ abstract class AbstractProvider implements ProviderInterface
 {
     protected $blockProviderManager;
     
+    public function initParentBlock(BlockInterface $parentBlock)
+    {
+        return $this;
+    }
+    
     public function setBlockProviderManager(BlockProviderManager $blockProviderManager)
     {
         $this->blockProviderManager = $blockProviderManager;
