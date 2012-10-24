@@ -22,7 +22,6 @@ class IbrowsNewsletterExtension extends Extension
 		$loader->load('services.xml');
 		$loader->load('services_provider.xml');
 		$loader->load('services_renderer.xml');
-		$loader->load('security.xml');
 		
 		if('custom' !== $config['db_driver']){
 			$loader->load(sprintf('services.%s.xml', $config['db_driver']));
