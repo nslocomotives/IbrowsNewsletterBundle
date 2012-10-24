@@ -11,7 +11,7 @@
 			<argument>%ibrows_newsletter.classes.model.newsletter%</argument>
 			<argument>%ibrows_newsletter.classes.model.subscriber%</argument>
 			<argument>%ibrows_newsletter.classes.model.design%</argument>
-			<argument>%fos_user.model.user.class%</argument>
+			<argument>%ibrows_newsletter.classes.model.user%</argument>
         </service>
     </services>
 
