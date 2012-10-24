@@ -139,10 +139,39 @@ class NewsletterController extends AbstractController
             return $this->redirect($handler->getStepUrl($handler->getLastValidAnnotation()));
         }
     }
+    
+    /**
+	 * @Route("/settings", name="ibrows_newsletter_settings")
+     * @WizardAction(name="settings", number=4, validationMethod="settingsValidation")
+	 */
+	public function settingsAction()
+	{
+        if(($response = $this->getWizardActionValidation()) instanceof Response){
+            return $response;
+        }
+        
+		return $this->render($this->getTemplateManager()->getNewsletter('settings'), array(
+            'newsletter' => $this->getNewsletter(),
+            'wizard' => $this->getWizardActionAnnotationHandler(),
+		));
+	}
+    
+    public function settingsValidation(WizardActionHandler $handler)
+    {
+        $newsletter = $this->getNewsletter();
+        
+        if(is_null($newsletter)){
+            return $this->redirect($handler->getStepUrl($handler->getLastValidAnnotation()));
+        }
+        
+        if(count($newsletter->getSubscribers()) <= 0){
+            return $this->redirect($this->generateUrl('ibrows_newsletter_subscriber'));
+        }
+    }
 	
 	/**
 	 * @Route("/summary", name="ibrows_newsletter_summary")
-     * @WizardAction(name="summary", number=4, validationMethod="summaryValidation")
+     * @WizardAction(name="summary", number=5, validationMethod="summaryValidation")
 	 */
 	public function summaryAction()
 	{

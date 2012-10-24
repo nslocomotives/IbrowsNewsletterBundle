@@ -144,6 +144,16 @@ abstract class Block implements BlockInterface
     }
     
     /**
+     * @return Block
+     */
+    public function addBlocks(array $blocks)
+    {
+        foreach($blocks as $block){
+            $this->addBlock($block);
+        }
+    }
+    
+    /**
      * @param BlockInterface $block
      * @return Block
      */

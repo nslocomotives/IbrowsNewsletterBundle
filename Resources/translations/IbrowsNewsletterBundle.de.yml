@@ -3,6 +3,7 @@ newsletter:
     create:     Erstellen
     edit:       Editieren
     subscriber: Empfänger
+    settings:   Einstellungen
     summary:    Zusammenfassung
   create: Neuer Newsletter
   list: Newsletter Liste
