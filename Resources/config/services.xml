@@ -20,31 +20,6 @@
         <service id="ibrows_newsletter.block_provider_manager" class="Ibrows\Bundle\NewsletterBundle\Service\BlockProviderManager">
         </service>
         
-        <service id="ibrows_newsletter.block.provider.textarea" class="Ibrows\Bundle\NewsletterBundle\Block\Provider\TextAreaProvider">
-            <call method="setBlockProviderManager">
-                <argument type="service" id="ibrows_newsletter.block_provider_manager" />
-           </call>
-            <tag name="ibrows_newsletter.block.provider" />
-        </service>
-        
-        <service id="ibrows_newsletter.block.provider.textareaandimage" class="Ibrows\Bundle\NewsletterBundle\Block\Provider\TextAreaAndImageProvider">
-            <call method="setBlockProviderManager">
-                <argument type="service" id="ibrows_newsletter.block_provider_manager" />
-           </call>
-            <tag name="ibrows_newsletter.block.provider" />
-        </service>
-        
-        <service id="ibrows_newsletter.block.provider.image" class="Ibrows\Bundle\NewsletterBundle\Block\Provider\ImageProvider">
-            <call method="setBlockProviderManager">
-                <argument type="service" id="ibrows_newsletter.block_provider_manager" />
-           </call>
-            <tag name="ibrows_newsletter.block.provider" />
-        </service>
-        
-        <service id="ibrows_newsletter.renderer.null" class="Ibrows\Bundle\NewsletterBundle\Renderer\NullRenderer">
-            <tag name="ibrows_newsletter.renderer" />
-        </service>
-        
         <service id="ibrows_newsletter.annotation.wizard.driver" class="Ibrows\Bundle\NewsletterBundle\Annotation\Wizard\AnnotationDriver">
 			<argument type="service" id ="service_container" />
             <argument type="service" id ="ibrows_newsletter.annotation.wizard.handler" />
