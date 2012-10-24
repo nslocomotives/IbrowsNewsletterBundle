@@ -5,6 +5,7 @@ newsletter:
     subscriber: Empfänger
     summary:    Zusammenfassung
   create: Neuer Newsletter
+  list: Newsletter Liste
   
 design:
   create: Neues Design
