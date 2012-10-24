@@ -1,9 +1,8 @@
 <?php
 namespace Ibrows\Bundle\NewsletterBundle\Form;
 
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\FormBuilderInterface;
-
-use Symfony\Component\Form\AbstractType;
 
 class SubscriberType extends AbstractType
 {
@@ -14,6 +13,7 @@ class SubscriberType extends AbstractType
 	 */
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$builder
+            
 		;
 	}
 
