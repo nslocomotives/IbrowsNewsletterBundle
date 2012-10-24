@@ -33,7 +33,7 @@ class DesignController extends AbstractController
 			if($form->isValid()){
 				$this->getMandantManager()->persistDesign($this->getMandantName(), $design);
 				
-				return $this->redirect($this->generateUrl('ibrows_newsletter_design_index'));
+				return $this->redirect($this->generateUrl('ibrows_newsletter_design_edit', array('id' => $design->getId())));
 			}
 		}
 		
@@ -60,8 +60,6 @@ class DesignController extends AbstractController
 				
 			if($form->isValid()){
 				$this->getMandantManager()->persistDesign($this->getMandantName(), $design);
-				
-				return $this->redirect($this->generateUrl('ibrows_newsletter_design_index'));
 			}
 		}
 		
