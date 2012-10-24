@@ -6,6 +6,8 @@ newsletter:
     summary:    Zusammenfassung
   create: Neuer Newsletter
   list: Newsletter Liste
+  edit: Newsletter "%name%" editieren
+  blocks: Abschnitte
   
 design:
   create: Neues Design
