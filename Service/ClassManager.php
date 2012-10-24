@@ -16,7 +16,7 @@ class ClassManager
 	public function getModel($name)
 	{
 		if(!key_exists($name, $this->models)){
-			throw new \InvalidArgumentException("The model class $name can not be found.");
+			throw new \InvalidArgumentException("The model class '$name' can not be found.");
 		}
 		
 		return $this->models[$name];
@@ -25,7 +25,7 @@ class ClassManager
 	public function getForm($name)
 	{
 		if(!key_exists($name, $this->forms)){
-			throw new \InvalidArgumentException("The form class $name can not be found.");
+			throw new \InvalidArgumentException("The form class '$name' can not be found.");
 		}
         
         return $this->forms[$name];
