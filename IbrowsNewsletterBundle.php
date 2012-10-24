@@ -2,6 +2,8 @@
 
 namespace Ibrows\Bundle\NewsletterBundle;
 
+use Ibrows\Bundle\NewsletterBundle\Security\MandantAuthenticationFactory;
+
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
@@ -12,5 +14,8 @@ class IbrowsNewsletterBundle extends Bundle
         parent::build($container);
         $container->addCompilerPass(new BlockProviderCompilerPass());
         $container->addCompilerPass(new RendererCompilerPass());
+        
+        $extension = $container->getExtension('security');
+        $extension->addSecurityListenerFactory(new MandantAuthenticationFactory());
     }
 }
