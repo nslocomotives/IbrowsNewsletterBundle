@@ -13,7 +13,7 @@ class SubscriberType extends AbstractType
 	 */
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$builder
-            
+            ->add('subscribers')
 		;
 	}
 
