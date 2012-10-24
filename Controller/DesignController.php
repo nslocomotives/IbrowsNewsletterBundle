@@ -17,6 +17,16 @@ class DesignController extends AbstractController
 	}
 	
 	/**
+	 * @Route("/list", name="ibrows_newsletter_design_list")
+	 */
+	public function listAction()
+	{
+		return $this->render($this->getTemplateManager()->getDesign('list'), array(
+				'designs' => $this->getMandant()->getDesigns(),
+		));
+	}
+	
+	/**
 	 * @Route("/create", name="ibrows_newsletter_design_create")
 	 */
 	public function createAction()

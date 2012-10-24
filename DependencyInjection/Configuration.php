@@ -58,6 +58,7 @@ class Configuration implements ConfigurationInterface
 							->addDefaultsIfNotSet()
 							->children()
 								->scalarNode('index')->defaultValue('IbrowsNewsletterBundle:Design:index.html.twig')->end()
+                                ->scalarNode('list')->defaultValue('IbrowsNewsletterBundle:Design:list.html.twig')->end()
 								->scalarNode('create')->defaultValue('IbrowsNewsletterBundle:Design:create.html.twig')->end()
 								->scalarNode('edit')->defaultValue('IbrowsNewsletterBundle:Design:edit.html.twig')->end()
 								->scalarNode('show')->defaultValue('IbrowsNewsletterBundle:Design:show.html.twig')->end()

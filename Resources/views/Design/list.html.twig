@@ -1,0 +1,15 @@
+{% extends basetemplate %}
+{% trans_default_domain "IbrowsNewsletterBundle" %}
+
+{% block newsletter_content %}
+    <h1>{{ 'design.list'|trans }}</h1>
+    <ul>
+        {% for design in designs %}
+            <li>
+                <a href="{{ url('ibrows_newsletter_design_edit', {id: design.id}) }}">
+                    #{{ design.id }} - {{ design.name }} - {{ design.createdAt|date }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock newsletter_content %}
