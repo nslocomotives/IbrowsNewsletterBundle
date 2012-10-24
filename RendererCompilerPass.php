@@ -6,25 +6,25 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\Reference;
 
-class BlockRendererCompilerPass implements CompilerPassInterface
+class RendererCompilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
-        if(!$container->hasDefinition('ibrows_newsletter.block_renderer_manager')) {
+        if(!$container->hasDefinition('ibrows_newsletter.renderer_manager')) {
             return;
         }
 
         $definition = $container->getDefinition(
-            'ibrows_newsletter.block_renderer_manager'
+            'ibrows_newsletter.renderer_manager'
         );
 
         $taggedServices = $container->findTaggedServiceIds(
-            'ibrows_newsletter.block.renderer'
+            'ibrows_newsletter.renderer'
         );
         
         foreach($taggedServices as $id => $attributes){
             $definition->addMethodCall(
-                'addBlockRenderer',
+                'addRenderer',
                 array($id, new Reference($id))
             );
         }

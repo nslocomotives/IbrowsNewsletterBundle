@@ -11,6 +11,6 @@ class IbrowsNewsletterBundle extends Bundle
     {
         parent::build($container);
         $container->addCompilerPass(new BlockProviderCompilerPass());
-        $container->addCompilerPass(new BlockRendererCompilerPass());
+        $container->addCompilerPass(new RendererCompilerPass());
     }
 }

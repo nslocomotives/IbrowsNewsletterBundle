@@ -2,11 +2,11 @@
 
 namespace Ibrows\Bundle\NewsletterBundle\Model\Block;
 
-interface BlockInterface
+use Ibrows\Bundle\NewsletterBundle\Renderer\RenderableInterface;
+
+interface BlockInterface extends RenderableInterface
 {
     public function getId();
-    public function getName();
-    public function getContent();
     public function getPosition();
     
     public function getProviderName();

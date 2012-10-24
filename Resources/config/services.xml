@@ -41,8 +41,8 @@
             <tag name="ibrows_newsletter.block.provider" />
         </service>
         
-        <service id="ibrows_newsletter.block.renderer.null" class="Ibrows\Bundle\NewsletterBundle\Block\Renderer\NullRenderer">
-            <tag name="ibrows_newsletter.block.renderer" />
+        <service id="ibrows_newsletter.renderer.null" class="Ibrows\Bundle\NewsletterBundle\Renderer\NullRenderer">
+            <tag name="ibrows_newsletter.renderer" />
         </service>
         
         <service id="ibrows_newsletter.annotation.wizard.driver" class="Ibrows\Bundle\NewsletterBundle\Annotation\Wizard\AnnotationDriver">
