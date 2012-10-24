@@ -89,6 +89,7 @@ class MandantManager extends BaseMandantManager
 	public function persistNewsletter($name, NewsletterInterface $newsletter)
 	{
 		$manager = $this->getManager($name);
+		$newsletter->setMandant($this->get($name));
 		$manager->persist($newsletter);
 		$manager->flush();
 		
@@ -98,6 +99,7 @@ class MandantManager extends BaseMandantManager
 	public function persistDesign($name, DesignInterface $design)
 	{
 		$manager = $this->getManager($name);
+		$design->setMandant($this->get($name));
 		$manager->persist($design);
 		$manager->flush();
 		

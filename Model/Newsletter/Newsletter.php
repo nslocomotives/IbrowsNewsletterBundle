@@ -1,8 +1,6 @@
 <?php
 namespace Ibrows\Bundle\NewsletterBundle\Model\Newsletter;
 
-use Symfony\Component\Validator\Constraints\Collection;
-
 use Ibrows\Bundle\NewsletterBundle\Model\Design\DesignInterface;
 use Ibrows\Bundle\NewsletterBundle\Model\Subscriber\SubscriberInterface;
 use Ibrows\Bundle\NewsletterBundle\Model\Mandant\MandantInterface;
@@ -15,16 +13,11 @@ class Newsletter implements NewsletterInterface
 {
 	protected $id;
 	protected $blocks;
-
-	/**
-	 * @var Mandant
-     * @Assert\NotNull(groups={"newsletter"})
-	 */
 	protected $mandant;
 	
 	/**
 	 * @var Collection
-     * @Assert\NotNull(groups={"newsletter"})
+     * @Assert\NotNull(groups={"subscriber"})
 	 */
 	protected $subscribers;
 
@@ -213,6 +206,16 @@ class Newsletter implements NewsletterInterface
 	public function getMandant()
 	{
 		return $this->mandant;
+	}
+	
+	/**
+	 * @param MandantInterface $mandant
+	 * @return Newsletter
+	 */
+	public function setMandant(MandantInterface $mandant)
+	{
+		$this->mandant = $mandant;
+		return $this;
 	}
 
     /**

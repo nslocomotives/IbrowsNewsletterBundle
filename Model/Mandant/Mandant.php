@@ -6,7 +6,7 @@ use Ibrows\Bundle\NewsletterBundle\Model\Newsletter\NewsletterInterface;
 
 use Doctrine\Common\Persistence\ObjectManager;
 
-class Mandant implements MandantInterface
+abstract class Mandant implements MandantInterface
 {
 	protected $name;
 	protected $renderer;
