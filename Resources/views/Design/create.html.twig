@@ -1,2 +1,10 @@
 {% extends basetemplate %}
 {% trans_default_domain "IbrowsNewsletterBundle" %}
+
+{% block newsletter_content %}
+<form action="{{ path('ibrows_newsletter_design_create') }}" method="post" {{ form_enctype(form) }}>
+{{ form_errors(form) }}
+{{ form_rest(form) }}
+<input type="submit" />
+</form>
+{% endblock %}

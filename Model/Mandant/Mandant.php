@@ -6,10 +6,12 @@ use Ibrows\Bundle\NewsletterBundle\Model\Newsletter\NewsletterInterface;
 
 use Doctrine\Common\Persistence\ObjectManager;
 
-class Mandant implements MandantInterface
+abstract class Mandant implements MandantInterface
 {
 	protected $name;
+	protected $renderer;
 	protected $blocks;
+	protected $designs;
 	protected $newsletters;
 	
 	public function setName($name)
@@ -22,6 +24,11 @@ class Mandant implements MandantInterface
 	{
 		return $this->name;
 	}
+    
+    public function getRenderer()
+    {
+    		return $this->renderer;
+    }
 	
 	public function getNewsletters()
 	{
@@ -31,5 +38,10 @@ class Mandant implements MandantInterface
     public function getBlocks()
     {
 		return $this->blocks;
+    }
+    
+    public function getDesigns()
+    {
+    		return $this->designs;
     }
 }

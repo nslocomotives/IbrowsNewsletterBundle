@@ -18,6 +18,11 @@ abstract class Subscriber implements SubscriberInterface
         $this->newsletters = new ArrayCollection();
     }
     
+    public function __toString()
+    {
+    		return $this->email;
+    }
+    
     public function getLocale()
     {
         return $this->locale;

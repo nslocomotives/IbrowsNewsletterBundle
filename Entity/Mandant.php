@@ -14,4 +14,10 @@ class Mandant extends AbstractMandant
 	 * @ORM\Column(type="string")
 	 */
 	protected $name;
+	/**
+	 * @var string
+	 * 
+	 * @ORM\Column(type="string")
+	 */
+	protected $renderer;
 }

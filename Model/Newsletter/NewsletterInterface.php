@@ -20,4 +20,6 @@ interface NewsletterInterface
     public function getBlocks();
     public function addBlock(BlockInterface $block);
     public function removeBlock(BlockInterface $block);
+    
+    public function getDesign();
 }

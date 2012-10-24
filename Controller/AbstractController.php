@@ -2,6 +2,10 @@
 
 namespace Ibrows\Bundle\NewsletterBundle\Controller;
 
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
+
+use Ibrows\Bundle\NewsletterBundle\Security\Token\MandantUsernamePasswordToken;
+
 use Ibrows\Bundle\NewsletterBundle\Service\orm\DesignManager;
 use Ibrows\Bundle\NewsletterBundle\Model\NewsletterManager;
 use Ibrows\Bundle\NewsletterBundle\Service\orm\MandantManager;
@@ -44,9 +48,13 @@ abstract class AbstractController extends Controller
      */
     protected function getMandantName()
     {
-        $mandant = MandantManager::DEFAULT_NAME;
-		return $mandant;    		
+    		$token = $this->get('security.context')->getToken();
+    		if (!$token instanceof MandantUsernamePasswordToken)
+    			throw new AuthenticationException('This user does not belong to any mandant');
+    		
+        return $token->getMandant();
     }
+    
     /**
      * @return Collection
      */
@@ -90,9 +98,9 @@ abstract class AbstractController extends Controller
     /**
      * @return BlockRendererManager
      */
-    protected function getBlockRendererManager()
+    protected function getRendererManager()
     {
-        return $this->get('ibrows_newsletter.block_renderer_manager');
+        return $this->get('ibrows_newsletter.renderer_manager');
     }
     
     /**

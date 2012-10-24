@@ -17,11 +17,40 @@ class DesignController extends AbstractController
 	}
 	
 	/**
+	 * @Route("/list", name="ibrows_newsletter_design_list")
+	 */
+	public function listAction()
+	{
+		return $this->render($this->getTemplateManager()->getDesign('list'), array(
+				'designs' => $this->getMandant()->getDesigns(),
+		));
+	}
+	
+	/**
 	 * @Route("/create", name="ibrows_newsletter_design_create")
 	 */
 	public function createAction()
 	{
-		return $this->render($this->getTemplateManager()->getDesign('create'));
+		$design = $this->getDesignManager()->create();
+		
+		$formtype = $this->getClassManager()->getForm('design');
+		$form = $this->createForm(new $formtype(), $design);
+		
+		$request = $this->getRequest();
+		if($request->getMethod() == 'POST'){
+			$form->bindRequest($request);
+				
+			if($form->isValid()){
+				$this->getMandantManager()->persistDesign($this->getMandantName(), $design);
+				
+				return $this->redirect($this->generateUrl('ibrows_newsletter_design_edit', array('id' => $design->getId())));
+			}
+		}
+		
+		return $this->render($this->getTemplateManager()->getDesign('create'), array(
+				'design' => $design,
+				'form' => $form->createView(),
+		));
 	}
 	
 	/**
@@ -29,7 +58,26 @@ class DesignController extends AbstractController
 	 */
 	public function editAction($id)
 	{
-		return $this->render($this->getTemplateManager()->getDesign('edit'));
+		$design = $this->getDesignManager()->get($id);
+		
+		$formtype = $this->getClassManager()->getForm('design');
+		$form = $this->createForm(new $formtype(), $design);
+		$renderer = $this->getRendererManager()->get($this->getMandant()->getRenderer());
+		
+		$request = $this->getRequest();
+		if($request->getMethod() == 'POST'){
+			$form->bindRequest($request);
+				
+			if($form->isValid()){
+				$this->getMandantManager()->persistDesign($this->getMandantName(), $design);
+			}
+		}
+		
+		return $this->render($this->getTemplateManager()->getDesign('edit'), array(
+				'design' => $design,
+				'form' => $form->createView(),
+				'preview' => $renderer->render($design, array('test' => 'blahblahblah')),
+		));
 	}
 	
 	/**

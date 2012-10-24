@@ -1,7 +1,7 @@
 <?php
 namespace Ibrows\Bundle\NewsletterBundle\Model\Design;
 
-class DesignManager
+abstract class DesignManager
 {
 	protected $class;
 	

@@ -21,4 +21,9 @@ class Design extends AbstractDesign
 	 * @ORM\Column(type="text")
 	 */
 	protected $content;
+	
+	/**
+	 * @ORM\Column(type="datetime", name="created_at")
+	 */
+	protected $createdAt;
 }

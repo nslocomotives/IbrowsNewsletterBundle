@@ -1,6 +1,7 @@
 <?php
 namespace Ibrows\Bundle\NewsletterBundle\Service\orm;
 
+use Ibrows\Bundle\NewsletterBundle\Model\Design\DesignInterface;
 use Ibrows\Bundle\NewsletterBundle\Model\Newsletter\NewsletterInterface;
 
 use Ibrows\Bundle\NewsletterBundle\Service\orm\NewsletterManager;
@@ -88,10 +89,21 @@ class MandantManager extends BaseMandantManager
 	public function persistNewsletter($name, NewsletterInterface $newsletter)
 	{
 		$manager = $this->getManager($name);
+		$newsletter->setMandant($this->get($name));
 		$manager->persist($newsletter);
 		$manager->flush();
 		
 		return $newsletter;
+	}
+	
+	public function persistDesign($name, DesignInterface $design)
+	{
+		$manager = $this->getManager($name);
+		$design->setMandant($this->get($name));
+		$manager->persist($design);
+		$manager->flush();
+		
+		return $design;
 	}
 	
 	/**

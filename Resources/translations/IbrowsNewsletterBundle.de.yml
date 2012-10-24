@@ -21,10 +21,16 @@ newsletter:
   
 design:
   create: Neues Design
+  list: Design Liste
+  preview: Vorschau
 
 form:
   save: Speichern
   cancel: Abbrechen
+  
+security:
+  login:
+    mandant:  Mandant:
   
 layout:
   header:

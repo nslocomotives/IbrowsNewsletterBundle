@@ -5,7 +5,7 @@ namespace Ibrows\Bundle\NewsletterBundle\Form;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 
-class NewsletterMetaType extends AbstractType
+class NewsletterType extends AbstractType
 {
 	
 	/**
@@ -19,6 +19,7 @@ class NewsletterMetaType extends AbstractType
 			->add('senderMail', 'email')
 			->add('senderName')
 			->add('returnMail', 'email')
+			->add('design')
 		;
 	}
 	

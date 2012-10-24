@@ -1,7 +1,8 @@
 <?php
 namespace Ibrows\Bundle\NewsletterBundle\Service\orm;
 
-use Ibrows\Bundle\NewsletterBundle\Model\DesignManager as BaseDesignManager;
+use Doctrine\Common\Persistence\ObjectRepository;
+use Ibrows\Bundle\NewsletterBundle\Model\Design\DesignManager as BaseDesignManager;
 
 class DesignManager extends BaseDesignManager
 {

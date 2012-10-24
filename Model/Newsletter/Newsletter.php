@@ -2,6 +2,7 @@
 namespace Ibrows\Bundle\NewsletterBundle\Model\Newsletter;
 
 use Ibrows\Bundle\NewsletterBundle\Model\Block\BlockInterface;
+use Ibrows\Bundle\NewsletterBundle\Model\Design\DesignInterface;
 use Ibrows\Bundle\NewsletterBundle\Model\Subscriber\SubscriberInterface;
 use Ibrows\Bundle\NewsletterBundle\Model\Mandant\MandantInterface;
 
@@ -12,10 +13,15 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Newsletter implements NewsletterInterface
 {
 	protected $id;
-	protected $mandant;
-	protected $subscribers;
 	protected $blocks;
+	protected $mandant;
 	
+	/**
+	 * @var Collection
+     * @Assert\NotNull(groups={"subscriber"})
+	 */
+	protected $subscribers;
+
 	/**
      * @var string $subject
 	 * @Assert\NotBlank(groups={"newsletter"})
@@ -27,7 +33,13 @@ class Newsletter implements NewsletterInterface
 	 * @Assert\NotBlank(groups={"newsletter"})
 	 */
 	protected $name;
-    
+	
+	/**
+	 * @var DesignInterface $design
+	 * @Assert\NotBlank(groups={"newsletter"})
+	 */
+	protected $design;
+
 	/**
      * @var string $senderMail
 	 * @Assert\Email(groups={"newsletter"})
@@ -64,7 +76,6 @@ class Newsletter implements NewsletterInterface
 	/**
 	 * @return integer
 	 */
-
 	public function getId()
 	{
 		return $this->id;
@@ -197,6 +208,16 @@ class Newsletter implements NewsletterInterface
 	{
 		return $this->mandant;
 	}
+	
+	/**
+	 * @param MandantInterface $mandant
+	 * @return Newsletter
+	 */
+	public function setMandant(MandantInterface $mandant)
+	{
+		$this->mandant = $mandant;
+		return $this;
+	}
 
     /**
      * @param \DateTime $dateTime
@@ -244,5 +265,23 @@ class Newsletter implements NewsletterInterface
         $block->setNewsletter(null);
         $this->blocks->remove($block);
         return $this;
+    }
+    
+    /**
+     * @return DesignInterface
+     */
+    public function getDesign()
+    {
+        return $this->design;
+    }
+    
+    /**
+     * @param DesignInterface $design
+     * @return Newsletter
+     */
+    public function setDesign(DesignInterface $design)
+    {
+    		$this->design = $design;
+    		return $this;
     }
 }
