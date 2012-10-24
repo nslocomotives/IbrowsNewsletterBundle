@@ -13,6 +13,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * @Route("/newsletter")
+ */
 class NewsletterController extends AbstractController
 {
 	/**
@@ -22,10 +25,23 @@ class NewsletterController extends AbstractController
 	{
         $this->setNewsletter(null);
         
-		return $this->render($this->getTemplateManager()->getNewsletter('index'), array(
+        return $this->render($this->getTemplateManager()->getNewsletter('index'), array(
+            
+		));
+	}
+    
+    /**
+	 * @Route("/list", name="ibrows_newsletter_list")
+	 */
+	public function listAction()
+	{
+        $this->setNewsletter(null);
+        
+		return $this->render($this->getTemplateManager()->getNewsletter('list'), array(
             'newsletters' => $this->getMandant()->getNewsletters()
 		));
 	}
+    
     /**
 	 * @Route("/edit/redirection/{id}", name="ibrows_newsletter_edit_redirection")
 	 */
