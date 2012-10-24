@@ -20,6 +20,14 @@ class BlockProviderManager
     }
     
     /**
+     * @return array
+     */
+    public function getBlockProviders()
+    {
+        return $this->blockProviders;
+    }
+    
+    /**
      * @param string $name
      * @return ProviderInterface
      * @throws \InvalidArgumentException
