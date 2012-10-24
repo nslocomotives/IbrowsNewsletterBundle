@@ -4,8 +4,14 @@ namespace Ibrows\Bundle\NewsletterBundle\Model\Design;
 
 abstract class Design implements DesignInterface
 {
+	protected $id;
 	protected $name;
 	protected $content;
+
+	public function getId()
+	{
+		return $this->id;
+	}
 
 	public function getName()
 	{
