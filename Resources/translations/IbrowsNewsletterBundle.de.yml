@@ -1,4 +1,11 @@
 newsletter:
+  block:
+    add: Hinzufügen
+    new: Neuer Block
+    providername:
+      'ibrows_newsletter.block.provider.textarea': Text
+      'ibrows_newsletter.block.provider.image': Bild
+      'ibrows_newsletter.block.provider.textareaandimage': Text mit Bild
   wizard:
     create:     Erstellen
     edit:       Editieren
@@ -9,6 +16,8 @@ newsletter:
   list: Newsletter Liste
   edit: Newsletter "%name%" editieren
   blocks: Abschnitte
+  dialog:
+    abort: abbrechen
   
 design:
   create: Neues Design
