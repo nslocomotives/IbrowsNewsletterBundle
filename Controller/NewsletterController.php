@@ -63,7 +63,7 @@ class NewsletterController extends AbstractController
         
 		$newsletter = $this->getNewsletterManager()->create();
 		
-		$formtype = $this->getClassManager()->getForm('newsletter_meta');
+		$formtype = $this->getClassManager()->getForm('newsletter');
 		$form = $this->createForm(new $formtype(), $newsletter);
 		
 		$request = $this->getRequest();
@@ -127,8 +127,23 @@ class NewsletterController extends AbstractController
             return $response;
         }
         
+        $newsletter = $this->getNewsletter();
+        $formtype = $this->getClassManager()->getForm('subscriber');
+        $form = $this->createForm(new $formtype(), $newsletter);
+        
+        $request = $this->getRequest();
+        if($request->getMethod() == 'POST'){
+	        	$form->bindRequest($request);
+	        		
+	        	if($form->isValid()){
+	        		$this->setNewsletter($newsletter);
+	        		return $this->redirect($this->getWizardActionAnnotationHandler()->getNextStepUrl());
+	        	}
+        }
+        
 		return $this->render($this->getTemplateManager()->getNewsletter('subscriber'), array(
             'newsletter' => $this->getNewsletter(),
+			'form' => $form->createView(),
             'wizard' => $this->getWizardActionAnnotationHandler(),
 		));
 	}
