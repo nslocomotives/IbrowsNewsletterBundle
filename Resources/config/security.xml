@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+	<services>
+		<service id="ibrows_newsletter.security.authentication.provider"
+			class="Ibrows\Bundle\NewsletterBundle\Security\Authentication\MandantAuthenticationProvider" public="false">
+			<argument type="service" id="ibrows_newsletter.mandant_manager" />
+		</service>
+		
+		<!-- 
+		<service id="ibrows_newsletter.security.authentication.listener"
+			class="Ibrows\Bundle\NewsletterBundle\Security\Firewall\MandantFormAuthenticationListener" public="false">
+			<argument type="service" id="security.context"/>
+			<argument type="service" id="security.authentication.manager" />
+			<argument />
+			<argument type="service" id="logger" on-invalid="null" />
+			<argument type="service" id="form.csrf_provider" on-invalid="null" />
+		</service>
+		 -->
+		 <service id="ibrows_newsletter.security.authentication.listener"
+					class="Ibrows\Bundle\NewsletterBundle\Security\Firewall\MandantFormAuthenticationListener"
+				 	public="false"
+					abstract="true">
+            <argument type="service" id="security.context" />
+            <argument type="service" id="security.authentication.manager" />
+            <argument type="service" id="security.authentication.session_strategy" />
+            <argument type="service" id="security.http_utils" />
+            <argument />
+            <argument type="service" id="security.authentication.success_handler" />
+            <argument type="service" id="security.authentication.failure_handler" />
+            <argument type="collection"></argument>
+            <argument type="service" id="logger" on-invalid="null" />
+            <argument type="service" id="event_dispatcher" on-invalid="null" />
+       </service>
+	</services>
+
+</container>
