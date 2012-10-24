@@ -86,6 +86,7 @@ class Configuration implements ConfigurationInterface
 								->scalarNode('newsletter_meta')->defaultValue('Ibrows\\Bundle\\NewsletterBundle\\Form\\NewsletterMetaType')->end()
 								->scalarNode('newsletter_content')->defaultValue('Ibrows\\Bundle\\NewsletterBundle\\Form\\NewsletterContentType')->end()
 								->scalarNode('subscriber')->defaultValue('Ibrows\\Bundle\\NewsletterBundle\\Form\\SubscriberType')->end()
+								->scalarNode('design')->defaultValue('Ibrows\\Bundle\\NewsletterBundle\\Form\\DesignType')->end()
 							->end()
 						->end()
 				->end()
