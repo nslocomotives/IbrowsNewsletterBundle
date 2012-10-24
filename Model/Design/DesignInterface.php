@@ -6,4 +6,6 @@ use Ibrows\Bundle\NewsletterBundle\Renderer\RenderableInterface;
 interface DesignInterface extends RenderableInterface
 {
 	public function getId();
+	public function getCreatedAt();
+	public function getMandant();
 }

@@ -7,10 +7,22 @@ abstract class Design implements DesignInterface
 	protected $id;
 	protected $name;
 	protected $content;
-
+	protected $createdAt;
+	protected $mandant;
+	
+	public function __construct()
+	{
+		$this->createdAt = new \DateTime();
+	}
+	
 	public function getId()
 	{
 		return $this->id;
+	}
+	
+	public function getCreatedAt()
+	{
+		return $this->createdAt;
 	}
 
 	public function getName()
@@ -32,6 +44,17 @@ abstract class Design implements DesignInterface
 	public function setContent($content)
 	{
 	    $this->content = $content;
+	    return $this;
+	}
+
+	public function getMandant()
+	{
+	    return $this->mandant;
+	}
+
+	public function setMandant($mandant)
+	{
+	    $this->mandant = $mandant;
 	    return $this;
 	}
 }

@@ -11,6 +11,7 @@ class Mandant implements MandantInterface
 	protected $name;
 	protected $renderer;
 	protected $blocks;
+	protected $designs;
 	protected $newsletters;
 	
 	public function setName($name)
@@ -37,5 +38,10 @@ class Mandant implements MandantInterface
     public function getBlocks()
     {
 		return $this->blocks;
+    }
+    
+    public function getDesigns()
+    {
+    		return $this->designs;
     }
 }
