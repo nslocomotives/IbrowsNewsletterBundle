@@ -19,6 +19,7 @@ class NewsletterMetaType extends AbstractType
 			->add('senderMail', 'email')
 			->add('senderName')
 			->add('returnMail', 'email')
+			->add('design')
 		;
 	}
 	
