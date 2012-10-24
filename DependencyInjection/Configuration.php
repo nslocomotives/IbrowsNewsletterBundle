@@ -81,6 +81,7 @@ class Configuration implements ConfigurationInterface
 								->scalarNode('subscriber')->isRequired()->cannotBeEmpty()->end()
 								->scalarNode('design')->isRequired()->cannotBeEmpty()->end()
 								->scalarNode('user')->isRequired()->cannotBeEmpty()->end()
+								->scalarNode('block')->isRequired()->cannotBeEmpty()->end()
 							->end()
 						->end()
 						->arrayNode('form')

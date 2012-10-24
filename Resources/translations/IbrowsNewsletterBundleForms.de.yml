@@ -2,3 +2,11 @@ Subject: Betreff
 Sendermail: Absender E-Mail
 Sendername: Absender Name
 Returnmail: Antwort E-Mail
+
+newsletter:
+  block:
+    provider:
+      'ibrows_newsletter.block.provider.textareaandimage':
+        textwidth: Textbreite
+        imagewidth: Bildbreite
+    name: Name

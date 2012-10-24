@@ -12,16 +12,24 @@ interface MandantInterface
      * @return Collection
      */
 	public function getNewsletters();
+    
     /**
      * @return Collection
      */
     public function getBlocks();
+    
     /**
      * @return Collection
      */
     public function getDesigns();
+    
     /**
      * @return string
      */
     public function getRenderer();
+    
+    /**
+     * @return string
+     */
+    public function getName();
 }

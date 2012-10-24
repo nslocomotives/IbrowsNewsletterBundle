@@ -27,7 +27,7 @@ class RendererManager
 	public function get($name)
 	{
 		if(!key_exists($name, $this->renderers)){
-			throw new \InvalidArgumentException("The renderer service $name can not be found.");
+			throw new \InvalidArgumentException("The renderer service '$name' can not be found.");
 		}
 		
 		return $this->renderers[$name];

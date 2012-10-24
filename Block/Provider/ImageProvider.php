@@ -8,6 +8,11 @@ class ImageProvider extends AbstractProvider
 {
     public function getBlockDisplayContent(BlockInterface $block)
     {
-        return '<img src="'. $block->getContent() .'" />';
+        return '<img src="'. $block->getContent() .'">';
+    }
+    
+    public function getBlockEditContent(BlockInterface $block)
+    {
+        return '<input type="file" name="block['. $block->getId() .']">';
     }
 }

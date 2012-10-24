@@ -20,6 +20,14 @@ class BlockProviderManager
     }
     
     /**
+     * @return array
+     */
+    public function getBlockProviders()
+    {
+        return $this->blockProviders;
+    }
+    
+    /**
      * @param string $name
      * @return ProviderInterface
      * @throws \InvalidArgumentException
@@ -27,7 +35,7 @@ class BlockProviderManager
 	public function get($name)
 	{
 		if(!key_exists($name, $this->blockProviders)){
-			throw new \InvalidArgumentException("The block-provider service $name can not be found.");
+			throw new \InvalidArgumentException("The block-provider service '$name' can not be found.");
 		}
 		
 		return $this->blockProviders[$name];

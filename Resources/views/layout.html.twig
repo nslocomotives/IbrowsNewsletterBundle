@@ -21,7 +21,9 @@
         {% endblock head_styles %}
              
         <script type="text/javascript">
-            function namespace(namespaceString) {
+            var ibrows_newsletter = ibrows_newsletter || {};
+            
+            ibrows_newsletter.namespace = function(namespaceString) {
                 var parts = namespaceString.split('.'),
                     parent = window,
                     currentPart = '';
@@ -47,12 +49,15 @@
                 jQuery.noConflict();
             </script>
             
-            {% javascripts
+            {% javascripts 
                 '@IbrowsNewsletterBundle/Resources/public/bootstrap/js/plugins/*.js'
 
                 '@IbrowsNewsletterBundle/Resources/public/jquery/js/*.js'
                 '@IbrowsNewsletterBundle/Resources/public/jquery/js/plugins/*.js'
 
+                '@IbrowsNewsletterBundle/Resources/public/tinymce/jquery.tinymce.js'
+                '@IbrowsNewsletterBundle/Resources/public/tinymce/tiny_mce.js'
+                    
                 '@IbrowsNewsletterBundle/Resources/public/js/*.js'
             %}
 

@@ -7,8 +7,10 @@ use Ibrows\Bundle\NewsletterBundle\Service\BlockProviderManager;
 
 interface ProviderInterface
 {
+    public function getOptionKeys();
+    
     public function setBlockProviderManager(BlockProviderManager $blockProviderManager);
-    public function initParentBlock(BlockInterface $parentBlock);
+    public function initialize(BlockInterface $block, $blockClassName);
     
     public function getBlockDisplayContent(BlockInterface $block);
     public function getBlockEditContent(BlockInterface $block);

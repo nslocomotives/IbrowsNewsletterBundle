@@ -50,7 +50,7 @@ abstract class AbstractController extends Controller
     {
     		$user = $this->getUser();
     		if (!$user instanceof MandantUserInterface)
-    			throw new InvalidConfigurationException('Make sure you are authenticated and implement the IbrowsNewsletter UserInterface');
+    			throw new InvalidConfigurationException('Make sure you are authenticated and your user class implements the IbrowsNewsletter UserInterface');
     		
         return $user->getMandant();
     }

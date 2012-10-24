@@ -6,13 +6,87 @@
     {{ macros.displayWizard(wizard) }}
 {% endblock %}
 
+{% block head_javascripts %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+        var $edit = new ibrows_newsletter.edit({
+            container: '[data-container="newsletter_edit"]',
+            elements: {
+                blocks: '#blocks',
+                newBlockDialog: '[data-element="new-block-dialog"]',
+                newBlockDialogButton: '[data-action="new-block-dialog"]',
+                newBlockDialogAccordion: '[data-element="new-block-dialog-accordion"]',
+                newBlockDialogAdd: '[data-action="new-block-dialog-add"]'
+            },
+            url: {
+                addProviderBlock: '{{ url('ibrows_newsletter_provider_view_edit') }}'
+            },
+            trans: {
+                'newsletter.dialog.abort': '{{ 'newsletter.dialog.abort'|trans }}'
+            }
+        });
+        
+        jQuery(function(){
+            $edit.ready();
+        });
+    </script>
+{% endblock head_javascripts %}
+
 {% block newsletter_content %}
-    {{ 'newsletter' }} #{{ newsletter.id }}
-    
-    <ul>
-        {% for block in newsletter.blocks %}
-            #{{ block.id }} - {{ block.providerName }}
-            {{ blockProviderManager.get(block.providerName).blockDisplayContent(block)|raw }}
-        {% endfor %}
-    </ul>
+    <div data-container="newsletter_edit">
+        <div data-element="new-block-dialog" title="{{ 'newsletter.block.new'|trans }}">
+            <div data-element="new-block-dialog-accordion">
+                {% for blockProviderId, blockProvider in blockProviderManager.blockProviders %}
+                    <h3>{{ ('newsletter.block.providername.'~blockProviderId|lower)|trans }}</h3>
+                    <div>
+                        <form data-element="new-block-dialog-provider-form">
+                            <input data-form-field="true" type="hidden" name="provider" value="{{ blockProviderId }}">
+                            <div>
+                                {{ 'newsletter.block.name'|trans({}, "IbrowsNewsletterBundleForms") }}
+                            </div>
+                            <div>
+                                <input 
+                                    data-form-field="true"
+                                    required="required"
+                                    type="text"
+                                    name="name" 
+                                >
+                            </div>
+                            {% for blockProviderOptionKey, blockProviderOptionOptions in blockProvider.optionKeys %}
+                                <div>
+                                    {{ ('newsletter.block.provider.'~blockProviderId|lower~'.'~blockProviderOptionKey|lower)|trans({}, "IbrowsNewsletterBundleForms") }}
+                                </div>
+                                <div>
+                                    <input 
+                                        data-form-field="true"
+                                        {% if blockProviderOptionOptions.required|default(true) == true %}required="required"{% endif %}
+                                        type="text"
+                                        name="option[{{ blockProviderOptionKey }}]" 
+                                    >
+                                </div>
+                            {% endfor %}
+                            <div>
+                                <button data-action="new-block-dialog-add" data-ui-role="jquery-ui">{{ 'newsletter.block.add'|trans }}</button>
+                            </div>
+                        </form>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+            
+        <h1>{{ 'newsletter.edit'|trans({'%name%': newsletter.name}) }}</h1>
+
+        <h2>{{ 'newsletter.blocks'|trans }}</h2>
+        
+        <button data-action="new-block-dialog" data-ui-role="jquery-ui">{{ 'newsletter.block.new'|trans }}</button>
+        
+        <ul id="blocks">
+            {% for block in newsletter.blocks %}
+                <li data-element="block" class="block {{ block.providerName|lower }}">
+                    {{ blockProviderManager.get(block.providerName).blockEditContent(block)|raw }}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
 {% endblock %}

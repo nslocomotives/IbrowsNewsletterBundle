@@ -2,6 +2,8 @@
 
 namespace Ibrows\Bundle\NewsletterBundle\Model\Block;
 
+use Ibrows\Bundle\NewsletterBundle\Model\Newsletter\NewsletterInterface;
+
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 
@@ -15,6 +17,8 @@ abstract class Block implements BlockInterface
     
     protected $providerName;
     protected $providerOptions = array();
+    
+    protected $newsletter;
     
     protected $parentBlock;
     protected $blocks;
@@ -144,6 +148,24 @@ abstract class Block implements BlockInterface
     }
     
     /**
+     * @return NewsletterInterface
+     */
+    public function getNewsletter()
+    {
+        return $this->newsletter;
+    }
+    
+    /**
+     * @param NewsletterInterface $newsletter
+     * @return Block
+     */
+    public function setNewsletter(NewsletterInterface $newsletter = null)
+    {
+        $this->newsletter = $newsletter;
+        return $this;
+    }
+    
+    /**
      * @return Block
      */
     public function addBlocks(array $blocks)
@@ -159,6 +181,7 @@ abstract class Block implements BlockInterface
      */
     public function addBlock(BlockInterface $block)
     {
+        $block->setParentBlock($this);
         $this->blocks->add($block);
         return $this;
     }
@@ -169,6 +192,7 @@ abstract class Block implements BlockInterface
      */
     public function removeBlock(BlockInterface $block)
     {
+        $block->setParentBlock(null);
         $this->blocks->remove($block);
         return $this;
     }
@@ -193,7 +217,7 @@ abstract class Block implements BlockInterface
      * @param BlockInterface $block
      * @return Block
      */
-    public function setParentBlock(BlockInterface $block)
+    public function setParentBlock(BlockInterface $block = null)
     {
         $this->parentBlock = $block;
         return $this;

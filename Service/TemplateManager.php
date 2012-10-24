@@ -20,7 +20,7 @@ class TemplateManager
 	public function getNewsletter($name)
 	{
 		if(!key_exists($name, $this->newsletters)) {
-			throw new \InvalidArgumentException("The newsletter-view with name $name can not be found.");
+			throw new \InvalidArgumentException("The newsletter-view with name '$name' can not be found.");
 		}
 		
 		return $this->newsletters[$name];
@@ -29,7 +29,7 @@ class TemplateManager
     public function getMandant($name)
 	{
 		if(!key_exists($name, $this->mandants)) {
-			throw new \InvalidArgumentException("The mandant-view with name $name can not be found.");
+			throw new \InvalidArgumentException("The mandant-view with name '$name' can not be found.");
 		}
 		
 		return $this->mandants[$name];
@@ -38,7 +38,7 @@ class TemplateManager
 	public function getDesign($name)
 	{
 		if(!key_exists($name, $this->designs)) {
-			throw new \InvalidArgumentException("The design-view with name $name can not be found.");
+			throw new \InvalidArgumentException("The design-view with name '$name' can not be found.");
 		}
 	
 		return $this->designs[$name];
