@@ -13,6 +13,11 @@ class Newsletter extends AbstractNewsletter
 	 */
 	protected $subject;
     
+    /**
+	 * @ORM\Column(type="string", name="name")
+	 */
+	protected $name;
+    
 	/**
 	 * @ORM\Column(type="string", name="sender_mail")
 	 */
@@ -27,4 +32,9 @@ class Newsletter extends AbstractNewsletter
 	 * @ORM\Column(type="string", name="return_mail")
 	 */
 	protected $returnMail;
+    
+    /**
+     * @ORM\Column(type="datetime", name="created_at")
+     */
+    protected $createdAt;
 }
