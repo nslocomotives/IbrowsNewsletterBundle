@@ -15,6 +15,11 @@ abstract class Design implements DesignInterface
 		$this->createdAt = new \DateTime();
 	}
 	
+	public function __toString()
+	{
+		return $this->name;
+	}
+	
 	public function getId()
 	{
 		return $this->id;
