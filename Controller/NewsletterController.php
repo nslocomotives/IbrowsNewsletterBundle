@@ -104,7 +104,7 @@ class NewsletterController extends AbstractController
 		}
         
 		return $this->render($this->getTemplateManager()->getNewsletter('edit'), array(
-            'blockProviders' => $this->getBlockProviderManager()->getBlockProviders(),
+            'blockProviderManager' => $this->getBlockProviderManager(),
             'newsletter' => $this->getNewsletter(),
             'wizard' => $this->getWizardActionAnnotationHandler(),
 		));
