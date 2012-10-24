@@ -2,10 +2,14 @@
 {% trans_default_domain "IbrowsNewsletterBundle" %}
 
 {% block newsletter_content %}
-    <h1>Newsletters</h1>
+    <h1>{{ 'newsletter.list'|trans }}</h1>
     <ul>
         {% for newsletter in newsletters %}
-            <li><a href="{{ url('ibrows_newsletter_edit_redirection', {id: newsletter.id}) }}">#{{ newsletter.id }} - {{ newsletter.createdAt|date }}</a></li>
+            <li>
+                <a href="{{ url('ibrows_newsletter_edit_redirection', {id: newsletter.id}) }}">
+                    #{{ newsletter.id }} - {{ newsletter.name }} - {{ newsletter.createdAt|date }}
+                </a>
+            </li>
         {% endfor %}
     </ul>
 {% endblock newsletter_content %}
