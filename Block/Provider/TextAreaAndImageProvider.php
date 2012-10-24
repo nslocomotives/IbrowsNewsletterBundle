@@ -6,20 +6,32 @@ use Ibrows\Bundle\NewsletterBundle\Model\Block\BlockInterface;
 use Ibrows\Bundle\NewsletterBundle\Entity\Block;
 
 class TextAreaAndImageProvider extends AbstractProvider
-{
-    public function initParentBlock(BlockInterface $parentBlock)
+{    
+    public function getOptionKeys()
+    {
+        return array(
+            'textWidth' => array(
+                'required' => true
+            ),
+            'imageWidth' => array(
+                'required' => true
+            )
+        );
+    }
+    
+    public function initialize(BlockInterface $block)
     {
         $textAreaBlock = new Block();
-        $textAreaBlock->setName($rootBlock->getProviderOption('textarea.name'));
+        $textAreaBlock->setName($block->getProviderOption('textarea.name'));
         $textAreaBlock->setProviderName('ibrows_newsletter.block.provider.textarea');
         $textAreaBlock->setPosition(1);
         
         $imageBlock = new Block();
-        $imageBlock->setName($rootBlock->getProviderOption('image.name'));
+        $imageBlock->setName($block->getProviderOption('image.name'));
         $textAreaBlock->setProviderName('ibrows_newsletter.block.provider.image');
         $textAreaBlock->setPosition(2);
         
-        $rootBlock->addBlocks(array($textAreaBlock, $imageBlock));
+        $block->addBlocks(array($textAreaBlock, $imageBlock));
     }
     
     protected function getStartBlockDisplayContent(BlockInterface $block)
