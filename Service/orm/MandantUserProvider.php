@@ -1,12 +1,13 @@
 <?php
 namespace Ibrows\Bundle\NewsletterBundle\Service\orm;
+
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
+use Symfony\Component\Security\Core\User\UserProviderInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 use Doctrine\Common\Persistence\ObjectRepository;
 
-use Symfony\Component\Security\Core\User\UserProviderInterface;
-
-class MandantDoctrineUserProvider implements UserProviderInterface
+class MandantUserProvider implements UserProviderInterface
 {
 	protected $repository;
 	protected $class;
@@ -21,7 +22,7 @@ class MandantDoctrineUserProvider implements UserProviderInterface
 	 * (non-PHPdoc)
 	 * @see Symfony\Component\Security\Core\User.UserProviderInterface::loadUserByUsername()
 	 */
-	public function loadUserByUsername(string $username)
+	public function loadUserByUsername($username)
 	{
 		$user = $this->repository->findOneBy(array('username' => $username));
 		if ($user === null)
@@ -44,7 +45,7 @@ class MandantDoctrineUserProvider implements UserProviderInterface
 	 * (non-PHPdoc)
 	 * @see Symfony\Component\Security\Core\User.UserProviderInterface::supportsClass()
 	 */
-	public function supportsClass(string $class)
+	public function supportsClass($class)
 	{
 		return $class === $this->class;
 	}
