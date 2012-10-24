@@ -11,6 +11,8 @@ newsletter:
   
 design:
   create: Neues Design
+  list: Design Liste
+  preview: Vorschau
 
 form:
   save: Speichern
