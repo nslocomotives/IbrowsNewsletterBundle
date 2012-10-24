@@ -2,7 +2,7 @@
 
 namespace Ibrows\Bundle\NewsletterBundle\Model\Design;
 
-abstract class Design
+abstract class Design implements DesignInterface
 {
 	protected $name;
 	protected $content;
