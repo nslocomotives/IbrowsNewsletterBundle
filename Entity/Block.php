@@ -11,14 +11,14 @@ class Block extends BaseBlock
     /**
 	 * @var string
 	 * 
-	 * @ORM\Column(type="string")
+	 * @ORM\Column(type="string", nullable=true)
 	 */
 	protected $name;
     
     /**
 	 * @var string
 	 * 
-	 * @ORM\Column(type="text")
+	 * @ORM\Column(type="text", nullable=true)
 	 */
 	protected $content;
     
