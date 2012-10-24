@@ -3,6 +3,7 @@
 namespace Ibrows\Bundle\NewsletterBundle\Model\Mandant;
 
 use Ibrows\Bundle\NewsletterBundle\Model\Newsletter\NewsletterInterface;
+use Ibrows\Bundle\NewsletterBundle\Model\Design\DesignInterface;
 
 interface MandantManagerInterface
 {
@@ -31,4 +32,11 @@ interface MandantManagerInterface
 	 * @return NewsletterInterface|null
 	 */
 	public function persistNewsletter($name, NewsletterInterface $newsletter);
+	
+	/**
+	 * @param string $name
+	 * @param DesignInterface $design
+	 * @return DesignInterface|null
+	 */
+	public function persistDesign($name, DesignInterface $design);
 }
