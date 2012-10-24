@@ -11,4 +11,5 @@ interface SubscriberInterface
     public function getNewsletters();
     public function addNewsletter(NewsletterInterface $newsletter);
     public function removeNewsletter(NewsletterInterface $newsletter);
+    public function __toString();
 }
