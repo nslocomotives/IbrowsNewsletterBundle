@@ -16,4 +16,8 @@ interface MandantInterface
      * @return Collection
      */
     public function getBlocks();
+    /**
+     * @return string
+     */
+    public function getRenderer();
 }
