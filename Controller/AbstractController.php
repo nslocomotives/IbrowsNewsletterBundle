@@ -2,12 +2,10 @@
 
 namespace Ibrows\Bundle\NewsletterBundle\Controller;
 
-use Symfony\Component\Security\Core\Exception\AuthenticationException;
 
-use Ibrows\Bundle\NewsletterBundle\Security\Token\MandantUsernamePasswordToken;
 
 use Ibrows\Bundle\NewsletterBundle\Service\orm\DesignManager;
-use Ibrows\Bundle\NewsletterBundle\Model\NewsletterManager;
+use Ibrows\Bundle\NewsletterBundle\Service\orm\NewsletterManager;
 use Ibrows\Bundle\NewsletterBundle\Service\orm\MandantManager;
 use Ibrows\Bundle\NewsletterBundle\Service\TemplateManager;
 use Ibrows\Bundle\NewsletterBundle\Service\ClassManager;
@@ -17,9 +15,11 @@ use Ibrows\Bundle\NewsletterBundle\Service\BlockRendererManager;
 
 use Ibrows\Bundle\NewsletterBundle\Model\Newsletter\NewsletterInterface;
 use Ibrows\Bundle\NewsletterBundle\Model\Mandant\MandantInterface;
+use Ibrows\Bundle\NewsletterBundle\Model\User\MandantUserInterface;
 
 use Ibrows\Bundle\NewsletterBundle\Annotation\Wizard\WizardActionAnnotationHandler;
 
+use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -48,11 +48,11 @@ abstract class AbstractController extends Controller
      */
     protected function getMandantName()
     {
-    		$token = $this->get('security.context')->getToken();
-    		if (!$token instanceof MandantUsernamePasswordToken)
-    			throw new AuthenticationException('This user does not belong to any mandant');
+    		$user = $this->getUser();
+    		if (!$user instanceof MandantUserInterface)
+    			throw new InvalidConfigurationException('Make sure you are authenticated and implement the IbrowsNewsletter UserInterface');
     		
-        return $token->getMandant();
+        return $user->getMandant();
     }
     
     /**
