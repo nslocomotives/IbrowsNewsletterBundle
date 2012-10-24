@@ -19,17 +19,17 @@ class TextAreaAndImageProvider extends AbstractProvider
         );
     }
     
-    public function initialize(BlockInterface $block)
+    public function initialize(BlockInterface $block, $blockClassName)
     {
-        $textAreaBlock = new Block();
+        $textAreaBlock = new $blockClassName();
         $textAreaBlock->setName($block->getProviderOption('textarea.name'));
         $textAreaBlock->setProviderName('ibrows_newsletter.block.provider.textarea');
         $textAreaBlock->setPosition(1);
         
-        $imageBlock = new Block();
+        $imageBlock = new $blockClassName();
         $imageBlock->setName($block->getProviderOption('image.name'));
-        $textAreaBlock->setProviderName('ibrows_newsletter.block.provider.image');
-        $textAreaBlock->setPosition(2);
+        $imageBlock->setProviderName('ibrows_newsletter.block.provider.image');
+        $imageBlock->setPosition(2);
         
         $block->addBlocks(array($textAreaBlock, $imageBlock));
     }
@@ -46,10 +46,36 @@ class TextAreaAndImageProvider extends AbstractProvider
     
     protected function getPreBlockDisplayContent(BlockInterface $block)
     {
-        return '<td style="border:1px solid black;">';
+        $widthKey = $block->getProviderName() == 'ibrows_newsletter.block.provider.textarea' ?
+            'textWidth' : 'imageWidth';
+        
+        return '<td width="'. $block->getProviderOption($widthKey, '50%') .'" style="border:1px solid black;">';
     }
     
     protected function getPostBlockDisplayContent(BlockInterface $block)
+    {
+        return '</td>';
+    }
+    
+    protected function getStartBlockEditContent(BlockInterface $block)
+    {
+        return '<table style="border:1px solid black;width:100%;"><tr>';
+    }
+    
+    protected function getEndBlockEditContent(BlockInterface $block)
+    {
+        return '</tr></table>';
+    }
+    
+    protected function getPreBlockEditContent(BlockInterface $block)
+    {
+        $widthKey = $block->getProviderName() == 'ibrows_newsletter.block.provider.textarea' ?
+            'textWidth' : 'imageWidth';
+        
+        return '<td style="border:1px solid black;width:'. $block->getProviderOption($widthKey, '50%') .';">';
+    }
+    
+    protected function getPostBlockEditContent(BlockInterface $block)
     {
         return '</td>';
     }
