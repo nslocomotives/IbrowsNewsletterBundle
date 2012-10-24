@@ -181,6 +181,7 @@ abstract class Block implements BlockInterface
      */
     public function addBlock(BlockInterface $block)
     {
+        $block->setParentBlock($this);
         $this->blocks->add($block);
         return $this;
     }
@@ -191,6 +192,7 @@ abstract class Block implements BlockInterface
      */
     public function removeBlock(BlockInterface $block)
     {
+        $block->setParentBlock(null);
         $this->blocks->remove($block);
         return $this;
     }
@@ -215,7 +217,7 @@ abstract class Block implements BlockInterface
      * @param BlockInterface $block
      * @return Block
      */
-    public function setParentBlock(BlockInterface $block)
+    public function setParentBlock(BlockInterface $block = null)
     {
         $this->parentBlock = $block;
         return $this;
