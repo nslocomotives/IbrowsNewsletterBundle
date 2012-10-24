@@ -9,3 +9,4 @@ newsletter:
       'ibrows_newsletter.block.provider.textareaandimage':
         textwidth: Textbreite
         imagewidth: Bildbreite
+    name: Name
