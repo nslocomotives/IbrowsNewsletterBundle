@@ -2,6 +2,8 @@
 
 namespace Ibrows\Bundle\NewsletterBundle\Model\Block;
 
+use Ibrows\Bundle\NewsletterBundle\Model\Newsletter\NewsletterInterface;
+
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 
@@ -15,6 +17,8 @@ abstract class Block implements BlockInterface
     
     protected $providerName;
     protected $providerOptions = array();
+    
+    protected $newsletter;
     
     protected $parentBlock;
     protected $blocks;
@@ -140,6 +144,24 @@ abstract class Block implements BlockInterface
     public function setProviderOptions(array $options)
     {
         $this->providerOptions = $options;
+        return $this;
+    }
+    
+    /**
+     * @return NewsletterInterface
+     */
+    public function getNewsletter()
+    {
+        return $this->newsletter;
+    }
+    
+    /**
+     * @param NewsletterInterface $newsletter
+     * @return Block
+     */
+    public function setNewsletter(NewsletterInterface $newsletter = null)
+    {
+        $this->newsletter = $newsletter;
         return $this;
     }
     
