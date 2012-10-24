@@ -1,6 +1,7 @@
 <?php
 namespace Ibrows\Bundle\NewsletterBundle\Model\Newsletter;
 
+use Ibrows\Bundle\NewsletterBundle\Model\Block\BlockInterface;
 use Ibrows\Bundle\NewsletterBundle\Model\Subscriber\SubscriberInterface;
 use Ibrows\Bundle\NewsletterBundle\Model\Mandant\MandantInterface;
 
@@ -229,7 +230,7 @@ class Newsletter implements NewsletterInterface
      */
     public function addBlock(BlockInterface $block)
     {
-        $block->addNewsletter($this);
+        $block->setNewsletter($this);
         $this->blocks->add($block);
         return $this;
     }
@@ -240,7 +241,7 @@ class Newsletter implements NewsletterInterface
      */
     public function removeBlock(BlockInterface $block)
     {
-        $block->removeNewsletter($this);
+        $block->setNewsletter(null);
         $this->blocks->remove($block);
         return $this;
     }

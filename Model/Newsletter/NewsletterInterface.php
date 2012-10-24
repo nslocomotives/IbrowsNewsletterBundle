@@ -2,6 +2,8 @@
 
 namespace Ibrows\Bundle\NewsletterBundle\Model\Newsletter;
 
+use Ibrows\Bundle\NewsletterBundle\Model\Block\BlockInterface;
+
 interface NewsletterInterface
 {
     public function getName();
@@ -11,7 +13,11 @@ interface NewsletterInterface
 	public function getSenderMail();
 	public function getSenderName();
 	public function getReturnMail();
-    public function getBlocks();
+    
     public function getId();
     public function getSubscribers();
+    
+    public function getBlocks();
+    public function addBlock(BlockInterface $block);
+    public function removeBlock(BlockInterface $block);
 }
