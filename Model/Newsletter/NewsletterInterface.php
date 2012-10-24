@@ -14,4 +14,5 @@ interface NewsletterInterface
     public function getBlocks();
     public function getId();
     public function getSubscribers();
+    public function getDesign();
 }

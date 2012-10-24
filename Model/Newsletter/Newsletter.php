@@ -1,6 +1,7 @@
 <?php
 namespace Ibrows\Bundle\NewsletterBundle\Model\Newsletter;
 
+use Ibrows\Bundle\NewsletterBundle\Model\Design\DesignInterface;
 use Ibrows\Bundle\NewsletterBundle\Model\Subscriber\SubscriberInterface;
 use Ibrows\Bundle\NewsletterBundle\Model\Mandant\MandantInterface;
 
@@ -26,7 +27,13 @@ class Newsletter implements NewsletterInterface
 	 * @Assert\NotBlank(groups={"newsletter"})
 	 */
 	protected $name;
-    
+	
+	/**
+	 * @var DesignInterface $design
+	 * @Assert\NotBlank(groups={"newsletter"})
+	 */
+	protected $design;
+
 	/**
      * @var string $senderMail
 	 * @Assert\Email(groups={"newsletter"})
@@ -63,7 +70,6 @@ class Newsletter implements NewsletterInterface
 	/**
 	 * @return integer
 	 */
-
 	public function getId()
 	{
 		return $this->id;
@@ -243,5 +249,23 @@ class Newsletter implements NewsletterInterface
         $block->removeNewsletter($this);
         $this->blocks->remove($block);
         return $this;
+    }
+    
+    /**
+     * @return DesignInterface
+     */
+    public function getDesign()
+    {
+    		return $this->design;
+    }
+    
+    /**
+     * @param DesignInterface $design
+     * @return Newsletter
+     */
+    public function setDesign(DesignInterface $design)
+    {
+    		$this->design = $design;
+    		return $this;
     }
 }
