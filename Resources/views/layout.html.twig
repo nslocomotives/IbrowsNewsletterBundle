@@ -21,7 +21,9 @@
         {% endblock head_styles %}
              
         <script type="text/javascript">
-            function namespace(namespaceString) {
+            var ibrows_newsletter = ibrows_newsletter || {};
+            
+            ibrows_newsletter.namespace = function(namespaceString) {
                 var parts = namespaceString.split('.'),
                     parent = window,
                     currentPart = '';
