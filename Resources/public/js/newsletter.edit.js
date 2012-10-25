@@ -17,12 +17,32 @@ ns.edit = function($options){
         }
              
         $self.setupNewBlockDialog();
-        
-        tinyMCE.init({
-            mode : "specific_textareas",
-            editor_selector: 'tinymce',
-            theme : "advanced"
+        $self.setupBlockSortable();
+    }
+    
+    this.setupBlockSortable = function(){
+        $($elements.blocks).sortable({
+            update: function(event, ui){
+                $self.updateBlockPositions();
+            }
         });
+    }
+    
+    this.updateBlockPositions = function(){
+        jQuery.post(
+            $options.url.updateBlockPosition, {
+                positions: this.getBlockPositions()
+            }
+        );
+    }
+    
+    this.getBlockPositions = function(){
+        var $positions = {};
+        var $position = 1;
+        $elements.blocks.find($options.selectors.block).each(function(){
+            $positions[jQuery(this).attr($options.attributes.blockId)] = $position++;
+        });
+        return $positions;
     }
     
     this.setupNewBlockDialog = function(){
@@ -76,6 +96,7 @@ ns.edit = function($options){
     
     this.addProviderBlock = function($parent, $data){
         this.closeNewBlockDialog();
+        $data.position = $elements.blocks.find($options.selectors.block).length + 1;
         jQuery.post(
             $options.url.addProviderBlock, 
             $data, 

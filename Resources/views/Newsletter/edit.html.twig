@@ -12,6 +12,12 @@
     <script type="text/javascript">
         var $edit = new ibrows_newsletter.edit({
             container: '[data-container="newsletter_edit"]',
+            selectors: {
+                block: '[data-element="block"]'
+            },
+            attributes: {
+                blockId: 'data-element-id'
+            },
             elements: {
                 blocks: '#blocks',
                 newBlockDialog: '[data-element="new-block-dialog"]',
@@ -20,7 +26,8 @@
                 newBlockDialogAdd: '[data-action="new-block-dialog-add"]'
             },
             url: {
-                addProviderBlock: '{{ url('ibrows_newsletter_provider_view_edit') }}'
+                addProviderBlock: '{{ url('ibrows_newsletter_provider_view_add') }}',
+                updateBlockPosition: '{{ url('ibrows_newsletter_provider_block_position_update') }}'
             },
             trans: {
                 'newsletter.dialog.abort': '{{ 'newsletter.dialog.abort'|trans }}'
@@ -83,7 +90,7 @@
         
         <ul id="blocks">
             {% for block in newsletter.blocks %}
-                <li data-element="block" class="block {{ block.providerName|lower }}">
+                <li data-element="block" data-element-id="{{ block.id }}" class="block">
                     {{ blockProviderManager.get(block.providerName).blockEditContent(block)|raw }}
                 </li>
             {% endfor %}
