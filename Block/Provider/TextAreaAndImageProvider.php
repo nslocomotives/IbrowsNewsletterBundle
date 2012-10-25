@@ -36,7 +36,7 @@ class TextAreaAndImageProvider extends AbstractProvider
     
     protected function getStartBlockDisplayContent(BlockInterface $block)
     {
-        return '<table style="border:1px solid black;"><tr>';
+        return '<table class="'. $block->getProviderName() .'"><tr>';
     }
     
     protected function getEndBlockDisplayContent(BlockInterface $block)
@@ -49,7 +49,7 @@ class TextAreaAndImageProvider extends AbstractProvider
         $widthKey = $block->getProviderName() == 'ibrows_newsletter.block.provider.textarea' ?
             'textWidth' : 'imageWidth';
         
-        return '<td width="'. $block->getProviderOption($widthKey, '50%') .'" style="border:1px solid black;">';
+        return '<td style="width:'. $block->getProviderOption($widthKey, '50%') .'">';
     }
     
     protected function getPostBlockDisplayContent(BlockInterface $block)
@@ -72,7 +72,7 @@ class TextAreaAndImageProvider extends AbstractProvider
         $widthKey = $block->getProviderName() == 'ibrows_newsletter.block.provider.textarea' ?
             'textWidth' : 'imageWidth';
         
-        return '<td width="'. $block->getProviderOption($widthKey, '50%') .'" style="border:1px solid black;">';
+        return '<td style="width:'. $block->getProviderOption($widthKey, '50%') .'">';
     }
     
     protected function getPostBlockEditContent(BlockInterface $block)
