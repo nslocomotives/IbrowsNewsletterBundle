@@ -26,7 +26,7 @@ interface MandantInterface
     /**
      * @return string
      */
-    public function getRenderer();
+    public function getRendererName();
     
     /**
      * @return string

@@ -9,7 +9,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 abstract class Mandant implements MandantInterface
 {
 	protected $name;
-	protected $renderer;
+	protected $rendererName;
 	protected $blocks;
 	protected $designs;
 	protected $newsletters;
@@ -25,9 +25,9 @@ abstract class Mandant implements MandantInterface
 		return $this->name;
 	}
     
-    public function getRenderer()
+    public function getRendererName()
     {
-    		return $this->renderer;
+        return $this->rendererName;
     }
 	
 	public function getNewsletters()
@@ -42,6 +42,6 @@ abstract class Mandant implements MandantInterface
     
     public function getDesigns()
     {
-    		return $this->designs;
+        return $this->designs;
     }
 }
