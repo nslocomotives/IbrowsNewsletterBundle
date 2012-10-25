@@ -46,7 +46,7 @@ class MandantManager extends BaseMandantManager
 
 	public function get($name)
 	{
-        $manager = $this->getManager($name);
+        $manager = $this->getObjectManager($name);
         $repository = $manager->getRepository($this->mandantClass);
         
 		return $repository->findOneBy(array('name' => $name));
@@ -59,7 +59,7 @@ class MandantManager extends BaseMandantManager
 	public function getUserProvider($name)
 	{
 		if ($this->userProvider === null) {
-			$manager = $this->getManager($name);
+			$manager = $this->getObjectManager($name);
 			$repository = $manager->getRepository($this->userClass);
 			$this->userProvider = new MandantUserProvider($repository);
 		}
@@ -70,7 +70,7 @@ class MandantManager extends BaseMandantManager
 	public function getNewsletterManager($name)
 	{
 		if ($this->newsletterManager === null) {
-			$manager = $this->getManager($name);
+			$manager = $this->getObjectManager($name);
 			$repository = $manager->getRepository($this->newsletterClass);
 			$this->newsletterManager = new NewsletterManager($repository);
 		}
@@ -81,7 +81,7 @@ class MandantManager extends BaseMandantManager
 	public function getDesignManager($name)
 	{
 		if ($this->designManager === null) {
-			$manager = $this->getManager($name);
+			$manager = $this->getObjectManager($name);
 			$repository = $manager->getRepository($this->designClass);
 			$this->designManager = new DesignManager($repository);
 		}
@@ -91,7 +91,7 @@ class MandantManager extends BaseMandantManager
 	
 	public function persistNewsletter($name, NewsletterInterface $newsletter)
 	{
-		$manager = $this->getManager($name);
+		$manager = $this->getObjectManager($name);
 		$newsletter->setMandant($this->get($name));
 		$manager->persist($newsletter);
 		$manager->flush();
@@ -101,7 +101,7 @@ class MandantManager extends BaseMandantManager
 	
 	public function persistDesign($name, DesignInterface $design)
 	{
-		$manager = $this->getManager($name);
+		$manager = $this->getObjectManager($name);
 		$design->setMandant($this->get($name));
 		$manager->persist($design);
 		$manager->flush();
@@ -115,7 +115,7 @@ class MandantManager extends BaseMandantManager
 	 * @return \Doctrine\Common\Persistence\ObjectManager
 	 * @throws \InvalidArgumentException
 	 */
-	private function getManager($name)
+	public function getObjectManager($name)
 	{
 		if(!key_exists($name, $this->mandants)){
             throw new \InvalidArgumentException("Mandant $name does not exist. Did you forget to enable it in the IbrowsNewsletter config?");
