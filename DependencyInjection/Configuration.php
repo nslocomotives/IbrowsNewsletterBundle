@@ -21,10 +21,26 @@ class Configuration implements ConfigurationInterface
 				->end()
 		;
 		
+		$this->addMandantSection($rootNode);
 		$this->addTemplatesSection($rootNode);
 		$this->addClassesSection($rootNode);
 
 		return $treeBuilder;
+	}
+	
+	public function addMandantSection(ArrayNodeDefinition $node)
+	{
+		$node
+			->children()
+				->arrayNode('mandants')
+					->isRequired()
+					->requiresAtLeastOneElement()
+					->useAttributeAsKey('name')
+					->prototype('scalar')
+				->end()
+			->end()
+		;
+					
 	}
 	
 	public function addTemplatesSection(ArrayNodeDefinition $node)

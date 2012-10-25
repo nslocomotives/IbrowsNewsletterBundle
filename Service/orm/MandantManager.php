@@ -14,7 +14,7 @@ use Doctrine\Bundle\DoctrineBundle\Registry;
 class MandantManager extends BaseMandantManager
 {
 	protected $doctrine;
-	protected $connection;
+	protected $mandants;
 	protected $mandantClass;
 	protected $newsletterClass;
 	protected $subscriberClass;
@@ -27,6 +27,7 @@ class MandantManager extends BaseMandantManager
 
 	public function __construct(
         Registry $doctrine,
+		$mandants,
         $mandantClass, 
         $newsletterClass, 
         $subscriberClass,
@@ -34,6 +35,8 @@ class MandantManager extends BaseMandantManager
 		$userClass
     ){
 		$this->doctrine = $doctrine;
+		$this->mandants = $mandants;
+		
 		$this->mandantClass = $mandantClass;
 		$this->newsletterClass = $newsletterClass;
 		$this->subscriberClass = $subscriberClass;
@@ -114,10 +117,10 @@ class MandantManager extends BaseMandantManager
 	 */
 	private function getManager($name)
 	{
-		if($name !== self::DEFAULT_NAME){
-            throw new \InvalidArgumentException("Manager $name not supported");
+		if(!key_exists($name, $this->mandants)){
+            throw new \InvalidArgumentException("Mandant $name does not exist. Did you forget to enable it in the IbrowsNewsletter config?");
         }
         
-		return $this->doctrine->getManager();
+		return $this->doctrine->getManager($name);
 	}
 }
