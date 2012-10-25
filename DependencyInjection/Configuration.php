@@ -24,11 +24,12 @@ class Configuration implements ConfigurationInterface
 		$this->addMandantSection($rootNode);
 		$this->addTemplatesSection($rootNode);
 		$this->addClassesSection($rootNode);
+        $this->addFilesystemSection($rootNode);
 
 		return $treeBuilder;
 	}
 	
-	public function addMandantSection(ArrayNodeDefinition $node)
+	protected function addMandantSection(ArrayNodeDefinition $node)
 	{
 		$node
 			->children()
@@ -43,7 +44,7 @@ class Configuration implements ConfigurationInterface
 					
 	}
 	
-	public function addTemplatesSection(ArrayNodeDefinition $node)
+	protected function addTemplatesSection(ArrayNodeDefinition $node)
 	{
 		$node
 			->children()
@@ -86,31 +87,45 @@ class Configuration implements ConfigurationInterface
 		;
 	}
 	
-	public function addClassesSection(ArrayNodeDefinition $node)
+	protected function addClassesSection(ArrayNodeDefinition $node)
 	{
 		$node->children()
 				->arrayNode('classes')->children()
-						->arrayNode('model')
-							->children()
-								->scalarNode('newsletter')->isRequired()->cannotBeEmpty()->end()
-								->scalarNode('mandant')->isRequired()->cannotBeEmpty()->end()
-								->scalarNode('subscriber')->isRequired()->cannotBeEmpty()->end()
-								->scalarNode('design')->isRequired()->cannotBeEmpty()->end()
-								->scalarNode('user')->isRequired()->cannotBeEmpty()->end()
-								->scalarNode('block')->isRequired()->cannotBeEmpty()->end()
-							->end()
-						->end()
-						->arrayNode('form')
-							->addDefaultsIfNotSet()
-							->children()
-								->scalarNode('newsletter')->defaultValue('Ibrows\\Bundle\\NewsletterBundle\\Form\\NewsletterType')->end()
-								->scalarNode('subscriber')->defaultValue('Ibrows\\Bundle\\NewsletterBundle\\Form\\SubscriberType')->end()
-								->scalarNode('design')->defaultValue('Ibrows\\Bundle\\NewsletterBundle\\Form\\DesignType')->end()
-							->end()
-						->end()
+                    ->arrayNode('model')
+                        ->children()
+                            ->scalarNode('newsletter')->isRequired()->cannotBeEmpty()->end()
+                            ->scalarNode('mandant')->isRequired()->cannotBeEmpty()->end()
+                            ->scalarNode('subscriber')->isRequired()->cannotBeEmpty()->end()
+                            ->scalarNode('design')->isRequired()->cannotBeEmpty()->end()
+                            ->scalarNode('user')->isRequired()->cannotBeEmpty()->end()
+                            ->scalarNode('block')->isRequired()->cannotBeEmpty()->end()
+                        ->end()
+                    ->end()
+                    ->arrayNode('form')
+                        ->addDefaultsIfNotSet()
+                        ->children()
+                            ->scalarNode('newsletter')->defaultValue('Ibrows\\Bundle\\NewsletterBundle\\Form\\NewsletterType')->end()
+                            ->scalarNode('subscriber')->defaultValue('Ibrows\\Bundle\\NewsletterBundle\\Form\\SubscriberType')->end()
+                            ->scalarNode('design')->defaultValue('Ibrows\\Bundle\\NewsletterBundle\\Form\\DesignType')->end()
+                        ->end()
+                    ->end()
 				->end()
 			->end()
 		;
 	}
+    
+    protected function addFilesystemSection(ArrayNodeDefinition $node)
+    {
+        $node->children()
+				->arrayNode('filesystem')->children()
+                    ->arrayNode('block')
+                        ->children()
+                            ->scalarNode('directory')->isRequired()->cannotBeEmpty()->end()
+                        ->end()
+                    ->end()
+				->end()
+			->end()
+		;
+    }
     
 }
