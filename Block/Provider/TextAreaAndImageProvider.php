@@ -72,7 +72,7 @@ class TextAreaAndImageProvider extends AbstractProvider
         $widthKey = $block->getProviderName() == 'ibrows_newsletter.block.provider.textarea' ?
             'textWidth' : 'imageWidth';
         
-        return '<td style="border:1px solid black;width:'. $block->getProviderOption($widthKey, '50%') .';">';
+        return '<td width="'. $block->getProviderOption($widthKey, '50%') .'" style="border:1px solid black;">';
     }
     
     protected function getPostBlockEditContent(BlockInterface $block)
