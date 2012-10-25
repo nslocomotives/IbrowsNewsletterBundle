@@ -9,8 +9,9 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 class ImageProvider extends AbstractProvider
 {
     protected $uploadDirectory;
+    protected $publicPath;
     
-    public function __construct($uploadDirectory)
+    public function __construct($uploadDirectory, $publicPath)
     {
         if(!is_dir($uploadDirectory) && !@mkdir($uploadDirectory)){
             throw new \InvalidArgumentException("Could not create directory $uploadDirectory");
@@ -21,21 +22,36 @@ class ImageProvider extends AbstractProvider
         }
         
         $this->uploadDirectory = realpath($uploadDirectory);
+        $this->publicPath = $publicPath;
     }
     
     public function getBlockDisplayContent(BlockInterface $block)
     {
-        return '<img src="'. $block->getContent() .'">';
+        if(!file_exists($this->getFilePath($block))){
+            return 'No image found';
+        }
+        
+        return '<img src="'. $this->getPublicPath($block) .'">';
     }
     
     public function getBlockEditContent(BlockInterface $block)
     {
-        return '<input type="file" name="block['. $block->getId() .']">';
+        $string = '';
+        
+        if(file_exists($this->getFilePath($block))){
+            $string .= '<div>'. $this->getBlockDisplayContent($block) .'</div>';
+        }
+        
+        $string .= '
+            <div><input type="file" name="block['. $block->getId() .']"></div>
+        ';
+        
+        return $string;
     }
     
     public function updateBlock(BlockInterface $block, $update)
     {
-        if(!$update){
+        if(is_null($update)){
             return;
         }
         
@@ -47,6 +63,16 @@ class ImageProvider extends AbstractProvider
             return;
         }
         
-        $update->move($this->uploadDirectory, $block->getId);
+        $update->move($this->uploadDirectory, $block->getId());
+    }
+    
+    protected function getFilePath(BlockInterface $block)
+    {
+        return $this->uploadDirectory.'/'. $block->getId();
+    }
+    
+    protected function getPublicPath(BlockInterface $block)
+    {
+        return $this->publicPath.'/'. $block->getId();
     }
 }

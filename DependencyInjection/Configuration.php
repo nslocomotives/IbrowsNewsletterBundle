@@ -121,6 +121,7 @@ class Configuration implements ConfigurationInterface
                     ->arrayNode('block')
                         ->children()
                             ->scalarNode('directory')->isRequired()->cannotBeEmpty()->end()
+                            ->scalarNode('public')->isRequired()->cannotBeEmpty()->end()
                         ->end()
                     ->end()
 				->end()

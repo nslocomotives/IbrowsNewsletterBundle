@@ -21,6 +21,7 @@
         
         <service id="ibrows_newsletter.block.provider.image" class="Ibrows\Bundle\NewsletterBundle\Block\Provider\ImageProvider">
             <argument>%ibrows_newsletter.filesystem.block.directory%</argument>
+            <argument>%ibrows_newsletter.filesystem.block.public%</argument>
             <call method="setBlockProviderManager">
                 <argument type="service" id="ibrows_newsletter.block_provider_manager" />
             </call>
