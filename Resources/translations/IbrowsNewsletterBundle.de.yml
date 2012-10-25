@@ -22,6 +22,8 @@ design:
   create: Neues Design
   list: Design Liste
   preview: Vorschau
+  name: Name
+  created_at: Erstellt am
 
 form:
   save: Speichern
