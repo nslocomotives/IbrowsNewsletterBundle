@@ -74,9 +74,9 @@ class DesignController extends AbstractController
 		}
 		
 		return $this->render($this->getTemplateManager()->getDesign('edit'), array(
-				'design' => $design,
-				'form' => $form->createView(),
-				'preview' => $renderer->render($design, array('test' => 'blahblahblah')),
+            'design' => $design,
+            'form' => $form->createView(),
+            'preview' => $renderer->render($design, array('test' => 'blahblahblah')),
 		));
 	}
 	
