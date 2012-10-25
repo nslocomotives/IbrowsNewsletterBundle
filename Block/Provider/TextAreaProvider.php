@@ -8,6 +8,6 @@ class TextAreaProvider extends AbstractProvider
 {
     public function getBlockEditContent(BlockInterface $block)
     {
-        return '<textarea name="block['. $block->getId() .']" class="tinymce" data-block-id="'. $block->getId() .'"></textarea>';
+        return '<textarea style="width:100%;" name="block['. $block->getId() .']" class="tinymce" data-block-id="'. $block->getId() .'"></textarea>';
     }
 }
