@@ -58,13 +58,34 @@ class NewsletterController extends AbstractController
 	
 	/**
 	 * @Route("/create", name="ibrows_newsletter_create")
-     * @WizardAction(name="create", number=1, validationMethod="createValidation")
 	 */
 	public function createAction()
 	{
-        $this->setNewsletter(null);
+		$this->setNewsletter(null);
         
-		$newsletter = $this->getNewsletterManager()->create();
+        return $this->redirect($this->generateUrl('ibrows_newsletter_edit'));
+	}
+	
+	/**
+	 * @Route("/meta/redirection/{id}", name="ibrows_newsletter_meta_redirection")
+	 */
+	public function metaredirectionAction($id)
+	{
+		$newsletter = $this->getNewsletterById($id);
+		$this->setNewsletter($newsletter);
+	
+		return $this->redirect($this->generateUrl('ibrows_newsletter_meta'));
+	}
+	
+	/**
+	 * @Route("/meta", name="ibrows_newsletter_meta")
+	 * @WizardAction(name="create", number=1, validationMethod="createValidation")
+	 */
+	public function metaAction()
+	{
+        $newsletter = $this->getNewsletter();
+        if ($newsletter === null)
+			$newsletter = $this->getNewsletterManager()->create();
 		
 		$formtype = $this->getClassManager()->getForm('newsletter');
 		$form = $this->createForm(new $formtype(), $newsletter);
