@@ -107,4 +107,36 @@ class ProviderController extends AbstractController
 
         return $response;
 	}
+    
+    /**
+	 * @Route("/block/remove", name="ibrows_newsletter_provider_block_remove")
+	 */
+	public function blockRemoveAction()
+	{
+        $request = $this->getRequest();
+        
+        if(!$request->isXmlHttpRequest()){
+            throw $this->createNotFoundException();
+        }
+        
+        $blockId = $request->request->get('id');
+        if(!$blockId){
+            throw $this->createNotFoundException("invalid id");
+        }
+        
+        $newsletter = $this->getNewsletter();
+        
+        foreach($newsletter->getBlocks() as $block){
+            if($block->getId() == $blockId){
+                $newsletter->removeBlock($block);
+            }
+        }
+        
+        $this->getMandantManager()->persistNewsletter($this->getMandant()->getName(), $newsletter);
+
+        $response = new Response(json_encode(array('success' => true)));
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response;
+	}
 }

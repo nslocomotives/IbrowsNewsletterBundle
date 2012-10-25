@@ -13,13 +13,15 @@
         var $edit = new ibrows_newsletter.edit({
             container: '[data-container="newsletter_edit"]',
             selectors: {
-                block: '[data-element="block"]'
+                block: '[data-element="block"]',
+                tinymce: '.tinymce'
             },
             attributes: {
                 blockId: 'data-element-id'
             },
             elements: {
                 blocks: '#blocks',
+                blockDeleteDroppable: '[data-element="block-delete-droppable"]',
                 newBlockDialog: '[data-element="new-block-dialog"]',
                 newBlockDialogButton: '[data-action="new-block-dialog"]',
                 newBlockDialogAccordion: '[data-element="new-block-dialog-accordion"]',
@@ -27,7 +29,8 @@
             },
             url: {
                 addProviderBlock: '{{ url('ibrows_newsletter_provider_view_add') }}',
-                updateBlockPosition: '{{ url('ibrows_newsletter_provider_block_position_update') }}'
+                updateBlockPosition: '{{ url('ibrows_newsletter_provider_block_position_update') }}',
+                removeBlock: '{{ url('ibrows_newsletter_provider_block_remove') }}'
             },
             trans: {
                 'newsletter.dialog.abort': '{{ 'newsletter.dialog.abort'|trans }}'
@@ -41,7 +44,14 @@
 {% endblock head_javascripts %}
 
 {% block newsletter_content %}
+    
+    {# generate hidden tinymce textarea because otherwise variable tinyMCE is not defined #}
+    <div style="display:none;"><textarea class="tinymce"></textarea></div>
+    
     <div data-container="newsletter_edit">
+        
+        <div class="block-delete-droppable" data-element="block-delete-droppable" style="display:none;"></div>
+        
         <div data-element="new-block-dialog" title="{{ 'newsletter.block.new'|trans }}">
             <div data-element="new-block-dialog-accordion">
                 {% for blockProviderId, blockProvider in blockProviderManager.blockProviders %}
@@ -83,8 +93,6 @@
         </div>
             
         <h1>{{ 'newsletter.edit'|trans({'%name%': newsletter.name}) }}</h1>
-
-        <h2>{{ 'newsletter.blocks'|trans }}</h2>
         
         <form method="post" enctype="multipart/form-data" action="" class="blocks">
             
@@ -100,6 +108,12 @@
                 {% endfor %}
             </ul>
             
+            <button data-action="new-block-dialog" data-ui-role="jquery-ui">{{ 'newsletter.block.new'|trans({}, "IbrowsNewsletterBundleForms") }}</button>
+            <input data-ui-role="jquery-ui" type="submit" name="save" value="{{ 'newsletter.blocks.save'|trans({}, "IbrowsNewsletterBundleForms") }}">
+            <input data-ui-role="jquery-ui" type="submit" name="continue" value="{{ 'newsletter.continue'|trans({}, "IbrowsNewsletterBundleForms") }}">
+            
         </form>
+        
+        <di
     </div>
 {% endblock %}

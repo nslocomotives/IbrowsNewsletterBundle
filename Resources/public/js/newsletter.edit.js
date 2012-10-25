@@ -18,18 +18,63 @@ ns.edit = function($options){
              
         $self.setupNewBlockDialog();
         $self.setupBlockSortable();
+        $self.setupBlockDeleteDroppable();
     }
     
     this.setupBlockSortable = function(){
         $($elements.blocks).sortable({
-            update: function(event, ui){
+            placeholder: "ui-state-highlight",
+            cursor: 'move',
+            cursorAt: {left: 0, top: 0},
+            update: function($event, $ui){
                 $self.updateBlockPositions();
+            },
+            helper: function($event, $ui){
+                return '<li class="helper" style="width:50px;height:50px;"></li>'
+            },
+            start: function($event, $ui){
+                jQuery($ui.item).find($options.selectors.tinymce).each(function(){
+                    tinyMCE.execCommand('mceRemoveControl', false, jQuery(this).attr('id'));
+                });
+                $self.showBlockDeleteDroppable();
+            },
+            stop: function($event, $ui){
+                jQuery($ui.item).find($options.selectors.tinymce).each(function(){
+                    tinyMCE.execCommand('mceAddControl', false, jQuery(this).attr('id'));
+                });
+                $self.hideBlockDeleteDroppable();
             }
         });
     }
     
+    this.showBlockDeleteDroppable = function(){
+        jQuery($elements.blockDeleteDroppable).show();
+    }
+    
+    this.hideBlockDeleteDroppable = function(){
+        jQuery($elements.blockDeleteDroppable).hide();
+    }
+    
+    this.setupBlockDeleteDroppable = function(){
+        jQuery($elements.blockDeleteDroppable).droppable({
+            tolerance: 'pointer',
+            accept: $options.selectors.block,
+            hoverClass: 'hover',
+            drop: function($event, $ui){
+                $self.deleteBlock(jQuery($ui.draggable));
+            }
+        });
+    }
+    
+    this.deleteBlock = function($block){
+        $block.remove();
+        jQuery.post($options.url.removeBlock, {
+            id: $block.data('element-id')
+        });
+    }
+    
     this.updateBlockPositions = function(){
-        jQuery.post( $options.url.updateBlockPosition, {
+        jQuery.post($options.url.updateBlockPosition, {
             positions: this.getBlockPositions()
         });
     }
@@ -83,23 +128,24 @@ ns.edit = function($options){
     }
     
     this.openNewBlockDialog = function($event){
-        var $dialog = $elements.newBlockDialog;
-        $dialog.dialog('open');
+        $elements.newBlockDialog.dialog('open');
     }
     
     this.closeNewBlockDialog = function($event){
-        var $dialog = $elements.newBlockDialog;
-        $dialog.dialog('close');
+        $elements.newBlockDialog.dialog('close');
     }
     
     this.addProviderBlock = function($parent, $data){
         this.closeNewBlockDialog();
-        $data.position = $elements.blocks.find($options.selectors.block).length + 1;
+        $data.position = $elements.blocks.find($options.selectors.block).length+1;
         jQuery.post(
             $options.url.addProviderBlock, 
             $data, 
             function($response){
                 $parent.append($response.html);
+                jQuery($response.html).find($options.selectors.tinymce).each(function(){
+                    tinyMCE.execCommand('mceAddControl', false, jQuery(this).attr('id'));
+                });
             }
         );
     }
