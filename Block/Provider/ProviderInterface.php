@@ -10,7 +10,9 @@ interface ProviderInterface
     public function getOptionKeys();
     
     public function setBlockProviderManager(BlockProviderManager $blockProviderManager);
+    
     public function initialize(BlockInterface $block, $blockClassName);
+    public function updateBlock(BlockInterface $block, $update);
     
     public function getBlockDisplayContent(BlockInterface $block);
     public function getBlockEditContent(BlockInterface $block);

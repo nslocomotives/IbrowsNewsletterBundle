@@ -14,6 +14,11 @@ abstract class AbstractProvider implements ProviderInterface
         return $this;
     }
     
+    public function updateBlock(BlockInterface $block, $update)
+    {
+        return $this;
+    }
+    
     public function getOptionKeys()
     {
         return array();

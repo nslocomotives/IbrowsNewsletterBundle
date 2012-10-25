@@ -35,12 +35,18 @@ class ImageProvider extends AbstractProvider
     
     public function updateBlock(BlockInterface $block, $update)
     {
+        if(!$update){
+            return;
+        }
+        
         if(!$update instanceof UploadedFile){
             throw new \InvalidArgumentException("Need instanceof Symfony\\Component\\HttpFoundation\\File\\UploadedFile");
         }
         
-        $update->move();
+        if(!$update->isValid()){
+            return;
+        }
         
-        $block->setContent();
+        $update->move($this->uploadDirectory, $block->getId);
     }
 }
