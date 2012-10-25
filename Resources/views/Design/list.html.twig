@@ -3,13 +3,28 @@
 
 {% block newsletter_content %}
     <h1>{{ 'design.list'|trans }}</h1>
-    <ul>
-        {% for design in designs %}
-            <li>
-                <a href="{{ url('ibrows_newsletter_design_edit', {id: design.id}) }}">
-                    #{{ design.id }} - {{ design.name }} - {{ design.createdAt|date }}
-                </a>
-            </li>
-        {% endfor %}
-    </ul>
+    <table class="table table-striped">
+		<thead>
+                <tr>
+                  <th>#</th>
+                  <th>{{ 'design.name'|trans }}</th>
+                  <th>{{ 'design.created_at'|trans }}</th>
+                </tr>
+        </thead>
+		<tbody>
+			{% for design in designs %}
+			<tr>
+              <td>{{ design.id }}</td>
+              <td>
+				  <a href="{{ url('ibrows_newsletter_design_edit', {id: design.id}) }}">{{ design.name }}</a>
+			  </td>
+              <td>{{ design.createdAt|date }}</td>
+            </tr>
+			{% endfor %}
+		</tbody>
+        
+        
+    </table>
+	
+	<a href="{{ url('ibrows_newsletter_design_create') }}" class="btn btn-primary"><i class="icon-plus icon-white"></i> {{ 'design.create'|trans }}</a>
 {% endblock newsletter_content %}
