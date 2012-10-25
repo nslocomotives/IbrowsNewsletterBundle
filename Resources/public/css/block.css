@@ -7,7 +7,7 @@ ul#blocks{
     margin-top: 1em;
 }
 
-ul#blocks li{
+ul#blocks li.block{
     border: 1px solid black;
     border-radius: 5px;
     margin: 1em;

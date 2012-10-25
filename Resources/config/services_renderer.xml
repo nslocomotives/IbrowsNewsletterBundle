@@ -11,7 +11,7 @@
         </service>
         
         <service id="ibrows_newsletter.renderer.twig" class="Ibrows\Bundle\NewsletterBundle\Renderer\TwigRenderer">
-        		<tag name="ibrows_newsletter.renderer" />
+            <tag name="ibrows_newsletter.renderer" />
         </service>
 
     </services>

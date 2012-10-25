@@ -4,9 +4,13 @@ Sendername: Absender Name
 Returnmail: Antwort E-Mail
 
 newsletter:
+  continue: Weiter
   block:
     provider:
       'ibrows_newsletter.block.provider.textareaandimage':
         textwidth: Textbreite
         imagewidth: Bildbreite
     name: Name
+    new: Neuer Block
+  blocks:
+    save: Speichern

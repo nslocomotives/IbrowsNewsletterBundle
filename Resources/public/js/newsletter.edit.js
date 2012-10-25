@@ -29,11 +29,9 @@ ns.edit = function($options){
     }
     
     this.updateBlockPositions = function(){
-        jQuery.post(
-            $options.url.updateBlockPosition, {
-                positions: this.getBlockPositions()
-            }
-        );
+        jQuery.post( $options.url.updateBlockPosition, {
+            positions: this.getBlockPositions()
+        });
     }
     
     this.getBlockPositions = function(){

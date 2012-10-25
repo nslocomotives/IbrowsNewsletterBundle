@@ -86,14 +86,20 @@
 
         <h2>{{ 'newsletter.blocks'|trans }}</h2>
         
-        <button data-action="new-block-dialog" data-ui-role="jquery-ui">{{ 'newsletter.block.new'|trans }}</button>
-        
-        <ul id="blocks">
-            {% for block in newsletter.blocks %}
-                <li data-element="block" data-element-id="{{ block.id }}" class="block">
-                    {{ blockProviderManager.get(block.providerName).blockEditContent(block)|raw }}
-                </li>
-            {% endfor %}
-        </ul>
+        <form method="post" enctype="multipart/form-data" action="" class="blocks">
+            
+            <button data-action="new-block-dialog" data-ui-role="jquery-ui">{{ 'newsletter.block.new'|trans({}, "IbrowsNewsletterBundleForms") }}</button>
+            <input data-ui-role="jquery-ui" type="submit" name="save" value="{{ 'newsletter.blocks.save'|trans({}, "IbrowsNewsletterBundleForms") }}">
+            <input data-ui-role="jquery-ui" type="submit" name="continue" value="{{ 'newsletter.continue'|trans({}, "IbrowsNewsletterBundleForms") }}">
+            
+            <ul id="blocks">
+                {% for block in newsletter.blocks %}
+                    <li data-element="block" data-element-id="{{ block.id }}" class="block">
+                        {{ blockProviderManager.get(block.providerName).blockEditContent(block)|raw }}
+                    </li>
+                {% endfor %}
+            </ul>
+            
+        </form>
     </div>
 {% endblock %}

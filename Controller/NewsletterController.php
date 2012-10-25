@@ -7,11 +7,14 @@ use Ibrows\Bundle\NewsletterBundle\Form\NewsletterFormType;
 use Ibrows\Bundle\NewsletterBundle\Annotation\Wizard\Annotation as WizardAction;
 use Ibrows\Bundle\NewsletterBundle\Annotation\Wizard\AnnotationHandler as WizardActionHandler;
 
+use Doctrine\Common\Collections\Collection;
+
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * @Route("/newsletter")
@@ -100,7 +103,33 @@ class NewsletterController extends AbstractController
 
         $request = $this->getRequest();
 		if($request->getMethod() == 'POST'){
-			return $this->redirect($this->getWizardActionAnnotationHandler()->getNextStepUrl());
+            $blockParameters = array();
+            
+            $blockPostArray = $request->request->get('block');
+            if(!is_array($blockPostArray)){
+               $blockPostArray = array(); 
+            }
+            
+            $blockFileArray = $request->files->get('block');
+            if(!is_array($blockFileArray)){
+               $blockFileArray = array();
+            }
+            
+            foreach($blockPostArray as $blockId => $content){
+                $blockParameters[$blockId] = $content;
+            }
+            
+            foreach($blockFileArray as $blockId => $file){
+                $blockParameters[$blockId] = $file;
+            }
+            
+            $newsletter = $this->getNewsletter();
+            $this->updateBlocksRecursive($newsletter->getBlocks(), $blockParameters);
+            $this->setNewsletter($newsletter);
+            
+            if($request->request->get('continue')){
+                return $this->redirect($this->getWizardActionAnnotationHandler()->getNextStepUrl());
+            }
 		}
         
 		return $this->render($this->getTemplateManager()->getNewsletter('edit'), array(
@@ -227,4 +256,17 @@ class NewsletterController extends AbstractController
             'newsletter' => $newsletter
 		));
 	}
+    
+    protected function updateBlocksRecursive(Collection $blocks, array $blockParameters)
+    {
+        foreach($blocks as $block){
+            $parameters = isset($blockParameters[$block->getId()]) ? 
+                $blockParameters[$block->getId()] : null;
+
+            $provider = $this->getBlockProviderManager()->get($block->getProviderName());
+            $provider->updateBlock($block, $parameters);
+            
+            $this->updateBlocksRecursive($block->getBlocks(), $blockParameters);
+        }
+    }
 }
