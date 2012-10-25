@@ -8,6 +8,11 @@ ul#blocks{
     margin-bottom: 1em;
 }
 
+ul#blocks li.block textarea{
+    width: 100%;
+    height: 100%;
+}
+
 ul#blocks li.block{
     border: 1px solid black;
     border-radius: 5px;
