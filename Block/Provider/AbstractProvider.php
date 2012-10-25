@@ -29,12 +29,12 @@ abstract class AbstractProvider implements ProviderInterface
         $content = $this->getStartBlockDisplayContent($block);
         
         foreach($block->getBlocks() as $childBlock){
-            $content .= $this->getPreBlockDisplayContent($childBlock);
+            $content .= $this->getPreBlockDisplayContent($block);
             
             $childProvider = $this->blockProviderManager->get($childBlock->getProviderName());
             $content .= $childProvider->getBlockDisplayContent($childBlock);
             
-            $content .= $this->getPostBlockDisplayContent($childBlock);
+            $content .= $this->getPostBlockDisplayContent($block);
         }
         
         $content .= $block->getContent();
@@ -47,12 +47,12 @@ abstract class AbstractProvider implements ProviderInterface
         $content = $this->getStartBlockEditContent($block);
         
         foreach($block->getBlocks() as $childBlock){
-            $content .= $this->getPreBlockEditContent($childBlock);
+            $content .= $this->getPreBlockEditContent($block);
             
             $childProvider = $this->blockProviderManager->get($childBlock->getProviderName());
             $content .= $childProvider->getBlockEditContent($childBlock);
             
-            $content .= $this->getPostBlockEditContent($childBlock);
+            $content .= $this->getPostBlockEditContent($block);
         }
         
         $content .= $block->getContent();
