@@ -193,7 +193,7 @@ abstract class Block implements BlockInterface
     public function removeBlock(BlockInterface $block)
     {
         $block->setParentBlock(null);
-        $this->blocks->remove($block);
+        $this->blocks->removeElement($block);
         return $this;
     }
     

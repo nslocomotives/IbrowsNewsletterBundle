@@ -186,7 +186,7 @@ class Newsletter implements NewsletterInterface
 	public function removeSubscriber(SubscriberInterface $subscriber)
 	{
         $subscriber->removeNewsletter($this);
-		$this->subscribers->remove($subscriber);
+		$this->subscribers->removeElement($subscriber);
 		return $this;
 	}
 
