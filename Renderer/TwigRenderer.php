@@ -8,10 +8,12 @@ class TwigRenderer implements RendererInterface
 	
 	public function __construct(array $twigOptions = array())
 	{
-		$this->engine = new \Twig_Environment(
+		$engine = new \Twig_Environment(
             new \Twig_Loader_String(), 
             $twigOptions
         );
+        
+        $this->engine = $engine;
 	}
 
 	public function render(RenderableInterface $element, array $parameters = array())

@@ -4,6 +4,8 @@ namespace Ibrows\Bundle\NewsletterBundle\Model\Newsletter;
 
 use Ibrows\Bundle\NewsletterBundle\Model\Block\BlockInterface;
 
+use Doctrine\Common\Collections\Collection;
+
 interface NewsletterInterface
 {
     public function getName();
@@ -15,6 +17,10 @@ interface NewsletterInterface
 	public function getReturnMail();
     
     public function getId();
+    
+    /**
+     * @return Collection
+     */
     public function getSubscribers();
     
     public function getBlocks();

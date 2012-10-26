@@ -10,13 +10,22 @@
         <!-- Le styles -->
         {% block head_styles %}
         
-            {% stylesheets filter='cssrewrite'
-				'bundles/ibrowsnewsletter/bootstrap/css/*.css'
-                'bundles/ibrowsnewsletter/jquery/css/ui-lightness/*.css'
-				'bundles/ibrowsnewsletter/css/*.css'
-			%}
-                <link rel="stylesheet" type="text/css" media="screen" href="{{ asset_url }}" />
-			{% endstylesheets %}
+            {# CSS libraries START #}
+                {% stylesheets filter='cssrewrite'
+                    'bundles/ibrowsnewsletter/bootstrap/css/*.css'
+                    'bundles/ibrowsnewsletter/jquery/css/ui-lightness/*.css'
+                %}
+                    <link rel="stylesheet" type="text/css" media="screen" href="{{ asset_url }}" />
+                {% endstylesheets %}
+            {# CSS libraries END #}
+                    
+            {# CSS custom START #}
+                {% stylesheets filter='cssrewrite'
+                    'bundles/ibrowsnewsletter/css/*.css'
+                %}
+                    <link rel="stylesheet" type="text/css" media="screen" href="{{ asset_url }}" />
+                {% endstylesheets %}
+            {# CSS custom END #}
                 
         {% endblock head_styles %}
              
@@ -41,7 +50,6 @@
             {% javascripts
                 '@IbrowsNewsletterBundle/Resources/public/jquery/js/*.js'
             %}
-
                 <script type="text/javascript" src="{{ asset_url }}"></script>
             {% endjavascripts %}
                 
@@ -49,17 +57,24 @@
                 jQuery.noConflict();
             </script>
             
-            {% javascripts 
-                '@IbrowsNewsletterBundle/Resources/public/bootstrap/js/plugins/*.js'
-
-                '@IbrowsNewsletterBundle/Resources/public/jquery/js/*.js'
-                '@IbrowsNewsletterBundle/Resources/public/jquery/js/plugins/*.js'
+            {# JS libraries START #}
+                {% javascripts 
+                    '@IbrowsNewsletterBundle/Resources/public/bootstrap/js/*.js'
+                    '@IbrowsNewsletterBundle/Resources/public/bootstrap/js/plugins/*.js'
+                    '@IbrowsNewsletterBundle/Resources/public/jquery/js/*.js'
+                    '@IbrowsNewsletterBundle/Resources/public/jquery/js/plugins/*.js'
+                %}
+                    <script type="text/javascript" src="{{ asset_url }}"></script>
+                {% endjavascripts %}
+            {# JS libraries END #}
                     
-                '@IbrowsNewsletterBundle/Resources/public/js/*.js'
-            %}
-
-                <script type="text/javascript" src="{{ asset_url }}"></script>
-            {% endjavascripts %}
+            {# JS custom START #}
+                {% javascripts 
+                    '@IbrowsNewsletterBundle/Resources/public/js/*.js'
+                %}
+                    <script type="text/javascript" src="{{ asset_url }}"></script>
+                {% endjavascripts %}
+            {# JS custom END #}
                 
             <script type="text/javascript">
                 var $newsletter = new ibrows_newsletter.newsletter();

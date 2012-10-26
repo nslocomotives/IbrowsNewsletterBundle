@@ -3,6 +3,8 @@ Sendermail: Absender E-Mail
 Sendername: Absender Name
 Returnmail: Antwort E-Mail
 Subscribers: Empfänger
+Content: Inhalt
+Name: Name
 
 form:
   save: Speichern
