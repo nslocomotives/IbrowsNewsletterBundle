@@ -75,7 +75,8 @@ class NewsletterController extends AbstractController
         }
 		
 		$formtype = $this->getClassManager()->getForm('newsletter');
-		$form = $this->createForm(new $formtype(), $newsletter);
+		$designClass = $this->getClassManager()->getModel('design');
+		$form = $this->createForm(new $formtype($this->getMandantName(), $designClass), $newsletter);
 		
 		$request = $this->getRequest();
 		if($request->getMethod() == 'POST'){
@@ -166,7 +167,8 @@ class NewsletterController extends AbstractController
         
         $newsletter = $this->getNewsletter();
         $formtype = $this->getClassManager()->getForm('subscriber');
-        $form = $this->createForm(new $formtype(), $newsletter);
+		$subscriberClass = $this->getClassManager()->getModel('subscriber');
+        $form = $this->createForm(new $formtype($this->getMandantName(), $subscriberClass), $newsletter);
         
         $request = $this->getRequest();
         if($request->getMethod() == 'POST'){
