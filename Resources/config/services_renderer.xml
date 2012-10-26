@@ -27,6 +27,7 @@
 
         <service id="ibrows_newsletter.rendererbridge" class="Ibrows\Bundle\NewsletterBundle\Renderer\RendererBridge">
             <argument type="service" id="translator" /> 
+            <argument type="service" id="router" /> 
         </service>
 
     </services>
