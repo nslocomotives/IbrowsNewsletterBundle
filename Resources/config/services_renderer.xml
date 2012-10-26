@@ -9,6 +9,8 @@
     <parameters>
         <parameter key="ibrows_newsletter.renderer.twig.options" type="collection">
             <parameter key="autoescape">false</parameter>
+            <parameter key="strict_variables">true</parameter>
+            <parameter key="debug">%kernel.debug%</parameter>
         </parameter>
     </parameters>
     
@@ -21,6 +23,10 @@
         <service id="ibrows_newsletter.renderer.twig" class="Ibrows\Bundle\NewsletterBundle\Renderer\TwigRenderer">
             <argument>%ibrows_newsletter.renderer.twig.options%</argument> 
             <tag name="ibrows_newsletter.renderer" />
+        </service>
+
+        <service id="ibrows_newsletter.rendererbridge" class="Ibrows\Bundle\NewsletterBundle\Renderer\RendererBridge">
+            <argument type="service" id="translator" /> 
         </service>
 
     </services>
