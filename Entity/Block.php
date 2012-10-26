@@ -32,14 +32,14 @@ class Block extends BaseBlock
     /**
 	 * @var string
 	 * 
-	 * @ORM\Column(type="text")
+	 * @ORM\Column(type="text", name="provider_name")
 	 */
 	protected $providerName;
     
     /**
 	 * @var array
 	 * 
-	 * @ORM\Column(type="array")
+	 * @ORM\Column(type="array", name="provider_options")
 	 */
 	protected $providerOptions = array();
 }

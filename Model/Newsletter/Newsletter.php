@@ -263,7 +263,7 @@ class Newsletter implements NewsletterInterface
     public function removeBlock(BlockInterface $block)
     {
         $block->setNewsletter(null);
-        $this->blocks->remove($block);
+        $this->blocks->removeElement($block);
         return $this;
     }
     

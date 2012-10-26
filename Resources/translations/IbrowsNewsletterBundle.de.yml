@@ -1,6 +1,7 @@
 newsletter:
   block:
     add: Hinzufügen
+    new: Neuer Block
     providername:
       'ibrows_newsletter.block.provider.textarea': Text
       'ibrows_newsletter.block.provider.image': Bild

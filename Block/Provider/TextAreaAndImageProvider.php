@@ -3,7 +3,6 @@
 namespace Ibrows\Bundle\NewsletterBundle\Block\Provider;
 
 use Ibrows\Bundle\NewsletterBundle\Model\Block\BlockInterface;
-use Ibrows\Bundle\NewsletterBundle\Entity\Block;
 
 class TextAreaAndImageProvider extends AbstractProvider
 {    
@@ -36,7 +35,7 @@ class TextAreaAndImageProvider extends AbstractProvider
     
     protected function getStartBlockDisplayContent(BlockInterface $block)
     {
-        return '<table style="border:1px solid black;"><tr>';
+        return '<table class="provider"><tr class="provider">';
     }
     
     protected function getEndBlockDisplayContent(BlockInterface $block)
@@ -49,7 +48,7 @@ class TextAreaAndImageProvider extends AbstractProvider
         $widthKey = $block->getProviderName() == 'ibrows_newsletter.block.provider.textarea' ?
             'textWidth' : 'imageWidth';
         
-        return '<td width="'. $block->getProviderOption($widthKey, '50%') .'" style="border:1px solid black;">';
+        return '<td class="provider" style="width:'. $block->getProviderOption($widthKey, '50%') .'">';
     }
     
     protected function getPostBlockDisplayContent(BlockInterface $block)
@@ -59,7 +58,7 @@ class TextAreaAndImageProvider extends AbstractProvider
     
     protected function getStartBlockEditContent(BlockInterface $block)
     {
-        return '<table style="border:1px solid black;width:100%;"><tr>';
+        return '<table class="provider"><tr class="provider">';
     }
     
     protected function getEndBlockEditContent(BlockInterface $block)
@@ -72,7 +71,7 @@ class TextAreaAndImageProvider extends AbstractProvider
         $widthKey = $block->getProviderName() == 'ibrows_newsletter.block.provider.textarea' ?
             'textWidth' : 'imageWidth';
         
-        return '<td width="'. $block->getProviderOption($widthKey, '50%') .'" style="border:1px solid black;">';
+        return '<td class="provider" style="width:'. $block->getProviderOption($widthKey, '50%') .'">';
     }
     
     protected function getPostBlockEditContent(BlockInterface $block)
