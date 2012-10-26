@@ -1,6 +1,6 @@
-/*
-    LAYOUT-NEWSLETTER-EDIT
-*/
+/************** --------------- **************/
+/************** NEWSLETTER EDIT **************/
+/************** --------------- **************/
 .layout-newsletter-edit ul#blocks{
     width: 100%;
     border: 1px solid #cdcdcd;
@@ -60,4 +60,14 @@
 
 .layout-newsletter-edit div.block-delete-droppable.hover{
     border: 1px solid red;
+}
+
+/************** ------------------ **************/
+/************** NEWSLETTER SUMMARY **************/
+/************** ------------------ **************/
+.layout-newsletter-summary .newsletter-overview{
+    border: 1px solid #cdcdcd;
+    border-radius: 5px;
+    padding: .5em;
+    
 }
