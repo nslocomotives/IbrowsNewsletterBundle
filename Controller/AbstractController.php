@@ -2,16 +2,13 @@
 
 namespace Ibrows\Bundle\NewsletterBundle\Controller;
 
-
-
 use Ibrows\Bundle\NewsletterBundle\Service\orm\DesignManager;
 use Ibrows\Bundle\NewsletterBundle\Service\orm\NewsletterManager;
 use Ibrows\Bundle\NewsletterBundle\Service\orm\MandantManager;
 use Ibrows\Bundle\NewsletterBundle\Service\TemplateManager;
 use Ibrows\Bundle\NewsletterBundle\Service\ClassManager;
-
+use Ibrows\Bundle\NewsletterBundle\Service\RendererManager;
 use Ibrows\Bundle\NewsletterBundle\Service\BlockProviderManager;
-use Ibrows\Bundle\NewsletterBundle\Service\BlockRendererManager;
 
 use Ibrows\Bundle\NewsletterBundle\Model\Newsletter\NewsletterInterface;
 use Ibrows\Bundle\NewsletterBundle\Model\Mandant\MandantInterface;
@@ -96,7 +93,7 @@ abstract class AbstractController extends Controller
     }
     
     /**
-     * @return BlockRendererManager
+     * @return RendererManager
      */
     protected function getRendererManager()
     {
@@ -171,7 +168,7 @@ abstract class AbstractController extends Controller
     }
     
     /**
-     * @return Newsletter
+     * @return NewsletterInterface
      * @throws NotFoundException
      */
     protected function getNewsletter()
