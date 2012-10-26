@@ -12,8 +12,10 @@ class DesignType extends AbstractType
 	 */
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$builder
-		->add('name')
-		->add('content')
+            ->add('name')
+            ->add('content', null, array(
+                'attr' => array('class' => 'tinymce')
+            ))
 		;
 	}
 	
