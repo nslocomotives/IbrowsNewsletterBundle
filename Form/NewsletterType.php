@@ -10,11 +10,13 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class NewsletterType extends AbstractType
 {
-	protected $designChoicesList;
+	protected $managerName;
+	protected $designClass;
 	
-	public function __construct(ObjectManager $manager, $designClass)
+	public function __construct($managerName, $designClass)
 	{
-		$this->designChoicesList = new EntityChoiceList($manager, $designClass);
+		$this->managerName = $managerName;
+		$this->designClass = $designClass;
 	}
 	
 	/**
@@ -28,8 +30,9 @@ class NewsletterType extends AbstractType
 			->add('senderMail', 'email')
 			->add('senderName')
 			->add('returnMail', 'email')
-			->add('design', 'choice', array(
-					'choice_list' => $this->designChoicesList,
+			->add('design', 'entity', array(
+					'em' => $this->managerName,
+					'class' => $this->designClass,
 			))
 		;
 	}

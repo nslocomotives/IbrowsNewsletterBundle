@@ -9,11 +9,13 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class SubscriberType extends AbstractType
 {
-	protected $subscriberChoiceList;
+	protected $managerName;
+	protected $subscriberClass;
 	
-	public function __construct(ObjectManager $manager, $subscriberClass)
+	public function __construct($managerName, $subscriberClass)
 	{
-		$this->subscriberChoiceList = new EntityChoiceList($manager, $subscriberClass);
+		$this->managerName = $managerName;
+		$this->subscriberClass = $subscriberClass;
 	}
 	
 	/**
@@ -22,8 +24,11 @@ class SubscriberType extends AbstractType
 	 */
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$builder
-            ->add('subscribers', 'choice', array(
-            		'choice_list' => $this->subscriberChoiceList,
+            ->add('subscribers', 'entity', array(
+            		'em' => $this->managerName,
+            		'class' => $this->subscriberClass,
+            		'multiple' => true,
+            		'expanded' => false,
             ))
 		;
 	}
