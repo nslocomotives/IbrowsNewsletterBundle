@@ -2,11 +2,20 @@
 
 namespace Ibrows\Bundle\NewsletterBundle\Form;
 
+use Doctrine\Common\Persistence\ObjectManager;
+
+use Symfony\Bridge\Doctrine\Form\ChoiceList\EntityChoiceList;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 
 class NewsletterType extends AbstractType
 {
+	protected $designChoicesList;
+	
+	public function __construct(ObjectManager $manager, $designClass)
+	{
+		$this->designChoicesList = new EntityChoiceList($manager, $designClass);
+	}
 	
 	/**
 	 * @param FormBuilderInterface $builder
@@ -19,7 +28,9 @@ class NewsletterType extends AbstractType
 			->add('senderMail', 'email')
 			->add('senderName')
 			->add('returnMail', 'email')
-			->add('design')
+			->add('design', 'choice', array(
+					'choice_list' => $this->designChoicesList,
+			))
 		;
 	}
 	

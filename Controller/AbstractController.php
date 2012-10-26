@@ -32,6 +32,13 @@ abstract class AbstractController extends Controller
     }
     
     /**
+     * @return ObjectManager
+     */
+    protected function getObjectManager()
+    {
+    		return $this->getMandantManager()->getObjectManager($this->getMandantName());
+    }
+    /**
      * @return Session
      */
     protected function getSession()
