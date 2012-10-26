@@ -30,6 +30,7 @@ design:
   preview: Vorschau
   name: Name
   created_at: Erstellt am
+  edit: Design editieren
 
 form:
   save: Speichern
