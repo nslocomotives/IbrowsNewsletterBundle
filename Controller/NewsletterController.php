@@ -235,14 +235,14 @@ class NewsletterController extends AbstractController
         $newsletter = $this->getNewsletter();
         $renderer = $this->getRendererManager()->get($this->getMandant()->getRendererName());
         
-        $overview = $renderer->render($newsletter->getDesign(), array(
+        $newsletteroverview = $renderer->render($newsletter->getDesign(), array(
             'content' => $renderer->render(
                 new BlockComposition($this->getBlockProviderManager(), $newsletter->getBlocks())
             )
         ));
         
 		return $this->render($this->getTemplateManager()->getNewsletter('summary'), array(
-            'overview' => $overview,
+            'newsletteroverview' => $newsletteroverview,
             'newsletter' => $newsletter,
             'wizard' => $this->getWizardActionAnnotationHandler(),
 		));
