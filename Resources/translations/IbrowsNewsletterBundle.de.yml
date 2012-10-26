@@ -15,6 +15,7 @@ newsletter:
   create: Neuer Newsletter
   list: Newsletter Liste
   edit: Newsletter "%name%" editieren
+  summary: Newsletter "%name%" Zusammenfassung
   blocks: Abschnitte
   dialog:
     abort: abbrechen
