@@ -8,19 +8,74 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 abstract class Subscriber implements SubscriberInterface
 {
+    protected $id;
     protected $locale;
     protected $email;
     
+    protected $gender;
+    protected $title;
+
     protected $newsletters;
+    
+    protected static $genders = array(
+        self::GENDER_FEMALE => self::GENDER_FEMALE,
+        self::GENDER_MALE => self::GENDER_MALE,
+        self::GENDER_COMPANY => self::GENDER_COMPANY
+    );
+    
+    protected static $titles = array(
+        self::TITLE_FORMAL => self::TITLE_FORMAL,
+        self::TITLE_INFORMAL => self::TITLE_INFORMAL
+    );
     
     public function __construct()
     {
         $this->newsletters = new ArrayCollection();
     }
     
+    public function getId()
+    {
+        return $this->id;
+    }
+    
     public function __toString()
     {
-    		return $this->email;
+        return $this->email;
+    }
+    
+    public function isFemale()
+    {
+        return $this->getGender() == self::$genders[self::GENDER_FEMALE];
+    }
+    
+    public function isMale()
+    {
+        return $this->getGender() == self::$genders[self::GENDER_MALE];
+    }
+    
+    public function isCompany()
+    {
+        return $this->getGender() == self::$genders[self::GENDER_COMPANY];
+    }
+    
+    public function isFormalTitle()
+    {
+        return $this->getTitle() == self::$genders[self::TITLE_FORMAL];
+    }
+    
+    public function isInformalTitle()
+    {
+        return $this->getTitle() == self::$genders[self::TITLE_INFORMAL];
+    }
+    
+    public function getGender()
+    {
+        return $this->gender;
+    }
+    
+    public function getTitle()
+    {
+        return $this->title;
     }
     
     public function getLocale()
@@ -57,7 +112,7 @@ abstract class Subscriber implements SubscriberInterface
     
     public function removeNewsletter(NewsletterInterface $newsletter)
     {
-        $this->newsletters->remove($newsletter);
+        $this->newsletters->removeElement($newsletter);
         return $this;
     }
 }
