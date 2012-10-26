@@ -69,5 +69,5 @@
     border: 1px solid #cdcdcd;
     border-radius: 5px;
     padding: .5em;
-    
+    display: inline-block;
 }
