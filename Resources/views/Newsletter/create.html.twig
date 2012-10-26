@@ -1,5 +1,6 @@
 {% extends basetemplate %}
 {% trans_default_domain "IbrowsNewsletterBundle" %}
+{% block layout_class %}newsletter-create{% endblock layout_class %}
 
 {% import "IbrowsNewsletterBundle::macros.html.twig" as macros %}
 {% block newsletter_wizard %}
@@ -7,12 +8,12 @@
 {% endblock %}
 
 {% block newsletter_content %}
-<form action="{{ path('ibrows_newsletter_create') }}" method="post" {{ form_enctype(form) }}>
-    {{ form_errors(form) }}
-    {{ form_rest(form) }}
-    <div class="form-actions">
-        <button type="submit" class="btn btn-primary">{{ 'form.save'|trans }}</button>
-        <button type="button" class="btn">{{ 'form.cancel'|trans }}</button>
-    </div>
-</form>
+    <form action="" method="post" {{ form_enctype(form) }}>
+        {{ form_errors(form) }}
+        {{ form_rest(form) }}
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">{{ 'form.save'|trans }}</button>
+            <button type="button" class="btn">{{ 'form.cancel'|trans }}</button>
+        </div>
+    </form>
 {% endblock %}

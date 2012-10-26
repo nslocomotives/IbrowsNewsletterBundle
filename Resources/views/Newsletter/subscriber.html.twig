@@ -1,5 +1,6 @@
 {% extends basetemplate %}
 {% trans_default_domain "IbrowsNewsletterBundle" %}
+{% block layout_class %}newsletter-subscriber{% endblock layout_class %}
 
 {% import "IbrowsNewsletterBundle::macros.html.twig" as macros %}
 {% block newsletter_wizard %}
@@ -7,11 +8,13 @@
 {% endblock %}
 
 {% block newsletter_content %}
-{{ 'newsletter' }} #{{ newsletter.id }}
+    <h1>{{ 'newsletter.subscriber'|trans({'%name%': newsletter.name}) }}</h1>
 
-<form action="{{ path('ibrows_newsletter_subscriber') }}" method="post" {{ form_enctype(form) }}>
-{{ form_errors(form) }}
-{{ form_rest(form) }}
-<input type="submit" />
-</form>
+    <form action="{{ path('ibrows_newsletter_subscriber') }}" method="post" {{ form_enctype(form) }}>
+        {{ form_errors(form) }}
+        {{ form_rest(form) }}
+        <div class="form-actions">
+            <input type="submit" class="btn btn-primary" name="send" value="{{ 'form.save'|trans }}">
+        </div>
+    </form>
 {% endblock %}

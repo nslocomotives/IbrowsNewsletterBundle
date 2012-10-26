@@ -82,10 +82,10 @@
         <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
         <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">
 
-        <title>{% block title %}iBROWS NewsletterBundle{% endblock %}</title>
+        <title>{% block title %}iBROWS NewsletterBundle{% endblock title %}</title>
     </head>
     
-    <body>
+    <body class="layout-{% block layout_class %}default{% endblock layout_class %}">
         
         <div class="navbar navbar-inverse navbar-fixed-top">
             <div class="navbar-inner">
@@ -93,7 +93,6 @@
                     <a class="brand" href="{{ path('ibrows_newsletter_index') }}">{{ 'layout.header.title.newsletterbundle'|trans }}</a>
 	                <ul class="nav">
                         <li><a href="{{ url('ibrows_newsletter_list') }}">{{ 'newsletter.list'|trans }}</a></li>
-						<li><a href="{{ url('ibrows_newsletter_create') }}">{{ 'newsletter.create'|trans }}</a></li>
 						<li><a href="{{ url('ibrows_newsletter_design_list') }}">{{ 'design.list'|trans }}</a></li>
 	                </ul>
                 </div>

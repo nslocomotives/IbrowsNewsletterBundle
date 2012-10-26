@@ -1,5 +1,6 @@
 {% extends basetemplate %}
 {% trans_default_domain "IbrowsNewsletterBundle" %}
+{% block layout_class %}newsletter-summary{% endblock layout_class %}
 
 {% import "IbrowsNewsletterBundle::macros.html.twig" as macros %}
 {% block newsletter_wizard %}
@@ -7,5 +8,9 @@
 {% endblock %}
 
 {% block newsletter_content %}
-    {{ 'newsletter' }} #{{ newsletter.id }}
+    <h1>{{ 'newsletter.summary'|trans({'%name%': newsletter.name}) }}</h1>
+        
+    <div class="overview">
+        {{ overview|raw }}
+    </div>
 {% endblock %}

@@ -1,5 +1,6 @@
 {% extends basetemplate %}
 {% trans_default_domain "IbrowsNewsletterBundle" %}
+{% block layout_class %}newsletter-edit{% endblock layout_class %}
 
 {% import "IbrowsNewsletterBundle::macros.html.twig" as macros %}
 {% block newsletter_wizard %}
@@ -43,6 +44,15 @@
     </script>
 {% endblock head_javascripts %}
 
+{% macro displayformcontrols() %}
+    {% trans_default_domain "IbrowsNewsletterBundleForms" %}
+    <div class="form-actions">
+        <button data-action="new-block-dialog" class="btn">{{ 'newsletter.block.new'|trans }}</button>
+        <input type="submit" name="save" class="btn btn-primary" value="{{ 'form.save'|trans }}">
+        <input type="submit" name="continue" class="btn" value="{{ 'form.continue'|trans }}">
+    </div>
+{% endmacro displayformcontrols %}
+    
 {% block newsletter_content %}
     
     {# generate hidden tinymce textarea because otherwise variable tinyMCE is not defined #}
@@ -59,14 +69,16 @@
                     <div>
                         <form data-element="new-block-dialog-provider-form">
                             <input data-form-field="true" type="hidden" name="provider" value="{{ blockProviderId }}">
-                            <div>
-                                {{ 'newsletter.block.name'|trans({}, "IbrowsNewsletterBundleForms") }}
-                            </div>
+                            {#
+                                <div>
+                                    {{ 'newsletter.block.name'|trans({}, "IbrowsNewsletterBundleForms") }}
+                                </div>
+                            #}
                             <div>
                                 <input 
                                     data-form-field="true"
                                     required="required"
-                                    type="text"
+                                    type="hidden"
                                     name="name" 
                                 >
                             </div>
@@ -84,7 +96,7 @@
                                 </div>
                             {% endfor %}
                             <div>
-                                <button data-action="new-block-dialog-add" data-ui-role="jquery-ui">{{ 'newsletter.block.add'|trans }}</button>
+                                <button data-action="new-block-dialog-add" class="btn">{{ 'newsletter.block.add'|trans }}</button>
                             </div>
                         </form>
                     </div>
@@ -96,9 +108,7 @@
         
         <form method="post" enctype="multipart/form-data" action="" class="blocks">
             
-            <button data-action="new-block-dialog" data-ui-role="jquery-ui">{{ 'newsletter.block.new'|trans({}, "IbrowsNewsletterBundleForms") }}</button>
-            <input data-ui-role="jquery-ui" type="submit" name="save" value="{{ 'newsletter.blocks.save'|trans({}, "IbrowsNewsletterBundleForms") }}">
-            <input data-ui-role="jquery-ui" type="submit" name="continue" value="{{ 'newsletter.continue'|trans({}, "IbrowsNewsletterBundleForms") }}">
+            {{ _self.displayformcontrols() }}
             
             <ul id="blocks">
                 {% for block in newsletter.blocks %}
@@ -108,9 +118,7 @@
                 {% endfor %}
             </ul>
             
-            <button data-action="new-block-dialog" data-ui-role="jquery-ui">{{ 'newsletter.block.new'|trans({}, "IbrowsNewsletterBundleForms") }}</button>
-            <input data-ui-role="jquery-ui" type="submit" name="save" value="{{ 'newsletter.blocks.save'|trans({}, "IbrowsNewsletterBundleForms") }}">
-            <input data-ui-role="jquery-ui" type="submit" name="continue" value="{{ 'newsletter.continue'|trans({}, "IbrowsNewsletterBundleForms") }}">
+            {{ _self.displayformcontrols() }}
             
         </form>
         
