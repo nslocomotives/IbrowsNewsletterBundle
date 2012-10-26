@@ -22,7 +22,7 @@ class DesignController extends AbstractController
 	public function listAction()
 	{
 		return $this->render($this->getTemplateManager()->getDesign('list'), array(
-				'designs' => $this->getMandant()->getDesigns(),
+            'designs' => $this->getMandant()->getDesigns(),
 		));
 	}
 	
@@ -62,7 +62,7 @@ class DesignController extends AbstractController
 		
 		$formtype = $this->getClassManager()->getForm('design');
 		$form = $this->createForm(new $formtype(), $design);
-		$renderer = $this->getRendererManager()->get($this->getMandant()->getRenderer());
+		$renderer = $this->getRendererManager()->get($this->getMandant()->getRendererName());
 		
 		$request = $this->getRequest();
 		if($request->getMethod() == 'POST'){
