@@ -5,6 +5,8 @@ Returnmail: Antwort E-Mail
 Subscribers: Empfänger
 Content: Inhalt
 Name: Name
+Subscriber: Empfänger
+Email: E-Mail
 
 form:
   save: Speichern

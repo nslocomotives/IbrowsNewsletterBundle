@@ -3,6 +3,8 @@ newsletter:
   settings: Einstellungen für Newsletter "%name%" editieren
   name: Name
   created_at: Erstellt am
+  testmail: Test Versand
+  overview: Übersicht
   block:
     add: Hinzufügen
     new: Neuer Block
@@ -32,9 +34,13 @@ design:
   created_at: Erstellt am
   edit: Design editieren
 
+email: E-Mail
+
 form:
   save: Speichern
   cancel: Abbrechen
+  send: Senden
+  testmail: Testversand
   
 security:
   login:
