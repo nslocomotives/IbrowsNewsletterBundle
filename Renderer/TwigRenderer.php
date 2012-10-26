@@ -2,17 +2,16 @@
 
 namespace Ibrows\Bundle\NewsletterBundle\Renderer;
 
-use Symfony\Bridge\Twig\TwigEngine;
-
 class TwigRenderer implements RendererInterface
 {
 	protected $engine;
 	
-	public function __construct()
+	public function __construct(array $twigOptions = array())
 	{
-		$this->engine = new \Twig_Environment();
-		$stringloader = new \Twig_Loader_String();
-		$this->engine->setLoader($stringloader);
+		$this->engine = new \Twig_Environment(
+            new \Twig_Loader_String(), 
+            $twigOptions
+        );
 	}
 
 	public function render(RenderableInterface $element, array $parameters = array())
