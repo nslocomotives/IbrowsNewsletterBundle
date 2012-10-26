@@ -281,7 +281,7 @@ class Newsletter implements NewsletterInterface
      */
     public function setDesign(DesignInterface $design)
     {
-    		$this->design = $design;
-    		return $this;
+        $this->design = $design;
+        return $this;
     }
 }
