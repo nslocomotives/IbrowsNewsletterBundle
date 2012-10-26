@@ -2,10 +2,9 @@
 
 namespace Ibrows\Bundle\NewsletterBundle\Controller;
 
-use Ibrows\Bundle\NewsletterBundle\Form\NewsletterFormType;
-
 use Ibrows\Bundle\NewsletterBundle\Annotation\Wizard\Annotation as WizardAction;
 use Ibrows\Bundle\NewsletterBundle\Annotation\Wizard\AnnotationHandler as WizardActionHandler;
+
 use Ibrows\Bundle\NewsletterBundle\Block\BlockComposition;
 
 use Doctrine\Common\Collections\Collection;
@@ -171,12 +170,12 @@ class NewsletterController extends AbstractController
         
         $request = $this->getRequest();
         if($request->getMethod() == 'POST'){
-	        	$form->bindRequest($request);
-	        		
-	        	if($form->isValid()){
-	        		$this->setNewsletter($newsletter);
-	        		return $this->redirect($this->getWizardActionAnnotationHandler()->getNextStepUrl());
-	        	}
+            $form->bindRequest($request);
+
+            if($form->isValid()){
+                $this->setNewsletter($newsletter);
+                return $this->redirect($this->getWizardActionAnnotationHandler()->getNextStepUrl());
+            }
         }
         
 		return $this->render($this->getTemplateManager()->getNewsletter('subscriber'), array(
@@ -235,24 +234,51 @@ class NewsletterController extends AbstractController
         $newsletter = $this->getNewsletter();
         $renderer = $this->getRendererManager()->get($this->getMandant()->getRendererName());
         
+        $bridgeServiceId = $this->container->getParameter('ibrows_newsletter.rendererbridgeserviceid');
+        $bridge = $this->get($bridgeServiceId);
+        
+        $subscriber = $newsletter->getSubscribers()->first();
+        
         $blockVariables = array(
-            'subscriber' => $newsletter->getSubscribers()->first()
+            'newsletter' => $newsletter,
+            'subscriber' => $subscriber,
+            'bridge' => $bridge,
         );
         
         $blockContent = $renderer->render(
-            new BlockComposition($this->getBlockProviderManager(), $newsletter->getBlocks()),
+            new BlockComposition($this->getBlockProviderManager(), $newsletter->getBlocks()), 
             $blockVariables
         );
         
-        $newsletterVariables = array_merge($blockVariables, array(
+        $newsletteroverview = $renderer->render($newsletter->getDesign(), array_merge($blockVariables, array(
             'content' => $blockContent
-        ));
+        )));
         
-        $newsletteroverview = $renderer->render($newsletter->getDesign(), $newsletterVariables);
+        $subscribersArray = array();
+        foreach($newsletter->getSubscribers() as $subscriber){
+            $subscribersArray[$subscriber->getId()] = $subscriber;  
+        }
+        
+        $formtypeClassName = $this->getClassManager()->getForm('testmail');
+        $formtype = new $formtypeClassName(
+            $subscribersArray,
+            $this->getUser()->getEmail()
+        );
+        $testmailform = $this->createForm($formtype);
+        
+        $request = $this->getRequest();
+        if($request->getMethod() == 'POST' && $request->request->get('testmail')){
+            $testmailform->bindRequest($request);
+
+            if($testmailform->isValid()){
+                
+            }
+        }
         
 		return $this->render($this->getTemplateManager()->getNewsletter('summary'), array(
             'newsletteroverview' => $newsletteroverview,
             'newsletter' => $newsletter,
+            'testmailform' => $testmailform->createView(),
             'wizard' => $this->getWizardActionAnnotationHandler(),
 		));
 	}
