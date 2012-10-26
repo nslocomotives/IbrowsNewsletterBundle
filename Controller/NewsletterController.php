@@ -6,6 +6,7 @@ use Ibrows\Bundle\NewsletterBundle\Form\NewsletterFormType;
 
 use Ibrows\Bundle\NewsletterBundle\Annotation\Wizard\Annotation as WizardAction;
 use Ibrows\Bundle\NewsletterBundle\Annotation\Wizard\AnnotationHandler as WizardActionHandler;
+use Ibrows\Bundle\NewsletterBundle\Block\BlockComposition;
 
 use Doctrine\Common\Collections\Collection;
 
@@ -241,8 +242,18 @@ class NewsletterController extends AbstractController
             return $response;
         }
         
+        $newsletter = $this->getNewsletter();
+        $renderer = $this->getRendererManager()->get($this->getMandant()->getRendererName());
+        
+        $overview = $renderer->render($newsletter->getDesign(), array(
+            'content' => $renderer->render(
+                new BlockComposition($this->getBlockProviderManager(), $newsletter->getBlocks())
+            )
+        ));
+        
 		return $this->render($this->getTemplateManager()->getNewsletter('summary'), array(
-            'newsletter' => $this->getNewsletter(),
+            'overview' => $overview,
+            'newsletter' => $newsletter,
             'wizard' => $this->getWizardActionAnnotationHandler(),
 		));
 	}
