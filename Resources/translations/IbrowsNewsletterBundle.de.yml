@@ -1,4 +1,8 @@
 newsletter:
+  subscriber: Empfänger für Newsletter "%name%" editieren
+  settings: Einstellungen für Newsletter "%name%" editieren
+  name: Name
+  created_at: Erstellt am
   block:
     add: Hinzufügen
     new: Neuer Block
@@ -7,7 +11,7 @@ newsletter:
       'ibrows_newsletter.block.provider.image': Bild
       'ibrows_newsletter.block.provider.textareaandimage': Text mit Bild
   wizard:
-    create:     Erstellen
+    meta:       Meta Daten
     edit:       Editieren
     subscriber: Empfänger
     settings:   Einstellungen

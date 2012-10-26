@@ -2,6 +2,11 @@ Subject: Betreff
 Sendermail: Absender E-Mail
 Sendername: Absender Name
 Returnmail: Antwort E-Mail
+Subscribers: Empfänger
+
+form:
+  save: Speichern
+  continue: Weiter 
 
 newsletter:
   continue: Weiter
