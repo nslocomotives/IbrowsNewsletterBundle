@@ -14,13 +14,14 @@ class DesignType extends AbstractType
 		$builder
             ->add('name')
             ->add('content', null, array(
+                'required' => false,
                 'attr' => array('class' => 'tinymce')
             ))
 		;
 	}
 	
 	/**
-	 *
+	 * @return string
 	 */
 	public function getName() {
 		return 'ibrows_newsletterbundle_design';
