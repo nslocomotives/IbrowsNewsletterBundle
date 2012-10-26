@@ -16,14 +16,15 @@ class Configuration implements ConfigurationInterface
 
 		$rootNode
 			->addDefaultsIfNotSet()
-				->children()
-					->scalarNode('db_driver')->defaultValue('orm')->end()
-				->end()
+            ->children()
+                ->scalarNode('db_driver')->defaultValue('orm')->end()
+            ->end()
 		;
 		
 		$this->addMandantSection($rootNode);
 		$this->addTemplatesSection($rootNode);
 		$this->addClassesSection($rootNode);
+        $this->addRendererBridgeSection($rootNode);
         $this->addFilesystemSection($rootNode);
 
 		return $treeBuilder;
@@ -48,10 +49,13 @@ class Configuration implements ConfigurationInterface
 	{
 		$node
 			->children()
+                
 				->arrayNode('templates')
 					->addDefaultsIfNotSet()
 					->children()
+                
 						->scalarNode('base_template')->defaultValue('IbrowsNewsletterBundle::layout.html.twig')->end()
+                
 						->arrayNode('mandant')
 							->addDefaultsIfNotSet()
 							->children()
@@ -59,6 +63,7 @@ class Configuration implements ConfigurationInterface
 								->scalarNode('edit')->defaultValue('IbrowsNewsletterBundle:Mandant:edit.html.twig')->end()
 							->end()
 						->end()
+                
 						->arrayNode('newsletter')
 							->addDefaultsIfNotSet()
 							->children()
@@ -72,6 +77,7 @@ class Configuration implements ConfigurationInterface
                                 ->scalarNode('send')->defaultValue('IbrowsNewsletterBundle:Newsletter:send.html.twig')->end()
 							->end()
 						->end()
+                
 						->arrayNode('design')
 							->addDefaultsIfNotSet()
 							->children()
@@ -89,8 +95,10 @@ class Configuration implements ConfigurationInterface
 	
 	protected function addClassesSection(ArrayNodeDefinition $node)
 	{
-		$node->children()
+		$node
+            ->children()
 				->arrayNode('classes')->children()
+
                     ->arrayNode('model')
                         ->children()
                             ->scalarNode('newsletter')->isRequired()->cannotBeEmpty()->end()
@@ -101,14 +109,17 @@ class Configuration implements ConfigurationInterface
                             ->scalarNode('block')->isRequired()->cannotBeEmpty()->end()
                         ->end()
                     ->end()
+                
                     ->arrayNode('form')
                         ->addDefaultsIfNotSet()
                         ->children()
                             ->scalarNode('newsletter')->defaultValue('Ibrows\\Bundle\\NewsletterBundle\\Form\\NewsletterType')->end()
                             ->scalarNode('subscriber')->defaultValue('Ibrows\\Bundle\\NewsletterBundle\\Form\\SubscriberType')->end()
                             ->scalarNode('design')->defaultValue('Ibrows\\Bundle\\NewsletterBundle\\Form\\DesignType')->end()
+                            ->scalarNode('testmail')->defaultValue('Ibrows\\Bundle\\NewsletterBundle\\Form\\TestMailType')->end()
                         ->end()
                     ->end()
+                
 				->end()
 			->end()
 		;
@@ -116,7 +127,9 @@ class Configuration implements ConfigurationInterface
     
     protected function addFilesystemSection(ArrayNodeDefinition $node)
     {
-        $node->children()
+        $node
+            ->children()
+                
 				->arrayNode('filesystem')->children()
                     ->arrayNode('block')
                         ->children()
@@ -125,8 +138,17 @@ class Configuration implements ConfigurationInterface
                         ->end()
                     ->end()
 				->end()
+                
 			->end()
 		;
     }
     
+    protected function addRendererBridgeSection(ArrayNodeDefinition $node)
+    {
+        $node
+            ->children()
+				->scalarNode('rendererbridgeserviceid')->defaultValue('ibrows_newsletter.rendererbridge')->end()
+			->end()
+		;
+    }
 }
