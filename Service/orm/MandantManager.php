@@ -23,6 +23,7 @@ class MandantManager extends BaseMandantManager
 	
 	protected $newsletterManager;
 	protected $designManager;
+	protected $subscriberManager;
 	protected $userProvider;
 
 	public function __construct(
@@ -65,6 +66,17 @@ class MandantManager extends BaseMandantManager
 		}
 		
 		return $this->userProvider;
+	}
+	
+	public function getSubscriberManager($name)
+	{
+		if ($this->subscriberManager === null) {
+			$manager = $this->getObjectManager($name);
+			$repository = $manager->getRepository($this->subscriberClass);
+			$this->subscriberManager = new SubscriberManager($repository);
+		}
+		
+		return $this->subscriberManager;
 	}
 	
 	public function getNewsletterManager($name)
