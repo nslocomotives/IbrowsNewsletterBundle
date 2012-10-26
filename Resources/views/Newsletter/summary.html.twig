@@ -5,12 +5,23 @@
 {% import "IbrowsNewsletterBundle::macros.html.twig" as macros %}
 {% block newsletter_wizard %}
     {{ macros.displayWizard(wizard) }}
-{% endblock %}
+{% endblock newsletter_wizard %}
 
 {% block newsletter_content %}
     <h1>{{ 'newsletter.summary'|trans({'%name%': newsletter.name}) }}</h1>
-        
+    
+    <h2>{{ 'newsletter.testmail'|trans }}</h2>
+    <form action="" method="post" {{ form_enctype(testmailform) }}>
+        {{ form_errors(testmailform) }}
+        {{ form_rest(testmailform) }}
+            
+        <div class="form-actions">
+            <input type="submit" name="testmail" class="btn btn-primary" value="{{ 'form.testmail'|trans }}">
+        </div>
+    </form>
+    
+    <h2>{{ 'newsletter.overview'|trans }}</h2>
     <div class="newsletter-overview">
         {{ newsletteroverview|raw }}
     </div>
-{% endblock %}
+{% endblock newsletter_content %}
