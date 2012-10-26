@@ -18,10 +18,9 @@ class TwigRenderer implements RendererInterface
 
 	public function render(RenderableInterface $element, array $parameters = array())
 	{
-		try {
+		try{
 			$rendered = $this->engine->render($element->getContent(), $parameters);
-			
-		} catch (\Exception $e) {
+		}catch(\Exception $e){
 			$rendered = $e->getMessage();
 		}
 		
