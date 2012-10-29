@@ -16,12 +16,21 @@ interface SubscriberInterface
     public function isFormalTitle();
     public function isInformalTitle();
     
+    public function getGender();
+    public function getTitle();
+    
+    public function getFirstname();
+    public function getLastname();
+    public function getCompanyname();
+    
     public function getNewsletters();
     public function addNewsletter(NewsletterInterface $newsletter);
     public function removeNewsletter(NewsletterInterface $newsletter);
     
     public function getId();
     public function __toString();
+    
+    public function getHash();
     
     const
         GENDER_MALE = 'male',
