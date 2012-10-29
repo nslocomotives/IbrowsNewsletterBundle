@@ -16,6 +16,12 @@ class Newsletter implements NewsletterInterface
 	protected $blocks;
 	protected $mandant;
 	
+    /**
+	 * @var string
+     * @Assert\NotBlank(groups={"newsletter"})
+	 */
+	protected $hash;
+    
 	/**
 	 * @var Collection
      * @Assert\NotNull(groups={"subscriber"})
@@ -71,6 +77,7 @@ class Newsletter implements NewsletterInterface
 		$this->subscribers = new ArrayCollection();
 		$this->blocks = new ArrayCollection();
         $this->createdAt = new \DateTime();
+        $this->hash = $this->generateHash();
 	}
 
 	/**
@@ -88,6 +95,14 @@ class Newsletter implements NewsletterInterface
 	{
 		return $this->subject;
 	}
+    
+    /**
+     * @return string
+     */
+    public function getHash()
+    {
+        return $this->hash;
+    }
 
 	/**
 	 * @param string $subject
@@ -283,5 +298,10 @@ class Newsletter implements NewsletterInterface
     {
         $this->design = $design;
         return $this;
+    }
+    
+    protected function generateHash()
+    {
+        return sha1(uniqid().time());
     }
 }
