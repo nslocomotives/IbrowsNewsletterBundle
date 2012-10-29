@@ -3,6 +3,7 @@
 namespace Ibrows\Bundle\NewsletterBundle\Model\Newsletter;
 
 use Ibrows\Bundle\NewsletterBundle\Model\Block\BlockInterface;
+use Ibrows\Bundle\NewsletterBundle\Model\Subscriber\SubscriberInterface;
 
 use Doctrine\Common\Collections\Collection;
 
@@ -20,7 +21,7 @@ interface NewsletterInterface
     public function getHash();
     
     /**
-     * @return Collection
+     * @return SubscriberInterface[]
      */
     public function getSubscribers();
     
