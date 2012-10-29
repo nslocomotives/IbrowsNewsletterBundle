@@ -75,6 +75,8 @@ class Configuration implements ConfigurationInterface
 								->scalarNode('settings')->defaultValue('IbrowsNewsletterBundle:Newsletter:settings.html.twig')->end()
 								->scalarNode('summary')->defaultValue('IbrowsNewsletterBundle:Newsletter:summary.html.twig')->end()
                                 ->scalarNode('send')->defaultValue('IbrowsNewsletterBundle:Newsletter:send.html.twig')->end()
+                                ->scalarNode('unsubscribe')->defaultValue('IbrowsNewsletterBundle:Newsletter:unsubscribe.html.twig')->end()
+                                ->scalarNode('overview')->defaultValue('IbrowsNewsletterBundle:Newsletter:overview.html.twig')->end()
 							->end()
 						->end()
                 
@@ -88,6 +90,14 @@ class Configuration implements ConfigurationInterface
 								->scalarNode('show')->defaultValue('IbrowsNewsletterBundle:Design:show.html.twig')->end()
 							->end()
 						->end()
+
+                        ->arrayNode('subscriber')
+							->addDefaultsIfNotSet()
+							->children()
+                                ->scalarNode('list')->defaultValue('IbrowsNewsletterBundle:Subscriber:list.html.twig')->end()
+							->end()
+						->end()
+
 				->end()
 			->end()
 		;
@@ -118,6 +128,7 @@ class Configuration implements ConfigurationInterface
                             ->scalarNode('subscriber')->defaultValue('Ibrows\\Bundle\\NewsletterBundle\\Form\\SubscriberType')->end()
                             ->scalarNode('design')->defaultValue('Ibrows\\Bundle\\NewsletterBundle\\Form\\DesignType')->end()
                             ->scalarNode('testmail')->defaultValue('Ibrows\\Bundle\\NewsletterBundle\\Form\\TestMailType')->end()
+                            ->scalarNode('unsubscribe')->defaultValue('Ibrows\\Bundle\\NewsletterBundle\\Form\\UnsubscribeType')->end()
                         ->end()
                     ->end()
                 
