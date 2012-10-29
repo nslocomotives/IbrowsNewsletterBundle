@@ -6,7 +6,7 @@ ns.newsletter = function($options){
     var $options = $options;
     
     this.ready = function(){
-        jQuery('[data-ui-role="jquery-ui"]').button();
+
     }
     
 }
