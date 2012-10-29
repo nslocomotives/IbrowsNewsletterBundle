@@ -28,6 +28,11 @@
         <service id="ibrows_newsletter.rendererbridge.gendertitlestrategy.translator" class="%ibrows_newsletter.gendertitlestrategy.class%">
             <argument type="service" id="translator" />
             <argument>%ibrows_newsletter.gendertitlestrategy.translator.translationdomain%</argument> 
+            <argument type="collection">
+                <argument key="lastname">getLastname</argument>
+                <argument key="firstname">getFirstname</argument>
+                <argument key="companyname">getCompanyname</argument>
+            </argument>
         </service>
         
         <service id="ibrows_newsletter.rendererbridge" class="Ibrows\Bundle\NewsletterBundle\Renderer\RendererBridge">
