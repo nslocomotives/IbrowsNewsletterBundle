@@ -23,7 +23,6 @@ class GenderTitleTranslatorStrategy implements GenderTitleStrategyInterface
     }
     
     /**
-     * @todo Define Translations Parameters
      * @param SubscriberInterface $subscriber
      * @return string
      */
