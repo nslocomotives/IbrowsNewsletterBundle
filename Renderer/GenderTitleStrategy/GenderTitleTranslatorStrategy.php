@@ -8,10 +8,18 @@ use Symfony\Component\Translation\TranslatorInterface;
 
 class GenderTitleTranslatorStrategy implements GenderTitleStrategyInterface
 {
-    public function __construct(TranslatorInterface $translator, $translationDomain)
-    {
+    protected $translator;
+    protected $translationDomain;
+    protected $translationParameters;
+    
+    public function __construct(
+        TranslatorInterface $translator, 
+        $translationDomain,
+        array $translationParameters = array()
+    ){
         $this->translator = $translator;
         $this->translationDomain = $translationDomain;
+        $this->translationParameters = $translationParameters;
     }
     
     /**
@@ -21,12 +29,16 @@ class GenderTitleTranslatorStrategy implements GenderTitleStrategyInterface
      */
     public function getGenderTitle(SubscriberInterface $subscriber)
     {
+        $parameters = array();
+        foreach($this->translationParameters as $key => $methodName){
+            $parameters['%subscriber.'.$key.'%'] = 
+                $subscriber->$methodName();
+        }
+        
         return 
             $this->translator->trans(
                 'newsletter.gendertitle.'.$subscriber->getGender().'.'.$subscriber->getTitle(), 
-                array(
-                    
-                ),
+                $parameters,
                 $this->translationDomain,
                 $subscriber->getLocale()
             );
