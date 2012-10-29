@@ -3,33 +3,44 @@
 namespace Ibrows\Bundle\NewsletterBundle\Renderer;
 
 use Ibrows\Bundle\NewsletterBundle\Model\Subscriber\SubscriberInterface;
-use Symfony\Component\Routing\RouterInterface;
+use Ibrows\Bundle\NewsletterBundle\Renderer\GenderTitleStrategy\GenderTitleStrategyInterface;
+use Ibrows\Bundle\NewsletterBundle\Model\Newsletter\NewsletterInterface;
 
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Component\Routing\RouterInterface;
 
 class RendererBridge
 {
-    protected $translator;
     protected $router;
+    protected $genderTitleStrategy;
     
-    public function __construct(TranslatorInterface $translator, RouterInterface $router)
-    {
-        $this->translator = $translator;
+    public function __construct(
+        RouterInterface $router,
+        GenderTitleStrategyInterface $genderTitleStrategy
+    ){
         $this->router = $router;
+        $this->genderTitleStrategy = $genderTitleStrategy;
     }
     
-    public function getNow()
+    public function getNow($format = 'd.m.Y')
     {
-        
+        $now = new \DateTime();
+        return $now->format($format);
     }
     
-    public function getUnsubscribeLink(SubscriberInterface $subscriber)
+    public function getUnsubscribeLink(NewsletterInterface $newsletter, SubscriberInterface $subscriber)
     {
-        return '<a href="">unsubscribe</a>';
+        return $this->router->generate(
+            'ibrows_newsletter_unsubscribe', 
+            array(
+                'newsletter' => $newsletter->getHash(), 
+                'subscriber' => $subscriber->getHash()
+            ),
+            true
+        );
     }
     
-    public function getTitle(SubscriberInterface $subscriber)
+    public function getGenderTitle(SubscriberInterface $subscriber)
     {
-        return 'i dont know your title';
+        return $this->genderTitleStrategy->getGenderTitle($subscriber);
     }
 }

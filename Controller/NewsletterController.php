@@ -18,6 +18,14 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class NewsletterController extends AbstractController
 {
+    /**
+     * @Route("/unsubscribe/{newsletter}/{subscriber}", name="ibrows_newsletter_unsubscribe")
+     */
+    public function unsubscribeAction()
+    {
+        
+    }
+    
 	/**
 	 * @Route("/", name="ibrows_newsletter_index")
 	 */
@@ -166,6 +174,7 @@ class NewsletterController extends AbstractController
         }
         
         $newsletter = $this->getNewsletter();
+        
         $formtype = $this->getClassManager()->getForm('subscriber');
 		$subscriberClass = $this->getClassManager()->getModel('subscriber');
         $form = $this->createForm(new $formtype($this->getMandantName(), $subscriberClass), $newsletter);

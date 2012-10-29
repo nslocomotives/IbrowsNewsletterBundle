@@ -9,14 +9,19 @@ use Doctrine\ORM\Mapping as ORM;
 class Newsletter extends AbstractNewsletter
 {
 	/**
-	 * @ORM\Column(type="string", name="subject")
+	 * @ORM\Column(type="string")
 	 */
 	protected $subject;
     
     /**
-	 * @ORM\Column(type="string", name="name")
+	 * @ORM\Column(type="string")
 	 */
 	protected $name;
+    
+    /**
+	 * @ORM\Column(type="string")
+	 */
+	protected $hash;
     
 	/**
 	 * @ORM\Column(type="string", name="sender_mail")

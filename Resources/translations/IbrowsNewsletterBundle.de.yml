@@ -25,7 +25,14 @@ newsletter:
   blocks: Abschnitte
   dialog:
     abort: abbrechen
-  
+  gendertitle:
+    man:
+      formal: Sehr geehrter Herr %subscriber.lastname%
+      informal: Hallo %subscriber.firstname%
+    woman:
+      formal: Sehr geehrte Frau %subscriber.lastname%
+      informal: Hallo %subscriber.firstname%
+
 design:
   create: Neues Design
   list: Design Liste

@@ -17,6 +17,7 @@ interface NewsletterInterface
 	public function getReturnMail();
     
     public function getId();
+    public function getHash();
     
     /**
      * @return Collection

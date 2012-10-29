@@ -5,6 +5,7 @@ namespace Ibrows\Bundle\NewsletterBundle\Block\Provider;
 use Ibrows\Bundle\NewsletterBundle\Model\Block\BlockInterface;
 
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Filesystem\Filesystem;
 
 class ImageProvider extends AbstractProvider
 {
@@ -13,8 +14,9 @@ class ImageProvider extends AbstractProvider
     
     public function __construct($uploadDirectory, $publicPath)
     {
-        if(!is_dir($uploadDirectory) && !@mkdir($uploadDirectory)){
-            throw new \InvalidArgumentException("Could not create directory $uploadDirectory");
+        if(!is_dir($uploadDirectory)){
+            $filesystem = new Filesystem();
+            $filesystem->mkdir($uploadDirectory);
         }
         
         if(!is_writable($uploadDirectory)){

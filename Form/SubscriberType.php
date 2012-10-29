@@ -25,16 +25,16 @@ class SubscriberType extends AbstractType
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$builder
             ->add('subscribers', 'entity', array(
-            		'em' => $this->managerName,
-            		'class' => $this->subscriberClass,
-            		'multiple' => true,
-            		'expanded' => false,
+                'em' => $this->managerName,
+                'class' => $this->subscriberClass,
+                'multiple' => true,
+                'expanded' => false,
             ))
 		;
 	}
 
 	/**
-	 * 
+	 * @return string
 	 */
 	public function getName() {
 		return 'ibrows_newsletterbundle_subscriber';
