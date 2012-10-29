@@ -48,17 +48,18 @@ abstract class AbstractController extends Controller
     
     /**
      * @return string
-     * @todo return MandantName from Auth Token
      */
     protected function getMandantName()
     {
-    		$user = $this->getUser();
-    		if (!$user instanceof MandantUserInterface)
-    			throw new InvalidConfigurationException('Make sure you are authenticated and your user class implements the IbrowsNewsletter UserInterface');
-    		
+        $user = $this->getUser();
+
+        if(!$user instanceof MandantUserInterface){
+            throw new InvalidConfigurationException('Make sure you are authenticated and your user class implements the IbrowsNewsletter UserInterface');
+        }
+
         return $user->getMandant();
     }
-    
+
     /**
      * @return Collection
      */
@@ -66,7 +67,7 @@ abstract class AbstractController extends Controller
     {
         return $this->getMandant()->getBlocks();
     }
-    
+
     /**
      * @return MandantInterface
      */
@@ -74,7 +75,7 @@ abstract class AbstractController extends Controller
     {
         return $this->getMandantManager()->get($this->getMandantName());
     }
-    
+
     /**
      * @return TemplateManager
      */
@@ -112,7 +113,7 @@ abstract class AbstractController extends Controller
      */
     protected function getNewsletterManager()
     {
-    		return $this->getMandantManager()->getNewsletterManager($this->getMandantName());
+        return $this->getMandantManager()->getNewsletterManager($this->getMandantName());
     }
     
     /**
@@ -120,7 +121,7 @@ abstract class AbstractController extends Controller
      */
     protected function getDesignManager()
     {
-    		return $this->getMandantManager()->getDesignManager($this->getMandantName());
+        return $this->getMandantManager()->getDesignManager($this->getMandantName());
     }
     
     /**
@@ -160,7 +161,8 @@ abstract class AbstractController extends Controller
     }
     
     /**
-     * @return Newsletter
+     * @param integer $id
+     * @return NewsletterInterface
      * @throws NotFoundException
      */
     protected function getNewsletterById($id)
@@ -169,6 +171,30 @@ abstract class AbstractController extends Controller
         
         if(!$newsletter){
             throw $this->createNotFoundException("Newsletter with id $id not found");
+        }
+        
+        return $newsletter;
+    }
+
+    /**
+     * @return SubscriberInterface[]
+     */
+    protected function getSubscribers()
+    {
+        return $this->getMandant()->getSubscribers();
+    }
+    
+    /**
+     * @param string $hash
+     * @return NewsletterInterface
+     * @throws NotFoundException
+     */
+    protected function getNewsletterByHash($hash)
+    {
+        $newsletter = $this->getNewsletterManager()->getByHash($hash);
+        
+        if(!$newsletter){
+            throw $this->createNotFoundException("Newsletter with hash $hash not found");
         }
         
         return $newsletter;
