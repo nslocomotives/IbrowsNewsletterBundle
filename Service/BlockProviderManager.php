@@ -34,7 +34,7 @@ class BlockProviderManager
      */
 	public function get($name)
 	{
-		if(!key_exists($name, $this->blockProviders)){
+		if(!array_key_exists($name, $this->blockProviders)){
 			throw new \InvalidArgumentException("The block-provider service '$name' can not be found.");
 		}
 		
