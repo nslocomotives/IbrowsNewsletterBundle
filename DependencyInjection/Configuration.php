@@ -149,6 +149,33 @@ class Configuration implements ConfigurationInterface
             ->children()
 				->scalarNode('rendererbridgeserviceid')->defaultValue('ibrows_newsletter.rendererbridge')->end()
 			->end()
+                
+            ->children()
+                ->arrayNode('rendererbridge')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->scalarNode('gendertitlestrategy')->defaultValue('ibrows_newsletter.rendererbridge.gendertitlestrategy.translator')->end()
+                    ->end()
+                ->end()
+            ->end()
+            
+            //Ibrows\Bundle\NewsletterBundle\Renderer\GenderTitleStrategy\GenderTitleTranslatorStrategy
+            //ibrows_newsletter.gendertitlestrategy.class
+                
+            ->children()
+                ->arrayNode('gendertitlestrategy')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->scalarNode('class')->defaultValue('Ibrows\\Bundle\\NewsletterBundle\\Renderer\\GenderTitleStrategy\\GenderTitleTranslatorStrategy')->end()
+                        ->arrayNode('translator')
+                            ->addDefaultsIfNotSet()
+                            ->children()
+                                ->scalarNode('translationdomain')->defaultValue('IbrowsNewsletterBundle')->end()
+                            ->end()
+                        ->end()
+                    ->end()
+                ->end()
+            ->end()
 		;
     }
 }
