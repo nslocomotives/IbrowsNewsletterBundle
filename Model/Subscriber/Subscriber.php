@@ -9,11 +9,17 @@ use Doctrine\Common\Collections\ArrayCollection;
 abstract class Subscriber implements SubscriberInterface
 {
     protected $id;
+    
     protected $locale;
     protected $email;
+    protected $hash;
     
     protected $gender;
     protected $title;
+    
+    protected $lastname;
+    protected $firstname;
+    protected $companyname;
 
     protected $newsletters;
     
@@ -31,6 +37,7 @@ abstract class Subscriber implements SubscriberInterface
     public function __construct()
     {
         $this->newsletters = new ArrayCollection();
+        $this->hash = $this->generateHash();
     }
     
     public function getId()
@@ -78,6 +85,11 @@ abstract class Subscriber implements SubscriberInterface
         return $this->title;
     }
     
+    public function getHash()
+    {
+        return $this->hash;
+    }
+    
     public function getLocale()
     {
         return $this->locale;
@@ -114,5 +126,25 @@ abstract class Subscriber implements SubscriberInterface
     {
         $this->newsletters->removeElement($newsletter);
         return $this;
+    }
+    
+    public function getLastname()
+    {
+        return $this->lastname;
+    }
+    
+    public function getFirstname()
+    {
+        return $this->firstname;
+    }
+    
+    public function getCompanyname()
+    {
+        return $this->companyname;
+    }
+    
+    protected function generateHash()
+    {
+        return sha1(uniqid().time());
     }
 }
