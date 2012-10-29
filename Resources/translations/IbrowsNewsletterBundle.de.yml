@@ -36,6 +36,11 @@ newsletter:
 
 subscriber:
   list: Empfänger Liste
+  firstname: Vorname
+  lastname: Nachname
+  company: Firma
+  email: E-Mail
+  groups: Gruppen
 
 design:
   create: Neues Design
