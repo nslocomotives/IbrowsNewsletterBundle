@@ -2,18 +2,28 @@
 
 namespace Ibrows\Bundle\NewsletterBundle\Model\Mandant;
 
-use Ibrows\Bundle\NewsletterBundle\Model\Newsletter\NewsletterInterface;
-
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Common\Collections\ArrayCollection;
 
 abstract class Mandant implements MandantInterface
 {
 	protected $name;
 	protected $rendererName;
+
 	protected $blocks;
 	protected $designs;
 	protected $newsletters;
-	
+    protected $subscribers;
+    protected $subscriberGroups;
+
+    public function __construct()
+    {
+        $this->blocks = new ArrayCollection();
+        $this->designs = new ArrayCollection();
+        $this->newsletters = new ArrayCollection();
+        $this->subscribers = new ArrayCollection();
+        $this->subscriberGroups = new ArrayCollection();
+    }
+
 	public function setName($name)
 	{
 		$this->name = $name;
@@ -43,5 +53,15 @@ abstract class Mandant implements MandantInterface
     public function getDesigns()
     {
         return $this->designs;
+    }
+
+    public function getSubscribers()
+    {
+        return $this->subscribers;
+    }
+
+    public function getSubscriberGroups()
+    {
+        return $this->subscriberGroups;
     }
 }
