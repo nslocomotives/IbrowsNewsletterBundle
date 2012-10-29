@@ -6,7 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
-class Group implements GroupInterface
+abstract class Group implements GroupInterface
 {
     protected $id;
 	protected $subscribers;

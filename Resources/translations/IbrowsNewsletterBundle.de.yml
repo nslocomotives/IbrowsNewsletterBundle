@@ -1,5 +1,6 @@
 newsletter:
   subscriber: Empfänger für Newsletter "%name%" editieren
+  unsubscribe: E-Mail "%email%" austragen
   settings: Einstellungen für Newsletter "%name%" editieren
   name: Name
   created_at: Erstellt am
@@ -32,6 +33,14 @@ newsletter:
     woman:
       formal: Sehr geehrte Frau %subscriber.lastname%
       informal: Hallo %subscriber.firstname%
+
+subscriber:
+  list: Empfänger Liste
+  firstname: Vorname
+  lastname: Nachname
+  company: Firma
+  email: E-Mail
+  groups: Gruppen
 
 design:
   create: Neues Design

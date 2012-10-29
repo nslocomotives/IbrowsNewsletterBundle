@@ -7,6 +7,8 @@ Content: Inhalt
 Name: Name
 Subscriber: Empfänger
 Email: E-Mail
+Groups: Gruppen
+Default: Standard
 
 form:
   save: Speichern

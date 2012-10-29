@@ -19,11 +19,85 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 class NewsletterController extends AbstractController
 {
     /**
-     * @Route("/unsubscribe/{newsletter}/{subscriber}", name="ibrows_newsletter_unsubscribe")
+     * @Route("/unsubscribe/{newsletterHash}/{subscriberHash}", name="ibrows_newsletter_unsubscribe")
      */
-    public function unsubscribeAction()
+    public function unsubscribeAction($newsletterHash, $subscriberHash)
     {
+        $newsletter = $this->getNewsletterByHash($newsletterHash);
+        $subscriber = null;
         
+        foreach($newsletter->getSubscribers() as $newsletterSubscriber){
+            if($newsletterSubscriber->getHash() == $subscriberHash){
+                $subscriber = $newsletterSubscriber;
+            }
+        }
+        
+        if(!$subscriber){
+            throw new $this->createNotFoundException("Subscriber with hash $subscriberHash not found");
+        }
+
+        $groupClass = $this->getClassManager()->getModel('group');
+
+        $formtype = $this->getClassManager()->getForm('unsubscribe');
+        $form = $this->createForm(new $formtype($this->getMandantName(), $groupClass), $subscriber);
+        
+        $request = $this->getRequest();
+		if($request->getMethod() == 'POST'){
+			$form->bindRequest($request);
+			
+			if($form->isValid()){
+                $this->setNewsletter($newsletter);
+			}
+		}
+        
+        return $this->render($this->getTemplateManager()->getNewsletter('unsubscribe'), array(
+            'form' => $form->createView(),
+            'subscriber' => $subscriber,
+            'newsletter' => $newsletter
+		));
+    }
+
+    /**
+     * @Route("/overview/{newsletterId}/{subscriberId}", name="ibrows_newsletter_overview")
+     */
+    public function overviewAction($newsletterId, $subscriberId)
+    {
+        $newsletter = $this->getNewsletterById($newsletterId);
+        $subscriber = null;
+        foreach($newsletter->getSubscribers() as $newsletterSubscriber){
+            if($newsletterSubscriber->getId() == $subscriberId){
+                $subscriber = $newsletterSubscriber;
+                break;
+            }
+        }
+
+        if(!$subscriber){
+            throw $this->createNotFoundException("Subscriber $subscriberId not found");
+        }
+
+        $renderer = $this->getRendererManager()->get($this->getMandant()->getRendererName());
+
+        $bridgeServiceId = $this->container->getParameter('ibrows_newsletter.rendererbridgeserviceid');
+        $bridge = $this->get($bridgeServiceId);
+
+        $blockVariables = array(
+            'newsletter' => $newsletter,
+            'subscriber' => $subscriber,
+            'bridge' => $bridge,
+        );
+
+        $blockContent = $renderer->render(
+            new BlockComposition($this->getBlockProviderManager(), $newsletter->getBlocks()),
+            $blockVariables
+        );
+
+        $overview = $renderer->render($newsletter->getDesign(), array_merge($blockVariables, array(
+            'content' => $blockContent
+        )));
+
+        return $this->render($this->getTemplateManager()->getNewsletter('overview'), array(
+            'overview' => $overview
+        ));
     }
     
 	/**
@@ -243,27 +317,6 @@ class NewsletterController extends AbstractController
         }
         
         $newsletter = $this->getNewsletter();
-        $renderer = $this->getRendererManager()->get($this->getMandant()->getRendererName());
-        
-        $bridgeServiceId = $this->container->getParameter('ibrows_newsletter.rendererbridgeserviceid');
-        $bridge = $this->get($bridgeServiceId);
-        
-        $subscriber = $newsletter->getSubscribers()->first();
-        
-        $blockVariables = array(
-            'newsletter' => $newsletter,
-            'subscriber' => $subscriber,
-            'bridge' => $bridge,
-        );
-        
-        $blockContent = $renderer->render(
-            new BlockComposition($this->getBlockProviderManager(), $newsletter->getBlocks()), 
-            $blockVariables
-        );
-        
-        $newsletteroverview = $renderer->render($newsletter->getDesign(), array_merge($blockVariables, array(
-            'content' => $blockContent
-        )));
         
         $subscribersArray = array();
         foreach($newsletter->getSubscribers() as $subscriber){
@@ -287,8 +340,8 @@ class NewsletterController extends AbstractController
         }
         
 		return $this->render($this->getTemplateManager()->getNewsletter('summary'), array(
-            'newsletteroverview' => $newsletteroverview,
             'newsletter' => $newsletter,
+            'subscriber' => $newsletter->getSubscribers()->first(),
             'testmailform' => $testmailform->createView(),
             'wizard' => $this->getWizardActionAnnotationHandler(),
 		));

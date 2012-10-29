@@ -31,8 +31,8 @@ class NewsletterType extends AbstractType
 			->add('senderName')
 			->add('returnMail', 'email')
 			->add('design', 'entity', array(
-					'em' => $this->managerName,
-					'class' => $this->designClass,
+                'em' => $this->managerName,
+                'class' => $this->designClass,
 			))
 		;
 	}

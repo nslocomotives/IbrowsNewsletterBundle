@@ -10,7 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
-class Newsletter implements NewsletterInterface
+abstract class Newsletter implements NewsletterInterface
 {
 	protected $id;
 	protected $blocks;

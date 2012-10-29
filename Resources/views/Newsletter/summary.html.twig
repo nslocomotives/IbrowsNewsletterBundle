@@ -7,21 +7,40 @@
     {{ macros.displayWizard(wizard) }}
 {% endblock newsletter_wizard %}
 
+{% block head_javascripts %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+        var $summary = new ibrows_newsletter.summary({
+            container: '[data-container="newsletter_summary"]',
+            elements: {
+                overview: '[data-element="overview"]'
+            }
+        });
+
+        jQuery(function(){
+            $summary.ready();
+        });
+    </script>
+{% endblock head_javascripts %}
+
 {% block newsletter_content %}
-    <h1>{{ 'newsletter.summary'|trans({'%name%': newsletter.name}) }}</h1>
-    
-    <h2>{{ 'newsletter.testmail'|trans }}</h2>
-    <form action="" method="post" {{ form_enctype(testmailform) }}>
-        {{ form_errors(testmailform) }}
-        {{ form_rest(testmailform) }}
-            
-        <div class="form-actions">
-            <input type="submit" name="testmail" class="btn btn-primary" value="{{ 'form.testmail'|trans }}">
+    <div data-container="newsletter_summary">
+        <h1>{{ 'newsletter.summary'|trans({'%name%': newsletter.name}) }}</h1>
+
+        <h2>{{ 'newsletter.testmail'|trans }}</h2>
+        <form action="" method="post" {{ form_enctype(testmailform) }}>
+            {{ form_errors(testmailform) }}
+            {{ form_rest(testmailform) }}
+
+            <div class="form-actions">
+                <input type="submit" name="testmail" class="btn btn-primary" value="{{ 'form.testmail'|trans }}">
+            </div>
+        </form>
+
+        <h2>{{ 'newsletter.overview'|trans }}</h2>
+        <div class="newsletter-overview">
+            <iframe data-element="overview" src="{{ url('ibrows_newsletter_overview', {newsletterId: newsletter.id, subscriberId: subscriber.id}) }}" />
         </div>
-    </form>
-    
-    <h2>{{ 'newsletter.overview'|trans }}</h2>
-    <div class="newsletter-overview">
-        {{ newsletteroverview|raw }}
     </div>
 {% endblock newsletter_content %}

@@ -129,7 +129,7 @@ class MandantManager extends BaseMandantManager
 	 */
 	public function getObjectManager($name)
 	{
-		if(!key_exists($name, $this->mandants)){
+		if(!array_key_exists($name, $this->mandants)){
             throw new \InvalidArgumentException("Mandant $name does not exist. Did you forget to enable it in the IbrowsNewsletter config?");
         }
         

@@ -32,8 +32,8 @@ class RendererBridge
         return $this->router->generate(
             'ibrows_newsletter_unsubscribe', 
             array(
-                'newsletter' => $newsletter->getHash(), 
-                'subscriber' => $subscriber->getHash()
+                'newsletterHash' => $newsletter->getHash(), 
+                'subscriberHash' => $subscriber->getHash()
             ),
             true
         );

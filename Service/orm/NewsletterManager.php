@@ -21,5 +21,12 @@ class NewsletterManager extends BaseNewsletterManager
 	{
 		return $this->repository->find($id);
 	}
+    
+    public function getByHash($hash)
+    {
+        return $this->repository->findOneBy(array(
+            'hash' => $hash
+        ));
+    }
 
 }
