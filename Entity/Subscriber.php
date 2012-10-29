@@ -21,4 +21,46 @@ class Subscriber extends AbstractSubscriber
 	 * @ORM\Column(type="string")
 	 */
     protected $email;
+    
+    /**
+	 * @var string
+	 * 
+	 * @ORM\Column(type="string")
+	 */
+    protected $gender;
+    
+    /**
+	 * @var string
+	 * 
+	 * @ORM\Column(type="string")
+	 */
+    protected $title;
+    
+    /**
+	 * @var string
+	 * 
+	 * @ORM\Column(type="string")
+	 */
+    protected $firstname;
+    
+    /**
+	 * @var string
+	 * 
+	 * @ORM\Column(type="string")
+	 */
+    protected $lastname;
+    
+    /**
+	 * @var string
+	 * 
+	 * @ORM\Column(type="string")
+	 */
+    protected $companyname;
+    
+    /**
+	 * @var string
+	 * 
+	 * @ORM\Column(type="string")
+	 */
+    protected $hash;
 }
