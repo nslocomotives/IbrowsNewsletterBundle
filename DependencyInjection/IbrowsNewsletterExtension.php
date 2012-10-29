@@ -35,7 +35,7 @@ class IbrowsNewsletterExtension extends Extension
 		$iterator = new \RecursiveIteratorIterator(new \RecursiveArrayIterator($config),
             \RecursiveIteratorIterator::SELF_FIRST);
 		
-		foreach ($iterator as $value) {
+		foreach($iterator as $value){
 			$path = array( );
 			for($i = 0; $i <= $iterator->getDepth(); $i++){
 				$path[] = $iterator->getSubIterator($i)->key();
