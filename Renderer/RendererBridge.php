@@ -21,13 +21,10 @@ class RendererBridge
         $this->genderTitleStrategy = $genderTitleStrategy;
     }
     
-    public function getNow(SubscriberInterface $subscriber, $format = 'd.m.Y')
+    public function getNow($format = 'd.m.Y')
     {
-        $currentLocale = setlocale(LC_TIME, 0);
-        setlocale(LC_TIME, $subscriber->getLocale());
-        $now = strftime($format);
-        setlocale(LC_TIME, $currentLocale);
-        return $now;
+        $now = new \DateTime();
+        return $now->format($format);
     }
     
     public function getUnsubscribeLink(NewsletterInterface $newsletter, SubscriberInterface $subscriber)
@@ -37,7 +34,7 @@ class RendererBridge
             array(
                 'newsletter' => $newsletter->getHash(), 
                 'subscriber' => $subscriber->getHash()
-            ), 
+            ),
             true
         );
     }
