@@ -22,6 +22,7 @@ abstract class Subscriber implements SubscriberInterface
     protected $companyname;
 
     protected $newsletters;
+    protected $groups;
     
     protected static $genders = array(
         self::GENDER_FEMALE => self::GENDER_FEMALE,
@@ -37,6 +38,7 @@ abstract class Subscriber implements SubscriberInterface
     public function __construct()
     {
         $this->newsletters = new ArrayCollection();
+        $this->groups = new ArrayCollection();
         $this->hash = $this->generateHash();
     }
     
@@ -47,7 +49,7 @@ abstract class Subscriber implements SubscriberInterface
     
     public function __toString()
     {
-        return $this->getFirstname().' '. $this->getLastname() .' ('. $this->getCompanyname() .') '. $this->getEmail();
+        return $this->getFirstname().' '. $this->getLastname() .' ('. $this->getCompanyname() .') '. $this->getEmail().' - ('. implode(",", $this->getGroups()->toArray()) .')';
     }
     
     public function isFemale()
@@ -126,6 +128,25 @@ abstract class Subscriber implements SubscriberInterface
     {
         $this->newsletters->removeElement($newsletter);
         return $this;
+    }
+    
+    public function addGroup(GroupInterface $group)
+    {
+        $group->addSubscriber($this);
+        $this->groups->add($group);
+        return $this;
+    }
+    
+    public function removeGroup(GroupInterface $group)
+    {
+        $group->removeSubscriber($this);
+        $this->groups->removeElement($group);
+        return $this;
+    }
+    
+    public function getGroups()
+    {
+        return $this->groups;
     }
     
     public function getLastname()

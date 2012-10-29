@@ -30,6 +30,10 @@ interface SubscriberInterface
     public function getId();
     public function __toString();
     
+    public function getGroups();
+    public function addGroup(GroupInterface $group);
+    public function removeGroup(GroupInterface $group);
+    
     public function getHash();
     
     const
