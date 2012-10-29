@@ -27,11 +27,11 @@ newsletter:
     abort: abbrechen
   gendertitle:
     man:
-      formal: Hallo %subscriber.firstname%
-      informal: Sehr geehrter Herr %subscriber.lastname%
+      formal: Sehr geehrter Herr %subscriber.lastname%
+      informal: Hallo %subscriber.firstname%
     woman:
-      formal: Hallo %subscriber.firstname%
-      informal: Sehr geehrte Frau %subscriber.lastname%
+      formal: Sehr geehrte Frau %subscriber.lastname%
+      informal: Hallo %subscriber.firstname%
 
 design:
   create: Neues Design
