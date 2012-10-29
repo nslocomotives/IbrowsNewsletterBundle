@@ -107,6 +107,7 @@ class Configuration implements ConfigurationInterface
                             ->scalarNode('design')->isRequired()->cannotBeEmpty()->end()
                             ->scalarNode('user')->isRequired()->cannotBeEmpty()->end()
                             ->scalarNode('block')->isRequired()->cannotBeEmpty()->end()
+                            ->scalarNode('group')->isRequired()->cannotBeEmpty()->end()
                         ->end()
                     ->end()
                 
