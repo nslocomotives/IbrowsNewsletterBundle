@@ -118,6 +118,8 @@ class Configuration implements ConfigurationInterface
                             ->scalarNode('user')->isRequired()->cannotBeEmpty()->end()
                             ->scalarNode('block')->isRequired()->cannotBeEmpty()->end()
                             ->scalarNode('group')->isRequired()->cannotBeEmpty()->end()
+                            ->scalarNode('readlog')->isRequired()->cannotBeEmpty()->end()
+                            ->scalarNode('sentlog')->isRequired()->cannotBeEmpty()->end()
                         ->end()
                     ->end()
                 
