@@ -26,6 +26,7 @@ class Configuration implements ConfigurationInterface
 		$this->addClassesSection($rootNode);
         $this->addRendererBridgeSection($rootNode);
         $this->addFilesystemSection($rootNode);
+        $this->addServiceIdSection($rootNode);
 
 		return $treeBuilder;
 	}
@@ -98,6 +99,13 @@ class Configuration implements ConfigurationInterface
 							->end()
 						->end()
 
+                        ->arrayNode('statistic')
+							->addDefaultsIfNotSet()
+							->children()
+                                ->scalarNode('show')->defaultValue('IbrowsNewsletterBundle:Statistic:show.html.twig')->end()
+							->end()
+						->end()
+
 				->end()
 			->end()
 		;
@@ -161,22 +169,14 @@ class Configuration implements ConfigurationInterface
     {
         $node
             ->children()
-				->scalarNode('rendererbridgeserviceid')->defaultValue('ibrows_newsletter.rendererbridge')->end()
-			->end()
-                
-            ->children()
+
                 ->arrayNode('rendererbridge')
                     ->addDefaultsIfNotSet()
                     ->children()
-                        ->scalarNode('gendertitlestrategy')->defaultValue('ibrows_newsletter.rendererbridge.gendertitlestrategy.translator')->end()
+                        ->scalarNode('class')->defaultValue('Ibrows\\Bundle\\NewsletterBundle\\Renderer\\Bridge\\RendererBridge')->end()
                     ->end()
                 ->end()
-            ->end()
-            
-            //Ibrows\Bundle\NewsletterBundle\Renderer\GenderTitleStrategy\GenderTitleTranslatorStrategy
-            //ibrows_newsletter.gendertitlestrategy.class
-                
-            ->children()
+
                 ->arrayNode('gendertitlestrategy')
                     ->addDefaultsIfNotSet()
                     ->children()
@@ -189,7 +189,23 @@ class Configuration implements ConfigurationInterface
                         ->end()
                     ->end()
                 ->end()
+
             ->end()
 		;
+    }
+
+    protected function addServiceIdSection(ArrayNodeDefinition $node)
+    {
+        $node
+            ->children()
+                ->arrayNode('serviceid')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->scalarNode('rendererbridge')->defaultValue('ibrows_newsletter.rendererbridge')->end()
+                        ->scalarNode('gendertitlestrategy')->defaultValue('ibrows_newsletter.rendererbridge.gendertitlestrategy.translator')->end()
+                    ->end()
+                ->end()
+            ->end()
+        ;
     }
 }
