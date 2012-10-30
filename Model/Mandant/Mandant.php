@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 abstract class Mandant implements MandantInterface
 {
 	protected $name;
+    protected $hash;
 	protected $rendererName;
 
 	protected $blocks;
@@ -22,6 +23,7 @@ abstract class Mandant implements MandantInterface
         $this->newsletters = new ArrayCollection();
         $this->subscribers = new ArrayCollection();
         $this->subscriberGroups = new ArrayCollection();
+        $this->hash = $this->generateHash();
     }
 
 	public function setName($name)
@@ -34,6 +36,11 @@ abstract class Mandant implements MandantInterface
 	{
 		return $this->name;
 	}
+
+    public function getHash()
+    {
+        return $this->hash;
+    }
     
     public function getRendererName()
     {
@@ -63,5 +70,10 @@ abstract class Mandant implements MandantInterface
     public function getSubscriberGroups()
     {
         return $this->subscriberGroups;
+    }
+
+    protected function generateHash()
+    {
+        return sha1(uniqid().time());
     }
 }

@@ -46,4 +46,9 @@ interface MandantInterface
      * @return GroupInterface[]
      */
     public function getSubscriberGroups();
+
+    /**
+     * @return string
+     */
+    public function getHash();
 }
