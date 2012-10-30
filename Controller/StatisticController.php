@@ -35,4 +35,16 @@ class StatisticController extends AbstractHashMandantController
             'Content-Type' => 'image/gif'
         ));
     }
+
+    /**
+     * @Route("/show/{newsletterId}", name="ibrows_newsletter_statistic_show")
+     */
+    public function showAction($newsletterId)
+    {
+        $newsletter = $this->getNewsletterById($newsletterId);
+
+        return $this->render($this->getTemplateManager()->getStatistic('show'), array(
+            'newsletter' => $newsletter
+        ));
+    }
 }
