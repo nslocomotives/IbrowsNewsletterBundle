@@ -2,6 +2,9 @@
 
 namespace Ibrows\Bundle\NewsletterBundle\Controller;
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+
 use Ibrows\Bundle\NewsletterBundle\Block\BlockComposition;
 
 /**
@@ -10,14 +13,14 @@ use Ibrows\Bundle\NewsletterBundle\Block\BlockComposition;
 class NewsletterRenderingController extends AbstractHashMandantController
 {
     /**
-     * @Route("/show/{$mandantHash}/{newsletterId}/{subscriberId}/{context}", name="ibrows_newsletter_overview")
+     * @Route("/show/{mandantHash}/{newsletterHash}/{subscriberHash}/{context}", name="ibrows_newsletter_render_overview")
      */
-    public function overviewAction($mandantHash, $newsletterId, $subscriberId, $context)
+    public function showAction($mandantHash, $newsletterHash, $subscriberHash, $context)
     {
         $this->setMandantNameByHash($mandantHash);
 
-        $newsletter = $this->getNewsletterById($newsletterId);
-        $subscriber = $this->getSubscriberById($newsletter, $subscriberId);
+        $newsletter = $this->getNewsletterByHash($newsletterHash);
+        $subscriber = $this->getSubscriberByHash($newsletter, $subscriberHash);
 
         $renderer = $this->getRendererManager()->get($this->getMandant()->getRendererName());
 
