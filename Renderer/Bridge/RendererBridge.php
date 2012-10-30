@@ -85,14 +85,15 @@ class RendererBridge
      * @param SubscriberInterface $subscriber
      * @return string
      */
-    public function unsubscribelink(MandantInterface $mandant, NewsletterInterface $newsletter, SubscriberInterface $subscriber)
+    public function unsubscribelink(MandantInterface $mandant, NewsletterInterface $newsletter, SubscriberInterface $subscriber, $context)
     {
         return $this->router->generate(
             'ibrows_newsletter_unsubscribe', 
             array(
                 'mandantHash' => $mandant->getHash(),
                 'newsletterHash' => $newsletter->getHash(), 
-                'subscriberHash' => $subscriber->getHash()
+                'subscriberHash' => $subscriber->getHash(),
+                'context' => $context
             ),
             true
         );
