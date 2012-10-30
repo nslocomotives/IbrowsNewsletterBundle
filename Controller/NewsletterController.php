@@ -19,46 +19,8 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 class NewsletterController extends AbstractController
 {
     /**
-     * @Route("/unsubscribe/{newsletterHash}/{subscriberHash}", name="ibrows_newsletter_unsubscribe")
-     */
-    public function unsubscribeAction($newsletterHash, $subscriberHash)
-    {
-        $newsletter = $this->getNewsletterByHash($newsletterHash);
-        $subscriber = null;
-        
-        foreach($newsletter->getSubscribers() as $newsletterSubscriber){
-            if($newsletterSubscriber->getHash() == $subscriberHash){
-                $subscriber = $newsletterSubscriber;
-            }
-        }
-        
-        if(!$subscriber){
-            throw new $this->createNotFoundException("Subscriber with hash $subscriberHash not found");
-        }
-
-        $groupClass = $this->getClassManager()->getModel('group');
-
-        $formtype = $this->getClassManager()->getForm('unsubscribe');
-        $form = $this->createForm(new $formtype($this->getMandantName(), $groupClass), $subscriber);
-        
-        $request = $this->getRequest();
-		if($request->getMethod() == 'POST'){
-			$form->bind($request);
-			
-			if($form->isValid()){
-                $this->setNewsletter($newsletter);
-			}
-		}
-        
-        return $this->render($this->getTemplateManager()->getNewsletter('unsubscribe'), array(
-            'form' => $form->createView(),
-            'subscriber' => $subscriber,
-            'newsletter' => $newsletter
-		));
-    }
-
-    /**
      * @Route("/overview/{newsletterId}/{subscriberId}", name="ibrows_newsletter_overview")
+     * @todo check if statistics url is used
      */
     public function overviewAction($newsletterId, $subscriberId)
     {
