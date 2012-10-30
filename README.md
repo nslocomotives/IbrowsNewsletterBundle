@@ -5,6 +5,7 @@ A nice Symfony2 Newsletter Bundle
 
 Features:
 - Different Templates
+- Handling different chanels and groups
 - E-Mail Body richt text editor
 - Wizard for creating Newsletters
 - Body-Block handling

@@ -211,6 +211,9 @@ abstract class Newsletter implements NewsletterInterface
 	 */
 	public function addSubscriber(SubscriberInterface $subscriber)
 	{
+		if ($this->subscribers->contains($subscriber))
+			return $this; 
+		
         $subscriber->addNewsletter($this);
 		$this->subscribers->add($subscriber);
 		return $this;
