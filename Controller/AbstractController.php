@@ -16,6 +16,8 @@ use Ibrows\Bundle\NewsletterBundle\Model\User\MandantUserInterface;
 
 use Ibrows\Bundle\NewsletterBundle\Annotation\Wizard\WizardActionAnnotationHandler;
 
+use Ibrows\Bundle\NewsletterBundle\Renderer\Bridge\BridgeMethodsHelper;
+
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
@@ -44,6 +46,14 @@ abstract class AbstractController extends Controller
     protected function getSession()
     {
         return $this->get('session');
+    }
+
+    /**
+     * @return BridgeMethodsHelper
+     */
+    protected function getBridgeMethodsHelper()
+    {
+        return $this->get('ibrows_newsletter.rendererbridge.methodshelper');
     }
     
     /**
@@ -221,7 +231,10 @@ abstract class AbstractController extends Controller
 	public function render($view, array $parameters = array(), Response $response = null)
     {
         $basetemplate = $this->getTemplateManager()->getBaseTemplate();
-        $parameters = array_merge($parameters, array('basetemplate' => $basetemplate));
+        $parameters = array_merge($parameters, array(
+            'basetemplate' => $basetemplate,
+            'tinymceCustomButtons' => json_encode($this->getBridgeMethodsHelper()->getMethodDefinitions())
+        ));
     		
         return $this->container->get('templating')->renderResponse($view, $parameters, $response);
     }

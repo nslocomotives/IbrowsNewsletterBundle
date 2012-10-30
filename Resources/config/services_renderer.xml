@@ -35,9 +35,13 @@
             </argument>
         </service>
         
-        <service id="ibrows_newsletter.rendererbridge" class="Ibrows\Bundle\NewsletterBundle\Renderer\RendererBridge">
+        <service id="ibrows_newsletter.rendererbridge" class="Ibrows\Bundle\NewsletterBundle\Renderer\Bridge\RendererBridge">
             <argument type="service" id="router" />
             <argument type="service" id="ibrows_newsletter.rendererbridge.gendertitlestrategy.translator" />
+        </service>
+
+        <service id="ibrows_newsletter.rendererbridge.methodshelper" class="Ibrows\Bundle\NewsletterBundle\Renderer\Bridge\BridgeMethodsHelper">
+            <argument type="service" id="ibrows_newsletter.rendererbridge" />
         </service>
 
     </services>
