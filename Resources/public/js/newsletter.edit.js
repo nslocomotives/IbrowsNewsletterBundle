@@ -15,7 +15,7 @@ ns.edit = function($options){
             var elemSelector = $options.elements[elemSelectorKey];
             $elements[elemSelectorKey] = $container.find(elemSelector);
         }
-             
+
         $self.setupNewBlockDialog();
         $self.setupBlockSortable();
         $self.setupBlockDeleteDroppable();
