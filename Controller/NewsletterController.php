@@ -5,8 +5,6 @@ namespace Ibrows\Bundle\NewsletterBundle\Controller;
 use Ibrows\Bundle\NewsletterBundle\Annotation\Wizard\Annotation as WizardAction;
 use Ibrows\Bundle\NewsletterBundle\Annotation\Wizard\AnnotationHandler as WizardActionHandler;
 
-use Ibrows\Bundle\NewsletterBundle\Block\BlockComposition;
-
 use Doctrine\Common\Collections\Collection;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -18,41 +16,6 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class NewsletterController extends AbstractController
 {
-    /**
-     * @Route("/overview/{newsletterId}/{subscriberId}", name="ibrows_newsletter_overview")
-     * @todo check if statistics url is used
-     */
-    public function overviewAction($newsletterId, $subscriberId)
-    {
-        $newsletter = $this->getNewsletterById($newsletterId);
-        $subscriber = $this->getSubscriberById($newsletter, $subscriberId);
-
-
-        $renderer = $this->getRendererManager()->get($this->getMandant()->getRendererName());
-
-        $bridgeServiceId = $this->container->getParameter('ibrows_newsletter.rendererbridgeserviceid');
-        $bridge = $this->get($bridgeServiceId);
-
-        $blockVariables = array(
-            'newsletter' => $newsletter,
-            'subscriber' => $subscriber,
-            'bridge' => $bridge,
-        );
-
-        $blockContent = $renderer->render(
-            new BlockComposition($this->getBlockProviderManager(), $newsletter->getBlocks()),
-            $blockVariables
-        );
-
-        $overview = $renderer->render($newsletter->getDesign(), array_merge($blockVariables, array(
-            'content' => $blockContent
-        )));
-
-        return $this->render($this->getTemplateManager()->getNewsletter('overview'), array(
-            'overview' => $overview
-        ));
-    }
-    
 	/**
 	 * @Route("/", name="ibrows_newsletter_index")
 	 */
@@ -295,6 +258,7 @@ class NewsletterController extends AbstractController
 		return $this->render($this->getTemplateManager()->getNewsletter('summary'), array(
             'newsletter' => $newsletter,
             'subscriber' => $newsletter->getSubscribers()->first(),
+            'mandantHash' => $this->getMandant()->getHash(),
             'testmailform' => $testmailform->createView(),
             'wizard' => $this->getWizardActionAnnotationHandler(),
 		));
