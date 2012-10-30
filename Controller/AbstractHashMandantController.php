@@ -9,7 +9,7 @@ abstract class AbstractHashMandantController extends AbstractController
     protected function getMandantName()
     {
         if(!$this->mandantName){
-            throw $this->createNotFoundException("No mandant-name set!");
+            return parent::getMandantName();
         }
         return $this->mandantName;
     }
