@@ -3,8 +3,10 @@
 namespace Ibrows\Bundle\NewsletterBundle\Renderer\Bridge;
 
 use Ibrows\Bundle\NewsletterBundle\Model\Subscriber\SubscriberInterface;
-use Ibrows\Bundle\NewsletterBundle\Renderer\GenderTitleStrategy\GenderTitleStrategyInterface;
 use Ibrows\Bundle\NewsletterBundle\Model\Newsletter\NewsletterInterface;
+use Ibrows\Bundle\NewsletterBundle\Model\Mandant\MandantInterface;
+
+use Ibrows\Bundle\NewsletterBundle\Renderer\GenderTitleStrategy\GenderTitleStrategyInterface;
 
 use Symfony\Component\Routing\RouterInterface;
 
@@ -36,32 +38,59 @@ class RendererBridge
     }
 
     /**
+     * @param MandantInterface $mandant
      * @param NewsletterInterface $newsletter
      * @param SubscriberInterface $subscriber
      * @return string
      */
-    public function statisticlink(NewsletterInterface $newsletter, SubscriberInterface $subscriber)
+    public function statisticlogreadimage(MandantInterface $mandant, NewsletterInterface $newsletter, SubscriberInterface $subscriber, $context)
+    {
+        $src = $this->router->generate(
+            'ibrows_newsletter_statistic_log_read',
+            array(
+                'mandantHash' => $mandant->getHash(),
+                'newsletterHash' => $newsletter->getHash(),
+                'subscriberHash' => $subscriber->getHash(),
+                'context' => $context
+            ),
+            true
+        );
+
+        return '<img src="'. $src .'" />';
+    }
+
+    /**
+     * @param MandantInterface $mandant
+     * @param NewsletterInterface $newsletter
+     * @param SubscriberInterface $subscriber
+     * @return string
+     */
+    public function readonlinelink(MandantInterface $mandant, NewsletterInterface $newsletter, SubscriberInterface $subscriber, $context)
     {
         return $this->router->generate(
-            'ibrows_newsletter_statistic_log',
+            'ibrows_newsletter_render_overview',
             array(
+                'mandantHash' => $mandant->getHash(),
                 'newsletterHash' => $newsletter->getHash(),
-                'subscriberHash' => $subscriber->getHash()
+                'subscriberHash' => $subscriber->getHash(),
+                'context' => $context
             ),
             true
         );
     }
 
     /**
+     * @param MandantInterface $mandant
      * @param NewsletterInterface $newsletter
      * @param SubscriberInterface $subscriber
      * @return string
      */
-    public function unsubscribelink(NewsletterInterface $newsletter, SubscriberInterface $subscriber)
+    public function unsubscribelink(MandantInterface $mandant, NewsletterInterface $newsletter, SubscriberInterface $subscriber)
     {
         return $this->router->generate(
             'ibrows_newsletter_unsubscribe', 
             array(
+                'mandantHash' => $mandant->getHash(),
                 'newsletterHash' => $newsletter->getHash(), 
                 'subscriberHash' => $subscriber->getHash()
             ),
