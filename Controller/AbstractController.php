@@ -34,12 +34,17 @@ abstract class AbstractController extends Controller
         return $this->container->getParameter($name);
     }
 
+    /**
+     * @param integer $newsletterId
+     * @param string $message
+     * @param integer $subscriberId
+     */
     protected function addNewsletterReadLog($newsletterId, $message = 'Newsletter was read', $subscriberId = null)
     {
         $readlogClassname = $this->getClassManager()->getModel('readlog');
 
         /* @var LogInterface $readlog */
-        $readLog = new $readlogClassname();
+        $readlog = new $readlogClassname();
 
         $readlog
             ->setNewsletterId($newsletterId)
