@@ -8,7 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 /**
  * @Route("/unsubscribe")
  */
-class UnsubscribeController
+class UnsubscribeController extends AbstractController
 {
     /**
      * @Route("/do/{newsletterHash}/{subscriberHash}", name="ibrows_newsletter_unsubscribe")
