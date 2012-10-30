@@ -58,6 +58,7 @@ abstract class AbstractController extends Controller
     
     /**
      * @return string
+     * @throws InvalidConfigurationException
      */
     protected function getMandantName()
     {
@@ -169,7 +170,24 @@ abstract class AbstractController extends Controller
         
         return $this;
     }
-    
+
+    /**
+     * @param NewsletterInterface $newsletter
+     * @param integer $subscriberId
+     * @return SubscriberInterface
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     */
+    protected function getSubscriberById(NewsletterInterface $newsletter, $subscriberId)
+    {
+        foreach($newsletter->getSubscribers() as $newsletterSubscriber){
+            if($newsletterSubscriber->getId() == $subscriberId){
+                return $newsletterSubscriber;
+            }
+        }
+
+        throw $this->createNotFoundException("Subscriber $subscriberId not found in newsletter #". $newsletter->getId());
+    }
+
     /**
      * @param integer $id
      * @return NewsletterInterface
@@ -210,6 +228,12 @@ abstract class AbstractController extends Controller
         return $newsletter;
     }
 
+    /**
+     * @param NewsletterInterface $newsletter
+     * @param string $hash
+     * @return SubscriberInterface
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     */
     protected function getSubscriberByHash(NewsletterInterface $newsletter, $hash)
     {
         $subscriber = null;
