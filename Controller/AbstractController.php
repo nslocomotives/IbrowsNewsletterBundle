@@ -25,6 +25,22 @@ use Symfony\Component\HttpFoundation\Session\Session;
 
 abstract class AbstractController extends Controller
 {
+    protected function getParameter($name)
+    {
+        return $this->container->getParameter($name);
+    }
+
+    protected function getMandantNameByHash($hash)
+    {
+        foreach($this->getParameter('ibrows_newsletter.mandants') as $mandantName => $mandantHash){
+            if($hash == $mandantHash){
+                return $mandantName;
+            }
+        }
+
+        throw new InvalidConfigurationException("Update configuration with mandanthash '$hash'");
+    }
+
     /**
      * @return MandantManager
      */
