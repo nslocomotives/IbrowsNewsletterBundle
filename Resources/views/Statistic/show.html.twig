@@ -1,0 +1,16 @@
+{% extends basetemplate %}
+{% trans_default_domain "IbrowsNewsletterBundle" %}
+{% block layout_class %}statistic-show{% endblock layout_class %}
+
+{% block newsletter_content %}
+    <h1>{{ 'statistic.show'|trans({name: newsletter.name}) }}</h1>
+
+    <form action="{{ path('ibrows_newsletter_design_edit', {'id' : design.id }) }}" method="post" {{ form_enctype(form) }}>
+        {{ form_errors(form) }}
+        {{ form_rest(form) }}
+
+        <div class="form-actions">
+            <input class="btn btn-primary" type="submit" name="edit" value="{{ 'form.save'|trans }}">
+        </div>
+    </form>
+{% endblock %}

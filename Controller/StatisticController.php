@@ -2,6 +2,8 @@
 
 namespace Ibrows\Bundle\NewsletterBundle\Controller;
 
+use Ibrows\Bundle\NewsletterBundle\Model\Log\LogInterface;
+
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
@@ -21,13 +23,28 @@ class StatisticController extends AbstractHashMandantController
     {
         $this->setMandantNameByHash($mandantHash);
 
-        // if no context is set, its live --> log
-        if(!$this->getRequest()->get('context')){
+        $newsletter = $this->getNewsletterByHash($newsletterHash);
+        $subscriber = $this->getSubscriberByHash($newsletter, $subscriberHash);
 
+        // if no context is set, its live --> log
+        if(!$this->getRequest()->query->get('context')){
+            $this->addNewsletterReadLog($newsletter->getId(), "Newsletter was read by transparent gif", $subscriber->getId());
         }
 
         return new Response(base64_decode(self::TRANSPARENT_GIF), 200, array(
             'Content-Type' => 'image/gif'
+        ));
+    }
+
+    /**
+     * @Route("/show/{newsletterId}", name="ibrows_newsletter_statistic_show")
+     */
+    public function showAction($newsletterId)
+    {
+        $newsletter = $this->getNewsletterById($newsletterId);
+
+        return $this->render($this->getTemplateManager()->getStatistic('show'), array(
+            'newsletter' => $newsletter
         ));
     }
 }

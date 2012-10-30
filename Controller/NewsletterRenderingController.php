@@ -38,14 +38,13 @@ class NewsletterRenderingController extends AbstractHashMandantController
         $subscriber = $this->getSubscriberByHash($newsletter, $subscriberHash);
 
         $renderer = $this->getRendererService();
-		$bridge = $this->getBridgeService();
 
         $blockVariables = array(
             'context' => $this->getRequest()->query->get('context'),
             'mandant' => $this->getMandant(),
             'newsletter' => $newsletter,
             'subscriber' => $subscriber,
-            'bridge' => $bridge,
+            'bridge' => $this->getRendererBridge(),
         );
 
         $blockContent = $renderer->render(
@@ -74,7 +73,7 @@ class NewsletterRenderingController extends AbstractHashMandantController
     		$subscriber = $this->createTestSubscriber();
     		
     		$renderer = $this->getRendererService();
-    		$bridge = $this->getBridgeService();
+    		$bridge = $this->getRendererBridge();
     		
     		$blockVariables = array(
     				'context' => 'preview',

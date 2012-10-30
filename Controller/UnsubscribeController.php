@@ -20,12 +20,16 @@ class UnsubscribeController extends AbstractHashMandantController
         $newsletter = $this->getNewsletterByHash($newsletterHash);
         $subscriber = $this->getSubscriberByHash($newsletter, $subscriberHash);
 
+        $request = $this->getRequest();
+        if(!$request->query->get('context')){
+            $this->addNewsletterReadLog($newsletter->getId(), "Newsletter was read by unsubscribe link", $subscriber->getId());
+        }
+
         $groupClass = $this->getClassManager()->getModel('group');
 
         $formtype = $this->getClassManager()->getForm('unsubscribe');
         $form = $this->createForm(new $formtype($this->getMandantName(), $groupClass), $subscriber);
 
-        $request = $this->getRequest();
         if($request->getMethod() == 'POST'){
             $form->bind($request);
 

@@ -10,6 +10,7 @@
             <tr>
                 <th>#</th>
                 <th>{{ 'newsletter.name'|trans }}</th>
+                <th>{{ 'newsletter.statistic'|trans }}</th>
                 <th>{{ 'newsletter.created_at'|trans }}</th>
             </tr>
         </thead>
@@ -20,6 +21,11 @@
                     <td>
                         <a href="{{ url('ibrows_newsletter_edit_redirection', {id: newsletter.id}) }}">
                             {{ newsletter.name }}
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{{ url('ibrows_newsletter_statistic_show', {newsletterId: newsletter.id}) }}">
+                            {{ 'statistic.show'|trans }}
                         </a>
                     </td>
                     <td>{{ newsletter.createdAt|date }}</td>

@@ -9,7 +9,9 @@ use Ibrows\Bundle\NewsletterBundle\Service\orm\MandantUserProvider;
 use Ibrows\Bundle\NewsletterBundle\Model\Mandant\Mandant;
 use Ibrows\Bundle\NewsletterBundle\Model\Mandant\MandantManager as BaseMandantManager;
 use Ibrows\Bundle\NewsletterBundle\Service\BlockManager;
+
 use Doctrine\Bundle\DoctrineBundle\Registry;
+use Doctrine\Common\Persistence\ObjectManager;
 
 class MandantManager extends BaseMandantManager
 {
@@ -124,7 +126,7 @@ class MandantManager extends BaseMandantManager
 	/**
 	 * 
 	 * @param string $name
-	 * @return \Doctrine\Common\Persistence\ObjectManager
+	 * @return ObjectManager
 	 * @throws \InvalidArgumentException
 	 */
 	public function getObjectManager($name)

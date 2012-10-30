@@ -10,6 +10,7 @@ class RendererCompilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
+        // add all tagged renderers
         if(!$container->hasDefinition('ibrows_newsletter.renderer_manager')) {
             return;
         }
@@ -28,5 +29,17 @@ class RendererCompilerPass implements CompilerPassInterface
                 array($id, new Reference($id))
             );
         }
+
+        // set correct gendertitle strategy
+        if(!$container->hasDefinition('ibrows_newsletter.rendererbridge')) {
+            return;
+        }
+
+        $definition = $container->getDefinition(
+            'ibrows_newsletter.rendererbridge'
+        );
+
+        $genderTitleStrategyServiceId = $container->getParameter('ibrows_newsletter.serviceid.gendertitlestrategy');
+        $definition->addArgument(new Reference($genderTitleStrategyServiceId));
     }
 }

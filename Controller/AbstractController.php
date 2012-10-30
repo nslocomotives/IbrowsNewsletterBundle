@@ -13,10 +13,14 @@ use Ibrows\Bundle\NewsletterBundle\Service\BlockProviderManager;
 use Ibrows\Bundle\NewsletterBundle\Model\Newsletter\NewsletterInterface;
 use Ibrows\Bundle\NewsletterBundle\Model\Mandant\MandantInterface;
 use Ibrows\Bundle\NewsletterBundle\Model\User\MandantUserInterface;
+use Ibrows\Bundle\NewsletterBundle\Model\Subscriber\SubscriberInterface;
+use Ibrows\Bundle\NewsletterBundle\Model\Log\LogInterface;
 
 use Ibrows\Bundle\NewsletterBundle\Annotation\Wizard\WizardActionAnnotationHandler;
 
 use Ibrows\Bundle\NewsletterBundle\Renderer\Bridge\BridgeMethodsHelper;
+
+use Doctrine\Common\Persistence\ObjectManager;
 
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -28,6 +32,33 @@ abstract class AbstractController extends Controller
     protected function getParameter($name)
     {
         return $this->container->getParameter($name);
+    }
+
+    protected function getRendererBridge()
+    {
+        return $this->get($this->getParameter('ibrows_newsletter.serviceid.rendererbridge'));
+    }
+
+    /**
+     * @param integer $newsletterId
+     * @param string $message
+     * @param integer $subscriberId
+     */
+    protected function addNewsletterReadLog($newsletterId, $message = 'Newsletter was read', $subscriberId = null)
+    {
+        $readlogClassname = $this->getClassManager()->getModel('readlog');
+
+        /* @var LogInterface $readlog */
+        $readlog = new $readlogClassname();
+
+        $readlog
+            ->setNewsletterId($newsletterId)
+            ->setSubscriberId($subscriberId)
+            ->setMessage($message)
+        ;
+
+        $this->getObjectManager()->persist($readlog);
+        $this->getObjectManager()->flush();
     }
 
     protected function getMandantNameByHash($hash)
