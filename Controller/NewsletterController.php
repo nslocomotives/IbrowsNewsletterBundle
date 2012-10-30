@@ -222,7 +222,7 @@ class NewsletterController extends AbstractController
                 return $this->redirect($this->getWizardActionAnnotationHandler()->getNextStepUrl());
             }
 		}
-        
+
 		return $this->render($this->getTemplateManager()->getNewsletter('edit'), array(
             'blockProviderManager' => $this->getBlockProviderManager(),
             'newsletter' => $this->getNewsletter(),
