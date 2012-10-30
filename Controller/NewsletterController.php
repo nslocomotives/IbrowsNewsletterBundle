@@ -25,17 +25,8 @@ class NewsletterController extends AbstractController
     public function overviewAction($newsletterId, $subscriberId)
     {
         $newsletter = $this->getNewsletterById($newsletterId);
-        $subscriber = null;
-        foreach($newsletter->getSubscribers() as $newsletterSubscriber){
-            if($newsletterSubscriber->getId() == $subscriberId){
-                $subscriber = $newsletterSubscriber;
-                break;
-            }
-        }
+        $subscriber = $this->getSubscriberById($newsletter, $subscriberId);
 
-        if(!$subscriber){
-            throw $this->createNotFoundException("Subscriber $subscriberId not found");
-        }
 
         $renderer = $this->getRendererManager()->get($this->getMandant()->getRendererName());
 
