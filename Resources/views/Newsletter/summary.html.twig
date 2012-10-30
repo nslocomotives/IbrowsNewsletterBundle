@@ -40,7 +40,7 @@
 
         <h2>{{ 'newsletter.overview'|trans }}</h2>
         <div class="newsletter-overview">
-            <iframe data-element="overview" src="{{ url('ibrows_newsletter_overview', {newsletterId: newsletter.id, subscriberId: subscriber.id}) }}" />
+            <iframe data-element="overview" src="{{ url('ibrows_newsletter_render_overview', {mandantHash: mandantHash, newsletterHash: newsletter.hash, subscriberHash: subscriber.hash, context: 'overview'}) }}" />
         </div>
     </div>
 {% endblock newsletter_content %}
