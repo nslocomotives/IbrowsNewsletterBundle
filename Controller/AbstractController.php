@@ -209,6 +209,19 @@ abstract class AbstractController extends Controller
         
         return $newsletter;
     }
+
+    protected function getSubscriberByHash(NewsletterInterface $newsletter, $hash)
+    {
+        $subscriber = null;
+
+        foreach($newsletter->getSubscribers() as $newsletterSubscriber){
+            if($newsletterSubscriber->getHash() == $hash){
+                return $newsletterSubscriber;
+            }
+        }
+
+        throw $this->createNotFoundException("Subscriber with hash $hash not found in newsletter #". $newsletter->getId());
+    }
     
     /**
      * @return NewsletterInterface
