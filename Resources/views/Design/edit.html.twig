@@ -21,6 +21,7 @@ jQuery('[data-element="overview"]').iframeAutoHeight();
         </div>
     </form>
     
+    <h1>{{ 'design.preview'|trans }}</h1>
     <div class="newsletter-overview">
 		<iframe data-iframe-auto-height="true" src="{{ url('ibrows_newsletter_render_design', {'id' : design.id}) }}" />
 	</div>
