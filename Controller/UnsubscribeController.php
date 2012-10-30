@@ -8,13 +8,15 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 /**
  * @Route("/unsubscribe")
  */
-class UnsubscribeController extends AbstractController
+class UnsubscribeController extends AbstractHashMandantController
 {
     /**
-     * @Route("/do/{newsletterHash}/{subscriberHash}", name="ibrows_newsletter_unsubscribe")
+     * @Route("/do/{mandantHash}/{newsletterHash}/{subscriberHash}", name="ibrows_newsletter_unsubscribe")
      */
-    public function unsubscribeAction($newsletterHash, $subscriberHash)
+    public function unsubscribeAction($mandantHash, $newsletterHash, $subscriberHash)
     {
+        $this->setMandantNameByHash($mandantHash);
+
         $newsletter = $this->getNewsletterByHash($newsletterHash);
         $subscriber = $this->getSubscriberByHash($newsletter, $subscriberHash);
 
