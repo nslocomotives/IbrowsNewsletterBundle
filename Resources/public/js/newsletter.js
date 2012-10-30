@@ -7,6 +7,12 @@ ns.newsletter = function($options){
     
     this.ready = function(){
         this.setupTinymceButtons();
+        this.setupIframeAutoheight();
+    }
+    
+    this.setupIframeAutoheight = function()
+    {
+    		jQuery($options.selectors.iframeAutoheight).iframeAutoHeight();
     }
 
     this.setupTinymceButtons = function(){

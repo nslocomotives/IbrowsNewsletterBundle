@@ -2,6 +2,13 @@
 {% trans_default_domain "IbrowsNewsletterBundle" %}
 {% block layout_class %}design-edit{% endblock layout_class %}
 
+{% block head_javascripts %}
+{{ parent() }}
+<script type="text/javascript">
+jQuery('[data-element="overview"]').iframeAutoHeight();
+</script>
+{% endblock %}
+
 {% block newsletter_content %}
     <h1>{{ 'design.edit'|trans }}</h1>
 
@@ -13,4 +20,8 @@
             <input class="btn btn-primary" type="submit" name="edit" value="{{ 'form.save'|trans }}">
         </div>
     </form>
+    
+    <div class="newsletter-overview">
+		<iframe data-iframe-auto-height="true" src="{{ url('ibrows_newsletter_render_design', {'id' : design.id}) }}" />
+	</div>
 {% endblock %}
