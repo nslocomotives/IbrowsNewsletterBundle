@@ -78,7 +78,10 @@
                 
             <script type="text/javascript">
                 var $newsletter = new ibrows_newsletter.newsletter({
-                    tinymceButtons: {{ tinymceCustomButtons|raw }}
+                    tinymceButtons: {{ tinymceCustomButtons|raw }},
+                    selectors: {
+                    		iframeAutoheight: '[data-iframe-auto-height="true"]'
+                    }
                 });
                 jQuery(function(){
                     $newsletter.ready();
