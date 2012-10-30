@@ -17,3 +17,7 @@ h2{
 .container{
     margin-bottom: 1em;
 }
+
+.newsletter-overview iframe{
+    width: 920px;
+}
