@@ -24,15 +24,12 @@ class NewsletterRenderingController extends AbstractHashMandantController
 
         $renderer = $this->getRendererManager()->get($this->getMandant()->getRendererName());
 
-        $bridgeServiceId = $this->container->getParameter('ibrows_newsletter.rendererbridgeserviceid');
-        $bridge = $this->get($bridgeServiceId);
-
         $blockVariables = array(
             'context' => $context,
             'mandant' => $this->getMandant(),
             'newsletter' => $newsletter,
             'subscriber' => $subscriber,
-            'bridge' => $bridge,
+            'bridge' => $this->getRendererBridge(),
         );
 
         $blockContent = $renderer->render(
