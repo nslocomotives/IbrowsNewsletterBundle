@@ -43,7 +43,7 @@ class NewsletterController extends AbstractController
         
         $request = $this->getRequest();
 		if($request->getMethod() == 'POST'){
-			$form->bindRequest($request);
+			$form->bind($request);
 			
 			if($form->isValid()){
                 $this->setNewsletter($newsletter);
@@ -162,7 +162,7 @@ class NewsletterController extends AbstractController
 		
 		$request = $this->getRequest();
 		if($request->getMethod() == 'POST'){
-			$form->bindRequest($request);
+			$form->bind($request);
 			
 			if($form->isValid()){
                 $this->setNewsletter($newsletter);
@@ -255,7 +255,7 @@ class NewsletterController extends AbstractController
         
         $request = $this->getRequest();
         if($request->getMethod() == 'POST'){
-            $form->bindRequest($request);
+            $form->bind($request);
 
             if($form->isValid()){
                 $this->setNewsletter($newsletter);
@@ -332,7 +332,7 @@ class NewsletterController extends AbstractController
         
         $request = $this->getRequest();
         if($request->getMethod() == 'POST' && $request->request->get('testmail')){
-            $testmailform->bindRequest($request);
+            $testmailform->bind($request);
 
             if($testmailform->isValid()){
                 

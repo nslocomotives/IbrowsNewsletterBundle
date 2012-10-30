@@ -38,7 +38,7 @@ class DesignController extends AbstractController
 		
 		$request = $this->getRequest();
 		if($request->getMethod() == 'POST'){
-			$form->bindRequest($request);
+			$form->bind($request);
 				
 			if($form->isValid()){
 				$this->getMandantManager()->persistDesign($this->getMandantName(), $design);
@@ -66,7 +66,7 @@ class DesignController extends AbstractController
 		
 		$request = $this->getRequest();
 		if($request->getMethod() == 'POST'){
-			$form->bindRequest($request);
+			$form->bind($request);
 				
 			if($form->isValid()){
 				$this->getMandantManager()->persistDesign($this->getMandantName(), $design);
@@ -75,8 +75,7 @@ class DesignController extends AbstractController
 		
 		return $this->render($this->getTemplateManager()->getDesign('edit'), array(
             'design' => $design,
-            'form' => $form->createView(),
-            'preview' => $renderer->render($design, array('test' => 'blahblahblah')),
+            'form' => $form->createView()
 		));
 	}
 	
