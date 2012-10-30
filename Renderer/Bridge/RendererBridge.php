@@ -40,6 +40,23 @@ class RendererBridge
      * @param SubscriberInterface $subscriber
      * @return string
      */
+    public function statisticlink(NewsletterInterface $newsletter, SubscriberInterface $subscriber)
+    {
+        return $this->router->generate(
+            'ibrows_newsletter_statistic_log',
+            array(
+                'newsletterHash' => $newsletter->getHash(),
+                'subscriberHash' => $subscriber->getHash()
+            ),
+            true
+        );
+    }
+
+    /**
+     * @param NewsletterInterface $newsletter
+     * @param SubscriberInterface $subscriber
+     * @return string
+     */
     public function unsubscribelink(NewsletterInterface $newsletter, SubscriberInterface $subscriber)
     {
         return $this->router->generate(
