@@ -82,9 +82,19 @@ abstract class Subscriber implements SubscriberInterface
         return $this->gender;
     }
     
+    public function setGender($gender)
+    {
+    		$this->gender = $gender;
+    }
+    
     public function getTitle()
     {
         return $this->title;
+    }
+    
+    public function setTitle($title)
+    {
+    		$this->title = $title;
     }
     
     public function getHash()
@@ -154,9 +164,19 @@ abstract class Subscriber implements SubscriberInterface
         return $this->lastname;
     }
     
+    public function setLastname($lastname)
+    {
+    		$this->lastname = $lastname;
+    }
+    
     public function getFirstname()
     {
         return $this->firstname;
+    }
+    
+    public function setFirstname($firstname)
+    {
+	    	$this->firstname = $firstname;
     }
     
     public function getCompanyname()
@@ -164,8 +184,14 @@ abstract class Subscriber implements SubscriberInterface
         return $this->companyname;
     }
     
+    public function setCompanyname($companyname)
+    {
+    		$this->companyname = $companyname;
+    }
+    
     protected function generateHash()
     {
         return sha1(uniqid().time());
     }
+
 }
