@@ -8,6 +8,7 @@ interface GenderTitleStrategyInterface
 { 
     /**
      * @param SubscriberInterface $subscriber
+     * @return string
      */
     public function getGenderTitle(SubscriberInterface $subscriber);    
 }
