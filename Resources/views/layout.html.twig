@@ -125,7 +125,7 @@
             {% block newsletter_flashes %}
             {% for flashMessage in app.session.flashbag.get('ibrows_newsletter_error') %}
 			    <div class="alert alert-error">
-			        {{ flashMessage }}
+			        {{ flashMessage|trans({'%message%': error.message}) }}
 			    </div>
 			{% endfor %}
             {% endblock newsletter_flashes %}
