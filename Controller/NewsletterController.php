@@ -209,8 +209,12 @@ class NewsletterController extends AbstractController
         $sendSettings = $this->getSendSettings();
         if ($sendSettings === null) {
 	        $sendSettings = $this->getMandant()->getSendSettings();
-	        if ($sendSettings !== null)
+	        if ($sendSettings !== null) {
 	        		$sendSettings->setStarttime(new \DateTime());
+	        } else {
+	        		$sendSettingsClass = $this->getClassManager()->getModel('sendsettings');
+	        		$sendSettings = new $sendSettingsClass();
+	        }
         }
         $form = $this->createForm(new $formtype(), $sendSettings);
         
@@ -307,7 +311,14 @@ class NewsletterController extends AbstractController
 	
 	protected function send(MailJob $job)
 	{
-		$this->get('ibrows_newsletter.mailer')->send($job);		
+		try {
+			$this->get('ibrows_newsletter.mailer')->send($job);	
+		} catch (\Swift_SwiftException $e) {
+			$message = $e->getMessage();
+		}
+
+		if ($message)
+			$this->get('session')->getFlashBag()->add('ibrows_newsletter_error', 'newsletter.error.mail', array('message' => $message));
 	}
     
     public function summaryValidation(WizardActionHandler $handler)

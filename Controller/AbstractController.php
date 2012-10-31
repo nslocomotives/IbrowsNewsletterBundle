@@ -358,6 +358,12 @@ abstract class AbstractController extends Controller
      */
     protected function setSendSettings(SendSettingsInerface $sendSettings = null)
     {
+    		if ($sendSettings !== null) {
+    			$encryption = $this->getEncryptionService();
+    			$password = $sendSettings->getPassword();
+    			$sendSettings->setPassword($encryption->encrypt($password, $this->getMandant()->getSalt()));
+    		}
+    		
 	    	$session = $this->getSession();
     		$session->set('ibrows_newsletter.wizard.send_settings', $sendSettings);
 	    
