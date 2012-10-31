@@ -26,6 +26,10 @@
         		<argument type="service" id="ibrows_newsletter.block_provider_manager" />
         </service>
         
+        <service id="ibrows_newsletter.mailer" class="Ibrows\Bundle\NewsletterBundle\Service\MailerService">
+        		<argument type="service" id="mailer" />
+        </service>
+        
         <service id="ibrows_newsletter.annotation.wizard.driver" class="Ibrows\Bundle\NewsletterBundle\Annotation\Wizard\AnnotationDriver">
 			<argument type="service" id ="service_container" />
             <argument type="service" id ="ibrows_newsletter.annotation.wizard.handler" />
