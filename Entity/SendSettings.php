@@ -37,4 +37,10 @@ class SendSettings extends BaseSendSettings
 	 * @ORM\Column(type="integer")
 	 */
 	protected $interval;
+	
+	/**
+	 * @ORM\Column(type="datetime")
+	 * @var unknown_type
+	 */
+	protected $starttime;
 }
