@@ -14,6 +14,7 @@ ns.statistic = function($options){
     this.drawCharts = function(){
         $self.drawReadPieChart();
         $self.drawJobPieChart();
+        $self.drawJobLineChart();
     }
 
     this.drawReadPieChart = function(){
@@ -26,6 +27,12 @@ ns.statistic = function($options){
         var $data = $google.visualization.arrayToDataTable($options.jobPieChart.data);
         var $chart = new $google.visualization.PieChart(document.getElementById($options.selectors.jobPieChart));
         $chart.draw($data, $options.jobPieChart.options);
+    }
+
+    this.drawJobLineChart = function(){
+        var $data = $google.visualization.arrayToDataTable($options.jobLineChart.data);
+        var $chart = new $google.visualization.LineChart(document.getElementById($options.selectors.jobLineChart));
+        $chart.draw($data, $options.jobLineChart.options);
     }
 
 }

@@ -75,20 +75,52 @@ class StatisticController extends AbstractHashMandantController
         $readAmount = count($filteredReadlogs);
         $unreadAmount = count($sentlogs)-$readAmount;
 
-        $jobData = array();
+        $jobPie = array();
         foreach($jobs as $job){
             $status = $job->getStatus();
-            if(!isset($jobData[$status])){
-                $jobData[$status] = 0;
+            if(!isset($jobPie[$status])){
+                $jobPie[$status] = 0;
             }
-            $jobData[$status]++;
+            $jobPie[$status]++;
+        }
+
+        $jobStati = array_keys($jobPie);
+
+        $jobsSortedByCompleted = $jobs;
+        usort($jobsSortedByCompleted, function($a, $b){
+            return $a->getCompleted() > $b->getCompleted();
+        });
+
+        $jobLine = array();
+        $jobWalkLine = array();
+        foreach($jobsSortedByCompleted as $job){
+
+            $date = $job->getCompleted()->format('d.m.Y H:i:s');
+
+            foreach($jobStati as $jobStatus){
+                if(!isset($jobWalkLine[$jobStatus])){
+                    $jobWalkLine[$jobStatus] = 0;
+                }
+
+                if(!isset($jobLine[$date])){
+                    $jobLine[$date] = array();
+                }
+
+                if($job->getStatus() == $jobStatus){
+                    $jobLine[$date][$jobStatus] = $jobWalkLine[$jobStatus]++;
+                }else{
+                    $jobLine[$date][$jobStatus] = $jobWalkLine[$jobStatus];
+                }
+            }
         }
 
         return $this->render($this->getTemplateManager()->getStatistic('show'), array(
             'newsletter' => $newsletter,
             'read' => $readAmount,
             'unread' => $unreadAmount,
-            'jobs' => $jobData
+            'jobPie' => $jobPie,
+            'jobLine' => $jobLine,
+            'jobStati' => $jobStati
         ));
     }
 }
