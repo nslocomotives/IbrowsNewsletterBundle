@@ -270,6 +270,20 @@ class NewsletterController extends AbstractController
             $testmailform->bind($request);
 
             if($testmailform->isValid()){
+                $mandant = $this->getMandant();
+                $subscriber = $testmailform->get('subscriber')->getData();
+                $bridge = $this->getRendererBridge();
+                
+                $overview = $this->getRendererManager()->renderNewsletter(
+                		$mandant->getRendererName(),
+                		$bridge,
+                		$newsletter,
+                		$mandant,
+                		$subscriber,
+                		'testmail'
+                );
+                
+                $tomail = $testmailform->get('email')->getData();
                 
             }
         }

@@ -2,12 +2,20 @@
 
 namespace Ibrows\Bundle\NewsletterBundle\Service;
 
+use Ibrows\Bundle\NewsletterBundle\Block\BlockComposition;
+
 use Ibrows\Bundle\NewsletterBundle\Renderer\RendererInterface;
 
 class RendererManager
 {
 	protected $renderers = array();
+	protected $blockProvider;
     
+	public function __construct(BlockProviderManager $blockProvider)
+	{
+		$this->blockProvider = $blockProvider;
+	}
+	
     /**
      * @param string $name
      * @param RendererInterface $renderer
@@ -31,5 +39,29 @@ class RendererManager
 		}
 		
 		return $this->renderers[$name];
+	}
+	
+	public function renderNewsletter($renderername, $bridge, $newsletter, $mandant, $subscriber, $context = null)
+	{
+		$renderer = $this->get($renderername);
+		
+		$blockVariables = array(
+				'context' => $context,
+				'mandant' => $mandant,
+				'newsletter' => $newsletter,
+				'subscriber' => $subscriber,
+				'bridge' => $bridge,
+		);
+		
+		$blockContent = $renderer->render(
+				new BlockComposition($this->blockProvider, $newsletter->getBlocks()),
+				$blockVariables
+		);
+		
+		$overview = $renderer->render($newsletter->getDesign(), array_merge($blockVariables, array(
+				'content' => $blockContent
+		)));
+		
+		return $overview;
 	}
 }

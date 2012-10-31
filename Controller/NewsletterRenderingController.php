@@ -16,17 +16,6 @@ use Ibrows\Bundle\NewsletterBundle\Block\BlockComposition;
  */
 class NewsletterRenderingController extends AbstractHashMandantController
 {
-	protected function getBridgeService()
-	{
-        $bridgeServiceId = $this->container->getParameter('ibrows_newsletter.rendererbridgeserviceid');
-        return $this->get($bridgeServiceId);
-	}
-	
-	protected function getRendererService()
-	{
-		return $this->getRendererManager()->get($this->getMandant()->getRendererName());
-	}
-	
     /**
      * @Route("/show/{mandantHash}/{newsletterHash}/{subscriberHash}", name="ibrows_newsletter_render_overview")
      */
@@ -35,26 +24,21 @@ class NewsletterRenderingController extends AbstractHashMandantController
         $this->setMandantNameByHash($mandantHash);
 
         $newsletter = $this->getNewsletterByHash($newsletterHash);
+        $mandant = $this->getMandant();
         $subscriber = $this->getSubscriberByHash($newsletter, $subscriberHash);
 
-        $renderer = $this->getRendererService();
-
-        $blockVariables = array(
-            'context' => $this->getRequest()->query->get('context'),
-            'mandant' => $this->getMandant(),
-            'newsletter' => $newsletter,
-            'subscriber' => $subscriber,
-            'bridge' => $this->getRendererBridge(),
-        );
-
-        $blockContent = $renderer->render(
-            new BlockComposition($this->getBlockProviderManager(), $newsletter->getBlocks()),
-            $blockVariables
-        );
-
-        $overview = $renderer->render($newsletter->getDesign(), array_merge($blockVariables, array(
-            'content' => $blockContent
-        )));
+        $renderername = $this->getMandant()->getRendererName();
+        $bridge = $this->getRendererBridge();
+        $context = $this->getRequest()->query->get('context');
+        
+		$overview = $this->getRendererManager()->renderNewsletter(
+			$renderername, 
+			$bridge, 
+			$newsletter, 
+			$mandant, 
+			$subscriber,
+			$context
+		);
 
         return $this->render($this->getTemplateManager()->getNewsletter('overview'), array(
             'overview' => $overview

@@ -22,6 +22,7 @@
         </service>
         
         <service id="ibrows_newsletter.renderer_manager" class="Ibrows\Bundle\NewsletterBundle\Service\RendererManager">
+        		<argument type="service" id="ibrows_newsletter.block_provider_manager" />
         </service>
         
         <service id="ibrows_newsletter.annotation.wizard.driver" class="Ibrows\Bundle\NewsletterBundle\Annotation\Wizard\AnnotationDriver">
