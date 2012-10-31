@@ -125,11 +125,12 @@ class MailJob extends AbstractJob
 
     public function getPassword()
     {
-        return $this->password;
+        return base64_decode($this->password);
     }
 
     public function setPassword($password)
     {
+    		$password = base64_encode($password);
         $this->password = $password;
         return $this;
     }
