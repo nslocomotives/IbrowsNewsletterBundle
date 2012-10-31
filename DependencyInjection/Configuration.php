@@ -118,6 +118,7 @@ class Configuration implements ConfigurationInterface
 				->arrayNode('classes')->children()
 
                     ->arrayNode('model')
+                    		->addDefaultsIfNotSet()
                         ->children()
                             ->scalarNode('newsletter')->isRequired()->cannotBeEmpty()->end()
                             ->scalarNode('mandant')->isRequired()->cannotBeEmpty()->end()
@@ -128,6 +129,8 @@ class Configuration implements ConfigurationInterface
                             ->scalarNode('group')->isRequired()->cannotBeEmpty()->end()
                             ->scalarNode('readlog')->isRequired()->cannotBeEmpty()->end()
                             ->scalarNode('sentlog')->isRequired()->cannotBeEmpty()->end()
+                            ->scalarNode('sendsettings')->isRequired()->cannotBeEmpty()->end()
+                            ->scalarNode('mailjob')->isRequired()->cannotBeEmpty()->end()
                         ->end()
                     ->end()
                 
@@ -137,8 +140,9 @@ class Configuration implements ConfigurationInterface
                             ->scalarNode('newsletter')->defaultValue('Ibrows\\Bundle\\NewsletterBundle\\Form\\NewsletterType')->end()
                             ->scalarNode('subscriber')->defaultValue('Ibrows\\Bundle\\NewsletterBundle\\Form\\SubscriberType')->end()
                             ->scalarNode('design')->defaultValue('Ibrows\\Bundle\\NewsletterBundle\\Form\\DesignType')->end()
-                            ->scalarNode('testmail')->defaultValue('Ibrows\\Bundle\\NewsletterBundle\\Form\\TestMailType')->end()
+                            ->scalarNode('testmail')->cannotBeOverwritten(true)->defaultValue('Ibrows\\Bundle\\NewsletterBundle\\Form\\TestMailType')->end()
                             ->scalarNode('unsubscribe')->defaultValue('Ibrows\\Bundle\\NewsletterBundle\\Form\\UnsubscribeType')->end()
+                            ->scalarNode('sendsettings')->defaultValue('Ibrows\\Bundle\\NewsletterBundle\\Form\\SendSettingsType')->end()
                         ->end()
                     ->end()
                 
