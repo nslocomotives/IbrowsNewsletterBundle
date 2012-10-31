@@ -54,7 +54,8 @@ design:
 email: E-Mail
 
 statistic:
-  show: Statistik zu Newsletter "%name%"
+  title: Statistik zu Newsletter "%name%"
+  show: Statistik anzeigen
   sentreadpiechart:
     title: Gelesen / Ungelesen
     read: Gelesen

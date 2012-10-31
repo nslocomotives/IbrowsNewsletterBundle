@@ -19,6 +19,8 @@ use Ibrows\Bundle\NewsletterBundle\Model\Log\LogInterface;
 
 use Ibrows\Bundle\NewsletterBundle\Renderer\Bridge\BridgeMethodsHelper;
 
+use Ibrows\Bundle\NewsletterBundle\Encryption\EncryptionInterface;
+
 use Doctrine\Common\Persistence\ObjectManager;
 
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
@@ -28,9 +30,21 @@ use Symfony\Component\HttpFoundation\Session\Session;
 
 abstract class AbstractController extends Controller
 {
+    /**
+     * @param string
+     * @return mixed
+     */
     protected function getParameter($name)
     {
         return $this->container->getParameter($name);
+    }
+
+    /**
+     * @return EncryptionInterface
+     */
+    protected function getEncryptionService()
+    {
+        return $this->get($this->getParameter('ibrows_newsletter.serviceid.encryptionadapter'));
     }
 
     /**
