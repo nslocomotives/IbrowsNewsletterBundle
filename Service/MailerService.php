@@ -7,10 +7,12 @@ use Ibrows\Bundle\NewsletterBundle\Model\Job\MailJob;
 class MailerService
 {
 	protected $mailer;
+	protected $transport;
 	
-	public function __construct($mailer)
+	public function __construct($mailer, $transport)
 	{
 		$this->mailer = $mailer;
+		$this->transport = $transport;
 	}
 	
 	public function send(MailJob $job)
@@ -23,12 +25,12 @@ class MailerService
 			->setBody($job->getBody())
 		;
 		
-		$this->mailer->setHost($job->getHost());
-		$this->mailer->setPort($job->getPort());
-		$this->mailer->setUsername($job->getUsername());
-		$this->mailer->setPassword($job->getPassword());
+		$this->transport->setHost($job->getHost());
+		$this->transport->setPort($job->getPort());
+		$this->transport->setUsername($job->getUsername());
+		$this->transport->setPassword($job->getPassword());
 		
-		$this->mailer->send($message);
+		$this->mailer->newInstance($this->transport)->send($message);
 	}
 	
 }
