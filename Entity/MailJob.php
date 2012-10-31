@@ -74,7 +74,7 @@ class MailJob extends BaseMailJob
 	protected $username;
 
 	/**
-	 * @ORM\Column(type="string")
+	 * @ORM\Column(type="blob")
 	 */
 	protected $password;
 
