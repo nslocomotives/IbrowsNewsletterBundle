@@ -122,6 +122,13 @@
         
         <div class="container">
             {% block newsletter_wizard %}{% endblock newsletter_wizard %}
+            {% block newsletter_flashes %}
+            {% for flashMessage in app.session.flashbag.get('ibrows_newsletter_error') %}
+			    <div class="alert alert-error">
+			        {{ flashMessage }}
+			    </div>
+			{% endfor %}
+            {% endblock newsletter_flashes %}
             {% block newsletter_content %}{% endblock newsletter_content %}
         </div> 
         
