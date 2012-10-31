@@ -10,13 +10,14 @@
     <script type="text/javascript">
         var $statistic = new ibrows_newsletter.statistic({
             selectors: {
-                sentReadPieChart: 'sent-read-pie-chart'
+                readPieChart: 'read-pie-chart',
+                jobPieChart: 'job-pie-chart'
             },
-            sentReadPieChart: {
+            readPieChart: {
                 data: [
-                    ['{{ 'statistic.sentreadpiechart.emails'|trans }}', '{{ 'statistic.sentreadpiechart.amount'|trans }}'],
-                    ['{{ 'statistic.sentreadpiechart.read'|trans }}', {{ read }}],
-                    ['{{ 'statistic.sentreadpiechart.unread'|trans }}', {{ unread }}]
+                    ['{{ 'statistic.readpiechart.emails'|trans }}', '{{ 'statistic.readpiechart.amount'|trans }}'],
+                    ['{{ 'statistic.readpiechart.read'|trans }}', {{ read }}],
+                    ['{{ 'statistic.readpiechart.unread'|trans }}', {{ unread }}]
                 ],
                 options: {
                     fontName: 'Verdana',
@@ -28,6 +29,21 @@
                         'green', 'red'
                     ]
                 }
+            },
+            jobPieChart: {
+                data: [
+                    ['{{ 'statistic.jobpiechart.status'|trans }}', '{{ 'statistic.jobpiechart.amount'|trans }}'],
+                    {% for status, amount in jobs %}
+                        ['{{ ('statistic.jobpiechart.status.'~status)|trans }}', {{ amount }}],
+                    {% endfor %}
+                ],
+                options: {
+                    fontName: 'Verdana',
+                    is3D: true,
+                    legend: {
+                        position: 'left'
+                    }
+                }
             }
         });
         $statistic.ready();
@@ -37,5 +53,8 @@
 {% block newsletter_content %}
     <h1>{{ 'statistic.title'|trans({'%name%': newsletter.name}) }}</h1>
 
-    <div id="sent-read-pie-chart"></div>
+    <div id="read-pie-chart"></div>
+    <div id="job-pie-chart"></div>
+    <div class="clear" />
+    asd
 {% endblock %}

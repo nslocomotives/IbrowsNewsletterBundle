@@ -21,3 +21,7 @@ h2{
 .newsletter-overview iframe{
     width: 920px;
 }
+
+.clear{
+    clear:both;
+}

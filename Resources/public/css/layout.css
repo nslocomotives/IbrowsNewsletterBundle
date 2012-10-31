@@ -66,11 +66,14 @@
 /************** -------------- **************/
 /************** STATISTIC SHOW **************/
 /************** -------------- **************/
-.layout-statistic-show #sent-read-pie-chart{
-    height: 400px;
-    width: 100%;
+.layout-statistic-show #read-pie-chart,
+.layout-statistic-show #job-pie-chart{
+    height: 300px;
+    width: 48%;
     border: 1px solid #cdcdcd;
     border-radius: 5px;
+    float: left;
+    margin-right: 1em;
 }
 
 /************** --------------------- **************/
