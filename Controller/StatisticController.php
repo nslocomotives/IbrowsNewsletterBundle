@@ -28,7 +28,7 @@ class StatisticController extends AbstractHashMandantController
 
         // if no context is set, its live --> log
         if(!$this->getRequest()->query->get('context')){
-            $this->addNewsletterReadLog($newsletter->getId(), "Newsletter was read by transparent gif", $subscriber->getId());
+            $this->addNewsletterReadLog($newsletter, $subscriber, "Newsletter read: logged by ".__METHOD__);
         }
 
         return new Response(base64_decode(self::TRANSPARENT_GIF), 200, array(

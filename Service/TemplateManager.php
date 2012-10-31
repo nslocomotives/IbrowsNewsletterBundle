@@ -9,14 +9,16 @@ class TemplateManager
 	protected $designs;
 	protected $base_template;
     protected $subscribers;
+    protected $statistics;
 	
-	public function __construct($base_template, array $mandants, array $newsletters, array $designs, array $subscribers)
+	public function __construct($base_template, array $mandants, array $newsletters, array $designs, array $subscribers, array $statistics)
 	{
 		$this->base_template = $base_template;
 		$this->mandants = $mandants;
 		$this->newsletters = $newsletters;
 		$this->designs = $designs;
         $this->subscribers = $subscribers;
+        $this->statistics = $statistics;
 	}
 	
 	public function getNewsletter($name)
@@ -36,6 +38,15 @@ class TemplateManager
 		
 		return $this->mandants[$name];
 	}
+
+    public function getStatistic($name)
+    {
+        if(!array_key_exists($name, $this->statistics)){
+            throw new \InvalidArgumentException("The statistic-view with name '$name' can not be found.");
+        }
+
+        return $this->statistics[$name];
+    }
 	
 	public function getDesign($name)
 	{

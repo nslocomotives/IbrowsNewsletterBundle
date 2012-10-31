@@ -22,7 +22,7 @@ class UnsubscribeController extends AbstractHashMandantController
 
         $request = $this->getRequest();
         if(!$request->query->get('context')){
-            $this->addNewsletterReadLog($newsletter->getId(), "Newsletter was read by unsubscribe link", $subscriber->getId());
+            $this->addNewsletterReadLog($newsletter, $subscriber, "Newsletter read: logged by ".__METHOD__);
         }
 
         $groupClass = $this->getClassManager()->getModel('group');

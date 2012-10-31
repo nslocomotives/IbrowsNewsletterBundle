@@ -16,8 +16,6 @@ use Ibrows\Bundle\NewsletterBundle\Model\User\MandantUserInterface;
 use Ibrows\Bundle\NewsletterBundle\Model\Subscriber\SubscriberInterface;
 use Ibrows\Bundle\NewsletterBundle\Model\Log\LogInterface;
 
-use Ibrows\Bundle\NewsletterBundle\Annotation\Wizard\WizardActionAnnotationHandler;
-
 use Ibrows\Bundle\NewsletterBundle\Renderer\Bridge\BridgeMethodsHelper;
 
 use Doctrine\Common\Persistence\ObjectManager;
@@ -34,30 +32,36 @@ abstract class AbstractController extends Controller
         return $this->container->getParameter($name);
     }
 
-    protected function getRendererBridge()
-    {
-        return $this->get($this->getParameter('ibrows_newsletter.serviceid.rendererbridge'));
-    }
-
     /**
      * @param integer $newsletterId
      * @param string $message
      * @param integer $subscriberId
      */
-    protected function addNewsletterReadLog($newsletterId, $message = 'Newsletter was read', $subscriberId = null)
+    protected function addNewsletterReadLog(NewsletterInterface $newsletter, SubscriberInterface $subscriber, $message)
     {
-        $readlogClassname = $this->getClassManager()->getModel('readlog');
+        $logClassName = $this->getClassManager()->getModel('readlog');
+        $this->addNewsletterLog($logClassName, $newsletter, $subscriber, $message);
+    }
 
-        /* @var LogInterface $readlog */
-        $readlog = new $readlogClassname();
+    protected function addNewsletterLog($className, NewsletterInterface $newsletter, SubscriberInterface $subscriber, $message)
+    {
+        /* @var LogInterface $log */
+        $log = new $className();
 
-        $readlog
-            ->setNewsletterId($newsletterId)
-            ->setSubscriberId($subscriberId)
+        $log
+            ->setNewsletterId($newsletter->getId())
+            ->setSubscriberId($subscriber->getId())
+            ->setSubscriberCompanyname($subscriber->getCompanyname())
+            ->setSubscriberEmail($subscriber->getEmail())
+            ->setSubscriberFirstname($subscriber->getFirstname())
+            ->setSubscriberGender($subscriber->getGender())
+            ->setSubscriberLastname($subscriber->getLastname())
+            ->setSubscriberLocale($subscriber->getLocale())
+            ->setSubscriberTitle($subscriber->getTitle())
             ->setMessage($message)
         ;
 
-        $this->getObjectManager()->persist($readlog);
+        $this->getObjectManager()->persist($log);
         $this->getObjectManager()->flush();
     }
 
