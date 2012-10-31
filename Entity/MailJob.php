@@ -71,11 +71,6 @@ class MailJob extends BaseMailJob
 	/**
 	 * @ORM\Column(type="string")
 	 */
-	protected $transport;
-
-	/**
-	 * @ORM\Column(type="string")
-	 */
 	protected $username;
 
 	/**
