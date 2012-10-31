@@ -14,6 +14,9 @@ newsletter:
       'ibrows_newsletter.block.provider.textarea': Text
       'ibrows_newsletter.block.provider.image': Bild
       'ibrows_newsletter.block.provider.textareaandimage': Text mit Bild
+  layout:
+    index:
+      title: Willkommen beim iBROWS NewsletterBundle
   wizard:
     meta:       Meta Daten
     edit:       Editieren
