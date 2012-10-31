@@ -43,8 +43,31 @@ class StatisticController extends AbstractHashMandantController
     {
         $newsletter = $this->getNewsletterById($newsletterId);
 
+        $sentlogs = $this->getObjectManager()->getRepository($this->getClassManager()->getModel('sentlog'))->findBy(array(
+            'newsletterId' => $newsletter->getId()
+        ));
+
+        $readlogs = $this->getObjectManager()->getRepository($this->getClassManager()->getModel('readlog'))->findBy(array(
+            'newsletterId' => $newsletter->getId()
+        ));
+
+        $foundSubscriberIds = array();
+        $filteredReadlogs = array_filter($readlogs, function($readlog)use(&$foundSubscriberIds){
+            $subscriberId = $readlog->getSubscriberId();
+            if(!in_array($subscriberId, $foundSubscriberIds)){
+                $foundSubscriberIds[] = $subscriberId;
+                return true;
+            }
+            return false;
+        });
+
+        $readAmount = count($filteredReadlogs);
+        $unreadAmount = count($sentlogs)-$readAmount;
+
         return $this->render($this->getTemplateManager()->getStatistic('show'), array(
-            'newsletter' => $newsletter
+            'newsletter' => $newsletter,
+            'read' => $readAmount,
+            'unread' => $unreadAmount
         ));
     }
 }

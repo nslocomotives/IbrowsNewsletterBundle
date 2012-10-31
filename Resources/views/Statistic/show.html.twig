@@ -2,15 +2,40 @@
 {% trans_default_domain "IbrowsNewsletterBundle" %}
 {% block layout_class %}statistic-show{% endblock layout_class %}
 
+{% block head_javascripts %}
+    {{ parent() }}
+
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+
+    <script type="text/javascript">
+        var $statistic = new ibrows_newsletter.statistic({
+            selectors: {
+                sentReadPieChart: 'sent-read-pie-chart'
+            },
+            sentReadPieChart: {
+                data: [
+                    ['{{ 'statistic.sentreadpiechart.emails'|trans }}', '{{ 'statistic.sentreadpiechart.amount'|trans }}'],
+                    ['{{ 'statistic.sentreadpiechart.read'|trans }}', {{ read }}],
+                    ['{{ 'statistic.sentreadpiechart.unread'|trans }}', {{ unread }}]
+                ],
+                options: {
+                    fontName: 'Verdana',
+                    is3D: true,
+                    legend: {
+                        position: 'left'
+                    },
+                    colors: [
+                        'green', 'red'
+                    ]
+                }
+            }
+        });
+        $statistic.ready();
+    </script>
+{% endblock head_javascripts %}
+
 {% block newsletter_content %}
-    <h1>{{ 'statistic.show'|trans({name: newsletter.name}) }}</h1>
+    <h1>{{ 'statistic.show'|trans({'%name%': newsletter.name}) }}</h1>
 
-    <form action="{{ path('ibrows_newsletter_design_edit', {'id' : design.id }) }}" method="post" {{ form_enctype(form) }}>
-        {{ form_errors(form) }}
-        {{ form_rest(form) }}
-
-        <div class="form-actions">
-            <input class="btn btn-primary" type="submit" name="edit" value="{{ 'form.save'|trans }}">
-        </div>
-    </form>
+    <div id="sent-read-pie-chart"></div>
 {% endblock %}

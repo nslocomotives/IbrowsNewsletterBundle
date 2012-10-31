@@ -6,6 +6,7 @@ newsletter:
   created_at: Erstellt am
   testmail: Test Versand
   overview: Übersicht
+  statistic: Statistik
   block:
     add: Hinzufügen
     new: Neuer Block
@@ -51,6 +52,13 @@ design:
   edit: Design editieren
 
 email: E-Mail
+
+statistic:
+  show: Statistik zu Newsletter "%name%"
+  sentreadpiechart:
+    title: Gelesen / Ungelesen
+    read: Gelesen
+    unread: Ungelesen
 
 form:
   save: Speichern
