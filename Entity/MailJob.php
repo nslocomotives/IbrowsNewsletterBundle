@@ -54,4 +54,24 @@ class MailJob extends BaseMailJob
 	 * @ORM\Column(type="datetime", nullable=true)
 	 */
 	protected $completed;
+	/**
+	 * @ORM\Column(type="string")
+	 */
+	protected $transport;
+	/**
+	 * @ORM\Column(type="string")
+	 */
+	protected $username;
+	/**
+	 * @ORM\Column(type="string")
+	 */
+	protected $password;
+	/**
+	 * @ORM\Column(type="string", nullable=true)
+	 */
+	protected $host;
+	/**
+	 * @ORM\Column(type="integer", nullable=true)
+	 */
+	protected $port;
 }
