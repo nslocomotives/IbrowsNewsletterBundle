@@ -10,7 +10,7 @@ use Ibrows\Bundle\NewsletterBundle\Service\ClassManager;
 use Ibrows\Bundle\NewsletterBundle\Service\RendererManager;
 use Ibrows\Bundle\NewsletterBundle\Service\BlockProviderManager;
 
-use Ibrows\Bundle\NewsletterBundle\Model\Newsletter\NewsletterSendSettings;
+use Ibrows\Bundle\NewsletterBundle\Model\Newsletter\SendSettingsInerface;
 use Ibrows\Bundle\NewsletterBundle\Model\Newsletter\NewsletterInterface;
 use Ibrows\Bundle\NewsletterBundle\Model\Mandant\MandantInterface;
 use Ibrows\Bundle\NewsletterBundle\Model\User\MandantUserInterface;
@@ -356,7 +356,7 @@ abstract class AbstractController extends Controller
     /**
      * @param SendSettings $sendSettings
      */
-    protected function setSendSettings(NewsletterSendSettings $sendSettings = null)
+    protected function setSendSettings(SendSettingsInerface $sendSettings = null)
     {
 	    	$session = $this->getSession();
     		$session->set('ibrows_newsletter.wizard.send_settings', $sendSettings);

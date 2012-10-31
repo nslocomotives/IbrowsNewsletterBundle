@@ -19,6 +19,7 @@ class SendSettingsType extends AbstractType
             ->add('host')
             ->add('port')
             ->add('interval')
+            ->add('starttime', 'datetime')
 		;
 	}
 	

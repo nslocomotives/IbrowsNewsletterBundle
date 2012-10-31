@@ -38,7 +38,10 @@ class SendSettings implements SendSettingsInerface
      *  )
 	 */
 	protected $interval;
-	
+	/**
+	 * @Assert\DateTime(groups={"newsletter"})
+	 */
+	protected $starttime;
 
     public function getTransport()
     {
@@ -103,6 +106,17 @@ class SendSettings implements SendSettingsInerface
     public function setInterval($interval)
     {
         $this->interval = $interval;
+        return $this;
+    }
+
+    public function getStarttime()
+    {
+        return $this->starttime;
+    }
+
+    public function setStarttime($starttime)
+    {
+        $this->starttime = $starttime;
         return $this;
     }
 }

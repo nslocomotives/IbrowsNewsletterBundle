@@ -21,4 +21,7 @@ interface SendSettingsInerface
 
     public function getInterval();
     public function setInterval($interval);
+    
+    public function getStarttime();
+    public function setStarttime($starttime);
 }

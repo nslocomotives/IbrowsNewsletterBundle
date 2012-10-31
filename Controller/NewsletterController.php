@@ -210,6 +210,7 @@ class NewsletterController extends AbstractController
         if ($sendSettings === null) {
 	        $sendSettingsClass = $this->getClassManager()->getModel('sendsettings');
 	        $sendSettings = new $sendSettingsClass();
+	        $sendSettings->setStarttime(new \DateTime());
         }
         $form = $this->createForm(new $formtype(), $sendSettings);
         
@@ -285,8 +286,9 @@ class NewsletterController extends AbstractController
                 		'testmail'
                 );
                 
+                $mailjobClass = $this->getClassManager()->getModel('mailjob');
                 $tomail = $testmailform->get('email')->getData();
-                $mailjob = new MailJob($newsletter, $this->getSendSettings());
+                $mailjob = new $mailjobClass($newsletter, $this->getSendSettings());
                 $mailjob->setToMail($tomail);
                 $mailjob->setBody($overview);
                 
@@ -320,6 +322,51 @@ class NewsletterController extends AbstractController
         if(count($newsletter->getSubscribers()) <= 0){
             return $this->redirect($this->generateUrl('ibrows_newsletter_subscriber'));
         }
+    }
+    
+    /**
+     * @Route("/generate", name="ibrows_newsletter_generate")
+     * @WizardAction(name="generate", number=6, validationMethod="summaryValidation")
+     */
+    public function generateAction()
+    {
+    		$newsletter = $this->getNewsletter();
+    		$sendSettings = $this->getSendSettings();
+    		$mailjobClass = $this->getClassManager()->getModel('mailjob');
+    		
+		$mandant = $this->getMandant();
+    		$rendererManager = $this->getRendererManager();
+		$rendererName = $this->getMandant()->getRendererName();
+		$bridge = $this->getRendererBridge();
+
+		$objectManager = $this->getObjectManager();
+		$subscribers = $newsletter->getSubscribers();
+    		foreach ($subscribers as $subscriber) {
+    			$body = $rendererManager->renderNewsletter(
+    					$rendererName,
+    					$bridge,
+    					$newsletter,
+    					$mandant,
+    					$subscriber
+    			);
+    			
+    			$mailjob = new $mailjobClass($newsletter, $sendSettings);
+    			$mailjob->setBody($body);
+    			$mailjob->setToMail($subscriber->getEmail());
+    			
+    			$objectManager->persist($mailjob);
+    		}
+    		
+    		$objectManager->flush();
+    		
+    		return $this->render($this->getTemplateManager()->getNewsletter('generate'), array(
+    				'newsletter' => $newsletter
+    		));
+    }
+    
+    public function generateValidation(WizardActionHandler $handler)
+    {
+    		return $this->summaryValidation($handler);
     }
     
     /**

@@ -35,6 +35,7 @@ class MailJob extends AbstractJob
 		$this->setPassword($sendSettings->getPassword());
 		$this->setHost($sendSettings->getHost());
 		$this->setPort($sendSettings->getPort());
+		$this->setScheduled($sendSettings->getStarttime());
 		
 		$this->setNewsletterId($newsletter->getId());
 	}

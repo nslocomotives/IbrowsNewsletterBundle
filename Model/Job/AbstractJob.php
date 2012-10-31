@@ -16,6 +16,7 @@ abstract class AbstractJob implements JobInterface
 	public function __construct()
 	{
 		$this->created = new \DateTime();
+		$this->status = self::STATUS_ONHOLD;
 	}
 
 	public function getNewsletterId()

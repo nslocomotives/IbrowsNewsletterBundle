@@ -78,6 +78,7 @@ class Configuration implements ConfigurationInterface
                                 ->scalarNode('send')->defaultValue('IbrowsNewsletterBundle:Newsletter:send.html.twig')->end()
                                 ->scalarNode('unsubscribe')->defaultValue('IbrowsNewsletterBundle:Newsletter:unsubscribe.html.twig')->end()
                                 ->scalarNode('overview')->defaultValue('IbrowsNewsletterBundle:Newsletter:overview.html.twig')->end()
+                                ->scalarNode('generate')->defaultValue('IbrowsNewsletterBundle:Newsletter:generate.html.twig')->end()
 							->end()
 						->end()
                 
