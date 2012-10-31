@@ -32,6 +32,8 @@ interface MandantInterface
      */
     public function getRendererName();
     
+    public function getSendSettings();
+    
     /**
      * @return string
      */

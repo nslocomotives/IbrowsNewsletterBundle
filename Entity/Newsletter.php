@@ -42,4 +42,10 @@ class Newsletter extends AbstractNewsletter
      * @ORM\Column(type="datetime", name="created_at")
      */
     protected $createdAt;
+    
+    /**
+     * @ORM\OneToOne(targetEntity="NewsletterSendSettings")
+     * @ORM\JoinColumn(name="send_settings_id", referencedColumnName="id")
+     */
+    protected $sendSettings;
 }

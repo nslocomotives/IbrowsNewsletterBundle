@@ -203,8 +203,27 @@ class NewsletterController extends AbstractController
             return $response;
         }
         
+        $formtype = $this->getClassManager()->getForm('sendsettings');
+        $sendSettings = $this->getSendSettings();
+        if ($sendSettings === null) {
+	        $sendSettingsClass = $this->getClassManager()->getModel('sendsettings');
+	        $sendSettings = new $sendSettingsClass();
+        }
+        $form = $this->createForm(new $formtype(), $sendSettings);
+        
+        $request = $this->getRequest();
+        if($request->getMethod() == 'POST'){
+	        	$form->bind($request);
+	        
+	        	if($form->isValid()){
+	        		$this->setSendSettings($sendSettings);
+	        		return $this->redirect($this->getWizardActionAnnotationHandler()->getNextStepUrl());
+	        	}
+        }
+        
 		return $this->render($this->getTemplateManager()->getNewsletter('settings'), array(
             'newsletter' => $this->getNewsletter(),
+            'form' => $form->createView(),
             'wizard' => $this->getWizardActionAnnotationHandler(),
 		));
 	}
@@ -251,6 +270,20 @@ class NewsletterController extends AbstractController
             $testmailform->bind($request);
 
             if($testmailform->isValid()){
+                $mandant = $this->getMandant();
+                $subscriber = $testmailform->get('subscriber')->getData();
+                $bridge = $this->getRendererBridge();
+                
+                $overview = $this->getRendererManager()->renderNewsletter(
+                		$mandant->getRendererName(),
+                		$bridge,
+                		$newsletter,
+                		$mandant,
+                		$subscriber,
+                		'testmail'
+                );
+                
+                $tomail = $testmailform->get('email')->getData();
                 
             }
         }
@@ -267,8 +300,9 @@ class NewsletterController extends AbstractController
     public function summaryValidation(WizardActionHandler $handler)
     {
         $newsletter = $this->getNewsletter();
+        $sendSettings = $this->getSendSettings();
         
-        if(is_null($newsletter)){
+        if(is_null($newsletter) || is_null($sendSettings)){
             return $this->redirect($handler->getStepUrl($handler->getLastValidAnnotation()));
         }
         

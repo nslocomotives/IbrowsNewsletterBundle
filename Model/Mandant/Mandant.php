@@ -15,6 +15,8 @@ abstract class Mandant implements MandantInterface
 	protected $newsletters;
     protected $subscribers;
     protected $subscriberGroups;
+    
+    protected $sendSettings;
 
     public function __construct()
     {
@@ -70,6 +72,11 @@ abstract class Mandant implements MandantInterface
     public function getSubscriberGroups()
     {
         return $this->subscriberGroups;
+    }
+    
+    public function getSendSettings()
+    {
+    		return $this->sendSettings;
     }
 
     protected function generateHash()
