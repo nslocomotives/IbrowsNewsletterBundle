@@ -24,8 +24,8 @@ class NewsletterSendSettings
 	protected $host;
 	/**
 	 * @Assert\Range(
-	 * 		min = "120",
-     *  	max = "180",
+	 * 		min = "1",
+     *  	max = "65535",
      *  	groups={"newsletter"}
      *  )
 	 */
