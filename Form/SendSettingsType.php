@@ -15,7 +15,7 @@ class SendSettingsType extends AbstractType
 		$builder
             ->add('transport')
             ->add('username')
-            ->add('password')
+            ->add('password', 'password')
             ->add('host')
             ->add('port')
             ->add('interval')
