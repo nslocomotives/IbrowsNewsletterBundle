@@ -10,6 +10,9 @@ interface JobInterface
 	const STATUS_COMPLETED = 'completed';
 	const STATUS_ERROR = 'error';
 	
+	public function getNewsletterId();
+	public function setNewsletterId($id);
+	
 	public function getStatus();
 	public function setStatus($status);
 	public function getError();

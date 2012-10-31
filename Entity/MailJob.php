@@ -12,7 +12,7 @@ class MailJob extends BaseMailJob
 	 */
 	protected $subject;
 	/**
-	 * @ORM\Column(type="string", name ="sender_name")
+	 * @ORM\Column(type="string", name ="sender_name", nullable=true)
 	 */
 	protected $senderName;
 	/**
@@ -34,7 +34,7 @@ class MailJob extends BaseMailJob
 	protected $body;
 	
 	/**
-	 * @ORM\Column(type="text")
+	 * @ORM\Column(type="text", nullable=true)
 	 */
 	protected $error;
 	/**
@@ -51,7 +51,7 @@ class MailJob extends BaseMailJob
 	 */
 	protected $scheduled;
 	/**
-	 * @ORM\Column(type="datetime")
+	 * @ORM\Column(type="datetime", nullable=true)
 	 */
 	protected $completed;
 }

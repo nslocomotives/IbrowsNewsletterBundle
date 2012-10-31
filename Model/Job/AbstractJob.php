@@ -4,6 +4,8 @@ namespace Ibrows\Bundle\NewsletterBundle\Model\Job;
 
 abstract class AbstractJob implements JobInterface
 {
+	protected $newsletterId;
+	
 	protected $error;
 	protected $status;
 	
@@ -16,6 +18,17 @@ abstract class AbstractJob implements JobInterface
 		$this->created = new \DateTime();
 	}
 
+	public function getNewsletterId()
+	{
+		return $this->newsletterId;
+	}
+	
+	public function setNewsletterId($id)
+	{
+		$this->newsletterId = $id;
+		return $this;
+	}
+	
 	public function getError()
 	{
 		return $this->error;

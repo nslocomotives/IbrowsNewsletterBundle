@@ -22,6 +22,8 @@ class MailJob extends AbstractJob
 		$this->senderName = $newsletter->getSenderName();
 		$this->senderMail = $newsletter->getSenderMail();
 		$this->returnMail = $newsletter->getReturnMail();
+		
+		$this->setNewsletterId($newsletter->getId());
 	}
 
     public function getSubject()
