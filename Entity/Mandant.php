@@ -22,6 +22,13 @@ class Mandant extends AbstractMandant
      */
     protected $hash;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string")
+     */
+    protected $salt;
+    
 	/**
 	 * @var string
 	 * 

@@ -8,6 +8,7 @@ abstract class Mandant implements MandantInterface
 {
 	protected $name;
     protected $hash;
+    protected $salt;
 	protected $rendererName;
 
 	protected $blocks;
@@ -26,6 +27,7 @@ abstract class Mandant implements MandantInterface
         $this->subscribers = new ArrayCollection();
         $this->subscriberGroups = new ArrayCollection();
         $this->hash = $this->generateHash();
+        $this->salt = $this->generateSalt();
     }
 
 	public function setName($name)
@@ -42,6 +44,11 @@ abstract class Mandant implements MandantInterface
     public function getHash()
     {
         return $this->hash;
+    }
+    
+    public function getSalt()
+    {
+    		return $this->salt;
     }
     
     public function getRendererName()
@@ -82,5 +89,10 @@ abstract class Mandant implements MandantInterface
     protected function generateHash()
     {
         return sha1(uniqid().time());
+    }
+    
+    protected function generateSalt()
+    {
+    		return sha1(uniqid().time());
     }
 }

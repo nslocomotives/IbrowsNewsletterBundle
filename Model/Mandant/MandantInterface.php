@@ -53,4 +53,9 @@ interface MandantInterface
      * @return string
      */
     public function getHash();
+    
+    /**
+     * @return string
+     */
+    public function getSalt();
 }
