@@ -71,6 +71,11 @@ abstract class Newsletter implements NewsletterInterface
      * @Assert\NotNull(groups={"newsletter"})
      */
     protected $createdAt;
+    
+    /**
+     * @var NewsletterSendSettings $sendSettings
+     */
+    protected $sendSettings;
 
 	public function __construct()
 	{
@@ -306,5 +311,24 @@ abstract class Newsletter implements NewsletterInterface
     protected function generateHash()
     {
         return sha1(uniqid().time());
+    }
+
+    /**
+     * @return NewsletterSendSettings
+     */
+    public function getSendSettings()
+    {
+        return $this->sendSettings;
+    }
+
+    /**
+     * 
+     * @param NewsletterSendSettings $sendSettings
+     * @return Newsletter
+     */
+    public function setSendSettings($sendSettings)
+    {
+        $this->sendSettings = $sendSettings;
+        return $this;
     }
 }
