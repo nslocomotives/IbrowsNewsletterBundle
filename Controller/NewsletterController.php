@@ -209,7 +209,8 @@ class NewsletterController extends AbstractController
         $sendSettings = $this->getSendSettings();
         if ($sendSettings === null) {
 	        $sendSettings = $this->getMandant()->getSendSettings();
-	        $sendSettings->setStarttime(new \DateTime());
+	        if ($sendSettings !== null)
+	        		$sendSettings->setStarttime(new \DateTime());
         }
         $form = $this->createForm(new $formtype(), $sendSettings);
         
