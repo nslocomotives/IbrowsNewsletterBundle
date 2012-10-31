@@ -43,13 +43,24 @@ class StatisticController extends AbstractHashMandantController
     {
         $newsletter = $this->getNewsletterById($newsletterId);
 
-        $sentlogs = $this->getObjectManager()->getRepository($this->getClassManager()->getModel('sentlog'))->findBy(array(
+        $objectManager = $this->getObjectManager();
+
+        $sentlogs = $objectManager->getRepository($this->getClassManager()->getModel('sentlog'))->findBy(array(
             'newsletterId' => $newsletter->getId()
         ));
 
-        $readlogs = $this->getObjectManager()->getRepository($this->getClassManager()->getModel('readlog'))->findBy(array(
+        $readlogs = $objectManager->getRepository($this->getClassManager()->getModel('readlog'))->findBy(array(
             'newsletterId' => $newsletter->getId()
         ));
+
+        $jobs = $objectManager->getRepository($this->getClassManager()->getModel('mailjob'))->findBy(
+            array(
+                'newsletterId' => $newsletter->getId()
+            ),
+            array(
+                'status' => 'ASC'
+            )
+        );
 
         $foundSubscriberIds = array();
         $filteredReadlogs = array_filter($readlogs, function($readlog)use(&$foundSubscriberIds){
@@ -64,10 +75,20 @@ class StatisticController extends AbstractHashMandantController
         $readAmount = count($filteredReadlogs);
         $unreadAmount = count($sentlogs)-$readAmount;
 
+        $jobData = array();
+        foreach($jobs as $job){
+            $status = $job->getStatus();
+            if(!isset($jobData[$status])){
+                $jobData[$status] = 0;
+            }
+            $jobData[$status]++;
+        }
+
         return $this->render($this->getTemplateManager()->getStatistic('show'), array(
             'newsletter' => $newsletter,
             'read' => $readAmount,
-            'unread' => $unreadAmount
+            'unread' => $unreadAmount,
+            'jobs' => $jobData
         ));
     }
 }

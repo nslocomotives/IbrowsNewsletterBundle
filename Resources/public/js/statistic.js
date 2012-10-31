@@ -8,14 +8,24 @@ ns.statistic = function($options){
 
     this.ready = function(){
         $google.load("visualization", "1", {packages:["corechart"]});
-        $google.setOnLoadCallback(this.drawChart);
+        $google.setOnLoadCallback(this.drawCharts);
     }
 
-    this.drawChart = function(){
-        var $data = $google.visualization.arrayToDataTable($options.sentReadPieChart.data);
+    this.drawCharts = function(){
+        $self.drawReadPieChart();
+        $self.drawJobPieChart();
+    }
 
-        var $chart = new $google.visualization.PieChart(document.getElementById($options.selectors.sentReadPieChart));
-        $chart.draw($data, $options.sentReadPieChart.options);
+    this.drawReadPieChart = function(){
+        var $data = $google.visualization.arrayToDataTable($options.readPieChart.data);
+        var $chart = new $google.visualization.PieChart(document.getElementById($options.selectors.readPieChart));
+        $chart.draw($data, $options.readPieChart.options);
+    }
+
+    this.drawJobPieChart = function(){
+        var $data = $google.visualization.arrayToDataTable($options.jobPieChart.data);
+        var $chart = new $google.visualization.PieChart(document.getElementById($options.selectors.jobPieChart));
+        $chart.draw($data, $options.jobPieChart.options);
     }
 
 }

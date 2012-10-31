@@ -56,10 +56,16 @@ email: E-Mail
 statistic:
   title: Statistik zu Newsletter "%name%"
   show: Statistik anzeigen
-  sentreadpiechart:
-    title: Gelesen / Ungelesen
+  readpiechart:
     read: Gelesen
     unread: Ungelesen
+  jobpiechart:
+    status:
+      working: Am versenden
+      onhold: Am warten
+      ready: Bereit zum Versand
+      completed: Versendet
+      error: Fehler
 
 form:
   save: Speichern
