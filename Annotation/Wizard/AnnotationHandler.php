@@ -25,6 +25,7 @@ class AnnotationHandler
         usort($annotationBags, function($a, $b){
             return $a->getAnnotation()->getNumber() > $b->getAnnotation()->getNumber();
         });
+
         $this->annotationBags = array_values($annotationBags);
         
         $annotations = array();
