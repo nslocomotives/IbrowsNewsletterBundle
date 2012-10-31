@@ -2,10 +2,10 @@
 
 namespace Ibrows\Bundle\NewsletterBundle\Entity;
 
-use Ibrows\Bundle\NewsletterBundle\Model\Newsletter\NewsletterSendSettings as BaseSendSettings;
+use Ibrows\Bundle\NewsletterBundle\Model\Newsletter\SendSettings as BaseSendSettings;
 use Doctrine\ORM\Mapping as ORM;
 
-class NewsletterSendSettings extends BaseSendSettings
+class SendSettings extends BaseSendSettings
 {
 	/**
 	 * @ORM\Column(type="string")
