@@ -37,6 +37,11 @@ class MailJob extends BaseMailJob
 	 * @ORM\Column(type="string")
 	 */
 	protected $body;
+
+    /**
+     * @ORM\Column(type="integer", name="newsletter_id")
+     */
+    protected $newsletterId;
 	
 	/**
 	 * @ORM\Column(type="text", nullable=true)
