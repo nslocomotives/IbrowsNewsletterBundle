@@ -208,8 +208,7 @@ class NewsletterController extends AbstractController
         $formtype = $this->getClassManager()->getForm('sendsettings');
         $sendSettings = $this->getSendSettings();
         if ($sendSettings === null) {
-	        $sendSettingsClass = $this->getClassManager()->getModel('sendsettings');
-	        $sendSettings = new $sendSettingsClass();
+	        $sendSettings = $this->getMandant()->getSendSettings();
 	        $sendSettings->setStarttime(new \DateTime());
         }
         $form = $this->createForm(new $formtype(), $sendSettings);
@@ -330,6 +329,10 @@ class NewsletterController extends AbstractController
      */
     public function generateAction()
     {
+	    	if(($response = $this->getWizardActionValidation()) instanceof Response){
+	    		return $response;
+	    	}
+	    	
     		$newsletter = $this->getNewsletter();
     		$sendSettings = $this->getSendSettings();
     		$mailjobClass = $this->getClassManager()->getModel('mailjob');
@@ -360,7 +363,8 @@ class NewsletterController extends AbstractController
     		$objectManager->flush();
     		
     		return $this->render($this->getTemplateManager()->getNewsletter('generate'), array(
-    				'newsletter' => $newsletter
+    			'newsletter' => $newsletter,
+            	'wizard' => $this->getWizardActionAnnotationHandler(),
     		));
     }
     
