@@ -11,7 +11,8 @@
         var $statistic = new ibrows_newsletter.statistic({
             selectors: {
                 readPieChart: 'read-pie-chart',
-                jobPieChart: 'job-pie-chart'
+                jobPieChart: 'job-pie-chart',
+                jobLineChart: 'job-line-chart'
             },
             readPieChart: {
                 data: [
@@ -33,7 +34,7 @@
             jobPieChart: {
                 data: [
                     ['{{ 'statistic.jobpiechart.status'|trans }}', '{{ 'statistic.jobpiechart.amount'|trans }}'],
-                    {% for status, amount in jobs %}
+                    {% for status, amount in jobPie %}
                         ['{{ ('statistic.jobpiechart.status.'~status)|trans }}', {{ amount }}],
                     {% endfor %}
                 ],
@@ -43,6 +44,17 @@
                     legend: {
                         position: 'left'
                     }
+                }
+            },
+            jobLineChart: {
+                data: [
+                    ['{{ 'statistic.jobpiechart.date'|trans }}',{% for status in jobStati %}'{{ ('statistic.jobpiechart.status.'~status)|trans }}'{% if(loop.last == false) %},{% endif %}{% endfor %}],
+                    {% for date, job in jobLine %}
+                        ['{{ date }}',{{ jobLine[date]|join(",")|raw }}]{% if(loop.last == false) %},{% endif %}
+                    {% endfor %}
+                ],
+                options: {
+
                 }
             }
         });

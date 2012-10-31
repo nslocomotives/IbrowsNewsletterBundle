@@ -67,13 +67,21 @@
 /************** STATISTIC SHOW **************/
 /************** -------------- **************/
 .layout-statistic-show #read-pie-chart,
-.layout-statistic-show #job-pie-chart{
+.layout-statistic-show #job-pie-chart,
+.layout-statistic-show #job-line-chart{
     height: 300px;
-    width: 48%;
+    width: 450px;
     border: 1px solid #cdcdcd;
     border-radius: 5px;
     float: left;
-    margin-right: 1em;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+.layout-statistic-show #job-line-chart{
+    float:none;
+    margin: 0;
+    width: 910px;
 }
 
 /************** --------------------- **************/

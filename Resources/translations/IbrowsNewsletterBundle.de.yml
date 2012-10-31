@@ -20,6 +20,7 @@ newsletter:
     subscriber: Empfänger
     settings:   Einstellungen
     summary:    Zusammenfassung
+    generate:   Generate
   create: Neuer Newsletter
   list: Newsletter Liste
   edit: Newsletter "%name%" editieren

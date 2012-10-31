@@ -364,7 +364,7 @@ class NewsletterController extends AbstractController
     		
     		return $this->render($this->getTemplateManager()->getNewsletter('generate'), array(
     			'newsletter' => $newsletter,
-            'wizard' => $this->getWizardActionAnnotationHandler(),
+            	'wizard' => $this->getWizardActionAnnotationHandler(),
     		));
     }
     
