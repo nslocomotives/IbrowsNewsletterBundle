@@ -16,6 +16,8 @@ interface BlockInterface extends RenderableInterface
     public function setProviderOptions(array $options);
     
     public function setParentBlock(BlockInterface $block = null);
+    public function getParentBlock();
+    
     public function addBlock(BlockInterface $block);
     public function removeBlock(BlockInterface $block);
     public function getBlocks();

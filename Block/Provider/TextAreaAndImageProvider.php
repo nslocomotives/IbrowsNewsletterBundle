@@ -48,7 +48,7 @@ class TextAreaAndImageProvider extends AbstractProvider
         $widthKey = $block->getProviderName() == 'ibrows_newsletter.block.provider.textarea' ?
             'textWidth' : 'imageWidth';
         
-        $width = $block->getProviderOption($widthKey, '50%');
+        $width = $block->getParentBlock()->getProviderOption($widthKey, '50%');
         
         return '<td class="provider" width="'. $width .'" style="width:'. $width .'">';
     }
@@ -73,7 +73,7 @@ class TextAreaAndImageProvider extends AbstractProvider
         $widthKey = $block->getProviderName() == 'ibrows_newsletter.block.provider.textarea' ?
             'textWidth' : 'imageWidth';
         
-        $width = $block->getProviderOption($widthKey, '50%');
+        $width = $block->getParentBlock()->getProviderOption($widthKey, '50%');
         
         return '<td class="provider" width="'. $width .'" style="width:'. $width .'">';
     }
