@@ -2,6 +2,8 @@
 
 namespace Ibrows\Bundle\NewsletterBundle\Controller;
 
+use Ibrows\Bundle\NewsletterBundle\Model\Job\MailJob;
+
 use Ibrows\Bundle\NewsletterBundle\Annotation\Wizard\Annotation as WizardAction;
 use Ibrows\Bundle\NewsletterBundle\Annotation\Wizard\AnnotationHandler as WizardActionHandler;
 
@@ -284,7 +286,11 @@ class NewsletterController extends AbstractController
                 );
                 
                 $tomail = $testmailform->get('email')->getData();
+                $mailjob = new MailJob($newsletter, $this->getSendSettings());
+                $mailjob->setToMail($tomail);
+                $mailjob->setBody($overview);
                 
+                $this->send($mailJob);
             }
         }
         
@@ -295,6 +301,11 @@ class NewsletterController extends AbstractController
             'testmailform' => $testmailform->createView(),
             'wizard' => $this->getWizardActionAnnotationHandler(),
 		));
+	}
+	
+	protected function send(MailJob $job)
+	{
+		$this->get('ibrows_newsletter.mailer')->send($job);		
 	}
     
     public function summaryValidation(WizardActionHandler $handler)
