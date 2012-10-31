@@ -18,6 +18,7 @@ class MailJob extends AbstractJob
 	protected $transport;
 	protected $username;
 	protected $password;
+	protected $salt;
 	protected $host;
 	protected $port;
 
@@ -30,7 +31,6 @@ class MailJob extends AbstractJob
 		$this->setSenderMail($newsletter->getSenderMail());
 		$this->setReturnMail($newsletter->getReturnMail());
 		
-		$this->setTransport($sendSettings->getTransport());
 		$this->setUsername($sendSettings->getUsername());
 		$this->setPassword($sendSettings->getPassword());
 		$this->setHost($sendSettings->getHost());
@@ -38,8 +38,14 @@ class MailJob extends AbstractJob
 		$this->setScheduled($sendSettings->getStarttime());
 		
 		$this->setNewsletterId($newsletter->getId());
+		$this->salt = $newsletter->getMandant()->getSalt();
 	}
 
+	public function getSalt()
+	{
+		return $this->salt;
+	}
+	
     public function getSubject()
     {
         return $this->subject;
@@ -103,17 +109,6 @@ class MailJob extends AbstractJob
     public function setBody($body)
     {
         $this->body = $body;
-        return $this;
-    }
-
-    public function getTransport()
-    {
-        return $this->transport;
-    }
-
-    public function setTransport($transport)
-    {
-        $this->transport = $transport;
         return $this;
     }
 
