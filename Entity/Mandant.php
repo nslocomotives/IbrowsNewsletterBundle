@@ -32,7 +32,7 @@ class Mandant extends AbstractMandant
 	/**
 	 * @var unknown_type
 	 * 
-     * @ORM\OneToOne(targetEntity="NewsletterSendSettings")
+     * @ORM\OneToOne(targetEntity="SendSettings")
      * @ORM\JoinColumn(name="send_settings_id", referencedColumnName="id")
 	 */
 	protected $sendSettings;
