@@ -325,7 +325,7 @@ class NewsletterController extends AbstractController
     
     /**
      * @Route("/generate", name="ibrows_newsletter_generate")
-     * @WizardAction(name="generate", number=6, validationMethod="summaryValidation")
+     * @WizardAction(name="generate", number=6, validationMethod="generateValidation")
      */
     public function generateAction()
     {
