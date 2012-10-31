@@ -28,7 +28,7 @@ class StatisticController extends AbstractHashMandantController
 
         // if no context is set, its live --> log
         if(!$this->getRequest()->query->get('context')){
-            $this->addNewsletterReadLog($newsletter->getId(), "Newsletter was read by transparent gif", $subscriber->getId());
+            $this->addNewsletterReadLog($newsletter, $subscriber, "Newsletter read: logged by ".__METHOD__);
         }
 
         return new Response(base64_decode(self::TRANSPARENT_GIF), 200, array(
@@ -43,8 +43,31 @@ class StatisticController extends AbstractHashMandantController
     {
         $newsletter = $this->getNewsletterById($newsletterId);
 
+        $sentlogs = $this->getObjectManager()->getRepository($this->getClassManager()->getModel('sentlog'))->findBy(array(
+            'newsletterId' => $newsletter->getId()
+        ));
+
+        $readlogs = $this->getObjectManager()->getRepository($this->getClassManager()->getModel('readlog'))->findBy(array(
+            'newsletterId' => $newsletter->getId()
+        ));
+
+        $foundSubscriberIds = array();
+        $filteredReadlogs = array_filter($readlogs, function($readlog)use(&$foundSubscriberIds){
+            $subscriberId = $readlog->getSubscriberId();
+            if(!in_array($subscriberId, $foundSubscriberIds)){
+                $foundSubscriberIds[] = $subscriberId;
+                return true;
+            }
+            return false;
+        });
+
+        $readAmount = count($filteredReadlogs);
+        $unreadAmount = count($sentlogs)-$readAmount;
+
         return $this->render($this->getTemplateManager()->getStatistic('show'), array(
-            'newsletter' => $newsletter
+            'newsletter' => $newsletter,
+            'read' => $readAmount,
+            'unread' => $unreadAmount
         ));
     }
 }

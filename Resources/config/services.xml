@@ -11,6 +11,7 @@
 			<argument>%ibrows_newsletter.templates.newsletter%</argument>
 			<argument>%ibrows_newsletter.templates.design%</argument>
             <argument>%ibrows_newsletter.templates.subscriber%</argument>
+            <argument>%ibrows_newsletter.templates.statistic%</argument>
         </service>
         
         <service id="ibrows_newsletter.class_manager" class="Ibrows\Bundle\NewsletterBundle\Service\ClassManager">
