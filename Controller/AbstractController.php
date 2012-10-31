@@ -39,6 +39,11 @@ abstract class AbstractController extends Controller
         return $this->container->getParameter($name);
     }
 
+    protected function getRendererBridge()
+	{
+		return $this->get($this->getParameter('ibrows_newsletter.serviceid.rendererbridge'));
+	}
+	
     /**
      * @return EncryptionInterface
      */

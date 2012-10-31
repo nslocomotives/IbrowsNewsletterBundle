@@ -25,14 +25,14 @@ class MailJob extends AbstractJob
 	{
 		parent::__construct();
 		
-		$this->setSubjcect($newsletter->getSubject());
+		$this->setSubject($newsletter->getSubject());
 		$this->setSenderName($newsletter->getSenderName());
 		$this->setSenderMail($newsletter->getSenderMail());
 		$this->setReturnMail($newsletter->getReturnMail());
 		
 		$this->setTransport($sendSettings->getTransport());
 		$this->setUsername($sendSettings->getUsername());
-		$this->password($sendSettings->getPassword());
+		$this->setPassword($sendSettings->getPassword());
 		$this->setHost($sendSettings->getHost());
 		$this->setPort($sendSettings->getPort());
 		

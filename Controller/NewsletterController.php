@@ -290,7 +290,7 @@ class NewsletterController extends AbstractController
                 $mailjob->setToMail($tomail);
                 $mailjob->setBody($overview);
                 
-                $this->send($mailJob);
+                $this->send($mailjob);
             }
         }
         
