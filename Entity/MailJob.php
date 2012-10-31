@@ -82,7 +82,7 @@ class MailJob extends BaseMailJob
 	 * @ORM\Column(type="string", nullable=true)
 	 */
 	protected $host;
-    
+
 	/**
 	 * @ORM\Column(type="integer", nullable=true)
 	 */
