@@ -60,21 +60,20 @@ class NewsletterRenderingController extends AbstractHashMandantController
 
         $newsletter = $this->createTestNewsletter($design);
         $subscriber = $this->createTestSubscriber();
+        $mandant = $this->getMandant();
 
-        $renderer = $this->getRendererService();
+        $renderername = $this->getMandant()->getRendererName();
         $bridge = $this->getRendererBridge();
+        $context = $this->getRequest()->query->get('context');
 
-        $blockVariables = array(
-            'context' => 'preview',
-            'mandant' => $this->getMandant(),
-            'newsletter' => $newsletter,
-            'subscriber' => $subscriber,
-            'bridge' => $bridge,
+        $overview = $this->getRendererManager()->renderNewsletter(
+            $renderername,
+            $bridge,
+            $newsletter,
+            $mandant,
+            $subscriber,
+            $context
         );
-
-        $overview = $renderer->render($newsletter->getDesign(), array_merge($blockVariables, array(
-            'content' => '{{ content }}'
-        )));
 
         return $this->render($this->getTemplateManager()->getNewsletter('overview'), array(
             'overview' => $overview
