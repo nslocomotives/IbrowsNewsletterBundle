@@ -329,48 +329,48 @@ class NewsletterController extends AbstractController
      */
     public function generateAction()
     {
-	    	if(($response = $this->getWizardActionValidation()) instanceof Response){
-	    		return $response;
-	    	}
-	    	
-    		$newsletter = $this->getNewsletter();
-    		$sendSettings = $this->getSendSettings();
-    		$mailjobClass = $this->getClassManager()->getModel('mailjob');
+        if(($response = $this->getWizardActionValidation()) instanceof Response){
+            return $response;
+        }
+
+        $newsletter = $this->getNewsletter();
+        $sendSettings = $this->getSendSettings();
+        $mailjobClass = $this->getClassManager()->getModel('mailjob');
     		
 		$mandant = $this->getMandant();
-    		$rendererManager = $this->getRendererManager();
+        $rendererManager = $this->getRendererManager();
 		$rendererName = $this->getMandant()->getRendererName();
 		$bridge = $this->getRendererBridge();
 
 		$objectManager = $this->getObjectManager();
 		$subscribers = $newsletter->getSubscribers();
-    		foreach ($subscribers as $subscriber) {
-    			$body = $rendererManager->renderNewsletter(
-    					$rendererName,
-    					$bridge,
-    					$newsletter,
-    					$mandant,
-    					$subscriber
-    			);
-    			
-    			$mailjob = new $mailjobClass($newsletter, $sendSettings);
-    			$mailjob->setBody($body);
-    			$mailjob->setToMail($subscriber->getEmail());
-    			
-    			$objectManager->persist($mailjob);
-    		}
-    		
-    		$objectManager->flush();
-    		
-    		return $this->render($this->getTemplateManager()->getNewsletter('generate'), array(
-    			'newsletter' => $newsletter,
-            	'wizard' => $this->getWizardActionAnnotationHandler(),
-    		));
+        foreach($subscribers as $subscriber){
+            $body = $rendererManager->renderNewsletter(
+                    $rendererName,
+                    $bridge,
+                    $newsletter,
+                    $mandant,
+                    $subscriber
+            );
+
+            $mailjob = new $mailjobClass($newsletter, $sendSettings);
+            $mailjob->setBody($body);
+            $mailjob->setToMail($subscriber->getEmail());
+
+            $objectManager->persist($mailjob);
+        }
+
+        $objectManager->flush();
+
+        return $this->render($this->getTemplateManager()->getNewsletter('generate'), array(
+            'newsletter' => $newsletter,
+            'wizard' => $this->getWizardActionAnnotationHandler(),
+        ));
     }
     
     public function generateValidation(WizardActionHandler $handler)
     {
-    		return $this->summaryValidation($handler);
+        return $this->summaryValidation($handler);
     }
     
     /**
