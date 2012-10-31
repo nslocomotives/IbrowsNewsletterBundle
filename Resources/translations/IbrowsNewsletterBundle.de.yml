@@ -39,7 +39,7 @@ newsletter:
       formal: Sehr geehrte Frau %subscriber.lastname%
       informal: Hallo %subscriber.firstname%
   error:
-    mail: Der Versand war nicht möglich: %message%
+    mail: "Der Versand war nicht möglich: %message%"
 
 subscriber:
   list: Empfänger Liste

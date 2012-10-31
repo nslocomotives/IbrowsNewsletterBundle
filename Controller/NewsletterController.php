@@ -273,6 +273,7 @@ class NewsletterController extends AbstractController
         $testmailform = $this->createForm($formtype);
         
         $request = $this->getRequest();
+        $error = '';
         if($request->getMethod() == 'POST' && $request->request->get('testmail')){
             $testmailform->bind($request);
 
@@ -296,7 +297,16 @@ class NewsletterController extends AbstractController
                 $mailjob->setToMail($tomail);
                 $mailjob->setBody($overview);
                 
-                $this->send($mailjob);
+                try {
+	                $this->send($mailjob);
+                } catch (\Swift_SwiftException $e) {
+                		$message = $e->getMessage();
+	                if ($message) {
+	                		$this->get('session')->getFlashBag()->add('ibrows_newsletter_error', 'newsletter.error.mail');
+	                		$error = $e;
+	                }
+                }
+                
             }
         }
         
@@ -306,19 +316,15 @@ class NewsletterController extends AbstractController
             'mandantHash' => $this->getMandant()->getHash(),
             'testmailform' => $testmailform->createView(),
             'wizard' => $this->getWizardActionAnnotationHandler(),
+			'error' => $error,
 		));
 	}
 	
 	protected function send(MailJob $job)
 	{
-		try {
+	
 			$this->get('ibrows_newsletter.mailer')->send($job);	
-		} catch (\Swift_SwiftException $e) {
-			$message = $e->getMessage();
-		}
-
-		if ($message)
-			$this->get('session')->getFlashBag()->add('ibrows_newsletter_error', 'newsletter.error.mail', array('message' => $message));
+	
 	}
     
     public function summaryValidation(WizardActionHandler $handler)
