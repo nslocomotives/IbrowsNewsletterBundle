@@ -8,11 +8,13 @@ class MailerService
 {
 	protected $mailer;
 	protected $transport;
+	protected $encryption;
 	
-	public function __construct($mailer, $transport)
+	public function __construct($mailer, $transport, $encryption)
 	{
 		$this->mailer = $mailer;
 		$this->transport = $transport;
+		$this->encryption = $encryption;
 	}
 	
 	public function send(MailJob $job)
@@ -28,7 +30,8 @@ class MailerService
 		$this->transport->setHost($job->getHost());
 		$this->transport->setPort($job->getPort());
 		$this->transport->setUsername($job->getUsername());
-		$this->transport->setPassword($job->getPassword());
+		$password = $this->encryption->decrypt($job->getPassword(), $job->getSalt());
+		$this->transport->setPassword($password);
 		
 		$this->mailer->newInstance($this->transport)->send($message);
 	}
