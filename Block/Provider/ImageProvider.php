@@ -4,15 +4,18 @@ namespace Ibrows\Bundle\NewsletterBundle\Block\Provider;
 
 use Ibrows\Bundle\NewsletterBundle\Model\Block\BlockInterface;
 
+use Symfony\Component\HttpFoundation\Request;
+
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Filesystem\Filesystem;
 
 class ImageProvider extends AbstractProvider
 {
+    protected $request;
     protected $uploadDirectory;
     protected $publicPath;
     
-    public function __construct($uploadDirectory, $publicPath)
+    public function __construct(Request $request, $uploadDirectory, $publicPath)
     {
         if(!is_dir($uploadDirectory)){
             $filesystem = new Filesystem();
@@ -22,7 +25,8 @@ class ImageProvider extends AbstractProvider
         if(!is_writable($uploadDirectory)){
             throw new \InvalidArgumentException("No write access on directory $uploadDirectory");
         }
-        
+
+        $this->request = $request;
         $this->uploadDirectory = realpath($uploadDirectory);
         $this->publicPath = $publicPath;
     }
@@ -75,6 +79,6 @@ class ImageProvider extends AbstractProvider
     
     protected function getPublicPath(BlockInterface $block)
     {
-        return $this->publicPath.'/'. $block->getId();
+        return $this->request->getSchemeAndHttpHost().$this->publicPath.'/'. $block->getId();
     }
 }
