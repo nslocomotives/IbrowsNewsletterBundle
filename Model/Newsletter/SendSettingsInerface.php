@@ -4,9 +4,6 @@ namespace Ibrows\Bundle\NewsletterBundle\Model\Newsletter;
 
 interface SendSettingsInerface
 {
-    public function getTransport();
-    public function setTransport($transport);
-
     public function getUsername();
     public function setUsername($username);
 

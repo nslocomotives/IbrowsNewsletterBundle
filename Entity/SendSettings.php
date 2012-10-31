@@ -11,11 +11,6 @@ class SendSettings extends BaseSendSettings
 	/**
 	 * @ORM\Column(type="string")
 	 */
-	protected $transport;
-
-	/**
-	 * @ORM\Column(type="string")
-	 */
 	protected $username;
 
 	/**

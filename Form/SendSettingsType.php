@@ -13,7 +13,6 @@ class SendSettingsType extends AbstractType
 	 */
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$builder
-            ->add('transport')
             ->add('username')
             ->add('password', 'password')
             ->add('host')

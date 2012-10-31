@@ -9,10 +9,6 @@ class SendSettings implements SendSettingsInerface
 	/**
 	 * @Assert\NotBlank(groups={"newsletter"})
 	 */
-	protected $transport;
-	/**
-	 * @Assert\NotBlank(groups={"newsletter"})
-	 */
 	protected $username;
 	/**
 	 * @Assert\NotBlank(groups={"newsletter"})
@@ -42,17 +38,6 @@ class SendSettings implements SendSettingsInerface
 	 * @Assert\DateTime(groups={"newsletter"})
 	 */
 	protected $starttime;
-
-    public function getTransport()
-    {
-        return $this->transport;
-    }
-
-    public function setTransport($transport)
-    {
-        $this->transport = $transport;
-        return $this;
-    }
 
     public function getUsername()
     {
