@@ -368,6 +368,7 @@ class NewsletterController extends AbstractController
             $mailjob = new $mailjobClass($newsletter, $sendSettings);
             $mailjob->setBody($body);
             $mailjob->setToMail($subscriber->getEmail());
+            $mailjob->setStatus(MailJob::STATUS_READY);
 
             $objectManager->persist($mailjob);
         }
