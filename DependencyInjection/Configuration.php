@@ -203,6 +203,7 @@ class Configuration implements ConfigurationInterface
                     ->children()
                         ->scalarNode('rendererbridge')->defaultValue('ibrows_newsletter.rendererbridge')->end()
                         ->scalarNode('gendertitlestrategy')->defaultValue('ibrows_newsletter.rendererbridge.gendertitlestrategy.translator')->end()
+                        ->scalarNode('encryptionadapter')->defaultValue('ibrows_newsletter.encryption.adapter.mcrypt')->end()
                     ->end()
                 ->end()
             ->end()
