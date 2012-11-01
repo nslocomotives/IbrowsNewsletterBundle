@@ -2,6 +2,7 @@
 
 namespace Ibrows\Bundle\NewsletterBundle\Model\Subscriber;
 
+use Ibrows\Bundle\NewsletterBundle\Model\Mandant\MandantInterface;
 use Ibrows\Bundle\NewsletterBundle\Model\Newsletter\NewsletterInterface;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -20,6 +21,8 @@ abstract class Subscriber implements SubscriberInterface
     protected $lastname;
     protected $firstname;
     protected $companyname;
+    
+    protected $mandant;
 
     protected $newsletters;
     protected $groups;
@@ -194,4 +197,15 @@ abstract class Subscriber implements SubscriberInterface
         return sha1(uniqid().time());
     }
 
+
+    public function getMandant()
+    {
+        return $this->mandant;
+    }
+
+    public function setMandant(MandantInterface $mandant)
+    {
+        $this->mandant = $mandant;
+        return $this;
+    }
 }
