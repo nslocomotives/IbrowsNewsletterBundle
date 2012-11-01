@@ -345,7 +345,7 @@ abstract class AbstractController extends Controller
     }
     
     /**
-     * @return NewsletterSendSettings
+     * @return SendSettingsInerface
      * @throws NotFoundException
      */
     protected function getSendSettings()
@@ -359,15 +359,26 @@ abstract class AbstractController extends Controller
     protected function setSendSettings(SendSettingsInerface $sendSettings = null)
     {
     		if ($sendSettings !== null) {
-    			$encryption = $this->getEncryptionService();
-    			$password = $sendSettings->getPassword();
-    			$sendSettings->setPassword($encryption->encrypt($password, $this->getMandant()->getSalt()));
+    			$plainpassword = $sendSettings->getPassword();
+    			$sendSettings->setPassword($this->encryptPassword($plainpassword));
     		}
     		
 	    	$session = $this->getSession();
     		$session->set('ibrows_newsletter.wizard.send_settings', $sendSettings);
 	    
 	    	return $this;
+    }
+    
+    protected function encryptPassword($password)
+    {
+    		$encryption = $this->getEncryptionService();
+    		return $encryption->encrypt($password, $this->getMandant()->getSalt());
+    }
+    
+    protected function decryptPassword($password)
+    {
+	    	$encryption = $this->getEncryptionService();
+	    	return $encryption->decrypt($password, $this->getMandant()->getSalt());
     }
     
     /**

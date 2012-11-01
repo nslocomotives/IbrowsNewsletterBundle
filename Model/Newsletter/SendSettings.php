@@ -10,9 +10,6 @@ class SendSettings implements SendSettingsInerface
 	 * @Assert\NotBlank(groups={"newsletter"})
 	 */
 	protected $username;
-	/**
-	 * @Assert\NotBlank(groups={"newsletter"})
-	 */
 	protected $password;
 	/**
 	 * @Assert\NotBlank(groups={"newsletter"})

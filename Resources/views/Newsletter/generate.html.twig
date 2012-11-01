@@ -8,4 +8,7 @@
 {% endblock %}
 
 {% block newsletter_content %}
+	<a href="{{ url('ibrows_newsletter_generate_mail_jobs') }}" class="btn btn-primary">
+        {{ 'newsletter.generate.mail'|trans }}
+    </a>
 {% endblock %}

@@ -206,6 +206,8 @@ class NewsletterController extends AbstractController
         }
         
         $formtype = $this->getClassManager()->getForm('sendsettings');
+        
+        // get send settings, if null set default values
         $sendSettings = $this->getSendSettings();
         if ($sendSettings === null) {
 	        $sendSettings = $this->getMandant()->getSendSettings();
@@ -216,13 +218,23 @@ class NewsletterController extends AbstractController
 	        		$sendSettings = new $sendSettingsClass();
 	        }
         }
-        $form = $this->createForm(new $formtype(), $sendSettings);
+        // set password non required if already defined in send settings
+        $password_required = $sendSettings->getPassword() === null;
+        $form = $this->createForm(new $formtype($password_required), $sendSettings);
         
         $request = $this->getRequest();
         if($request->getMethod() == 'POST'){
+        		$plainpassword = $this->decryptPassword($sendSettings->getPassword());
 	        	$form->bind($request);
 	        
+        		// set password from send settings if necessary
+			$formpassword = $form->get('password')->getData();
+	        	if ($formpassword !== null) {
+				$plainpassword = $form->get('password')->getData();
+	        	}
+	        	
 	        	if($form->isValid()){
+	        		$sendSettings->setPassword($plainpassword);
 	        		$this->setSendSettings($sendSettings);
 	        		return $this->redirect($this->getWizardActionAnnotationHandler()->getNextStepUrl());
 	        	}
@@ -352,39 +364,57 @@ class NewsletterController extends AbstractController
         }
 
         $newsletter = $this->getNewsletter();
-        $sendSettings = $this->getSendSettings();
-        $mailjobClass = $this->getClassManager()->getModel('mailjob');
-    		
-		$mandant = $this->getMandant();
-        $rendererManager = $this->getRendererManager();
-		$rendererName = $this->getMandant()->getRendererName();
-		$bridge = $this->getRendererBridge();
-
-		$objectManager = $this->getObjectManager();
-		$subscribers = $newsletter->getSubscribers();
-        foreach($subscribers as $subscriber){
-            $body = $rendererManager->renderNewsletter(
-                    $rendererName,
-                    $bridge,
-                    $newsletter,
-                    $mandant,
-                    $subscriber
-            );
-
-            $mailjob = new $mailjobClass($newsletter, $sendSettings);
-            $mailjob->setBody($body);
-            $mailjob->setToMail($subscriber->getEmail());
-            $mailjob->setStatus(MailJob::STATUS_READY);
-
-            $objectManager->persist($mailjob);
-        }
-
-        $objectManager->flush();
 
         return $this->render($this->getTemplateManager()->getNewsletter('generate'), array(
             'newsletter' => $newsletter,
             'wizard' => $this->getWizardActionAnnotationHandler(),
         ));
+    }
+    
+    /**
+     * @Route("/generate/mailjobs", name="ibrows_newsletter_generate_mail_jobs")
+     */
+    public function generateMailJobsAction()
+    {
+	    	$newsletter = $this->getNewsletter();
+	    	$sendSettings = $this->getSendSettings();
+	    	$mailjobClass = $this->getClassManager()->getModel('mailjob');
+	    	
+	    	$mandant = $this->getMandant();
+	    	$rendererManager = $this->getRendererManager();
+	    	$rendererName = $this->getMandant()->getRendererName();
+	    	$bridge = $this->getRendererBridge();
+	    	
+	    	$objectManager = $this->getObjectManager();
+	    	$subscribers = $newsletter->getSubscribers();
+	    	$count = 1;
+	    	foreach($subscribers as $subscriber){
+	    		if ($count % $sendSettings->getInterval() === 0) {
+	    			$time = $sendSettings->getStarttime();
+	    			$time->modify('+ 1 minutes');
+	    			$sendSettings->setStarttime($time);
+	    		}
+	    		 
+	    		$body = $rendererManager->renderNewsletter(
+	    				$rendererName,
+	    				$bridge,
+	    				$newsletter,
+	    				$mandant,
+	    				$subscriber
+	    		);
+	    	
+	    		$mailjob = new $mailjobClass($newsletter, $sendSettings);
+	    		$mailjob->setBody($body);
+	    		$mailjob->setToMail($subscriber->getEmail());
+	    		$mailjob->setStatus(MailJob::STATUS_READY);
+	    	
+	    		$objectManager->persist($mailjob);
+	    		++$count;
+	    	}
+	    	
+	    	$objectManager->flush();
+	    	
+	    	return $this->redirect($this->generateUrl('ibrows_newsletter_generate'));
     }
     
     public function generateValidation(WizardActionHandler $handler)
