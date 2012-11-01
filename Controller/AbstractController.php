@@ -344,7 +344,7 @@ abstract class AbstractController extends Controller
         
         return $this->getNewsletterById($newsletterId);
     }
-    
+
     /**
      * @return NewsletterSendSettings
      * @throws NotFoundHttpException
@@ -359,7 +359,7 @@ abstract class AbstractController extends Controller
      */
     protected function setSendSettings(SendSettingsInerface $sendSettings = null)
     {
-        if ($sendSettings !== null) {
+        if($sendSettings !== null){
             $encryption = $this->getEncryptionService();
             $password = $sendSettings->getPassword();
             $sendSettings->setPassword($encryption->encrypt($password, $this->getMandant()->getSalt()));
@@ -369,6 +369,26 @@ abstract class AbstractController extends Controller
         $session->set('ibrows_newsletter.wizard.send_settings', $sendSettings);
 
         return $this;
+    }
+
+    /**
+     * @param string $password
+     * @return string
+     */
+    protected function encryptPassword($password)
+    {
+        $encryption = $this->getEncryptionService();
+        return $encryption->encrypt($password, $this->getMandant()->getSalt());
+    }
+
+    /**
+     * @param string $password
+     * @return string
+     */
+    protected function decryptPassword($password)
+    {
+        $encryption = $this->getEncryptionService();
+        return $encryption->decrypt($password, $this->getMandant()->getSalt());
     }
     
     /**

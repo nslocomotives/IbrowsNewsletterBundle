@@ -7,6 +7,12 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class SendSettingsType extends AbstractType
 {
+	protected $password_required;
+	
+	public function __construct($password_required = true)
+	{
+		$this->password_required = $password_required;
+	}
 	/**
 	 * @param FormBuilderInterface $builder
 	 * @param array $options
@@ -14,9 +20,21 @@ class SendSettingsType extends AbstractType
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$builder
             ->add('username')
-            ->add('password', 'password')
+            ->add('password', 'password', array(
+            			'required' => $this->password_required,
+            		))
             ->add('host')
             ->add('port')
+            ->add('encryption', 'choice', array(
+            			'choices' => array('tls' => 'tls', 'ssl' => 'ssl'),
+            			'required' => false,
+            			'empty_data' => null,
+            		))
+            ->add('authMode', 'choice', array(
+            			'choices' => array('plain' => 'plain', 'login' => 'login', 'cram-md5' => 'cram-md5'),
+            			'required' => false,
+            			'empty_data' => null,
+            		))
             ->add('interval')
             ->add('starttime', 'datetime')
 		;

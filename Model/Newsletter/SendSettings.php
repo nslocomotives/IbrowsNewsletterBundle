@@ -10,9 +10,6 @@ class SendSettings implements SendSettingsInerface
 	 * @Assert\NotBlank(groups={"newsletter"})
 	 */
 	protected $username;
-	/**
-	 * @Assert\NotBlank(groups={"newsletter"})
-	 */
 	protected $password;
 	/**
 	 * @Assert\NotBlank(groups={"newsletter"})
@@ -38,6 +35,20 @@ class SendSettings implements SendSettingsInerface
 	 * @Assert\DateTime(groups={"newsletter"})
 	 */
 	protected $starttime;
+	/**
+	 * @Assert\Choice(
+	 * 		choices={"ssl","tls"},
+	 * 		groups={"newsletter"}
+	 * )
+	 */
+	protected $encryption;
+	/**
+	 * @Assert\Choice(
+	 * 		choices={"plain","login", "cram-md5"},
+	 * 		groups={"newsletter"}
+	 * )
+	 */
+	protected $authMode;
 
     public function getUsername()
     {
@@ -103,5 +114,25 @@ class SendSettings implements SendSettingsInerface
     {
         $this->starttime = $starttime;
         return $this;
+    }
+
+    public function getEncryption()
+    {
+        return $this->encryption;
+    }
+
+    public function setEncryption($encryption)
+    {
+        $this->encryption = $encryption;
+    }
+
+    public function getAuthMode()
+    {
+        return $this->authMode;
+    }
+
+    public function setAuthMode($authMode)
+    {
+        $this->authMode = $authMode;
     }
 }

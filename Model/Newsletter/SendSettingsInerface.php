@@ -21,4 +21,10 @@ interface SendSettingsInerface
     
     public function getStarttime();
     public function setStarttime($starttime);
+    
+    public function getEncryption();
+    public function setEncryption($encryption);
+    
+    public function getAuthMode();
+    public function setAuthMode($authMode);
 }
