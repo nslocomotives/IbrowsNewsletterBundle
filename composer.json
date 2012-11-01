@@ -33,5 +33,5 @@
         "psr-0": { "Ibrows\\NewsletterBundle": "" }
     },
     
-    "target-dir": "Ibrows/Bundle/NewsletterBundle",
+    "target-dir": "Ibrows/Bundle/NewsletterBundle"
 }
