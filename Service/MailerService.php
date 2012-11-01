@@ -27,11 +27,14 @@ class MailerService
 			->setBody($job->getBody())
 		;
 		
-		$this->transport->setHost($job->getHost());
-		$this->transport->setPort($job->getPort());
 		$this->transport->setUsername($job->getUsername());
 		$password = $this->encryption->decrypt($job->getPassword(), $job->getSalt());
 		$this->transport->setPassword($password);
+		
+		$this->transport->setHost($job->getHost());
+		$this->transport->setPort($job->getPort());
+		$this->transport->setEncryption($job->getEncryption());
+		$this->transport->setAuthMode($job->getAuthMode());
 		
 		$this->mailer->newInstance($this->transport)->send($message);
 	}

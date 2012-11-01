@@ -15,12 +15,13 @@ class MailJob extends AbstractJob
 	protected $toMail;
 	protected $body;
 	
-	protected $transport;
 	protected $username;
 	protected $password;
 	protected $salt;
 	protected $host;
 	protected $port;
+	protected $encryption;
+	protected $authMode;
 
 	public function __construct(NewsletterInterface $newsletter, SendSettingsInerface $sendSettings)
 	{
@@ -35,6 +36,8 @@ class MailJob extends AbstractJob
 		$this->setPassword($sendSettings->getPassword());
 		$this->setHost($sendSettings->getHost());
 		$this->setPort($sendSettings->getPort());
+		$this->setEncryption($sendSettings->getEncryption());
+		$this->setAuthMode($sendSettings->getAuthMode());
 		$this->setScheduled($sendSettings->getStarttime());
 		
 		$this->setNewsletterId($newsletter->getId());
@@ -153,6 +156,28 @@ class MailJob extends AbstractJob
     public function setPort($port)
     {
         $this->port = $port;
+        return $this;
+    }
+
+    public function getEncryption()
+    {
+        return $this->encryption;
+    }
+
+    public function setEncryption($encryption)
+    {
+        $this->encryption = $encryption;
+        return $this;
+    }
+
+    public function getAuthMode()
+    {
+        return $this->authMode;
+    }
+
+    public function setAuthMode($authMode)
+    {
+        $this->authMode = $authMode;
         return $this;
     }
 }

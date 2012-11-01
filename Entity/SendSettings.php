@@ -35,7 +35,16 @@ class SendSettings extends BaseSendSettings
 	
 	/**
 	 * @ORM\Column(type="datetime")
-	 * @var unknown_type
 	 */
 	protected $starttime;
+	
+	/**
+	 * @ORM\Column(type="string")
+	 */
+	protected $encryption;
+	
+	/**
+	 * @ORM\Column(type="string", name="auth_mode")
+	 */
+	protected $authMode;
 }

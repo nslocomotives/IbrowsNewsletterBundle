@@ -17,6 +17,16 @@ class SendSettingsType extends AbstractType
             ->add('password', 'password')
             ->add('host')
             ->add('port')
+            ->add('encryption', 'choice', array(
+            			'choices' => array('tls' => 'tls', 'ssl' => 'ssl'),
+            			'required' => false,
+            			'empty_data' => null,
+            		))
+            ->add('authMode', 'choice', array(
+            			'choices' => array('plain' => 'plain', 'login' => 'login', 'cram-md5' => 'cram-md5'),
+            			'required' => false,
+            			'empty_data' => null,
+            		))
             ->add('interval')
             ->add('starttime', 'datetime')
 		;
