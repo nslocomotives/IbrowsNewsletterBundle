@@ -2,6 +2,7 @@
 
 namespace Ibrows\Bundle\NewsletterBundle\Model\Subscriber;
 
+use Ibrows\Bundle\NewsletterBundle\Model\Mandant\MandantInterface;
 use Ibrows\Bundle\NewsletterBundle\Model\Newsletter\NewsletterInterface;
 
 interface SubscriberInterface
@@ -29,6 +30,9 @@ interface SubscriberInterface
     public function setLastname($lastname);
     public function getCompanyname();
     public function setCompanyname($companyname);
+    
+    public function getMandant();
+    public function setMandant(MandantInterface $mandant);
     
     public function getNewsletters();
     public function addNewsletter(NewsletterInterface $newsletter);
