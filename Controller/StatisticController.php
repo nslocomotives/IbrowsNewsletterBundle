@@ -88,14 +88,17 @@ class StatisticController extends AbstractHashMandantController
 
         $jobsSortedByCompleted = $jobs;
         usort($jobsSortedByCompleted, function($a, $b){
-            return $a->getCompleted() > $b->getCompleted();
+            $dateA = $a->getCompleted() ?: $a->getCreated();
+            $dateB = $b->getCompleted() ?: $b->getCreated();
+            return $dateA > $dateB;
         });
 
         $jobLine = array();
         $jobWalkLine = array();
         foreach($jobsSortedByCompleted as $job){
 
-            $date = $job->getCompleted()->format('d.m.Y H:i:s');
+            $dateTime = $job->getCompleted() ?: $job->getCreated();
+            $date = $dateTime->format('d.m.Y H:i:s');
 
             foreach($jobStati as $jobStatus){
                 if(!isset($jobWalkLine[$jobStatus])){
@@ -107,7 +110,7 @@ class StatisticController extends AbstractHashMandantController
                 }
 
                 if($job->getStatus() == $jobStatus){
-                    $jobLine[$date][$jobStatus] = $jobWalkLine[$jobStatus]++;
+                    $jobLine[$date][$jobStatus] = ++$jobWalkLine[$jobStatus];
                 }else{
                     $jobLine[$date][$jobStatus] = $jobWalkLine[$jobStatus];
                 }
