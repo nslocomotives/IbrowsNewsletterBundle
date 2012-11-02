@@ -6,6 +6,7 @@ use Ibrows\Bundle\NewsletterBundle\Model\Newsletter\NewsletterInterface;
 
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\DBAL\Types\BlobType;
 
 abstract class Block implements BlockInterface
 {
@@ -32,7 +33,12 @@ abstract class Block implements BlockInterface
     {
         return $this->id;
     }
-    
+
+    public function isCompound()
+    {
+        return count($this->blocks) > 0;
+    }
+
     /**
      * @return string
      */
@@ -166,13 +172,24 @@ abstract class Block implements BlockInterface
     }
     
     /**
-     * @return Block
+     * @return BlockInterface
      */
     public function addBlocks(array $blocks)
     {
         foreach($blocks as $block){
             $this->addBlock($block);
         }
+        return $this;
+    }
+
+    /**
+     * @param BlockInterface[] $blocks
+     * @return BlockInterface
+     */
+    public function setBlocks(array $blocks)
+    {
+        $this->blocks = new ArrayCollection();
+        return $this->addBlocks($blocks);
     }
     
     /**
