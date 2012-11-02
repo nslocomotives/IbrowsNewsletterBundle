@@ -39,8 +39,8 @@ class McryptAdapter extends AbstractAdapter
      * @return string
      */
     public function encrypt($data, $key){
-    		// strip key to max length
-    		$key = substr($key, 0, 20);
+        // strip key to max length
+        $key = substr($key, 0, 20);
         return mcrypt_encrypt($this->cypher, $key, $data, MCRYPT_MODE_ECB, $this->iv);
     }
 
@@ -50,9 +50,9 @@ class McryptAdapter extends AbstractAdapter
      * @return string
      */
     public function decrypt($data, $key){
-    		// strip key to max length
-    		$key = substr($key, 0, 20);
-        return mcrypt_decrypt($this->cypher, $key, $data, MCRYPT_MODE_ECB, $this->iv);
+        // strip key to max length
+        $key = substr($key, 0, 20);
+        return trim(mcrypt_decrypt($this->cypher, $key, $data, MCRYPT_MODE_ECB, $this->iv));
     }
 
 }
