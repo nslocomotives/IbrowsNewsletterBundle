@@ -128,6 +128,16 @@ class MailJob extends AbstractJob
 
     public function getPassword()
     {
+    		if (is_resource($this->password)) {
+    			$handle = $this->password;
+    			$content = '';
+    			while (!feof($handle)) {
+    				$content .= fread($handle, 8192);
+    			}
+    			
+    			return $content;
+    		}
+    		
         return $this->password;
     }
 

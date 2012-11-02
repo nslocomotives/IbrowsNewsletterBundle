@@ -87,4 +87,9 @@ class MailJob extends BaseMailJob
 	 * @ORM\Column(type="integer", nullable=true)
 	 */
 	protected $port;
+	
+	public function getId()
+	{
+		return $this->id;
+	}
 }
