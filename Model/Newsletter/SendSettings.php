@@ -61,8 +61,18 @@ class SendSettings implements SendSettingsInterface
         return $this;
     }
 
-    public function getPassword()
+	public function getPassword()
     {
+    		if (is_resource($this->password)) {
+    			$handle = $this->password;
+    			$content = '';
+    			while (!feof($handle)) {
+    				$content .= fread($handle, 8192);
+    			}
+    			
+    			return $content;
+    		}
+    		
         return $this->password;
     }
 
