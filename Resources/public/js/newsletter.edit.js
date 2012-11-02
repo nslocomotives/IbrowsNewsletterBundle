@@ -114,7 +114,7 @@ ns.edit = function($options){
             width: '600',
             position: 'center',
             close: function($event, $ui){
-                jQuery($elements.newBlockDialog).find(':input').val('');
+                //jQuery($elements.newBlockDialog).find(':input').val('');
             }
         });
         
