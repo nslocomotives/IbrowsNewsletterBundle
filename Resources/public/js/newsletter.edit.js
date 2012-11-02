@@ -17,6 +17,7 @@ ns.edit = function($options){
         }
 
         $self.setupNewBlockDialog();
+        $self.setupCloneBlockDialog();
         $self.setupBlockSortable();
         $self.setupBlockDeleteDroppable();
     }
@@ -36,23 +37,15 @@ ns.edit = function($options){
                 jQuery($ui.item).find($options.selectors.tinymce).each(function(){
                     tinyMCE.execCommand('mceRemoveControl', false, jQuery(this).attr('id'));
                 });
-                $self.showBlockDeleteDroppable();
+                jQuery($elements.blockDeleteDroppable).show();
             },
             stop: function($event, $ui){
                 jQuery($ui.item).find($options.selectors.tinymce).each(function(){
                     tinyMCE.execCommand('mceAddControl', false, jQuery(this).attr('id'));
                 });
-                $self.hideBlockDeleteDroppable();
+                jQuery($elements.blockDeleteDroppable).hide();
             }
         });
-    }
-    
-    this.showBlockDeleteDroppable = function(){
-        jQuery($elements.blockDeleteDroppable).show();
-    }
-    
-    this.hideBlockDeleteDroppable = function(){
-        jQuery($elements.blockDeleteDroppable).hide();
     }
     
     this.setupBlockDeleteDroppable = function(){
@@ -91,7 +84,7 @@ ns.edit = function($options){
     this.setupNewBlockDialog = function(){
         $elements.newBlockDialogButton.click(function($event){
             $event.preventDefault();
-            $self.openNewBlockDialog($event);
+            $elements.newBlockDialog.dialog('open');
         });
         
         $elements.newBlockDialogAdd.click(function($event){
@@ -119,24 +112,47 @@ ns.edit = function($options){
             modal: true,
             buttons: buttons,
             width: '600',
-            position: 'center'
+            position: 'center',
+            close: function($event, $ui){
+                jQuery($elements.newBlockDialog).find(':input').val('');
+            }
         });
         
         $elements.newBlockDialogAccordion.accordion({
             heightStyle: 'content'
         });
     }
-    
-    this.openNewBlockDialog = function($event){
-        $elements.newBlockDialog.dialog('open');
-    }
-    
-    this.closeNewBlockDialog = function($event){
-        $elements.newBlockDialog.dialog('close');
+
+    this.setupCloneBlockDialog = function(){
+        $elements.cloneBlockDialogButton.click(function($event){
+            $event.preventDefault();
+            $elements.cloneBlockDialog.dialog('open');
+        });
+
+        var buttons = {};
+        buttons[$options.trans['newsletter.dialog.abort']] = function($event){
+            $elements.cloneBlockDialog.dialog('close');
+        };
+
+        $elements.cloneBlockDialog.dialog({
+            autoOpen: false,
+            modal: true,
+            buttons: buttons,
+            width: '600',
+            position: 'center'
+        });
+
+        jQuery($elements.cloneBlockButton).click(function($event){
+            $event.preventDefault();
+            var $button = jQuery($event.srcElement);
+            var $newsletterId = $button.data('newsletter-id');
+            jQuery($elements.cloneBlockNewsletterId).val($newsletterId);
+            jQuery($elements.blocksForm).submit();
+        });
     }
     
     this.addProviderBlock = function($parent, $data){
-        this.closeNewBlockDialog();
+        $elements.newBlockDialog.dialog('close');
         $data.position = $elements.blocks.find($options.selectors.block).length+1;
         jQuery.post(
             $options.url.addProviderBlock, 

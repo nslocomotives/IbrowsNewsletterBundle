@@ -12,7 +12,7 @@
 
     <script type="text/javascript">
         var $edit = new ibrows_newsletter.edit({
-            container: '[data-container="newsletter_edit"]',
+            container: '[data-container="newsletter-edit"]',
             selectors: {
                 block: '[data-element="block"]',
                 tinymce: '.tinymce'
@@ -22,11 +22,16 @@
             },
             elements: {
                 blocks: '#blocks',
+                blocksForm: '[data-element="blocks-form"]',
                 blockDeleteDroppable: '[data-element="block-delete-droppable"]',
                 newBlockDialog: '[data-element="new-block-dialog"]',
                 newBlockDialogButton: '[data-action="new-block-dialog"]',
                 newBlockDialogAccordion: '[data-element="new-block-dialog-accordion"]',
-                newBlockDialogAdd: '[data-action="new-block-dialog-add"]'
+                newBlockDialogAdd: '[data-action="new-block-dialog-add"]',
+                cloneBlockDialog: '[data-element="clone-block-dialog"]',
+                cloneBlockDialogButton: '[data-action="clone-block-dialog"]',
+                cloneBlockNewsletterId: '[data-element="clone-block-newsletter-id"]',
+                cloneBlockButton: '[data-action="clone-block"]'
             },
             url: {
                 addProviderBlock: '{{ url('ibrows_newsletter_provider_view_add') }}',
@@ -48,6 +53,7 @@
     {% trans_default_domain "IbrowsNewsletterBundleForms" %}
     <div class="form-actions">
         <button data-action="new-block-dialog" class="btn">{{ 'newsletter.block.new'|trans }}</button>
+        <button data-action="clone-block-dialog" class="btn">{{ 'newsletter.block.clone'|trans }}</button>
         <input type="submit" name="save" class="btn btn-primary" value="{{ 'form.save'|trans }}">
         <input type="submit" name="continue" class="btn" value="{{ 'form.continue'|trans }}">
     </div>
@@ -58,7 +64,7 @@
     {# generate hidden tinymce textarea because otherwise variable tinyMCE is not defined #}
     <div style="display:none;"><textarea class="tinymce"></textarea></div>
     
-    <div data-container="newsletter_edit">
+    <div data-container="newsletter-edit">
         
         <div class="block-delete-droppable" data-element="block-delete-droppable" style="display:none;"></div>
         
@@ -103,11 +109,21 @@
                 {% endfor %}
             </div>
         </div>
+
+        <div class="clone-block-dialog" data-element="clone-block-dialog" title="{{ 'newsletter.block.clone'|trans }}">
+            <ul>
+                {% for cloneNewsletter in newsletters if(cloneNewsletter.id != newsletter.id) %}
+                    <li><button class="btn" data-action="clone-block" data-newsletter-id="{{ cloneNewsletter.id }}">{{ cloneNewsletter.name }}</button></li>
+                {% endfor %}
+            </ul>
+        </div>
             
         <h1>{{ 'newsletter.edit'|trans({'%name%': newsletter.name}) }}</h1>
         
-        <form method="post" enctype="multipart/form-data" action="" class="blocks">
-            
+        <form method="post" enctype="multipart/form-data" action="" class="blocks" data-element="blocks-form">
+
+            <input data-element="clone-block-newsletter-id" type="hidden" name="clone" value="" />
+
             {{ _self.displayformcontrols() }}
             
             <ul id="blocks">
