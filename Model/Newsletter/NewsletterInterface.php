@@ -4,14 +4,24 @@ namespace Ibrows\Bundle\NewsletterBundle\Model\Newsletter;
 
 use Ibrows\Bundle\NewsletterBundle\Model\Block\BlockInterface;
 use Ibrows\Bundle\NewsletterBundle\Model\Subscriber\SubscriberInterface;
+use Ibrows\Bundle\NewsletterBundle\Model\Design\DesignInterface;
 
 use Doctrine\Common\Collections\Collection;
 
 interface NewsletterInterface
 {
     public function getName();
+
+    /**
+     * @return \DateTime
+     */
     public function getCreatedAt();
-	public function getMandant();
+
+    /**
+     * @return MandantInterface
+     */
+    public function getMandant();
+
 	public function getSubject();
 	public function getSenderMail();
 	public function getSenderName();
@@ -24,10 +34,26 @@ interface NewsletterInterface
      * @return SubscriberInterface[]
      */
     public function getSubscribers();
-    
+
+    /**
+     * @return BlockInterface[]
+     */
     public function getBlocks();
+
+    /**
+     * @param BlockInterface $block
+     * @return NewsletterInterface
+     */
     public function addBlock(BlockInterface $block);
+
+    /**
+     * @param BlockInterface $block
+     * @return NewsletterInterface
+     */
     public function removeBlock(BlockInterface $block);
-    
+
+    /**
+     * @return DesignInterface
+     */
     public function getDesign();
 }
