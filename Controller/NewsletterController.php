@@ -354,24 +354,6 @@ class NewsletterController extends AbstractController
     }
     
     /**
-     * @Route("/generate", name="ibrows_newsletter_generate")
-     * @WizardAction(name="generate", number=6, validationMethod="generateValidation")
-     */
-    public function generateAction()
-    {
-        if(($response = $this->getWizardActionValidation()) instanceof Response){
-            return $response;
-        }
-
-        $newsletter = $this->getNewsletter();
-
-        return $this->render($this->getTemplateManager()->getNewsletter('generate'), array(
-            'newsletter' => $newsletter,
-            'wizard' => $this->getWizardActionAnnotationHandler(),
-        ));
-    }
-    
-    /**
      * @Route("/generate/mailjobs", name="ibrows_newsletter_generate_mail_jobs")
      */
     public function generateMailJobsAction()
@@ -414,14 +396,9 @@ class NewsletterController extends AbstractController
 	    	
 	    	$objectManager->flush();
 	    	
-	    	return $this->redirect($this->generateUrl('ibrows_newsletter_generate'));
+	    	return $this->redirect($this->generateUrl('ibrows_newsletter_statistic_show', array('newsletterId' => $newsletter->getId())));
     }
-    
-    public function generateValidation(WizardActionHandler $handler)
-    {
-        return $this->summaryValidation($handler);
-    }
-    
+
     /**
 	 * @Route("/send", name="ibrows_newsletter_send")
 	 */
