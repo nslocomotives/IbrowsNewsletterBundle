@@ -24,6 +24,7 @@ use Ibrows\Bundle\NewsletterBundle\Encryption\EncryptionInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -257,7 +258,7 @@ abstract class AbstractController extends Controller
      * @param NewsletterInterface $newsletter
      * @param integer $subscriberId
      * @return SubscriberInterface
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     * @throws NotFoundHttpException
      */
     protected function getSubscriberById(NewsletterInterface $newsletter, $subscriberId)
     {
@@ -273,7 +274,7 @@ abstract class AbstractController extends Controller
     /**
      * @param integer $id
      * @return NewsletterInterface
-     * @throws NotFoundException
+     * @throws NotFoundHttpException
      */
     protected function getNewsletterById($id)
     {
@@ -297,7 +298,7 @@ abstract class AbstractController extends Controller
     /**
      * @param string $hash
      * @return NewsletterInterface
-     * @throws NotFoundException
+     * @throws NotFoundHttpException
      */
     protected function getNewsletterByHash($hash)
     {
@@ -314,7 +315,7 @@ abstract class AbstractController extends Controller
      * @param NewsletterInterface $newsletter
      * @param string $hash
      * @return SubscriberInterface
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     * @throws NotFoundHttpException
      */
     protected function getSubscriberByHash(NewsletterInterface $newsletter, $hash)
     {
@@ -331,7 +332,7 @@ abstract class AbstractController extends Controller
     
     /**
      * @return NewsletterInterface
-     * @throws NotFoundException
+     * @throws NotFoundHttpException
      */
     protected function getNewsletter()
     {
@@ -346,7 +347,7 @@ abstract class AbstractController extends Controller
     
     /**
      * @return SendSettingsInterface
-     * @throws NotFoundException
+     * @throws NotFoundHttpException
      */
     protected function getSendSettings()
     {
@@ -380,17 +381,25 @@ abstract class AbstractController extends Controller
 	    
 	    	return $this;
     }
-    
+
+    /**
+     * @param string $password
+     * @return string
+     */
     protected function encryptPassword($password)
     {
-    		$encryption = $this->getEncryptionService();
-    		return $encryption->encrypt($password, $this->getMandant()->getSalt());
+        $encryption = $this->getEncryptionService();
+        return $encryption->encrypt($password, $this->getMandant()->getSalt());
     }
-    
+
+    /**
+     * @param string $password
+     * @return string
+     */
     protected function decryptPassword($password)
     {
-	    	$encryption = $this->getEncryptionService();
-	    	return $encryption->decrypt($password, $this->getMandant()->getSalt());
+        $encryption = $this->getEncryptionService();
+        return $encryption->decrypt($password, $this->getMandant()->getSalt());
     }
     
     /**
