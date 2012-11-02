@@ -13,6 +13,7 @@ interface ProviderInterface
     
     public function initialize(BlockInterface $block, $blockClassName);
     public function updateBlock(BlockInterface $block, $update);
+    public function updateClonedBlock(BlockInterface $block);
     
     public function getBlockDisplayContent(BlockInterface $block);
     public function getBlockEditContent(BlockInterface $block);
