@@ -10,7 +10,7 @@ use Ibrows\Bundle\NewsletterBundle\Service\ClassManager;
 use Ibrows\Bundle\NewsletterBundle\Service\RendererManager;
 use Ibrows\Bundle\NewsletterBundle\Service\BlockProviderManager;
 
-use Ibrows\Bundle\NewsletterBundle\Model\Newsletter\SendSettingsInerface;
+use Ibrows\Bundle\NewsletterBundle\Model\Newsletter\SendSettingsInterface;
 use Ibrows\Bundle\NewsletterBundle\Model\Newsletter\NewsletterInterface;
 use Ibrows\Bundle\NewsletterBundle\Model\Mandant\MandantInterface;
 use Ibrows\Bundle\NewsletterBundle\Model\User\MandantUserInterface;
@@ -346,31 +346,39 @@ abstract class AbstractController extends Controller
         
         return $this->getNewsletterById($newsletterId);
     }
-
+    
     /**
-     * @return NewsletterSendSettings
+     * @return SendSettingsInterface
      * @throws NotFoundHttpException
      */
     protected function getSendSettings()
     {
-        return $this->getSession()->get('ibrows_newsletter.wizard.send_settings', null);
+	    	$newsletter = $this->getNewsletter();
+	    	
+	    	if ($newsletter !== null) {
+	    		return $newsletter->getSendSettings();
+	    	}
+	    	
+	    	return null;
     }
     
     /**
      * @param SendSettings $sendSettings
      */
-    protected function setSendSettings(SendSettingsInerface $sendSettings = null)
+    protected function setSendSettings(SendSettingsInterface $sendSettings = null)
     {
-        if($sendSettings !== null){
-            $encryption = $this->getEncryptionService();
-            $password = $sendSettings->getPassword();
-            $sendSettings->setPassword($encryption->encrypt($password, $this->getMandant()->getSalt()));
-        }
+    		if ($sendSettings !== null) {
+    			$plainpassword = $sendSettings->getPassword();
+    			$sendSettings->setPassword($this->encryptPassword($plainpassword));
+    		}
 
-        $session = $this->getSession();
-        $session->set('ibrows_newsletter.wizard.send_settings', $sendSettings);
-
-        return $this;
+    		$newsletter = $this->getNewsletter();
+    		$newsletter->setSendSettings($sendSettings);
+    		
+    		$mandantName = $this->getMandantName();
+    		$this->getMandantManager()->persistNewsletter($mandantName, $newsletter);
+	    
+	    	return $this;
     }
 
     /**

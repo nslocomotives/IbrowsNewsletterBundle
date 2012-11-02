@@ -29,7 +29,7 @@ class SendSettings extends BaseSendSettings
 	protected $port;
 
 	/**
-	 * @ORM\Column(type="integer")
+	 * @ORM\Column(type="integer", name="send_interval")
 	 */
 	protected $interval;
 	
@@ -39,12 +39,13 @@ class SendSettings extends BaseSendSettings
 	protected $starttime;
 	
 	/**
-	 * @ORM\Column(type="string")
+	 * @ORM\Column(type="string", nullable=true)
 	 */
 	protected $encryption;
 	
 	/**
-	 * @ORM\Column(type="string", name="auth_mode")
+	 * @ORM\Column(type="string", name="auth_mode", nullable=true)
 	 */
 	protected $authMode;
+	
 }

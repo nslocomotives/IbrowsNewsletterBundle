@@ -8,6 +8,7 @@ newsletter:
   testmail: Test Versand
   overview: Übersicht
   statistic: Statistik
+  design: Design
   block:
     clone: Kopieren
     add: Hinzufügen
@@ -25,7 +26,6 @@ newsletter:
     subscriber: Empfänger
     settings:   Einstellungen
     summary:    Zusammenfassung
-    generate:   Generiere Newsletter
   create: Neuer Newsletter
   list: Newsletter Liste
   edit: Newsletter "%name%" editieren
@@ -42,6 +42,8 @@ newsletter:
       informal: Hallo %subscriber.firstname%
   error:
     mail: "Der Versand war nicht möglich: %message%"
+  generate:   
+    mail: Generiere Newsletter
 
 subscriber:
   list: Empfänger Liste
@@ -50,6 +52,9 @@ subscriber:
   company: Firma
   email: E-Mail
   groups: Gruppen
+  multiselect:
+    selectable: Vorhandene Empfänger
+    selected:   Ausgewählte Empfänger
 
 design:
   create: Neues Design

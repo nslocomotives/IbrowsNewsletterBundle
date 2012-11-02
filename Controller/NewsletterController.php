@@ -62,7 +62,7 @@ class NewsletterController extends AbstractController
 	public function createrediractionAction()
 	{
 		$this->setNewsletter(null);
-        
+
         return $this->redirect($this->generateUrl('ibrows_newsletter_edit'));
 	}
 	
@@ -298,6 +298,7 @@ class NewsletterController extends AbstractController
             $subscribersArray,
             $this->getUser()->getEmail()
         );
+
         $testmailform = $this->createForm($formtype);
         
         $request = $this->getRequest();
@@ -311,12 +312,12 @@ class NewsletterController extends AbstractController
                 $bridge = $this->getRendererBridge();
                 
                 $overview = $this->getRendererManager()->renderNewsletter(
-                		$mandant->getRendererName(),
-                		$bridge,
-                		$newsletter,
-                		$mandant,
-                		$subscriber,
-                		'testmail'
+                    $mandant->getRendererName(),
+                    $bridge,
+                    $newsletter,
+                    $mandant,
+                    $subscriber,
+                    'testmail'
                 );
                 
                 $mailjobClass = $this->getClassManager()->getModel('mailjob');
@@ -327,7 +328,7 @@ class NewsletterController extends AbstractController
                 
                 try {
 	                $this->send($mailjob);
-                } catch (\Swift_SwiftException $e) {
+                }catch(\Swift_SwiftException $e){
                     $message = $e->getMessage();
 	                if($message) {
                         $this->get('session')->getFlashBag()->add('ibrows_newsletter_error', 'newsletter.error.mail');
@@ -370,24 +371,6 @@ class NewsletterController extends AbstractController
     }
     
     /**
-     * @Route("/generate", name="ibrows_newsletter_generate")
-     * @WizardAction(name="generate", number=6, validationMethod="generateValidation")
-     */
-    public function generateAction()
-    {
-        if(($response = $this->getWizardActionValidation()) instanceof Response){
-            return $response;
-        }
-
-        $newsletter = $this->getNewsletter();
-
-        return $this->render($this->getTemplateManager()->getNewsletter('generate'), array(
-            'newsletter' => $newsletter,
-            'wizard' => $this->getWizardActionAnnotationHandler(),
-        ));
-    }
-    
-    /**
      * @Route("/generate/mailjobs", name="ibrows_newsletter_generate_mail_jobs")
      */
     public function generateMailJobsAction()
@@ -405,7 +388,7 @@ class NewsletterController extends AbstractController
         $subscribers = $newsletter->getSubscribers();
         $count = 1;
         foreach($subscribers as $subscriber){
-            if ($count % $sendSettings->getInterval() === 0) {
+            if($count % $sendSettings->getInterval() === 0){
                 $time = $sendSettings->getStarttime();
                 $time->modify('+ 1 minutes');
                 $sendSettings->setStarttime($time);
@@ -430,14 +413,9 @@ class NewsletterController extends AbstractController
 
         $objectManager->flush();
 
-        return $this->redirect($this->generateUrl('ibrows_newsletter_generate'));
+        return $this->redirect($this->generateUrl('ibrows_newsletter_statistic_show', array('newsletterId' => $newsletter->getId())));
     }
-    
-    public function generateValidation(WizardActionHandler $handler)
-    {
-        return $this->summaryValidation($handler);
-    }
-    
+
     /**
 	 * @Route("/send", name="ibrows_newsletter_send")
 	 */

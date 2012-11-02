@@ -5,6 +5,7 @@ namespace Ibrows\Bundle\NewsletterBundle\Model\Newsletter;
 use Ibrows\Bundle\NewsletterBundle\Model\Block\BlockInterface;
 use Ibrows\Bundle\NewsletterBundle\Model\Subscriber\SubscriberInterface;
 use Ibrows\Bundle\NewsletterBundle\Model\Design\DesignInterface;
+use Ibrows\Bundle\NewsletterBundle\Model\Newsletter\SendSettingsInterface;
 
 use Doctrine\Common\Collections\Collection;
 
@@ -34,6 +35,17 @@ interface NewsletterInterface
      * @return SubscriberInterface[]
      */
     public function getSubscribers();
+
+    /**
+     * @return SendSettingsInterface[]
+     */
+    public function getSendSettings();
+
+    /**
+     * @param SendSettingsInterface $settings
+     * @return NewsletterInterface
+     */
+    public function setSendSettings(SendSettingsInterface $settings);
 
     /**
      * @return BlockInterface[]

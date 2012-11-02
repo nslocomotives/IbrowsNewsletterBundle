@@ -43,9 +43,4 @@ class Newsletter extends AbstractNewsletter
      */
     protected $createdAt;
     
-    /**
-     * @ORM\OneToOne(targetEntity="SendSettings")
-     * @ORM\JoinColumn(name="send_settings_id", referencedColumnName="id")
-     */
-    protected $sendSettings;
 }

@@ -4,7 +4,7 @@ namespace Ibrows\Bundle\NewsletterBundle\Model\Newsletter;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
-class SendSettings implements SendSettingsInerface
+class SendSettings implements SendSettingsInterface
 {
 	/**
 	 * @Assert\NotBlank(groups={"newsletter"})
