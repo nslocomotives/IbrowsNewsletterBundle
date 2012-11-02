@@ -72,11 +72,11 @@ class ImageProvider extends AbstractProvider
     public function updateBlock(BlockInterface $block, $update)
     {
         if(!$update instanceof UploadedFile){
-            return;
+            return false;
         }
         
         if(!$update->isValid()){
-            return;
+            return false;
         }
 
         $filename = md5($update->getFilename().uniqid());
