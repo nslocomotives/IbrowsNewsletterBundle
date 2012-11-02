@@ -4,10 +4,12 @@ newsletter:
   settings: Einstellungen für Newsletter "%name%" editieren
   name: Name
   created_at: Erstellt am
+  design: Design
   testmail: Test Versand
   overview: Übersicht
   statistic: Statistik
   block:
+    clone: Kopieren
     add: Hinzufügen
     new: Neuer Block
     providername:

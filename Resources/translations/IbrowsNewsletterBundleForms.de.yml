@@ -17,6 +17,7 @@ form:
 newsletter:
   continue: Weiter
   block:
+    clone: Kopieren
     provider:
       'ibrows_newsletter.block.provider.textareaandimage':
         textwidth: Textbreite
