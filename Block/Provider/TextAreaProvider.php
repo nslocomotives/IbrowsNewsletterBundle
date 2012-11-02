@@ -19,7 +19,7 @@ class TextAreaProvider extends AbstractProvider
     public function updateBlock(BlockInterface $block, $update)
     {
         if(!is_string($update)){
-            throw new \InvalidArgumentException("Need string for update");
+            return;
         }
         
         $block->setContent($update);

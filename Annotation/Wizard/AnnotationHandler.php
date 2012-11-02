@@ -113,6 +113,15 @@ class AnnotationHandler
         
         throw new \InvalidArgumentException("No route found");
     }
+
+    /**
+     * @return string
+     * @throws \InvalidArgumentException
+     */
+    public function getCurrentStepUrl()
+    {
+        return $this->getStepUrl($this->currentAnnotation);
+    }
     
     /**
      * @return string

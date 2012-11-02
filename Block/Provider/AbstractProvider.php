@@ -18,6 +18,11 @@ abstract class AbstractProvider implements ProviderInterface
     {
         return $this;
     }
+
+    public function updateClonedBlock(BlockInterface $block)
+    {
+        return $this;
+    }
     
     public function getOptionKeys()
     {

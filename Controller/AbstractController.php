@@ -17,6 +17,8 @@ use Ibrows\Bundle\NewsletterBundle\Model\User\MandantUserInterface;
 use Ibrows\Bundle\NewsletterBundle\Model\Subscriber\SubscriberInterface;
 use Ibrows\Bundle\NewsletterBundle\Model\Log\LogInterface;
 
+use Ibrows\Bundle\NewsletterBundle\Annotation\Wizard\AnnotationHandler as WizardActionAnnotationHandler;
+
 use Ibrows\Bundle\NewsletterBundle\Renderer\Bridge\BridgeMethodsHelper;
 
 use Ibrows\Bundle\NewsletterBundle\Encryption\EncryptionInterface;

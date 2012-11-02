@@ -14,6 +14,8 @@ class ImageProvider extends AbstractProvider
     protected $request;
     protected $uploadDirectory;
     protected $publicPath;
+
+    const PROVIDER_OPTION_FILENAME = 'filename';
     
     public function __construct(Request $request, $uploadDirectory, $publicPath)
     {
@@ -30,21 +32,33 @@ class ImageProvider extends AbstractProvider
         $this->uploadDirectory = realpath($uploadDirectory);
         $this->publicPath = $publicPath;
     }
+
+    public function updateClonedBlock(BlockInterface $block)
+    {
+        $newFilename = md5($this->getFilename($block).uniqid());
+        $oldFilePath = $this->getFilePath($block);
+        $this->setFilename($block, $newFilename);
+
+        $filesystem = new Filesystem();
+        $filesystem->copy($oldFilePath, $this->getFilePath($block));
+    }
     
     public function getBlockDisplayContent(BlockInterface $block)
     {
-        if(!file_exists($this->getFilePath($block))){
-            return 'No image found';
+        $filePath = $this->getFilePath($block);
+        if($filePath && file_exists($filePath)){
+            return '<img src="'. $this->getPublicPath($block) .'">';
         }
-        
-        return '<img src="'. $this->getPublicPath($block) .'">';
+
+        return 'No image found';
     }
     
     public function getBlockEditContent(BlockInterface $block)
     {
         $string = '';
-        
-        if(file_exists($this->getFilePath($block))){
+
+        $filePath = $this->getFilePath($block);
+        if($filePath && file_exists($filePath)){
             $string .= '<div>'. $this->getBlockDisplayContent($block) .'</div>';
         }
         
@@ -57,28 +71,47 @@ class ImageProvider extends AbstractProvider
     
     public function updateBlock(BlockInterface $block, $update)
     {
-        if(is_null($update)){
-            return;
-        }
-        
         if(!$update instanceof UploadedFile){
-            throw new \InvalidArgumentException("Need instanceof Symfony\\Component\\HttpFoundation\\File\\UploadedFile");
+            return;
         }
         
         if(!$update->isValid()){
             return;
         }
+
+        $filename = md5($update->getFilename().uniqid());
+        $block->setProviderOption(self::PROVIDER_OPTION_FILENAME, $filename);
         
-        $update->move($this->uploadDirectory, $block->getId());
+        $update->move($this->uploadDirectory, $filename);
     }
     
     protected function getFilePath(BlockInterface $block)
     {
-        return $this->uploadDirectory.'/'. $block->getId();
+        $filename = $this->getFilename($block);
+        if(!$filename){
+            return null;
+        }
+
+        return $this->uploadDirectory.'/'. $filename;
     }
     
     protected function getPublicPath(BlockInterface $block)
     {
-        return $this->request->getSchemeAndHttpHost().$this->publicPath.'/'. $block->getId();
+        $filename = $this->getFilename($block);
+        if(!$filename){
+            return null;
+        }
+
+        return $this->request->getSchemeAndHttpHost().$this->publicPath.'/'. $filename;
+    }
+
+    protected function getFilename(BlockInterface $block)
+    {
+        return $block->getProviderOption(self::PROVIDER_OPTION_FILENAME);
+    }
+
+    protected function setFilename(BlockInterface $block, $filename)
+    {
+        return $block->setProviderOption(self::PROVIDER_OPTION_FILENAME, $filename);
     }
 }
