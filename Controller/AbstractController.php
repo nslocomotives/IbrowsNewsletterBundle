@@ -353,13 +353,13 @@ abstract class AbstractController extends Controller
      */
     protected function getSendSettings()
     {
-	    	$newsletter = $this->getNewsletter();
-	    	
-	    	if ($newsletter !== null) {
-	    		return $newsletter->getSendSettings();
-	    	}
-	    	
-	    	return null;
+        $newsletter = $this->getNewsletter();
+
+        if($newsletter !== null) {
+            return $newsletter->getSendSettings();
+        }
+
+        return null;
     }
     
     /**
@@ -367,18 +367,18 @@ abstract class AbstractController extends Controller
      */
     protected function setSendSettings(SendSettingsInterface $sendSettings = null)
     {
-    		if ($sendSettings !== null) {
-    			$plainpassword = $sendSettings->getPassword();
-    			$sendSettings->setPassword($this->encryptPassword($plainpassword));
-    		}
+        if ($sendSettings !== null) {
+            $plainpassword = $sendSettings->getPassword();
+            $sendSettings->setPassword($this->encryptPassword($plainpassword));
+        }
 
-    		$newsletter = $this->getNewsletter();
-    		$newsletter->setSendSettings($sendSettings);
-    		
-    		$mandantName = $this->getMandantName();
-    		$this->getMandantManager()->persistNewsletter($mandantName, $newsletter);
-	    
-	    	return $this;
+        $newsletter = $this->getNewsletter();
+        $newsletter->setSendSettings($sendSettings);
+
+        $mandantName = $this->getMandantName();
+        $this->getMandantManager()->persistNewsletter($mandantName, $newsletter);
+
+        return $this;
     }
 
     /**
