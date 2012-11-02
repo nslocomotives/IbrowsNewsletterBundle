@@ -50,6 +50,9 @@ subscriber:
   company: Firma
   email: E-Mail
   groups: Gruppen
+  multiselect:
+    selectable: Vorhandene Empfänger
+    selected:   Ausgewählte Empfänger
 
 design:
   create: Neues Design

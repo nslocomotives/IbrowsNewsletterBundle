@@ -17,4 +17,13 @@
             <input type="submit" class="btn btn-primary" name="send" value="{{ 'form.save'|trans }}">
         </div>
     </form>
+    
+	<script type="text/javascript">
+		jQuery(document).ready(function() {
+			jQuery('select').multiSelect({
+				selectableHeader: "{{ 'subscriber.multiselect.selectable'|trans }}",
+				selectedHeader:  "{{ 'subscriber.multiselect.selected'|trans }}"
+			});
+		});
+	</script>
 {% endblock %}
