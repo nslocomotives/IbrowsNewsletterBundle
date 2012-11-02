@@ -351,13 +351,13 @@ abstract class AbstractController extends Controller
      */
     protected function getSendSettings()
     {
-	    	$settings = $this->getSession()->get('ibrows_newsletter.wizard.send_settings', null);
+	    	$newsletter = $this->getNewsletter();
 	    	
-	    	if ($settings === null) {
-	    		return $this->getNewsletter()->getSendSettings();
+	    	if ($newsletter !== null) {
+	    		return $newsletter->getSendSettings();
 	    	}
 	    	
-	    	return $settings;
+	    	return null;
     }
     
     /**
@@ -369,15 +369,12 @@ abstract class AbstractController extends Controller
     			$plainpassword = $sendSettings->getPassword();
     			$sendSettings->setPassword($this->encryptPassword($plainpassword));
     		}
-    		
+
     		$newsletter = $this->getNewsletter();
     		$newsletter->setSendSettings($sendSettings);
     		
     		$mandantName = $this->getMandantName();
     		$this->getMandantManager()->persistNewsletter($mandantName, $newsletter);
-    		
-	    	$session = $this->getSession();
-    		$session->set('ibrows_newsletter.wizard.send_settings', $sendSettings);
 	    
 	    	return $this;
     }
