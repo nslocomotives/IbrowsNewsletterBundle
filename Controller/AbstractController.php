@@ -10,7 +10,7 @@ use Ibrows\Bundle\NewsletterBundle\Service\ClassManager;
 use Ibrows\Bundle\NewsletterBundle\Service\RendererManager;
 use Ibrows\Bundle\NewsletterBundle\Service\BlockProviderManager;
 
-use Ibrows\Bundle\NewsletterBundle\Model\Newsletter\SendSettingsInerface;
+use Ibrows\Bundle\NewsletterBundle\Model\Newsletter\SendSettingsInterface;
 use Ibrows\Bundle\NewsletterBundle\Model\Newsletter\NewsletterInterface;
 use Ibrows\Bundle\NewsletterBundle\Model\Mandant\MandantInterface;
 use Ibrows\Bundle\NewsletterBundle\Model\User\MandantUserInterface;
@@ -345,7 +345,7 @@ abstract class AbstractController extends Controller
     }
     
     /**
-     * @return SendSettingsInerface
+     * @return SendSettingsInterface
      * @throws NotFoundException
      */
     protected function getSendSettings()
@@ -356,7 +356,7 @@ abstract class AbstractController extends Controller
     /**
      * @param SendSettings $sendSettings
      */
-    protected function setSendSettings(SendSettingsInerface $sendSettings = null)
+    protected function setSendSettings(SendSettingsInterface $sendSettings = null)
     {
     		if ($sendSettings !== null) {
     			$plainpassword = $sendSettings->getPassword();

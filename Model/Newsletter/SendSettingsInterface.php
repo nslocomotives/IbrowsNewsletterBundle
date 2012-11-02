@@ -2,7 +2,7 @@
 
 namespace Ibrows\Bundle\NewsletterBundle\Model\Newsletter;
 
-interface SendSettingsInerface
+interface SendSettingsInterface
 {
     public function getUsername();
     public function setUsername($username);

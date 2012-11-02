@@ -2,7 +2,7 @@
 
 namespace Ibrows\Bundle\NewsletterBundle\Model\Job;
 
-use Ibrows\Bundle\NewsletterBundle\Model\Newsletter\SendSettingsInerface;
+use Ibrows\Bundle\NewsletterBundle\Model\Newsletter\SendSettingsInterface;
 use Ibrows\Bundle\NewsletterBundle\Model\Newsletter\NewsletterInterface;
 
 class MailJob extends AbstractJob
@@ -23,7 +23,7 @@ class MailJob extends AbstractJob
 	protected $encryption;
 	protected $authMode;
 
-	public function __construct(NewsletterInterface $newsletter, SendSettingsInerface $sendSettings)
+	public function __construct(NewsletterInterface $newsletter, SendSettingsInterface $sendSettings)
 	{
 		parent::__construct();
 		

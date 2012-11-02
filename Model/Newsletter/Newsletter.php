@@ -73,7 +73,7 @@ abstract class Newsletter implements NewsletterInterface
     protected $createdAt;
     
     /**
-     * @var NewsletterSendSettings $sendSettings
+     * @var SendSettingsInterface $sendSettings
      */
     protected $sendSettings;
 
@@ -323,10 +323,10 @@ abstract class Newsletter implements NewsletterInterface
 
     /**
      * 
-     * @param NewsletterSendSettings $sendSettings
+     * @param SendSettingsInterface $sendSettings
      * @return Newsletter
      */
-    public function setSendSettings($sendSettings)
+    public function setSendSettings(SendSettingsInterface $sendSettings)
     {
         $this->sendSettings = $sendSettings;
         return $this;

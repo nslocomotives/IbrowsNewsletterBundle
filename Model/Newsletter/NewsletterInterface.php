@@ -24,6 +24,8 @@ interface NewsletterInterface
      * @return SubscriberInterface[]
      */
     public function getSubscribers();
+    public function getSendSettings();
+    public function setSendSettings(SendSettingsInterface $settings);
     
     public function getBlocks();
     public function addBlock(BlockInterface $block);
