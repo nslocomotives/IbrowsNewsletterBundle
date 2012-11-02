@@ -456,6 +456,7 @@ class NewsletterController extends AbstractController
     {
         foreach($cloneNewsletter->getBlocks() as $parentBlock){
             $cloneParentBlock = clone $parentBlock;
+            $cloneParentBlock->setBlocks(array());
             $newsletter->addBlock($cloneParentBlock);
 
             $provider = $this->getBlockProviderManager()->get($cloneParentBlock->getProviderName());
@@ -472,8 +473,8 @@ class NewsletterController extends AbstractController
     protected function loopCloneNewsletterBlocks(BlockInterface $parentBlock, BlockInterface $cloneParentBlock){
         foreach($parentBlock->getBlocks() as $childBlock){
             $cloneChildBlock = clone $childBlock;
+            $cloneChildBlock->setBlocks(array());
             $cloneParentBlock->addBlock($cloneChildBlock);
-            $cloneParentBlock->removeBlock($childBlock);
 
             $provider = $this->getBlockProviderManager()->get($cloneChildBlock->getProviderName());
             $provider->updateClonedBlock($cloneChildBlock);
