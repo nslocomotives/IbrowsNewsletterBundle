@@ -4,6 +4,9 @@ namespace Ibrows\Bundle\NewsletterBundle\Controller;
 
 use Ibrows\Bundle\NewsletterBundle\Model\Job\MailJob;
 
+use Ibrows\Bundle\NewsletterBundle\Model\Newsletter\NewsletterInterface;
+use Ibrows\Bundle\NewsletterBundle\Model\Block\BlockInterface;
+
 use Ibrows\Bundle\NewsletterBundle\Annotation\Wizard\Annotation as WizardAction;
 use Ibrows\Bundle\NewsletterBundle\Annotation\Wizard\AnnotationHandler as WizardActionHandler;
 
@@ -110,6 +113,8 @@ class NewsletterController extends AbstractController
             return $response;
         }
 
+        $newsletter = $this->getNewsletter();
+
         $request = $this->getRequest();
 		if($request->getMethod() == 'POST'){
             $blockParameters = array();
@@ -131,9 +136,19 @@ class NewsletterController extends AbstractController
             foreach($blockFileArray as $blockId => $file){
                 $blockParameters[$blockId] = $file;
             }
-            
-            $newsletter = $this->getNewsletter();
+
             $this->updateBlocksRecursive($newsletter->getBlocks(), $blockParameters);
+
+            // clone newsletter blocks?
+            $newsletterCloneId = $request->request->get('clone');
+            if($newsletterCloneId){
+                $cloneNewsletter = $this->getNewsletterById($newsletterCloneId);
+                if($cloneNewsletter){
+                    $this->cloneNewsletterBlocks($newsletter, $cloneNewsletter);
+                    $this->setNewsletter($newsletter);
+                }
+            }
+
             $this->setNewsletter($newsletter);
             
             if($request->request->get('continue')){
@@ -143,7 +158,8 @@ class NewsletterController extends AbstractController
 
 		return $this->render($this->getTemplateManager()->getNewsletter('edit'), array(
             'blockProviderManager' => $this->getBlockProviderManager(),
-            'newsletter' => $this->getNewsletter(),
+            'newsletter' => $newsletter,
+            'newsletters' => $this->getMandant()->getNewsletters(),
             'wizard' => $this->getWizardActionAnnotationHandler(),
 		));
 	}
@@ -209,13 +225,13 @@ class NewsletterController extends AbstractController
         
         // get send settings, if null set default values
         $sendSettings = $this->getSendSettings();
-        if ($sendSettings === null) {
+        if($sendSettings === null) {
 	        $sendSettings = $this->getMandant()->getSendSettings();
-	        if ($sendSettings !== null) {
-	        		$sendSettings->setStarttime(new \DateTime());
-	        } else {
-	        		$sendSettingsClass = $this->getClassManager()->getModel('sendsettings');
-	        		$sendSettings = new $sendSettingsClass();
+	        if($sendSettings !== null) {
+                $sendSettings->setStarttime(new \DateTime());
+	        }else{
+                $sendSettingsClass = $this->getClassManager()->getModel('sendsettings');
+                $sendSettings = new $sendSettingsClass();
 	        }
         }
         // set password non required if already defined in send settings
@@ -224,20 +240,20 @@ class NewsletterController extends AbstractController
         
         $request = $this->getRequest();
         if($request->getMethod() == 'POST'){
-        		$plainpassword = $this->decryptPassword($sendSettings->getPassword());
-	        	$form->bind($request);
+            $plainpassword = $this->decryptPassword($sendSettings->getPassword());
+            $form->bind($request);
 	        
         		// set password from send settings if necessary
 			$formpassword = $form->get('password')->getData();
-	        	if ($formpassword !== null) {
-				$plainpassword = $form->get('password')->getData();
-	        	}
-	        	
-	        	if($form->isValid()){
-	        		$sendSettings->setPassword($plainpassword);
-	        		$this->setSendSettings($sendSettings);
-	        		return $this->redirect($this->getWizardActionAnnotationHandler()->getNextStepUrl());
-	        	}
+            if($formpassword !== null){
+                $plainpassword = $form->get('password')->getData();
+            }
+
+            if($form->isValid()){
+                $sendSettings->setPassword($plainpassword);
+                $this->setSendSettings($sendSettings);
+                return $this->redirect($this->getWizardActionAnnotationHandler()->getNextStepUrl());
+            }
         }
         
 		return $this->render($this->getTemplateManager()->getNewsletter('settings'), array(
@@ -312,13 +328,12 @@ class NewsletterController extends AbstractController
                 try {
 	                $this->send($mailjob);
                 } catch (\Swift_SwiftException $e) {
-                		$message = $e->getMessage();
-	                if ($message) {
-	                		$this->get('session')->getFlashBag()->add('ibrows_newsletter_error', 'newsletter.error.mail');
-	                		$error = $e;
+                    $message = $e->getMessage();
+	                if($message) {
+                        $this->get('session')->getFlashBag()->add('ibrows_newsletter_error', 'newsletter.error.mail');
+                        $error = $e;
 	                }
                 }
-                
             }
         }
         
@@ -331,12 +346,13 @@ class NewsletterController extends AbstractController
 			'error' => $error,
 		));
 	}
-	
-	protected function send(MailJob $job)
+
+    /**
+     * @param MailJob $job
+     */
+    protected function send(MailJob $job)
 	{
-	
-			$this->get('ibrows_newsletter.mailer')->send($job);	
-	
+        $this->get('ibrows_newsletter.mailer')->send($job);
 	}
     
     public function summaryValidation(WizardActionHandler $handler)
@@ -376,45 +392,45 @@ class NewsletterController extends AbstractController
      */
     public function generateMailJobsAction()
     {
-	    	$newsletter = $this->getNewsletter();
-	    	$sendSettings = $this->getSendSettings();
-	    	$mailjobClass = $this->getClassManager()->getModel('mailjob');
-	    	
-	    	$mandant = $this->getMandant();
-	    	$rendererManager = $this->getRendererManager();
-	    	$rendererName = $this->getMandant()->getRendererName();
-	    	$bridge = $this->getRendererBridge();
-	    	
-	    	$objectManager = $this->getObjectManager();
-	    	$subscribers = $newsletter->getSubscribers();
-	    	$count = 1;
-	    	foreach($subscribers as $subscriber){
-	    		if ($count % $sendSettings->getInterval() === 0) {
-	    			$time = $sendSettings->getStarttime();
-	    			$time->modify('+ 1 minutes');
-	    			$sendSettings->setStarttime($time);
-	    		}
-	    		 
-	    		$body = $rendererManager->renderNewsletter(
-	    				$rendererName,
-	    				$bridge,
-	    				$newsletter,
-	    				$mandant,
-	    				$subscriber
-	    		);
-	    	
-	    		$mailjob = new $mailjobClass($newsletter, $sendSettings);
-	    		$mailjob->setBody($body);
-	    		$mailjob->setToMail($subscriber->getEmail());
-	    		$mailjob->setStatus(MailJob::STATUS_READY);
-	    	
-	    		$objectManager->persist($mailjob);
-	    		++$count;
-	    	}
-	    	
-	    	$objectManager->flush();
-	    	
-	    	return $this->redirect($this->generateUrl('ibrows_newsletter_generate'));
+        $newsletter = $this->getNewsletter();
+        $sendSettings = $this->getSendSettings();
+        $mailjobClass = $this->getClassManager()->getModel('mailjob');
+
+        $mandant = $this->getMandant();
+        $rendererManager = $this->getRendererManager();
+        $rendererName = $this->getMandant()->getRendererName();
+        $bridge = $this->getRendererBridge();
+
+        $objectManager = $this->getObjectManager();
+        $subscribers = $newsletter->getSubscribers();
+        $count = 1;
+        foreach($subscribers as $subscriber){
+            if ($count % $sendSettings->getInterval() === 0) {
+                $time = $sendSettings->getStarttime();
+                $time->modify('+ 1 minutes');
+                $sendSettings->setStarttime($time);
+            }
+
+            $body = $rendererManager->renderNewsletter(
+                $rendererName,
+                $bridge,
+                $newsletter,
+                $mandant,
+                $subscriber
+            );
+
+            $mailjob = new $mailjobClass($newsletter, $sendSettings);
+            $mailjob->setBody($body);
+            $mailjob->setToMail($subscriber->getEmail());
+            $mailjob->setStatus(MailJob::STATUS_READY);
+
+            $objectManager->persist($mailjob);
+            ++$count;
+        }
+
+        $objectManager->flush();
+
+        return $this->redirect($this->generateUrl('ibrows_newsletter_generate'));
     }
     
     public function generateValidation(WizardActionHandler $handler)
@@ -436,7 +452,11 @@ class NewsletterController extends AbstractController
             'newsletter' => $newsletter
 		));
 	}
-    
+
+    /**
+     * @param Collection $blocks
+     * @param array $blockParameters
+     */
     protected function updateBlocksRecursive(Collection $blocks, array $blockParameters)
     {
         foreach($blocks as $block){
@@ -447,6 +467,42 @@ class NewsletterController extends AbstractController
             $provider->updateBlock($block, $parameters);
             
             $this->updateBlocksRecursive($block->getBlocks(), $blockParameters);
+        }
+    }
+
+    /**
+     * @param NewsletterInterface $newsletter
+     * @param NewsletterInterface $cloneNewsletter
+     */
+    protected function cloneNewsletterBlocks(NewsletterInterface $newsletter, NewsletterInterface $cloneNewsletter)
+    {
+        foreach($cloneNewsletter->getBlocks() as $parentBlock){
+            $cloneParentBlock = clone $parentBlock;
+            $newsletter->addBlock($cloneParentBlock);
+
+            $provider = $this->getBlockProviderManager()->get($cloneParentBlock->getProviderName());
+            $provider->updateClonedBlock($cloneParentBlock);
+
+            $this->loopCloneNewsletterBlocks($parentBlock, $cloneParentBlock);
+        }
+    }
+
+    /**
+     * @param BlockInterface $parentBlock
+     * @param BlockInterface $cloneParentBlock
+     */
+    protected function loopCloneNewsletterBlocks(BlockInterface $parentBlock, BlockInterface $cloneParentBlock){
+        foreach($parentBlock->getBlocks() as $childBlock){
+            $cloneChildBlock = clone $childBlock;
+            $cloneParentBlock->addBlock($cloneChildBlock);
+            $cloneParentBlock->removeBlock($childBlock);
+
+            $provider = $this->getBlockProviderManager()->get($cloneChildBlock->getProviderName());
+            $provider->updateClonedBlock($cloneChildBlock);
+
+            if($childBlock->isCompound()){
+                $this->loopCloneNewsletterBlocks($childBlock, $cloneChildBlock);
+            }
         }
     }
 }
