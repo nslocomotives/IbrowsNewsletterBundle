@@ -55,6 +55,11 @@ class MandantManager extends BaseMandantManager
 		return $repository->findOneBy(array('name' => $name));
 	}
 	
+	public function getMandants()
+	{
+		return $this->mandants;
+	}
+	
 	/**
 	 * (non-PHPdoc)
 	 * @see Ibrows\Bundle\NewsletterBundle\Model\Mandant.MandantManagerInterface::getUserProvider()
