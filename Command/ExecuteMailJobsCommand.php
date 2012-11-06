@@ -12,6 +12,10 @@ use Symfony\Component\Console\Input\InputInterface;
 
 class ExecuteMailJobsCommand extends ContainerAwareCommand
 {
+	protected $jobClass;
+	protected $mm;
+	protected $timestamp_now;
+	
 	/**
 	 * 
 	 */
@@ -22,7 +26,7 @@ class ExecuteMailJobsCommand extends ContainerAwareCommand
 			->addOption(
 					'mandant',
 					null,
-					InputOption::VALUE_REQUIRED,
+					InputOption::VALUE_OPTIONAL,
 					'The mandant to use'
 			)
 		;
@@ -34,18 +38,27 @@ class ExecuteMailJobsCommand extends ContainerAwareCommand
 	 * @throws \LogicException
 	 */
 	protected function execute(InputInterface $input, OutputInterface $output) {
-		$mandantName = $input->getOption('mandant');
-		$jobClass = $this->getContainer()->getParameter('ibrows_newsletter.classes.model.mailjob');
-		
+		$this->jobClass = $this->getContainer()->getParameter('ibrows_newsletter.classes.model.mailjob');
+		$this->mm = $this->getContainer()->get('ibrows_newsletter.mandant_manager');
 		$now = new \DateTime();
-		$timestamp_now = $now->getTimestamp();
-		
-		$mailer = $this->getContainer()->get('ibrows_newsletter.mailer');
-		$mm = $this->getContainer()->get('ibrows_newsletter.mandant_manager');
-		$manager = $mm->getObjectManager($mandantName);
+		$this->timestamp_now = $now->getTimestamp();
+
+		$mandantName = $input->getOption('mandant');
+		if ($mandantName === null) {
+			$mandantNames = $this->mm->getMandants();
+			foreach ($mandantNames as $name => $description) {
+				$this->sendMails($input, $output, $name);
+			}
+		} else {
+			$this->sendMails($mandantName);
+		}
+	}
+
+	protected function sendMails(InputInterface $input, OutputInterface $output, $mandantName) {
+		$manager = $this->mm->getObjectManager($mandantName);
 		
 		// set status working
-		$jobs = $manager->getRepository($jobClass)->findBy(array('status' => MailJob::STATUS_READY));
+		$jobs = $manager->getRepository($this->jobClass)->findBy(array('status' => MailJob::STATUS_READY));
 		foreach ($jobs as $job) {
 			$job->setStatus(MailJob::STATUS_WORKING);
 			$manager->persist($job);
@@ -56,12 +69,12 @@ class ExecuteMailJobsCommand extends ContainerAwareCommand
 		// send jobs
 		foreach ($jobs as $job) {
 			$timestamp_job = $job->getScheduled()->getTimestamp();
-			
+				
 			if($output->getVerbosity() > 1) {
-    				$output->writeln('Processing job # '.$job->getId());
+				$output->writeln('Processing job # '.$job->getId()." for mandant $mandantName");
 			}
-			
-			if ($timestamp_job > $timestamp_now) {
+				
+			if ($timestamp_job > $this->timestamp_now) {
 				if($output->getVerbosity() > 1) {
 					$output->writeln('    <info>the time has not come yet.</info>');
 				}
@@ -69,12 +82,12 @@ class ExecuteMailJobsCommand extends ContainerAwareCommand
 				$manager->merge($job);
 				continue;
 			}
-
+		
 			try {
 				if($output->getVerbosity() > 1) {
 					$output->writeln('    <info>your time has come.</info>');
 				}
-				$mailer->send($job);
+				$this->getContainer()->get('ibrows_newsletter.mailer')->send($job);
 				$job->setStatus(MailJob::STATUS_COMPLETED);
 			} catch (\Swift_SwiftException $e) {
 				if($output->getVerbosity() > 1) {
@@ -82,13 +95,13 @@ class ExecuteMailJobsCommand extends ContainerAwareCommand
 					$output->writeln($e->getMessage());
 				}
 				$job->setStatus(MailJob::STATUS_ERROR);
-				$job->setError($e->getTraceAsString());
+				$job->setError($e->getMessage().'||'.$e->getTraceAsString());
 			}
-			
+				
+			$job->setCompleted(new \DateTime());
 			$manager->merge($job);
 		}
 		
 		$manager->flush();
 	}
-
 }
