@@ -71,7 +71,7 @@
         <div data-element="new-block-dialog" title="{{ 'newsletter.block.new'|trans }}">
             <div data-element="new-block-dialog-accordion">
                 {% for blockProviderId, blockProvider in blockProviderManager.blockProviders %}
-                    <h3>{{ ('newsletter.block.providername.'~blockProviderId|lower)|trans }}</h3>
+                    <h3>{{ ('newsletter.block.provider.'~blockProviderId|lower~'.name')|trans }}</h3>
                     <div>
                         <form data-element="new-block-dialog-provider-form">
                             <input data-form-field="true" type="hidden" name="provider" value="{{ blockProviderId }}">
@@ -90,7 +90,7 @@
                             </div>
                             {% for blockProviderOptionKey, blockProviderOptionOptions in blockProvider.optionKeys %}
                                 <div>
-                                    {{ ('newsletter.block.provider.'~blockProviderId|lower~'.'~blockProviderOptionKey|lower)|trans({}, "IbrowsNewsletterBundleForms") }}
+                                    {{ ('newsletter.block.provider.'~blockProviderId|lower~'.'~blockProviderOptionKey|lower)|trans }}
                                 </div>
                                 <div>
                                     <input 

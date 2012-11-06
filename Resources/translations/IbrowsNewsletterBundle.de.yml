@@ -13,10 +13,15 @@ newsletter:
     clone: Kopieren
     add: Hinzufügen
     new: Neuer Block
-    providername:
-      'ibrows_newsletter.block.provider.textarea': Text
-      'ibrows_newsletter.block.provider.image': Bild
-      'ibrows_newsletter.block.provider.textareaandimage': Text mit Bild
+    provider:
+      'ibrows_newsletter.block.provider.textarea':
+        name: Text
+      'ibrows_newsletter.block.provider.image': 
+        name: Bild
+      'ibrows_newsletter.block.provider.textareaandimage': 
+        name: Text mit Bild
+        textwidth: Textbreite
+        imagewidth: Bildbreite
   layout:
     index:
       title: Willkommen beim iBROWS NewsletterBundle
