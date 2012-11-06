@@ -88,6 +88,21 @@ class MailJob extends BaseMailJob
 	 */
 	protected $port;
 	
+	/**
+	 * @ORM\Column(type="string", nullable=true)
+	 */
+	protected $salt;
+	
+	/**
+	 * @ORM\Column(type="string", nullable=true)
+	 */
+	protected $encryption;
+	
+	/**
+	 * @ORM\Column(type="string", nullable=true)
+	 */
+	protected $authMode;
+	
 	public function getId()
 	{
 		return $this->id;
