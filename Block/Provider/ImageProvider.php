@@ -14,7 +14,8 @@ class ImageProvider extends AbstractProvider
     protected $request;
     protected $uploadDirectory;
     protected $publicPath;
-
+    protected $width = null;
+    
     const PROVIDER_OPTION_FILENAME = 'filename';
     
     public function __construct(Request $request, $uploadDirectory, $publicPath)
@@ -81,8 +82,45 @@ class ImageProvider extends AbstractProvider
 
         $filename = md5($update->getFilename().uniqid());
         $block->setProviderOption(self::PROVIDER_OPTION_FILENAME, $filename);
-        
         $update->move($this->uploadDirectory, $filename);
+
+        $filePath = $this->getFilePath($block);
+        
+        list($orgWidth, $orgHeight, $type) = getimagesize($filePath);
+        
+        if ($this->width === null)
+        		return;
+        
+        $newWidth = $this->width;
+        $newHeight = round($orgHeight/$orgWidth*$newWidth);
+        if ($newWidth > $orgWidth)
+        		return;
+        
+        $newImage = imagecreatetruecolor($newWidth, $newHeight);
+        
+        switch($type){
+        	case IMAGETYPE_JPEG2000:
+        	case IMAGETYPE_JPEG:
+        		$orgImage = imagecreatefromjpeg($filePath);
+        		break;
+        	case IMAGETYPE_GIF:
+        		$orgImage = imagecreatefromgif($filePath);
+        		break;
+        	case IMAGETYPE_WBMP:
+        		$orgImage = imagecreatefromwbmp($filePath);
+        		break;
+        	case IMAGETYPE_PNG:
+        		$orgImage = imagecreatefrompng($filePath);
+        		break;
+        	case IMAGETYPE_XBM:
+        		$orgImage = imagecreatefromxbm($filePath);
+        		break;
+        	default:
+        		throw new \InvalidArgumentException('image type is not supported');
+        }
+        
+        imagecopyresampled($newImage, $orgImage, 0, 0, 0, 0, $newWidth, $newHeight, $orgWidth, $orgHeight);
+        imagepng($newImage, $filePath);
     }
     
     protected function getFilePath(BlockInterface $block)
