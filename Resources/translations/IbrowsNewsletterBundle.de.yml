@@ -50,6 +50,12 @@ newsletter:
   generate:   
     mail: Generiere Newsletter
 
+mandant:
+  admin: Mandant editieren
+  edit: Mandant %name% editieren
+  general: Generelle Einstellungen
+  settings: Standard Maileinstellungen
+
 subscriber:
   list: Empfänger Liste
   firstname: Vorname

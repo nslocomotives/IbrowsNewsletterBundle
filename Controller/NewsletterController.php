@@ -227,26 +227,27 @@ class NewsletterController extends AbstractController
         $sendSettings = $this->getSendSettings();
         if($sendSettings === null) {
 	        $sendSettings = $this->getMandant()->getSendSettings();
-	        if($sendSettings !== null) {
-                $sendSettings->setStarttime(new \DateTime());
-	        }else{
+	        if($sendSettings === null) {
                 $sendSettingsClass = $this->getClassManager()->getModel('sendsettings');
                 $sendSettings = new $sendSettingsClass();
 	        }
         }
+		$sendSettings->setStarttime(new \DateTime());
+		
         // set password non required if already defined in send settings
-        $password_required = $sendSettings->getPassword() === null;
+        $password = $sendSettings->getPassword();
+        $password_required = $password === null;
         $form = $this->createForm(new $formtype($password_required), $sendSettings);
         
         $request = $this->getRequest();
         if($request->getMethod() == 'POST'){
-            $plainpassword = $this->decryptPassword($sendSettings->getPassword());
+            $plainpassword = $this->decryptPassword($password);
             $form->bind($request);
 	        
         		// set password from send settings if necessary
 			$formpassword = $form->get('password')->getData();
             if($formpassword !== null){
-                $plainpassword = $form->get('password')->getData();
+                $plainpassword = $formpassword;
             }
 
             if($form->isValid()){
@@ -308,7 +309,8 @@ class NewsletterController extends AbstractController
 
             if($testmailform->isValid()){
                 $mandant = $this->getMandant();
-                $subscriber = $testmailform->get('subscriber')->getData();
+                $subscriberId = $testmailform->get('subscriber')->getData();
+                $subscriber = $this->getSubscriberById($newsletter, $subscriberId);
                 $bridge = $this->getRendererBridge();
                 
                 $overview = $this->getRendererManager()->renderNewsletter(

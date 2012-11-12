@@ -10,6 +10,15 @@ Email: E-Mail
 Groups: Gruppen
 Default: Standard
 
+Username: Benutzername
+Password: Passwort
+Host: Mailserver
+Port: Mailport
+Encryption: Verschlüsselung
+Authmode: Authentifizierung
+Interval: Interval (Anzahl Newsletter/Minute)
+Starttime: Startzeit
+
 form:
   save: Speichern
   continue: Weiter 

@@ -139,6 +139,7 @@ class Configuration implements ConfigurationInterface
                         ->addDefaultsIfNotSet()
                         ->children()
                             ->scalarNode('newsletter')->defaultValue('Ibrows\\Bundle\\NewsletterBundle\\Form\\NewsletterType')->end()
+                            ->scalarNode('mandant')->defaultValue('Ibrows\\Bundle\\NewsletterBundle\\Form\\MandantType')->end()
                             ->scalarNode('subscriber')->defaultValue('Ibrows\\Bundle\\NewsletterBundle\\Form\\SubscriberType')->end()
                             ->scalarNode('design')->defaultValue('Ibrows\\Bundle\\NewsletterBundle\\Form\\DesignType')->end()
                             ->scalarNode('testmail')->cannotBeOverwritten(true)->defaultValue('Ibrows\\Bundle\\NewsletterBundle\\Form\\TestMailType')->end()

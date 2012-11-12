@@ -25,6 +25,7 @@ class MailerService
 			->setReturnPath($job->getReturnMail())
 			->setTo($job->getToMail())
 			->setBody($job->getBody())
+			->setContentType('text/html')
 		;
 		
 		$this->transport->setUsername($job->getUsername());

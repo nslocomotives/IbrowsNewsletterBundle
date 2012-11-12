@@ -2,6 +2,8 @@
 
 namespace Ibrows\Bundle\NewsletterBundle\Model\Mandant;
 
+use Ibrows\Bundle\NewsletterBundle\Model\Newsletter\SendSettingsInterface;
+
 use Doctrine\Common\Collections\ArrayCollection;
 
 abstract class Mandant implements MandantInterface
@@ -86,6 +88,12 @@ abstract class Mandant implements MandantInterface
     		return $this->sendSettings;
     }
 
+    public function setSendSettings(SendSettingsInterface $settings)
+    {
+    		$this->sendSettings = $settings;
+    		return $this;
+    }
+    
     protected function generateHash()
     {
         return sha1(uniqid().time());

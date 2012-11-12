@@ -4,6 +4,7 @@ namespace Ibrows\Bundle\NewsletterBundle\Model\Mandant;
 
 use Ibrows\Bundle\NewsletterBundle\Model\Newsletter\NewsletterInterface;
 use Ibrows\Bundle\NewsletterBundle\Model\Subscriber\SubscriberInterface;
+use Ibrows\Bundle\NewsletterBundle\Model\Newsletter\SendSettingsInterface;
 use Ibrows\Bundle\NewsletterBundle\Model\Design\DesignInterface;
 use Ibrows\Bundle\NewsletterBundle\Model\Block\BlockInterface;
 use Ibrows\Bundle\NewsletterBundle\Model\Subscriber\GroupInterface;
@@ -33,11 +34,13 @@ interface MandantInterface
     public function getRendererName();
     
     public function getSendSettings();
+    public function setSendSettings(SendSettingsInterface $settings);
     
     /**
      * @return string
      */
     public function getName();
+    public function setName($name);
 
     /**
      * @return SubscriberInterface[]

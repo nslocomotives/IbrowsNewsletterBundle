@@ -1,0 +1,26 @@
+<?php
+
+namespace Ibrows\Bundle\NewsletterBundle\Form;
+
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+
+class MandantType extends AbstractType
+{
+	/**
+	 * @param FormBuilderInterface $builder
+	 * @param array $options
+	 */
+	public function buildForm(FormBuilderInterface $builder, array $options) {
+		$builder
+			->add('name')
+		;
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getName() {
+		return 'ibrows_newsletterbundle_mandant';
+	}
+}
