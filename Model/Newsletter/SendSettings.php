@@ -16,6 +16,7 @@ class SendSettings implements SendSettingsInterface
 	 */
 	protected $host;
 	/**
+	 * @Assert\NotNull(groups={"newsletter"})
 	 * @Assert\Range(
 	 * 		min = "1",
      *  	max = "65535",
@@ -24,6 +25,7 @@ class SendSettings implements SendSettingsInterface
 	 */
 	protected $port;
 	/**
+	 * @Assert\NotNull(groups={"newsletter"})
 	 * @Assert\Range(
 	 * 		min = "1",
      *  	max = "100",
