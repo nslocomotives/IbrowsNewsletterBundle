@@ -367,15 +367,18 @@ abstract class AbstractController extends Controller
      */
     protected function setSendSettings(SendSettingsInterface $sendSettings = null)
     {
+        $newsletter = $this->getNewsletter();
         if ($sendSettings !== null) {
             $plainpassword = $sendSettings->getPassword();
             $sendSettings->setPassword($this->encryptPassword($plainpassword));
-            
-			// clone sendSetting in order to always get a new one
-			$sendSettings = clone($sendSettings);
+
+			// clone sendSetting if newsletter has none assigned 
+			// in order to always get a different one from the mandant
+            if ($newsletter->getSendSettings() === null) {
+				$sendSettings = clone($sendSettings);
+            }
         }
 
-        $newsletter = $this->getNewsletter();
         $newsletter->setSendSettings($sendSettings);
 
         $mandantName = $this->getMandantName();
