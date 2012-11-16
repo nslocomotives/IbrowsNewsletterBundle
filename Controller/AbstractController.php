@@ -370,6 +370,9 @@ abstract class AbstractController extends Controller
         if ($sendSettings !== null) {
             $plainpassword = $sendSettings->getPassword();
             $sendSettings->setPassword($this->encryptPassword($plainpassword));
+            
+			// clone sendSetting in order to always get a new one
+			$sendSettings = clone($sendSettings);
         }
 
         $newsletter = $this->getNewsletter();
