@@ -393,7 +393,7 @@ class NewsletterController extends AbstractController
             if($count % $sendSettings->getInterval() === 0){
                 $time = $sendSettings->getStarttime();
                 $time->modify('+ 1 minutes');
-                $sendSettings->setStarttime($time);
+                $sendSettings->setStarttime(clone $time);
             }
 
             $body = $rendererManager->renderNewsletter(
