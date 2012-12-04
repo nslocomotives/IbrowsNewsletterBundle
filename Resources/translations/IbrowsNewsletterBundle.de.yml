@@ -32,7 +32,7 @@ newsletter:
     settings:   Einstellungen
     summary:    Zusammenfassung
   create: Neuer Newsletter
-  list: Newsletter Liste
+  list: Newsletter
   edit: Newsletter "%name%" editieren
   summary: Newsletter "%name%" Zusammenfassung
   blocks: Abschnitte
@@ -48,16 +48,19 @@ newsletter:
   error:
     mail: "Der Versand war nicht möglich: %message%"
   generate:   
-    mail: Generiere Newsletter
+    mail: Versand starten
 
 mandant:
-  admin: Mandant editieren
+  admin: Einstellungen
   edit: Mandant %name% editieren
   general: Generelle Einstellungen
   settings: Standard Maileinstellungen
 
+user:
+  logout: Abmelden
+
 subscriber:
-  list: Empfänger Liste
+  list: Empfänger
   firstname: Vorname
   lastname: Nachname
   company: Firma
@@ -69,7 +72,7 @@ subscriber:
 
 design:
   create: Neues Design
-  list: Design Liste
+  list: Vorlagen
   preview: Vorschau
   name: Name
   created_at: Erstellt am
