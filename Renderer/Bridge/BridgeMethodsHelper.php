@@ -12,7 +12,7 @@ class BridgeMethodsHelper
     }
 
     /**
-     * @return \ReflectionMethod
+     * @return array
      */
     public function getMethodDefinitions()
     {
