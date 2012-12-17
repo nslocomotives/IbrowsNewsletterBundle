@@ -19,7 +19,7 @@
 		{
 			"name": "Mike Meier",
 			"email": "mike.meier@ibrows.ch"
-		},
+		}
 	],
     
 	"minimum-stability": "dev",
