@@ -12,3 +12,39 @@ Features:
 - E-Mail messages queuing
 - Statistics
 - Different Users for each Newsletter
+
+How to install
+==============
+
+### Add Bundle to your composer.json
+
+```js
+{
+    "require": {
+        "ibrows/newsletter-bundle": "*"
+    }
+}
+```
+
+### Install the bundle from console with composer.phar
+
+``` bash
+$ php composer.phar update ibrows/newsletter-bundle
+```
+
+### Enable the bundle in AppKernel.php
+
+``` php
+<?php
+// app/AppKernel.php
+
+public function registerBundles()
+{
+    $bundles = array(
+        // ...
+        new Ibrows\Bundle\NewsletterBundle\IbrowsNewsletterBundle(),
+    );
+}
+```
+
+### Configuration
