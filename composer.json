@@ -30,7 +30,7 @@
     },
     
     "autoload": {
-        "psr-0": { "Ibrows\\NewsletterBundle": "" }
+        "psr-0": { "Ibrows\\Bundle\\NewsletterBundle": "" }
     },
     
     "target-dir": "Ibrows/Bundle/NewsletterBundle"
