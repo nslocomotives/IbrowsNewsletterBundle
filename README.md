@@ -20,6 +20,8 @@ How to install
 ### Add Bundle to your composer.json
 
 ```js
+# composer.json
+
 {
     "require": {
         "ibrows/newsletter-bundle": "*"
@@ -60,6 +62,7 @@ imports:
 
 ``` yaml
 # app/config/ibrows_newsletter.yml
+
 ibrows_newsletter:
   mandants:
     # generate a secure token for each mandant!
@@ -85,5 +88,5 @@ ibrows_newsletter:
         public:     /uploads/block
 ```
 
-### Generate needed Entities
+### Generate needed entities
 
