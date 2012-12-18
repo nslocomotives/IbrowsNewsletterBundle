@@ -20,7 +20,7 @@ How to install
 ### Add Bundle to your composer.json
 
 ```js
-# composer.json
+// composer.json
 
 {
     "require": {
