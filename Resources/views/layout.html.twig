@@ -110,9 +110,11 @@
         <div class="navbar navbar-inverse navbar-fixed-top">
             <div class="navbar-inner">
                 <div class="container">
-                    <a class="brand" href="{{ path('ibrows_newsletter_index') }}">{{ 'layout.header.title.newsletterbundle'|trans }}</a>
+                    <a class="brand" href="{{ path('ibrows_newsletter_index') }}">
+                        {{ 'layout.header.title.newsletterbundle'|trans }} - "{{ mandant.name }}"
+                    </a>
 	                <ul class="nav">
-	                		<li><a href="{{ url('ibrows_newsletter_mandant_edit') }}">{{ 'mandant.admin'|trans }}</a>
+                        <li><a href="{{ url('ibrows_newsletter_mandant_edit') }}">{{ 'mandant.admin'|trans }}</a>
                         <li><a href="{{ url('ibrows_newsletter_list') }}">{{ 'newsletter.list'|trans }}</a></li>
 						<li><a href="{{ url('ibrows_newsletter_design_list') }}">{{ 'design.list'|trans }}</a></li>
                         <li><a href="{{ url('ibrows_newsletter_subscriber_list') }}">{{ 'subscriber.list'|trans }}</a></li>
@@ -124,15 +126,16 @@
         <div class="container">
             {% block newsletter_wizard %}{% endblock newsletter_wizard %}
             {% block newsletter_flashes %}
-            {% for flashMessage in app.session.flashbag.get('ibrows_newsletter_error') %}
-			    <div class="alert alert-error">
-			        {{ flashMessage|trans({'%message%': error.message}) }}
-			    </div>
-			{% endfor %}
+                {% for flashMessage in app.session.flashbag.get('ibrows_newsletter_error') %}
+                    <div class="alert alert-error">
+                        {{ flashMessage|trans({'%message%': error.message}) }}
+                    </div>
+                {% endfor %}
             {% endblock newsletter_flashes %}
             {% block newsletter_content %}{% endblock newsletter_content %}
         </div> 
         
     </body>
 </html>
+
 {{ tinymce_init() }}
