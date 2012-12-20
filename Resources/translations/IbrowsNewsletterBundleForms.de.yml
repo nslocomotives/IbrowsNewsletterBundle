@@ -16,8 +16,10 @@ Host: Mailserver
 Port: Mailport
 Encryption: Verschlüsselung
 Authmode: Authentifizierung
-Interval: Interval (Anzahl Newsletter/Minute)
+Interval: Intervall (Anzahl Newsletter/Minute)
 Starttime: Startzeit
+
+Renderername: Renderer Name (Service-Id)
 
 form:
   save: Speichern
