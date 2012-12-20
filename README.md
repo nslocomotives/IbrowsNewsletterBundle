@@ -153,7 +153,7 @@ imports:
         dbal:
             types:
                 nostreamblob: Ibrows\Bundle\NewsletterBundle\DBAL\Types\NoStreamBlobType
-```
+``
 
 ### Configure mandants
 
@@ -234,13 +234,13 @@ $ php app/console ibrows:newsletter:mandants:enable
 ### Generate needed entities
 
 ``` bash
-$ php app/console ibrows:newsletter:entities:generate Ibrows\YourBundle\Entity
+$ php app/console ibrows:newsletter:entities:generate Ibrows\\YourBundle\\Entity
 ```
 
 ### Pimp up your user class - implementing the MandantUserInterface
 
-< The idea behind this concept is a user entity which is authenticated over symfony security component (most likely always stored in the default connection - database).
-< This entity now need to implement the MandantUserInterface to let the IbrowsNewsletterBundle know which mandant should be used.
+> The idea behind this concept is a user entity which is authenticated over symfony security component (most likely always stored in the default connection - database).
+> This entity now need to implement the MandantUserInterface to let the IbrowsNewsletterBundle know which mandant should be used.
 
 ```php
 # YourBundle\Entity\User (e.g. FOSUser implementation)
