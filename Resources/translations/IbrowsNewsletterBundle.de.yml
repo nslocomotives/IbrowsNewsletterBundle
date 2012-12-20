@@ -39,10 +39,10 @@ newsletter:
   dialog:
     abort: abbrechen
   gendertitle:
-    man:
+    male:
       formal: Sehr geehrter Herr %subscriber.lastname%
       informal: Hallo %subscriber.firstname%
-    woman:
+    female:
       formal: Sehr geehrte Frau %subscriber.lastname%
       informal: Hallo %subscriber.firstname%
   error:
