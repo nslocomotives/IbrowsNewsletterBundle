@@ -7,11 +7,17 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class SendSettingsType extends AbstractType
 {
-	protected $password_required;
-	
-	public function __construct($password_required = true)
+	protected $isPasswordRequired = true;
+    protected $showStartTime = true;
+
+    /**
+     * @param bool $isPasswordRequired
+     * @param bool $showStartTime
+     */
+    public function __construct($isPasswordRequired = true, $showStartTime = true)
 	{
-		$this->password_required = $password_required;
+		$this->isPasswordRequired = $isPasswordRequired;
+        $this->showStartTime = $showStartTime;
 	}
 	/**
 	 * @param FormBuilderInterface $builder
@@ -21,23 +27,25 @@ class SendSettingsType extends AbstractType
 		$builder
             ->add('username')
             ->add('password', 'password', array(
-            			'required' => $this->password_required,
-            		))
+                'required' => $this->isPasswordRequired,
+            ))
             ->add('host')
             ->add('port')
             ->add('encryption', 'choice', array(
-            			'choices' => array('tls' => 'tls', 'ssl' => 'ssl'),
-            			'required' => false,
-            			'empty_data' => null,
-            		))
+                'choices' => array('tls' => 'tls', 'ssl' => 'ssl'),
+                'required' => false,
+                'empty_data' => null,
+            ))
             ->add('authMode', 'choice', array(
-            			'choices' => array('plain' => 'plain', 'login' => 'login', 'cram-md5' => 'cram-md5'),
-            			'required' => false,
-            			'empty_data' => null,
-            		))
+                'choices' => array('plain' => 'plain', 'login' => 'login', 'cram-md5' => 'cram-md5'),
+                'required' => false,
+                'empty_data' => null,
+            ))
             ->add('interval')
-            ->add('starttime', 'datetime')
 		;
+        if(true === $this->showStartTime){
+            $builder->add('starttime', 'datetime');
+        }
 	}
 	
 	/**
@@ -46,8 +54,9 @@ class SendSettingsType extends AbstractType
 	public function setDefaultOptions(OptionsResolverInterface $resolver)
 	{
 		parent::setDefaultOptions($resolver);
+
 		$resolver->setDefaults(array(
-				'validation_groups' => array('newsletter'),
+            'validation_groups' => array('newsletter'),
 		));
 	}
 	
