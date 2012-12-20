@@ -63,6 +63,7 @@ class RendererBridge
      * @param MandantInterface $mandant
      * @param NewsletterInterface $newsletter
      * @param SubscriberInterface $subscriber
+     * @param $context
      * @return string
      */
     public function readonlinelink(MandantInterface $mandant, NewsletterInterface $newsletter, SubscriberInterface $subscriber, $context)
@@ -83,6 +84,7 @@ class RendererBridge
      * @param MandantInterface $mandant
      * @param NewsletterInterface $newsletter
      * @param SubscriberInterface $subscriber
+     * @param $context
      * @return string
      */
     public function unsubscribelink(MandantInterface $mandant, NewsletterInterface $newsletter, SubscriberInterface $subscriber, $context)
