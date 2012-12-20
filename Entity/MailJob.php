@@ -33,6 +33,11 @@ class MailJob extends BaseMailJob
 	 */
 	protected $toMail;
 
+    /**
+     * @ORM\Column(type="string", name ="to_name")
+     */
+    protected $toName;
+
 	/**
 	 * @ORM\Column(type="string")
 	 */

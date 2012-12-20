@@ -6,6 +6,7 @@ use Ibrows\Bundle\NewsletterBundle\Model\Job\MailJob;
 
 use Ibrows\Bundle\NewsletterBundle\Model\Newsletter\NewsletterInterface;
 use Ibrows\Bundle\NewsletterBundle\Model\Block\BlockInterface;
+use Ibrows\Bundle\NewsletterBundle\Model\Subscriber\SubscriberGenderTitleInterface;
 
 use Ibrows\Bundle\NewsletterBundle\Annotation\Wizard\Annotation as WizardAction;
 use Ibrows\Bundle\NewsletterBundle\Annotation\Wizard\AnnotationHandler as WizardActionHandler;
@@ -404,9 +405,15 @@ class NewsletterController extends AbstractController
                 $subscriber
             );
 
+            /* @var $mailjob MailJob */
             $mailjob = new $mailjobClass($newsletter, $sendSettings);
             $mailjob->setBody($body);
             $mailjob->setToMail($subscriber->getEmail());
+
+            if($subscriber instanceof SubscriberGenderTitleInterface){
+                $mailjob->setToName($subscriber->getFirstname().' '. $subscriber->getLastname());
+            }
+
             $mailjob->setStatus(MailJob::STATUS_READY);
 
             $objectManager->persist($mailjob);
