@@ -247,7 +247,7 @@ $ php app/console ibrows:newsletter:entities:generate Ibrows\\YourBundle\\Entity
 
 <?php
 
-namespace Ibrows\NewsletterSandboxBundle\Entity;
+namespace YourBundle\Entity;
 
 use FOS\UserBundle\Entity\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
