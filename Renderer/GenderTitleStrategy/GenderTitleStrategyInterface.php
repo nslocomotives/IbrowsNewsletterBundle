@@ -2,13 +2,13 @@
 
 namespace Ibrows\Bundle\NewsletterBundle\Renderer\GenderTitleStrategy;
 
-use Ibrows\Bundle\NewsletterBundle\Model\Subscriber\SubscriberInterface;
+use Ibrows\Bundle\NewsletterBundle\Model\Subscriber\SubscriberGenderTitleInterface;
 
 interface GenderTitleStrategyInterface
 { 
     /**
-     * @param SubscriberInterface $subscriber
+     * @param SubscriberGenderTitleInterface $subscriber
      * @return string
      */
-    public function getGenderTitle(SubscriberInterface $subscriber);    
+    public function getGenderTitle(SubscriberGenderTitleInterface $subscriber);
 }
