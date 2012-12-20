@@ -50,7 +50,7 @@ class ExecuteMailJobsCommand extends ContainerAwareCommand
 				$this->sendMails($input, $output, $name);
 			}
 		} else {
-			$this->sendMails($mandantName);
+			$this->sendMails($input, $output, $mandantName);
 		}
 	}
 
