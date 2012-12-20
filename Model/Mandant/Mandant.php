@@ -28,11 +28,14 @@ abstract class Mandant implements MandantInterface
         $this->newsletters = new ArrayCollection();
         $this->subscribers = new ArrayCollection();
         $this->subscriberGroups = new ArrayCollection();
-        $this->hash = $this->generateHash();
         $this->salt = $this->generateSalt();
     }
 
-	public function setName($name)
+    /**
+     * @param $name
+     * @return Mandant
+     */
+    public function setName($name)
 	{
 		$this->name = $name;
 		return $this;
@@ -50,12 +53,18 @@ abstract class Mandant implements MandantInterface
     
     public function getSalt()
     {
-    		return $this->salt;
+        return $this->salt;
     }
     
     public function getRendererName()
     {
         return $this->rendererName;
+    }
+
+    public function setRendererName($rendererName)
+    {
+        $this->rendererName = $rendererName;
+        return $this;
     }
 	
 	public function getNewsletters()
@@ -85,22 +94,23 @@ abstract class Mandant implements MandantInterface
     
     public function getSendSettings()
     {
-    		return $this->sendSettings;
+        return $this->sendSettings;
+    }
+
+    public function setHash($hash)
+    {
+        $this->hash = $hash;
+        return $this;
     }
 
     public function setSendSettings(SendSettingsInterface $settings)
     {
-    		$this->sendSettings = $settings;
-    		return $this;
-    }
-    
-    protected function generateHash()
-    {
-        return sha1(uniqid().time());
+        $this->sendSettings = $settings;
+        return $this;
     }
     
     protected function generateSalt()
     {
-    		return sha1(uniqid().time());
+        return sha1(uniqid().time());
     }
 }
