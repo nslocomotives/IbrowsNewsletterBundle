@@ -289,3 +289,12 @@ class User extends BaseUser implements MandantUserInterface
     UPDATE `fos_user` SET mandant = "mandantA" WHERE username = "YourUsernameA";
     UPDATE `fos_user` SET mandant = "mandantB" WHERE username = "YourUsernameB";
 ```
+
+### Starting
+
+- Open your project in the browser
+- Authenticate with a user which has a valid mandant given
+- Open /newsletter (app_dev.php/newsletter)
+- Create a Design
+- Create a Newsletter
+- Have fun
