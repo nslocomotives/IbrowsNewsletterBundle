@@ -21,12 +21,14 @@ class MailerService
 	{
 		$message = \Swift_Message::newInstance()
 			->setSubject($job->getSubject())
-			->setFrom($job->getSenderMail(), $job->getSenderName())
+			->setFrom(array($job->getSenderMail() => $job->getSenderName()))
 			->setReturnPath($job->getReturnMail())
-			->setTo($job->getToMail())
 			->setBody($job->getBody())
 			->setContentType('text/html')
 		;
+
+        $to = $job->getToName() ? array($job->getToMail() => $job->getToName()) : $job->getToMail();
+        $message->setTo($to);
 		
 		$this->transport->setUsername($job->getUsername());
 		$password = $this->encryption->decrypt($job->getPassword(), $job->getSalt());

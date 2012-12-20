@@ -24,10 +24,10 @@ class ExecuteMailJobsCommand extends ContainerAwareCommand
 			->setName('ibrows:newsletter:job:mail:send')
 			->setDescription('Executes (sends) all ready mailjobs.')
 			->addOption(
-					'mandant',
-					null,
-					InputOption::VALUE_OPTIONAL,
-					'The mandant to use'
+                'mandant',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                'The mandant to use'
 			)
 		;
 	}

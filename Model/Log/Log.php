@@ -2,9 +2,6 @@
 
 namespace Ibrows\Bundle\NewsletterBundle\Model\Log;
 
-use Ibrows\Bundle\NewsletterBundle\Model\Newsletter\NewsletterInterface;
-use Ibrows\Bundle\NewsletterBundle\Model\Subscriber\SubscriberInterface;
-
 abstract class Log implements LogInterface
 {
     protected $id;

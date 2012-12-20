@@ -48,7 +48,7 @@ abstract class AbstractJob implements JobInterface
     
     public function getCreated()
     {
-    		return $this->created;
+        return $this->created;
     }
     
     public function setStatus($status)

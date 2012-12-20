@@ -63,13 +63,15 @@ public function registerBundles()
 ibrows_newsletter:
   mandants:
     # generate a secure token for each mandant!
-    mandantA:  ThisTokenIsNotSoSecretChangeItMandantA
-    mandantB:  ThisTokenIsNotSoSecretChangeItMandantB
+    default:    ThisTokenIsNotSoSecretChangeItdefault
+    mandantA:   ThisTokenIsNotSoSecretChangeItMandantA
+    mandantB:   ThisTokenIsNotSoSecretChangeItMandantB
   classes:
     # needed entities - see next step for creating them
     model:
       # most likely fos user
       user:         Ibrows\YourBundle\Entity\User
+      # depends on the namespace you set at
       mandant:      Ibrows\YourBundle\Entity\Newsletter\Mandant
       newsletter:   Ibrows\YourBundle\Entity\Newsletter\Newsletter
       subscriber:   Ibrows\YourBundle\Entity\Newsletter\Subscriber
@@ -106,6 +108,7 @@ stfalcon_tinymce:
   include_jquery: false
   tinymce_jquery: true
   textarea_class: "tinymce"
+  # create own methods in your own RendererBridge and set here the icons and description for them
   tinymce_buttons:
     unsubscribelink:
       title: "Unsubscribe link"
@@ -138,15 +141,19 @@ imports:
     # ...
     - { resource: stfalcon_tinymce.yml }
     - { resource: ibrows_newsletter.yml }
+```
 
-    # Doctrine Configuration
+### Add NoStreamBlob DBAL Type
+
+```yaml
+# app/config/config.yml
+
+# Doctrine Configuration
     doctrine:
         dbal:
             types:
                 nostreamblob: Ibrows\Bundle\NewsletterBundle\DBAL\Types\NoStreamBlobType
-```
-
-< Do not forget to add the NoStreamBlobType
+``
 
 ### Configure mandants
 
@@ -159,9 +166,7 @@ It is possible to run each mandant on an own database. For that we have to infor
 # Doctrine Configuration
 doctrine:
     dbal:
-        types:
-            nostreamblob: Ibrows\Bundle\NewsletterBundle\DBAL\Types\NoStreamBlobType
-        default_connection:   default
+        # ...
         connections:
             default:
                 driver:   %database_driver%
@@ -186,11 +191,9 @@ doctrine:
                 dbname:   %database_name_mandantb%
                 user:     %database_user_mandantb%
                 password: %database_password_mandantb%
-                charset:  UTF8
 
     orm:
-        auto_generate_proxy_classes: %kernel.debug%
-        default_entity_manager: default
+        # ...
         entity_managers:
             default:
                 connection: default
@@ -219,17 +222,83 @@ doctrine:
 
 ``` bash
 # create the databases
+$ php app/console doctrine:schema:create --em default
 $ php app/console doctrine:schema:create --em mandantA
 $ php app/console doctrine:schema:create --em mandantB
 
-# insert the mandants (already existings will be ignored)
+# enable the mandants (insert them in the defined database - already existings will be ignored)
 $ php app/console ibrows:newsletter:mandants:enable
 ```
 
 ### Generate needed entities
 
-### Set mandants to specific
+``` bash
+$ php app/console ibrows:newsletter:entities:generate Ibrows\\YourBundle\\Entity
+```
+
+### Pimp up your user class - implementing the MandantUserInterface
+
+> The idea behind this concept is a user entity which is authenticated over symfony security component (most likely always stored in the default connection - database).
+> This entity now need to implement the MandantUserInterface to let the IbrowsNewsletterBundle know which mandant should be used.
+
+```php
+# YourBundle\Entity\User (e.g. FOSUser implementation)
+
+<?php
+
+namespace YourBundle\Entity;
+
+use FOS\UserBundle\Entity\User as BaseUser;
+use Doctrine\ORM\Mapping as ORM;
+
+use Ibrows\Bundle\NewsletterBundle\Model\User\MandantUserInterface;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="fos_user")
+ */
+class User extends BaseUser implements MandantUserInterface
+{
+	/**
+	 * @ORM\Id
+	 * @ORM\Column(type="integer")
+	 * @ORM\GeneratedValue(strategy="AUTO")
+	 */
+	protected $id;
+
+	/**
+	 * @ORM\Column(type="string", nullable=true)
+	 */
+	protected $mandant;
+
+    /**
+     * @return string
+     */
+    public function getMandant()
+	{
+		return $this->mandant;
+	}
+}
+```
+
+### Connect a user (e.g. FOSUser) from the default connection with a mandant
 
 ``` sql
-    UPDATE `fos_user` SET mandant = "default" WHERE username = "YourUsername"
+    UPDATE `fos_user` SET mandant = "default" WHERE username = "YourUsername";
+    UPDATE `fos_user` SET mandant = "mandantA" WHERE username = "YourUsernameA";
+    UPDATE `fos_user` SET mandant = "mandantB" WHERE username = "YourUsernameB";
 ```
+
+### Starting
+
+- Open your project in the browser
+- Authenticate with a user which has a valid mandant given
+- Open /newsletter (app_dev.php/newsletter)
+- Create a Design
+- Create a Newsletter
+- Have fun
+
+### Customization
+
+- Implementing an own GenderTitleStrategy for setting the correct salutation
+- Implementing an own RendererBridge for providing more methods
