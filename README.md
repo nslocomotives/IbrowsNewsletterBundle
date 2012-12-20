@@ -298,3 +298,8 @@ class User extends BaseUser implements MandantUserInterface
 - Create a Design
 - Create a Newsletter
 - Have fun
+
+### Customization
+
+- Implementing an own GenderTitleStrategy for setting the correct salutation
+- Implementing an own RendererBridge for providing more methods
