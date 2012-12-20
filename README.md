@@ -14,6 +14,11 @@ Features:
 - Statistics
 - Different Users for each Newsletter
 
+The sandbox
+===========
+
+Have a look on our sandbox: https://github.com/ibrows/IbrowsNewsletterBundleSandbox
+
 How to install
 ==============
 
@@ -167,20 +172,20 @@ doctrine:
                 password: %database_password%
                 charset:  UTF8
             mandantA:
-                driver:   %database_driver%
-                host:     %database_host%
-                port:     %database_port%
-                dbname:   newslettersandbox_mandanta
-                user:     %database_user%
-                password: %database_password%
+                driver:   %database_driver_mandanta%
+                host:     %database_host_mandanta%
+                port:     %database_port_mandanta%
+                dbname:   %database_name_mandanta%
+                user:     %database_user_mandanta%
+                password: %database_password_mandanta%
                 charset:  UTF8
             mandantB:
-                driver:   %database_driver%
-                host:     %database_host%
-                port:     %database_port%
-                dbname:   newslettersandbox_mandantb
-                user:     %database_user%
-                password: %database_password%
+                driver:   %database_driver_mandantb%
+                host:     %database_host_mandantb%
+                port:     %database_port_mandantb%
+                dbname:   %database_name_mandantb%
+                user:     %database_user_mandantb%
+                password: %database_password_mandantb%
                 charset:  UTF8
 
     orm:
@@ -190,19 +195,24 @@ doctrine:
             default:
                 connection: default
                 mappings:
-                    IbrowsNewsletterSandboxBundle: ~
-                    IbrowsNewsletterBundle: ~
+                    YourBundle: ~
                     FOSUserBundle: ~
             mandantA:
                 connection: mandantA
                 mappings:
-                    IbrowsNewsletterSandboxBundle: ~
-                    IbrowsNewsletterBundle: ~
+                    ibrows_newsletter:
+                        type: annotation
+                        prefix: YourBundle\Entity\Newsletter
+                        dir: "%kernel.root_dir%/../src/Ibrows/YourBundle/Entity/Newsletter"
+                        is_bundle: false
             mandantB:
                 connection: mandantB
                 mappings:
-                    IbrowsNewsletterSandboxBundle: ~
-                    IbrowsNewsletterBundle: ~
+                    ibrows_newsletter:
+                        type: annotation
+                        prefix: YourBundle\Entity\Newsletter
+                        dir: "%kernel.root_dir%/../src/Ibrows/YourBundle/Entity/Newsletter"
+                        is_bundle: false
 ```
 
 ### Enable configured mandants
