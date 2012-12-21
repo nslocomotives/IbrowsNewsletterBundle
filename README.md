@@ -18,7 +18,7 @@ The sandbox
 ===========
 
 Have a look on our sandbox: https://github.com/ibrows/IbrowsNewsletterBundleSandbox
-Online installation: http://newsletterbundle.ibrhost.com (User: demo / Pass: demo)
+Demo installation: http://newsletterbundle.ibrhost.com (User: demo / Pass: demo)
 
 How to install
 ==============
