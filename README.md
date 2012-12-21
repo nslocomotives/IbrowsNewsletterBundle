@@ -155,7 +155,7 @@ imports:
         dbal:
             types:
                 nostreamblob: Ibrows\Bundle\NewsletterBundle\DBAL\Types\NoStreamBlobType
-``
+```
 
 ### Configure mandants
 
