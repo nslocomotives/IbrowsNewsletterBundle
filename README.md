@@ -199,7 +199,8 @@ doctrine:
                 connection: default
                 mappings:
                     YourBundle: ~
-                    FOSUserBundle: ~
+                    # FOSUserBundle: ~
+                    # ...
             mandantA:
                 connection: mandantA
                 mappings:
