@@ -136,8 +136,12 @@ class MandantManager extends BaseMandantManager
 	 */
 	public function getObjectManager($name)
 	{
+        if(!$name){
+            throw new \InvalidArgumentException("No mandant given. Did you forget to set the mandant on the current authenticated user?");
+        }
+
 		if(!array_key_exists($name, $this->mandants)){
-            throw new \InvalidArgumentException("Mandant $name does not exist. Did you forget to enable it in the IbrowsNewsletter config?");
+            throw new \InvalidArgumentException('Mandant "'. $name .'" does not exist. Did you forget to enable it in the IbrowsNewsletter config?');
         }
         
 		return $this->doctrine->getManager($name);
