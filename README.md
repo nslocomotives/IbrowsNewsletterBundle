@@ -40,7 +40,7 @@ How to install
 $ php composer.phar update ibrows/newsletter-bundle
 ```
 
-### Enable the bundle in AppKernel.php
+### Enable the bundles in AppKernel.php
 
 ``` php
 <?php
@@ -50,6 +50,7 @@ public function registerBundles()
 {
     $bundles = array(
         // ...
+        new Stfalcon\Bundle\TinymceBundle\StfalconTinymceBundle(),
         new Ibrows\Bundle\NewsletterBundle\IbrowsNewsletterBundle(),
     );
 }
@@ -217,6 +218,34 @@ doctrine:
                         prefix: YourBundle\Entity\Newsletter
                         dir: "%kernel.root_dir%/../src/Ibrows/YourBundle/Entity/Newsletter"
                         is_bundle: false
+```
+
+### Connection settings
+
+```yaml
+# app/config/parameters.yml
+
+parameters:
+    database_driver:   pdo_mysql
+    database_host:     127.0.0.1
+    database_port:     ~
+    database_name:     newslettersandbox
+    database_user:     user
+    database_password: pass
+
+    database_driver_mandanta:   pdo_mysql
+    database_host_mandanta:     127.0.0.1
+    database_port_mandanta:     ~
+    database_name_mandanta:     newslettersandbox_mandanta
+    database_user_mandanta:     user
+    database_password_mandanta: pass
+
+    database_driver_mandantb:   pdo_mysql
+    database_host_mandantb:     127.0.0.1
+    database_port_mandantb:     ~
+    database_name_mandantb:     newslettersandbox_mandantb
+    database_user_mandantb:     user
+    database_password_mandantb: pass
 ```
 
 ### Enable configured mandants
