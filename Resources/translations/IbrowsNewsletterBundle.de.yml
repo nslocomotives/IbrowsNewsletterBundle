@@ -85,8 +85,8 @@ statistic:
     unread: Ungelesen
   jobpiechart:
     status:
-      working: Am versenden
-      onhold: Am warten
+      working: Wird versendet
+      onhold: Warten
       ready: Bereit zum Versand
       completed: Versendet
       error: Fehler
