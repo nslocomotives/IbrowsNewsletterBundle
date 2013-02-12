@@ -71,6 +71,7 @@ class SendSettings implements SendSettingsInterface
     			while (!feof($handle)) {
     				$content .= fread($handle, 8192);
     			}
+    			$this->password = $content;
     			return $content;
     		}
     		

@@ -134,7 +134,7 @@ class MailJob extends AbstractJob
     			while (!feof($handle)) {
     				$content .= fread($handle, 8192);
     			}
-    			
+    			$this->password = $content;
     			return $content;
     		}
     		
