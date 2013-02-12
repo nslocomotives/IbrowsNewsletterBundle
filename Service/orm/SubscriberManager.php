@@ -23,4 +23,9 @@ class SubscriberManager extends BaseSubscriberManager
 	{
 		return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
 	}
+	
+	public function findOneBy(array $criteria)
+	{
+	    return $this->repository->findOneBy($criteria);
+	}
 }
