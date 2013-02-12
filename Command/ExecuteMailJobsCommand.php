@@ -47,46 +47,55 @@ class ExecuteMailJobsCommand extends ContainerAwareCommand
 		if ($mandantName === null) {
 			$mandantNames = $this->mm->getMandants();
 			foreach ($mandantNames as $name => $description) {
-				$this->sendMails($input, $output, $name);
+				$this->sendMailJobs($input, $output, $name);
 			}
 		} else {
-			$this->sendMails($mandantName);
+			$this->sendMailJobs($input, $output, $mandantName);
 		}
 	}
-
-	protected function sendMails(InputInterface $input, OutputInterface $output, $mandantName) {
+	
+	protected function sendMailJobs(InputInterface $input, OutputInterface $output, $mandantName) {
 		$manager = $this->mm->getObjectManager($mandantName);
 		
-		// set status working
-		$jobs = $manager->getRepository($this->jobClass)->findBy(array('status' => MailJob::STATUS_READY));
-		foreach ($jobs as $job) {
-			$job->setStatus(MailJob::STATUS_WORKING);
-			$manager->persist($job);
-		}
-		$manager->flush();
-		$manager->clear();
-		
-		// send jobs
-		foreach ($jobs as $job) {
-			$timestamp_job = $job->getScheduled()->getTimestamp();
+		$jobs = array();
+		do {
+			$jobs = $manager->getRepository($this->jobClass)->findBy(array('status' => MailJob::STATUS_READY), null, 5);
+			
+			foreach ($jobs as $key => $job) {
+				$timestamp_job = $job->getScheduled()->getTimestamp();
 				
-			if($output->getVerbosity() > 1) {
-				$output->writeln('Processing job # '.$job->getId()." for mandant $mandantName");
-			}
-				
-			if ($timestamp_job > $this->timestamp_now) {
 				if($output->getVerbosity() > 1) {
-					$output->writeln('    <info>the time has not come yet.</info>');
+					$output->writeln('Processing job #'.$job->getId()." for mandant $mandantName");
 				}
-				$job->setStatus(MailJob::STATUS_READY);
-				$manager->merge($job);
-				continue;
-			}
-		
-			try {
+				
+				if ($timestamp_job > $this->timestamp_now) {
+					if($output->getVerbosity() > 1) {
+						$output->writeln('    <info>the time has not come yet.</info>');
+					}
+					unset($jobs[$key]);
+					continue;
+				}
+				
 				if($output->getVerbosity() > 1) {
 					$output->writeln('    <info>your time has come.</info>');
 				}
+				$job->setStatus(MailJob::STATUS_WORKING);
+				$manager->persist($job);
+			}
+			
+			$manager->flush();
+			$manager->clear();
+			
+			$this->sendMails($jobs, $input, $output, $mandantName);
+		} while(!empty($jobs));
+	}
+
+	protected function sendMails($jobs, InputInterface $input, OutputInterface $output, $mandantName) {
+		$manager = $this->mm->getObjectManager($mandantName);
+		
+		// send jobs
+		foreach ($jobs as $job) {
+			try {
 				$this->getContainer()->get('ibrows_newsletter.mailer')->send($job);
 				$job->setStatus(MailJob::STATUS_COMPLETED);
 			} catch (\Swift_SwiftException $e) {
@@ -100,8 +109,9 @@ class ExecuteMailJobsCommand extends ContainerAwareCommand
 				
 			$job->setCompleted(new \DateTime());
 			$manager->merge($job);
+			$manager->flush();
 		}
 		
-		$manager->flush();
+		$manager->clear();
 	}
 }
