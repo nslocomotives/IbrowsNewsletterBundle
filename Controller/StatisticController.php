@@ -3,6 +3,7 @@
 namespace Ibrows\Bundle\NewsletterBundle\Controller;
 
 use Ibrows\Bundle\NewsletterBundle\Model\Log\LogInterface;
+use Ibrows\Bundle\NewsletterBundle\Model\Job\JobInterface;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -72,9 +73,6 @@ class StatisticController extends AbstractHashMandantController
             return false;
         });
 
-        $readAmount = count($filteredReadlogs);
-        $unreadAmount = count($sentlogs)-$readAmount;
-
         $jobPie = array();
         foreach($jobs as $job){
             $status = $job->getStatus();
@@ -116,6 +114,10 @@ class StatisticController extends AbstractHashMandantController
                 }
             }
         }
+        
+        $completedAmount = array_key_exists(JobInterface::STATUS_COMPLETED, $jobPie)?$jobPie[JobInterface::STATUS_COMPLETED]: 0;
+        $readAmount = count($filteredReadlogs);
+        $unreadAmount = $completedAmount-$readAmount;
 
         return $this->render($this->getTemplateManager()->getStatistic('show'), array(
             'newsletter' => $newsletter,
