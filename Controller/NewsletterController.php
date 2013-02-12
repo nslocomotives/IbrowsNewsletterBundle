@@ -232,7 +232,9 @@ class NewsletterController extends AbstractController
                 $sendSettings = new $sendSettingsClass();
 	        }
         }
-		$sendSettings->setStarttime(new \DateTime());
+        if ($sendSettings->getStarttime() === null) {
+			$sendSettings->setStarttime(new \DateTime());
+        }
 		
         // set password non required if already defined in send settings
         $password = $sendSettings->getPassword();
