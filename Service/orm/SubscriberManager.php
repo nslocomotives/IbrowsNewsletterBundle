@@ -18,4 +18,9 @@ class SubscriberManager extends BaseSubscriberManager
 	{
 		return $this->repository->find($id);
 	}
+	
+	public function findBy(array $criteria, array $orderBy = array(), $limit = null, $offset = null)
+	{
+		return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
+	}
 }
