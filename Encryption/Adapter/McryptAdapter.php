@@ -23,7 +23,7 @@ class McryptAdapter extends AbstractAdapter
     /**
      * @param string $cypher
      * @param string $mode
-     * @param string $ivMode
+     * @param int $ivMode
      */
     public function __construct($cypher = MCRYPT_RIJNDAEL_256, $mode = MCRYPT_MODE_ECB, $ivMode = MCRYPT_RAND){
         $this->cypher = $cypher;

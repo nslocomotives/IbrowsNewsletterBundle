@@ -32,14 +32,33 @@ interface MandantInterface
      * @return string
      */
     public function getRendererName();
-    
+
+    /**
+     * @param string $rendererName
+     * @return MandantInterface
+     */
+    public function setRendererName($rendererName);
+
+    /**
+     * @return SendSettingsInterface
+     */
     public function getSendSettings();
+
+    /**
+     * @param SendSettingsInterface $settings
+     * @return MandantInterface
+     */
     public function setSendSettings(SendSettingsInterface $settings);
     
     /**
      * @return string
      */
     public function getName();
+
+    /**
+     * @param string $name
+     * @return MandantInterface
+     */
     public function setName($name);
 
     /**
@@ -56,6 +75,12 @@ interface MandantInterface
      * @return string
      */
     public function getHash();
+
+    /**
+     * @param string $hash
+     * @return MandantInterface
+     */
+    public function setHash($hash);
     
     /**
      * @return string

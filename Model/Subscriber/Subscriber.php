@@ -7,7 +7,7 @@ use Ibrows\Bundle\NewsletterBundle\Model\Newsletter\NewsletterInterface;
 
 use Doctrine\Common\Collections\ArrayCollection;
 
-abstract class Subscriber implements SubscriberInterface
+abstract class Subscriber implements SubscriberInterface, SubscriberGenderTitleInterface, SubscriberLocaleInterface, SubscriberGroupsInterface
 {
     protected $id;
     
@@ -87,7 +87,7 @@ abstract class Subscriber implements SubscriberInterface
     
     public function setGender($gender)
     {
-    		$this->gender = $gender;
+        $this->gender = $gender;
     }
     
     public function getTitle()
@@ -97,7 +97,7 @@ abstract class Subscriber implements SubscriberInterface
     
     public function setTitle($title)
     {
-    		$this->title = $title;
+        $this->title = $title;
     }
     
     public function getHash()
@@ -169,7 +169,7 @@ abstract class Subscriber implements SubscriberInterface
     
     public function setLastname($lastname)
     {
-    		$this->lastname = $lastname;
+        $this->lastname = $lastname;
     }
     
     public function getFirstname()
@@ -179,7 +179,7 @@ abstract class Subscriber implements SubscriberInterface
     
     public function setFirstname($firstname)
     {
-	    	$this->firstname = $firstname;
+        $this->firstname = $firstname;
     }
     
     public function getCompanyname()
@@ -189,14 +189,8 @@ abstract class Subscriber implements SubscriberInterface
     
     public function setCompanyname($companyname)
     {
-    		$this->companyname = $companyname;
+        $this->companyname = $companyname;
     }
-    
-    protected function generateHash()
-    {
-        return sha1(uniqid().time());
-    }
-
 
     public function getMandant()
     {
@@ -207,5 +201,10 @@ abstract class Subscriber implements SubscriberInterface
     {
         $this->mandant = $mandant;
         return $this;
+    }
+
+    protected function generateHash()
+    {
+        return sha1(uniqid().time());
     }
 }

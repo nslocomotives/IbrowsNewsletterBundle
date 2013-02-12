@@ -80,7 +80,7 @@
                 var $newsletter = new ibrows_newsletter.newsletter({
                     tinymceButtons: {{ tinymceCustomButtons|default()|raw }},
                     selectors: {
-                    		iframeAutoheight: '[data-iframe-auto-height="true"]'
+                        iframeAutoheight: '[data-iframe-auto-height="true"]'
                     }
                 });
                 jQuery(function(){
@@ -92,7 +92,7 @@
 
         <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
         <!--[if lt IE 9]>
-            <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+            <script src="/bundles/ibrowsnewsletter/html5/html5.js"></script>
         <![endif]-->
 
         <!-- Le fav and touch icons -->
@@ -110,16 +110,15 @@
         <div class="navbar navbar-inverse navbar-fixed-top">
             <div class="navbar-inner">
                 <div class="container">
-                    <a class="brand" href="{{ path('ibrows_newsletter_index') }}">{{ 'layout.header.title.newsletterbundle'|trans }}</a>
-                    {% if app.user %}
+                    <a class="brand" href="{{ path('ibrows_newsletter_index') }}">
+                        {{ 'layout.header.title.newsletterbundle'|trans }} - "{{ mandant.name }}"
+                    </a>
 	                <ul class="nav">
+                        <li><a href="{{ url('ibrows_newsletter_mandant_edit') }}">{{ 'mandant.admin'|trans }}</a>
                         <li><a href="{{ url('ibrows_newsletter_list') }}">{{ 'newsletter.list'|trans }}</a></li>
 						<li><a href="{{ url('ibrows_newsletter_design_list') }}">{{ 'design.list'|trans }}</a></li>
                         <li><a href="{{ url('ibrows_newsletter_subscriber_list') }}">{{ 'subscriber.list'|trans }}</a></li>
-	                		<li><a href="{{ url('ibrows_newsletter_mandant_edit') }}">{{ 'mandant.admin'|trans }}</a>
-	                		<li><a href="{{ url('fos_user_security_logout') }}">{{ 'user.logout'|trans }}</a>
 	                </ul>
-	                {% endif %}
                 </div>
             </div>
         </div>
@@ -127,15 +126,16 @@
         <div class="container">
             {% block newsletter_wizard %}{% endblock newsletter_wizard %}
             {% block newsletter_flashes %}
-            {% for flashMessage in app.session.flashbag.get('ibrows_newsletter_error') %}
-			    <div class="alert alert-error">
-			        {{ flashMessage|trans({'%message%': error.message}) }}
-			    </div>
-			{% endfor %}
+                {% for flashMessage in app.session.flashbag.get('ibrows_newsletter_error') %}
+                    <div class="alert alert-error">
+                        {{ flashMessage|trans({'%message%': error.message}) }}
+                    </div>
+                {% endfor %}
             {% endblock newsletter_flashes %}
             {% block newsletter_content %}{% endblock newsletter_content %}
         </div> 
         
     </body>
 </html>
+
 {{ tinymce_init() }}

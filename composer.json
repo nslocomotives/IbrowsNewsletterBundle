@@ -1,16 +1,10 @@
 {
 	"name": "ibrows/newsletter-bundle",
-    
 	"type": "symfony-bundle",
-    
 	"description": "Symfony NewsletterBundle",
-    
 	"keywords": ["Newsletter", "iBROWS"],
-    
 	"homepage": "https://github.com/ibrows/IbrowsNewsletterBundle",
-    
 	"license": "MIT",
-    
 	"authors": [
 		{
 			"name": "Dominik Spengler",
@@ -19,19 +13,15 @@
 		{
 			"name": "Mike Meier",
 			"email": "mike.meier@ibrows.ch"
-		},
+		}
 	],
-    
 	"minimum-stability": "dev",
-    
 	"require": {
 		"symfony/symfony": "2.1.x-dev",
-        "stfalcon/tinymce-bundle": "dev-master"
+        "stfalcon/tinymce-bundle": "*"
     },
-    
     "autoload": {
-        "psr-0": { "Ibrows\\NewsletterBundle": "" }
+        "psr-0": { "Ibrows\\Bundle\\NewsletterBundle": "" }
     },
-    
     "target-dir": "Ibrows/Bundle/NewsletterBundle"
 }

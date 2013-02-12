@@ -15,11 +15,14 @@ use Ibrows\Bundle\NewsletterBundle\Model\Newsletter\NewsletterInterface;
 use Ibrows\Bundle\NewsletterBundle\Model\Mandant\MandantInterface;
 use Ibrows\Bundle\NewsletterBundle\Model\User\MandantUserInterface;
 use Ibrows\Bundle\NewsletterBundle\Model\Subscriber\SubscriberInterface;
+use Ibrows\Bundle\NewsletterBundle\Model\Subscriber\SubscriberGenderTitleInterface;
+use Ibrows\Bundle\NewsletterBundle\Model\Subscriber\SubscriberLocaleInterface;
 use Ibrows\Bundle\NewsletterBundle\Model\Log\LogInterface;
 
 use Ibrows\Bundle\NewsletterBundle\Annotation\Wizard\AnnotationHandler as WizardActionAnnotationHandler;
 
 use Ibrows\Bundle\NewsletterBundle\Renderer\Bridge\BridgeMethodsHelper;
+use Ibrows\Bundle\NewsletterBundle\Renderer\Bridge\RendererBridge;
 
 use Ibrows\Bundle\NewsletterBundle\Encryption\EncryptionInterface;
 
@@ -42,6 +45,9 @@ abstract class AbstractController extends Controller
         return $this->container->getParameter($name);
     }
 
+    /**
+     * @return RendererBridge
+     */
     protected function getRendererBridge()
 	{
 		return $this->get($this->getParameter('ibrows_newsletter.serviceid.rendererbridge'));
@@ -56,9 +62,9 @@ abstract class AbstractController extends Controller
     }
 
     /**
-     * @param integer $newsletterId
-     * @param string $message
-     * @param integer $subscriberId
+     * @param NewsletterInterface $newsletter
+     * @param SubscriberInterface $subscriber
+     * @param $message
      */
     protected function addNewsletterReadLog(NewsletterInterface $newsletter, SubscriberInterface $subscriber, $message)
     {
@@ -67,9 +73,9 @@ abstract class AbstractController extends Controller
     }
 
     /**
-     * @param integer $newsletterId
-     * @param string $message
-     * @param integer $subscriberId
+     * @param NewsletterInterface $newsletter
+     * @param SubscriberInterface $subscriber
+     * @param $message
      */
     protected function addNewsletterSentLog(NewsletterInterface $newsletter, SubscriberInterface $subscriber, $message)
     {
@@ -77,6 +83,12 @@ abstract class AbstractController extends Controller
         $this->addNewsletterLog($logClassName, $newsletter, $subscriber, $message);
     }
 
+    /**
+     * @param string $className
+     * @param NewsletterInterface $newsletter
+     * @param SubscriberInterface $subscriber
+     * @param $message
+     */
     protected function addNewsletterLog($className, NewsletterInterface $newsletter, SubscriberInterface $subscriber, $message)
     {
         /* @var LogInterface $log */
@@ -85,15 +97,25 @@ abstract class AbstractController extends Controller
         $log
             ->setNewsletterId($newsletter->getId())
             ->setSubscriberId($subscriber->getId())
-            ->setSubscriberCompanyname($subscriber->getCompanyname())
             ->setSubscriberEmail($subscriber->getEmail())
-            ->setSubscriberFirstname($subscriber->getFirstname())
-            ->setSubscriberGender($subscriber->getGender())
-            ->setSubscriberLastname($subscriber->getLastname())
-            ->setSubscriberLocale($subscriber->getLocale())
-            ->setSubscriberTitle($subscriber->getTitle())
             ->setMessage($message)
         ;
+
+        if($subscriber instanceof SubscriberGenderTitleInterface){
+            $log
+                ->setSubscriberCompanyname($subscriber->getCompanyname())
+                ->setSubscriberFirstname($subscriber->getFirstname())
+                ->setSubscriberGender($subscriber->getGender())
+                ->setSubscriberLastname($subscriber->getLastname())
+                ->setSubscriberTitle($subscriber->getTitle())
+            ;
+        }
+
+        if($subscriber instanceof SubscriberLocaleInterface){
+            $log
+                ->setSubscriberLocale($subscriber->getLocale())
+            ;
+        }
 
         $this->getObjectManager()->persist($log);
         $this->getObjectManager()->flush();
@@ -150,7 +172,7 @@ abstract class AbstractController extends Controller
         $user = $this->getUser();
 
         if(!$user instanceof MandantUserInterface){
-            throw new InvalidConfigurationException('Make sure you are authenticated and your user class implements the IbrowsNewsletter UserInterface');
+            throw new InvalidConfigurationException('Make sure you are logged in and your user class implements Ibrows\Bundle\NewsletterBundle\Model\User\MandantUserInterface');
         }
 
         return $user->getMandant();
@@ -415,6 +437,7 @@ abstract class AbstractController extends Controller
         $basetemplate = $this->getTemplateManager()->getBaseTemplate();
         $parameters = array_merge($parameters, array(
             'basetemplate' => $basetemplate,
+            'mandant' => $this->getMandant(),
             'tinymceCustomButtons' => json_encode($this->getBridgeMethodsHelper()->getMethodDefinitions())
         ));
     		

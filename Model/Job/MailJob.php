@@ -13,6 +13,7 @@ class MailJob extends AbstractJob
 	protected $returnMail;
 
 	protected $toMail;
+    protected $toName;
 	protected $body;
 	
 	protected $username;
@@ -101,6 +102,17 @@ class MailJob extends AbstractJob
     public function setToMail($toMail)
     {
         $this->toMail = $toMail;
+        return $this;
+    }
+
+    public function getToName()
+    {
+        return $this->toName;
+    }
+
+    public function setToName($name)
+    {
+        $this->toName = $name;
         return $this;
     }
 

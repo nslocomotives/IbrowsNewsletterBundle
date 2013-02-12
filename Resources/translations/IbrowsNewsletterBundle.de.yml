@@ -39,10 +39,10 @@ newsletter:
   dialog:
     abort: abbrechen
   gendertitle:
-    man:
+    male:
       formal: Sehr geehrter Herr %subscriber.lastname%
       informal: Hallo %subscriber.firstname%
-    woman:
+    female:
       formal: Sehr geehrte Frau %subscriber.lastname%
       informal: Hallo %subscriber.firstname%
   error:
@@ -88,8 +88,8 @@ statistic:
     unread: Ungelesen
   jobpiechart:
     status:
-      working: Am versenden
-      onhold: Am warten
+      working: Wird versendet
+      onhold: Warten
       ready: Bereit zum Versand
       completed: Versendet
       error: Fehler
