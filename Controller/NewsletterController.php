@@ -417,7 +417,8 @@ class NewsletterController extends AbstractController
             }
 
             $mailjob->setStatus(MailJob::STATUS_READY);
-
+            
+            $this->addNewsletterSendLog($newsletter, $subscriber, "Mail ready to send: logged by ".__METHOD__);
             $objectManager->persist($mailjob);
             ++$count;
         }
