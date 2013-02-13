@@ -25,7 +25,31 @@ interface MandantManagerInterface
 	 * @return \Ibrows\Bundle\NewsletterBundle\Model\Newsletter\NewsletterManagerInterface
 	 */
 	public function getNewsletterManager($name);
-    
+
+	/**
+	 * @param string $name
+	 * @return \Ibrows\Bundle\NewsletterBundle\Model\Design\DesignManagerInterface
+	 */
+	public function getDesignManager($name);
+
+	/**
+	 * @param string $name
+	 * @return \Ibrows\Bundle\NewsletterBundle\Model\Subscriber\SubscriberManagerInterface
+	 */
+	public function getSubscriberManager($name);
+
+	/**
+	 * @param string $name
+	 * @return \Ibrows\Bundle\NewsletterBundle\Model\Statistic\StatisticManagerInterface
+	 */
+	public function getStatisticManager($name);
+
+	/**
+	 * @param string $name
+	 * @return \Doctrine\Common\Persistence\ObjectManager
+	 */
+	public function getObjectManager($name);
+	
 	/**
 	 * @param string $name
 	 * @param NewsletterInterface $newsletter

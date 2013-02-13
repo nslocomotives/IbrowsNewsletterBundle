@@ -22,10 +22,14 @@ class MandantManager extends BaseMandantManager
 	protected $subscriberClass;
 	protected $designClass;
 	protected $userClass;
+	protected $readLogClass;
+	protected $sendLogClass;
+	protected $unsubscribeLogClass;
 	
 	protected $newsletterManager;
 	protected $designManager;
 	protected $subscriberManager;
+	protected $statisticManager;
 	protected $userProvider;
 
 	public function __construct(
@@ -35,7 +39,10 @@ class MandantManager extends BaseMandantManager
         $newsletterClass, 
         $subscriberClass,
 		$designClass,
-		$userClass
+		$userClass,
+	    $readLogClass,
+	    $sendLogClass,
+	    $unsubscribeLogClass
     ){
 		$this->doctrine = $doctrine;
 		$this->mandants = $mandants;
@@ -45,6 +52,9 @@ class MandantManager extends BaseMandantManager
 		$this->subscriberClass = $subscriberClass;
 		$this->designClass = $designClass;
 		$this->userClass = $userClass;
+		$this->readLogClass = $readLogClass;
+		$this->sendLogClass = $sendLogClass;
+		$this->unsubscribeLogClass = $unsubscribeLogClass;
 	}
 
 	public function get($name)
@@ -106,6 +116,16 @@ class MandantManager extends BaseMandantManager
 		}
 	
 		return $this->designManager;
+	}
+	
+	public function getStatisticManager($name)
+	{
+	    if ($this->statisticManager === null) {
+	        $manager = $this->getObjectManager($name);
+	        $this->statisticManager = new StatisticManager($manager, $this->readLogClass, $this->sendLogClass, $this->unsubscribeLogClass);
+	    }
+	
+	    return $this->statisticManager;
 	}
 	
 	public function persistNewsletter($name, NewsletterInterface $newsletter)

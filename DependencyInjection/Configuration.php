@@ -129,6 +129,7 @@ class Configuration implements ConfigurationInterface
                             ->scalarNode('block')->isRequired()->cannotBeEmpty()->end()
                             ->scalarNode('group')->isRequired()->cannotBeEmpty()->end()
                             ->scalarNode('readlog')->isRequired()->cannotBeEmpty()->end()
+                            ->scalarNode('unsubscribelog')->isRequired()->cannotBeEmpty()->end()
                             ->scalarNode('sentlog')->isRequired()->cannotBeEmpty()->end()
                             ->scalarNode('sendsettings')->isRequired()->cannotBeEmpty()->end()
                             ->scalarNode('mailjob')->isRequired()->cannotBeEmpty()->end()
