@@ -2,6 +2,8 @@
 
 namespace Ibrows\Bundle\NewsletterBundle\Controller;
 
+use Ibrows\Bundle\NewsletterBundle\Model\Subscriber\SubscriberGenderTitleInterface;
+
 use Ibrows\Bundle\NewsletterBundle\Model\Subscriber\SubscriberInterface;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -109,8 +111,8 @@ class NewsletterRenderingController extends AbstractHashMandantController
         $subscriber->setCompanyname('Subscriber Company');
 
         $subscriber->setLocale($this->getRequest()->getLocale());
-        $subscriber->setGender(SubscriberInterface::GENDER_MALE);
-        $subscriber->setTitle(SubscriberInterface::TITLE_FORMAL);
+        $subscriber->setGender(SubscriberGenderTitleInterface::GENDER_MALE);
+        $subscriber->setTitle(SubscriberGenderTitleInterface::TITLE_FORMAL);
 
         return $subscriber;
     }
