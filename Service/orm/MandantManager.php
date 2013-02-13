@@ -1,6 +1,8 @@
 <?php
 namespace Ibrows\Bundle\NewsletterBundle\Service\orm;
 
+use Ibrows\Bundle\NewsletterBundle\Service\ClassManager;
+
 use Ibrows\Bundle\NewsletterBundle\Model\Design\DesignInterface;
 use Ibrows\Bundle\NewsletterBundle\Model\Newsletter\NewsletterInterface;
 
@@ -34,27 +36,20 @@ class MandantManager extends BaseMandantManager
 
 	public function __construct(
         Registry $doctrine,
-		$mandants,
-        $mandantClass, 
-        $newsletterClass, 
-        $subscriberClass,
-		$designClass,
-		$userClass,
-	    $readLogClass,
-	    $sendLogClass,
-	    $unsubscribeLogClass
+	    ClassManager $classManager,
+		$mandants
     ){
 		$this->doctrine = $doctrine;
 		$this->mandants = $mandants;
 		
-		$this->mandantClass = $mandantClass;
-		$this->newsletterClass = $newsletterClass;
-		$this->subscriberClass = $subscriberClass;
-		$this->designClass = $designClass;
-		$this->userClass = $userClass;
-		$this->readLogClass = $readLogClass;
-		$this->sendLogClass = $sendLogClass;
-		$this->unsubscribeLogClass = $unsubscribeLogClass;
+		$this->mandantClass = $classManager->getModel('mandant');
+		$this->newsletterClass = $classManager->getModel('newsletter');
+		$this->subscriberClass = $classManager->getModel('subscriber');
+		$this->designClass = $classManager->getModel('design');
+		$this->userClass = $classManager->getModel('user');
+		$this->readLogClass = $classManager->getModel('readlog');
+		$this->sendLogClass = $classManager->getModel('sendlog');
+		$this->unsubscribeLogClass = $classManager->getModel('unsubscribelog');
 	}
 
 	public function get($name)
