@@ -117,7 +117,13 @@ class MandantManager extends BaseMandantManager
 	{
 	    if ($this->statisticManager === null) {
 	        $manager = $this->getObjectManager($name);
-	        $this->statisticManager = new StatisticManager($manager, $this->readLogClass, $this->sendLogClass, $this->unsubscribeLogClass);
+	        $this->statisticManager = new StatisticManager(
+	                $manager, 
+	                $name, 
+	                $this->readLogClass, 
+	                $this->sendLogClass, 
+	                $this->unsubscribeLogClass
+	         );
 	    }
 	
 	    return $this->statisticManager;

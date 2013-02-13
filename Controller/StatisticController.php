@@ -54,6 +54,7 @@ class StatisticController extends AbstractHashMandantController
             'newsletterId' => $newsletter->getId()
         ));
 
+        $objectManager = $this->getObjectManager();
         $jobs = $objectManager->getRepository($this->getClassManager()->getModel('mailjob'))->findBy(
             array(
                 'newsletterId' => $newsletter->getId()
