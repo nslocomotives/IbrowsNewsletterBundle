@@ -2,14 +2,21 @@
 
 namespace Ibrows\Bundle\NewsletterBundle\Model\Statistic;
 
+use Ibrows\Bundle\NewsletterBundle\Model\Subscriber\SubscriberLocaleInterface;
+use Ibrows\Bundle\NewsletterBundle\Model\Subscriber\SubscriberGenderTitleInterface;
+use Ibrows\Bundle\NewsletterBundle\Model\Subscriber\SubscriberInterface;
+use Ibrows\Bundle\NewsletterBundle\Model\Newsletter\NewsletterInterface;
+
 abstract class StatisticManager implements StatisticManagerInterface
 {
+    protected $mandantName;
 	protected $readLogClass;
 	protected $sendLogClass;
 	protected $unsubscribeLogClass;
 	
-	public function __construct($readLogClass, $sendLogClass, $unsubscribeLogClass)
+	public function __construct($mandantName, $readLogClass, $sendLogClass, $unsubscribeLogClass)
 	{
+	    $this->mandantName = $mandantName;
 		$this->readLogClass = $readLogClass;
 		$this->sendLogClass = $sendLogClass;
 		$this->unsubscribeLogClass = $unsubscribeLogClass;
@@ -32,7 +39,7 @@ abstract class StatisticManager implements StatisticManagerInterface
 	
 	protected function createNewsletterLog($className, NewsletterInterface $newsletter, SubscriberInterface $subscriber, $message)
 	{
-	    /* @var LogInterface $log */
+	    /* @var $log \Ibrows\Bundle\NewsletterBundle\Model\Log\LogInterface */
 	    $log = new $className();
 	    
 	    $log
@@ -40,6 +47,7 @@ abstract class StatisticManager implements StatisticManagerInterface
         	    ->setSubscriberId($subscriber->getId())
         	    ->setSubscriberEmail($subscriber->getEmail())
         	    ->setMessage($message)
+        	    ->setMandantName($this->mandantName)
 	    ;
 	    
 	    if($subscriber instanceof SubscriberGenderTitleInterface){

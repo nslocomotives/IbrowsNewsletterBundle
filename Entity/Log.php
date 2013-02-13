@@ -62,4 +62,9 @@ class Log extends BaseLog
      * @ORM\Column(type="text", nullable=true)
      */
     protected $message;
+
+    /**
+     * @ORM\Column(type="string", name="mandant_name", nullable=true)
+     */
+    protected $mandantName;
 }

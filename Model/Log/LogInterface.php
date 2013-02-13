@@ -123,4 +123,15 @@ interface LogInterface
      * @return LogInterface
      */
     public function setSubscriberCompanyname($companyname);
+    
+    /**
+     * @return string
+     */
+    public function getMandantName();
+    
+    /**
+     * @param string $mandantName
+     * @return LogInterface
+     */
+    public function setMandantName($mandantName);
 }

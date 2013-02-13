@@ -19,6 +19,7 @@ abstract class Log implements LogInterface
 
     protected $createdAt;
     protected $message;
+    protected $mandantName;
 
     public function __construct(){
         $this->createdAt = new \DateTime();
@@ -218,5 +219,25 @@ abstract class Log implements LogInterface
     {
         $this->subscriberCompanyname = $companyname;
         return $this;
+    }
+
+    /**
+     * 
+     * @param string $name
+     * @return LogInterface
+     */
+    public function setMandantName($name)
+    {
+        $this->mandantName = $name;
+        return $this;
+    }
+    
+    /**
+     * 
+     * @return string
+     */
+    public function getMandantName()
+    {
+        return $this->mandantName;
     }
 }
