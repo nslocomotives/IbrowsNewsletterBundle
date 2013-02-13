@@ -46,7 +46,7 @@ class StatisticController extends AbstractHashMandantController
 
         $objectManager = $this->getObjectManager();
 
-        $sentlogs = $objectManager->getRepository($this->getClassManager()->getModel('sentlog'))->findBy(array(
+        $sendlogs = $objectManager->getRepository($this->getClassManager()->getModel('sendlog'))->findBy(array(
             'newsletterId' => $newsletter->getId()
         ));
 

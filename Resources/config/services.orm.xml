@@ -14,7 +14,7 @@
 			<argument>%ibrows_newsletter.classes.model.design%</argument>
 			<argument>%ibrows_newsletter.classes.model.user%</argument>
 			<argument>%ibrows_newsletter.classes.model.readlog%</argument>
-			<argument>%ibrows_newsletter.classes.model.sentlog</argument>
+			<argument>%ibrows_newsletter.classes.model.sendlog</argument>
 			<argument>%ibrows_newsletter.classes.model.unsubscribelog%</argument>
         </service>
     </services>

@@ -77,9 +77,9 @@ abstract class AbstractController extends Controller
      * @param SubscriberInterface $subscriber
      * @param $message
      */
-    protected function addNewsletterSentLog(NewsletterInterface $newsletter, SubscriberInterface $subscriber, $message)
+    protected function addNewsletterSendLog(NewsletterInterface $newsletter, SubscriberInterface $subscriber, $message)
     {
-        $logClassName = $this->getClassManager()->getModel('sentlog');
+        $logClassName = $this->getClassManager()->getModel('sendlog');
         $this->addNewsletterLog($logClassName, $newsletter, $subscriber, $message);
     }
 

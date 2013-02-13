@@ -81,7 +81,7 @@ ibrows_newsletter:
       block:        Ibrows\YourBundle\Entity\Newsletter\Block
       group:        Ibrows\YourBundle\Entity\Newsletter\Group
       readlog:      Ibrows\YourBundle\Entity\Newsletter\Log\ReadLog
-      sentlog:      Ibrows\YourBundle\Entity\Newsletter\Log\SentLog
+      sendlog:      Ibrows\YourBundle\Entity\Newsletter\Log\SendLog
       sendsettings: Ibrows\YourBundle\Entity\Newsletter\SendSettings
       mailjob:      Ibrows\YourBundle\Entity\Newsletter\MailJob
 
