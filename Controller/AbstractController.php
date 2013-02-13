@@ -2,6 +2,7 @@
 
 namespace Ibrows\Bundle\NewsletterBundle\Controller;
 
+use Ibrows\Bundle\NewsletterBundle\Model\Statistic\StatisticManager;
 use Ibrows\Bundle\NewsletterBundle\Service\orm\DesignManager;
 use Ibrows\Bundle\NewsletterBundle\Service\orm\NewsletterManager;
 use Ibrows\Bundle\NewsletterBundle\Service\orm\MandantManager;
@@ -68,8 +69,7 @@ abstract class AbstractController extends Controller
      */
     protected function addNewsletterReadLog(NewsletterInterface $newsletter, SubscriberInterface $subscriber, $message)
     {
-        $logClassName = $this->getClassManager()->getModel('readlog');
-        $this->addNewsletterLog($logClassName, $newsletter, $subscriber, $message);
+        $this->getStatisticManager()->addNewsletterReadLog($newsletter, $subscriber, $message);
     }
 
     /**
@@ -79,46 +79,7 @@ abstract class AbstractController extends Controller
      */
     protected function addNewsletterSendLog(NewsletterInterface $newsletter, SubscriberInterface $subscriber, $message)
     {
-        $logClassName = $this->getClassManager()->getModel('sendlog');
-        $this->addNewsletterLog($logClassName, $newsletter, $subscriber, $message);
-    }
-
-    /**
-     * @param string $className
-     * @param NewsletterInterface $newsletter
-     * @param SubscriberInterface $subscriber
-     * @param $message
-     */
-    protected function addNewsletterLog($className, NewsletterInterface $newsletter, SubscriberInterface $subscriber, $message)
-    {
-        /* @var LogInterface $log */
-        $log = new $className();
-
-        $log
-            ->setNewsletterId($newsletter->getId())
-            ->setSubscriberId($subscriber->getId())
-            ->setSubscriberEmail($subscriber->getEmail())
-            ->setMessage($message)
-        ;
-
-        if($subscriber instanceof SubscriberGenderTitleInterface){
-            $log
-                ->setSubscriberCompanyname($subscriber->getCompanyname())
-                ->setSubscriberFirstname($subscriber->getFirstname())
-                ->setSubscriberGender($subscriber->getGender())
-                ->setSubscriberLastname($subscriber->getLastname())
-                ->setSubscriberTitle($subscriber->getTitle())
-            ;
-        }
-
-        if($subscriber instanceof SubscriberLocaleInterface){
-            $log
-                ->setSubscriberLocale($subscriber->getLocale())
-            ;
-        }
-
-        $this->getObjectManager()->persist($log);
-        $this->getObjectManager()->flush();
+        $this->getStatisticManager()->addNewsletterSendLog($newsletter, $subscriber, $message);
     }
 
     protected function getMandantNameByHash($hash)
@@ -147,6 +108,15 @@ abstract class AbstractController extends Controller
     {
     		return $this->getMandantManager()->getObjectManager($this->getMandantName());
     }
+    
+    /**
+     * @return StatisticManager
+     */
+    protected function getStatisticManager()
+    {
+        return $this->getMandantManager()->getStatisticManager($this->getMandantName());
+    }
+    
     /**
      * @return Session
      */
