@@ -44,13 +44,13 @@ class StatisticController extends AbstractHashMandantController
     {
         $newsletter = $this->getNewsletterById($newsletterId);
 
-        $objectManager = $this->getObjectManager();
+        $statisticManager = $this->getStatisticManager();
 
-        $sendlogs = $objectManager->getRepository($this->getClassManager()->getModel('sendlog'))->findBy(array(
+        $sendlogs = $statisticManager->getSendLogs(array(
             'newsletterId' => $newsletter->getId()
         ));
 
-        $readlogs = $objectManager->getRepository($this->getClassManager()->getModel('readlog'))->findBy(array(
+        $readlogs = $statisticManager->getReadLogs(array(
             'newsletterId' => $newsletter->getId()
         ));
 
