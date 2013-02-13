@@ -140,7 +140,7 @@ class ImageProvider extends AbstractProvider
             return null;
         }
 
-        return $this->request->getSchemeAndHttpHost().$this->publicPath.'/'. $filename;
+        return $this->request->getSchemeAndHttpHost().'/'.$this->request->getBasePath().'/'.$this->publicPath.'/'. $filename;
     }
 
     protected function getFilename(BlockInterface $block)
