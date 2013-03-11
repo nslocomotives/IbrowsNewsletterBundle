@@ -90,7 +90,7 @@ ns.edit = function($options){
         $elements.newBlockDialogAdd.click(function($event){
             $event.preventDefault();
             
-            var $button = jQuery($event.srcElement);
+            var $button = jQuery($event.currentTarget);
             var $form = $button.closest('[data-element="new-block-dialog-provider-form"]');
             
             var $options = {};
@@ -144,7 +144,7 @@ ns.edit = function($options){
 
         jQuery($elements.cloneBlockButton).click(function($event){
             $event.preventDefault();
-            var $button = jQuery($event.srcElement);
+            var $button = jQuery($event.currentTarget);
             var $newsletterId = $button.data('newsletter-id');
             jQuery($elements.cloneBlockNewsletterId).val($newsletterId);
             jQuery($elements.blocksForm).submit();
