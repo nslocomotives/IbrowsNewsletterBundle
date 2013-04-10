@@ -12,7 +12,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\DiscriminatorColumn(name="discr", type="string")
  * @ORM\DiscriminatorMap({
  *      "ReadLog" = "ReadLog",
- *      "SendLog" = "SendLog"
+ *      "SendLog" = "SendLog",
+ *      "UnsubscribeLog" = "UnsubscribeLog"
  * })
  */
 abstract class AbstractLog extends BaseLog
