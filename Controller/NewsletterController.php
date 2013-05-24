@@ -421,6 +421,11 @@ class NewsletterController extends AbstractController
             $this->addNewsletterSendLog($newsletter, $subscriber, "Mail ready to send: logged by ".__METHOD__);
             $objectManager->persist($mailjob);
             ++$count;
+            //TODO: better memory leak handling
+            if ($count % 200 == 0) {
+                $objectManager->flush();
+                $objectManager->clear();
+            };
         }
 
         $objectManager->flush();
