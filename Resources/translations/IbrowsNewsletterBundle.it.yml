@@ -69,6 +69,9 @@ subscriber:
     button: Elimina
     status_ok: Utente eliminato con successo
     status_ko: "Errore imprevisto durante l'eliminazione dell'utente. Contattare l'amministratore di sistema."
+  create:
+    button: Aggiungi
+    status_ok: Utente creato con successo
   multiselect:
     selectable: Utente iscritto
     selected:   Destinatari selezionati
