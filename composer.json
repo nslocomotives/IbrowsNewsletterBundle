@@ -1,9 +1,9 @@
 {
-	"name": "ibrows/newsletter-bundle",
+	"name": "fracasula/newsletter-bundle",
 	"type": "symfony-bundle",
 	"description": "Symfony NewsletterBundle",
 	"keywords": ["Newsletter", "iBROWS"],
-	"homepage": "https://github.com/ibrows/IbrowsNewsletterBundle",
+	"homepage": "https://github.com/fracasula/IbrowsNewsletterBundle",
 	"license": "MIT",
 	"authors": [
 		{
