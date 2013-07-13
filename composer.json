@@ -1,9 +1,9 @@
 {
-	"name": "fracasula/newsletter-bundle",
+	"name": "ibrows/newsletter-bundle",
 	"type": "symfony-bundle",
 	"description": "Symfony NewsletterBundle",
 	"keywords": ["Newsletter", "iBROWS"],
-	"homepage": "https://github.com/fracasula/IbrowsNewsletterBundle",
+	"homepage": "https://github.com/ibrows/IbrowsNewsletterBundle",
 	"license": "MIT",
 	"authors": [
 		{
@@ -13,7 +13,9 @@
 		{
 			"name": "Mike Meier",
 			"email": "mike.meier@ibrows.ch"
-		},
+		}
+	],
+	"contributors": [
 		{
 			"name": "Francesco Casula",
 			"email": "fra.casula@gmail.com"
@@ -21,7 +23,7 @@
 	],
 	"minimum-stability": "dev",
 	"require": {
-		"php": ">=5.4.0",
+		"php": ">=5.3.0",
 		"symfony/framework-bundle": "~2.1",
 		"stfalcon/tinymce-bundle": "*"
 	},
