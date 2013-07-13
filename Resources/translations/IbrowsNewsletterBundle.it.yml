@@ -65,6 +65,10 @@ subscriber:
   company: Azienda
   email: E-Mail
   groups: Gruppi
+  delete:
+    button: Elimina
+    status_ok: Utente eliminato con successo
+    status_ko: "Errore imprevisto durante l'eliminazione dell'utente. Contattare l'amministratore di sistema."
   multiselect:
     selectable: Utente iscritto
     selected:   Destinatari selezionati
