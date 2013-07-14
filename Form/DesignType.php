@@ -17,7 +17,7 @@ class DesignType extends AbstractType
                 'required' => false,
                 'attr' => array(
 	                'class' => 'tinymce',
-	                'data-theme' => 'medium'
+	                'data-theme' => 'advanced'
                 )
             ))
 		;
