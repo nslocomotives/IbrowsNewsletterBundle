@@ -336,4 +336,4 @@ class User extends BaseUser implements MandantUserInterface
 
 ### Roadmap
 
-- Implementing inline editing with x-editable
+- Implementing frontend inline editing
