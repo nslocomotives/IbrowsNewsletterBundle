@@ -333,3 +333,7 @@ class User extends BaseUser implements MandantUserInterface
 
 - Implementing an own GenderTitleStrategy for setting the correct salutation
 - Implementing an own RendererBridge for providing more methods
+
+### Roadmap
+
+- Implementing inline editing with x-editable
