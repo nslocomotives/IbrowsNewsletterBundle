@@ -10,30 +10,22 @@ use Ibrows\Bundle\NewsletterBundle\Service\TemplateManager;
 use Ibrows\Bundle\NewsletterBundle\Service\ClassManager;
 use Ibrows\Bundle\NewsletterBundle\Service\RendererManager;
 use Ibrows\Bundle\NewsletterBundle\Service\BlockProviderManager;
-
 use Ibrows\Bundle\NewsletterBundle\Model\Newsletter\SendSettingsInterface;
 use Ibrows\Bundle\NewsletterBundle\Model\Newsletter\NewsletterInterface;
 use Ibrows\Bundle\NewsletterBundle\Model\Mandant\MandantInterface;
 use Ibrows\Bundle\NewsletterBundle\Model\User\MandantUserInterface;
 use Ibrows\Bundle\NewsletterBundle\Model\Subscriber\SubscriberInterface;
-use Ibrows\Bundle\NewsletterBundle\Model\Subscriber\SubscriberGenderTitleInterface;
-use Ibrows\Bundle\NewsletterBundle\Model\Subscriber\SubscriberLocaleInterface;
-use Ibrows\Bundle\NewsletterBundle\Model\Log\LogInterface;
-
 use Ibrows\Bundle\NewsletterBundle\Annotation\Wizard\AnnotationHandler as WizardActionAnnotationHandler;
-
 use Ibrows\Bundle\NewsletterBundle\Renderer\Bridge\BridgeMethodsHelper;
 use Ibrows\Bundle\NewsletterBundle\Renderer\Bridge\RendererBridge;
-
 use Ibrows\Bundle\NewsletterBundle\Encryption\EncryptionInterface;
-
 use Doctrine\Common\Persistence\ObjectManager;
-
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Doctrine\Common\Collections\Collection;
 
 abstract class AbstractController extends Controller
 {
@@ -82,6 +74,11 @@ abstract class AbstractController extends Controller
         $this->getStatisticManager()->addNewsletterSendLog($newsletter, $subscriber, $message);
     }
 
+    /**
+     * @param string $hash
+     * @return string
+     * @throws InvalidConfigurationException
+     */
     protected function getMandantNameByHash($hash)
     {
         foreach($this->getParameter('ibrows_newsletter.mandants') as $mandantName => $mandantHash){
@@ -361,9 +358,10 @@ abstract class AbstractController extends Controller
 
         return null;
     }
-    
+
     /**
-     * @param SendSettings $sendSettings
+     * @param SendSettingsInterface $sendSettings
+     * @return $this
      */
     protected function setSendSettings(SendSettingsInterface $sendSettings = null)
     {

@@ -28,8 +28,8 @@ class MandantController extends AbstractController
     		
     		$request = $this->getRequest();
     		if ($request->getMethod() == 'POST') {
-    			$mandantForm->bind($request);
-    			$sendSettingsForm->bind($request);
+    			$mandantForm->submit($request);
+    			$sendSettingsForm->submit($request);
     			
     			if ($mandantForm->isValid() && $sendSettingsForm->isValid()) {
     				$om = $this->getObjectManager();

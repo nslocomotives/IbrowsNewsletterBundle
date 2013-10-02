@@ -30,7 +30,12 @@ class IbrowsNewsletterExtension extends Extension
 		$this->registerContainerParametersRecursive($container, $this->getAlias(), $config);
 	}
 
-	protected function registerContainerParametersRecursive(ContainerBuilder $container, $alias, $config)
+    /**
+     * @param ContainerBuilder $container
+     * @param string $alias
+     * @param array $config
+     */
+    protected function registerContainerParametersRecursive(ContainerBuilder $container, $alias, $config)
 	{
 		$iterator = new \RecursiveIteratorIterator(new \RecursiveArrayIterator($config),
             \RecursiveIteratorIterator::SELF_FIRST);

@@ -4,31 +4,43 @@ namespace Ibrows\Bundle\NewsletterBundle\Command;
 
 use Ibrows\Bundle\NewsletterBundle\Model\Mandant\MandantManager;
 use Ibrows\Bundle\NewsletterBundle\Model\Job\MailJob;
-
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Serializer\Exception\UnsupportedException;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
-
 use Doctrine\ORM\EntityManager;
+use Ibrows\Bundle\NewsletterBundle\Model\Job\JobInterface;
 
 class ExecuteMailJobsCommand extends ContainerAwareCommand
 {
     const OPTION_LIMIT = 'limit';
-    
-	protected $jobClass;
+
+    /**
+     * @var string
+     */
+    protected $jobClass;
+
 	/**
 	 * @var MandantManager
 	 */
 	protected $mm;
-	protected $now;
-	protected $successCount;
-	protected $errorCount;
-	
-	/**
-	 * 
-	 */
+
+    /**
+     * @var \DateTime
+     */
+    protected $now;
+
+    /**
+     * @var int
+     */
+    protected $successCount;
+
+    /**
+     * @var int
+     */
+    protected $errorCount;
+
 	protected function configure() {
 		$this
 			->setName('ibrows:newsletter:job:mail:send')
@@ -49,12 +61,12 @@ class ExecuteMailJobsCommand extends ContainerAwareCommand
 		;
 	}
 
-	/**
-	 * @param InputInterface $input
-	 * @param OutputInterface $output
-	 * @throws \LogicException
-	 */
-	protected function execute(InputInterface $input, OutputInterface $output) {
+    /**
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @return int|null|void
+     */
+    protected function execute(InputInterface $input, OutputInterface $output) {
 		$this->jobClass = $this->getContainer()->getParameter('ibrows_newsletter.classes.model.mailjob');
 		$this->mm = $this->getContainer()->get('ibrows_newsletter.mandant_manager');
 		$this->now = new \DateTime();
@@ -76,8 +88,14 @@ class ExecuteMailJobsCommand extends ContainerAwareCommand
 		    $output->writeln(sprintf('Mails unsuccessfully sent: <error>%s</error>', $this->errorCount));
 		}
 	}
-	
-	protected function sendMailJobs(InputInterface $input, OutputInterface $output, $mandantName) {
+
+    /**
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @param string $mandantName
+     * @throws UnsupportedException
+     */
+    protected function sendMailJobs(InputInterface $input, OutputInterface $output, $mandantName) {
 	    $limit = $input->getOption(self::OPTION_LIMIT);
 		
 	    $manager = $this->mm->getObjectManager($mandantName);
@@ -90,7 +108,14 @@ class ExecuteMailJobsCommand extends ContainerAwareCommand
 		$this->sendMails($jobs, $input, $output, $mandantName);
 	}
 
-	protected function getReadyJobsORM($limit, InputInterface $input, OutputInterface $output, EntityManager $manager)	{
+    /**
+     * @param $limit
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @param EntityManager $manager
+     * @return array
+     */
+    protected function getReadyJobsORM($limit, InputInterface $input, OutputInterface $output, EntityManager $manager)	{
 		$manager->getConnection()->beginTransaction();
 		
 		$alias = 'j';
@@ -105,9 +130,9 @@ class ExecuteMailJobsCommand extends ContainerAwareCommand
 		$jobs = array();
 		$iterableResult = $qb->getQuery()->iterate();
 		foreach($iterableResult as $row) {
+            /** @var JobInterface $job */
 		    $job = $row[0];
 		    $jobs[] = $job;
-		    
 		    $job->setStatus(MailJob::STATUS_WORKING);
 		}
 
@@ -117,8 +142,14 @@ class ExecuteMailJobsCommand extends ContainerAwareCommand
 		$manager->getConnection()->commit();
 		return $jobs;
 	}
-	
-	protected function sendMails($jobs, InputInterface $input, OutputInterface $output, $mandantName) {
+
+    /**
+     * @param JobInterface[] $jobs
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @param string $mandantName
+     */
+    protected function sendMails(array $jobs, InputInterface $input, OutputInterface $output, $mandantName) {
 		$manager = $this->mm->getObjectManager($mandantName);
 
 		if($output->getVerbosity() > 1) {

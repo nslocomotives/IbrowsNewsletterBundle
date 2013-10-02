@@ -2,13 +2,11 @@
 
 namespace Ibrows\Bundle\NewsletterBundle\Controller;
 
+use Ibrows\Bundle\NewsletterBundle\Model\Design\DesignInterface;
 use Ibrows\Bundle\NewsletterBundle\Model\Subscriber\SubscriberGenderTitleInterface;
-
 use Ibrows\Bundle\NewsletterBundle\Model\Subscriber\SubscriberInterface;
-
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-
 use Ibrows\Bundle\NewsletterBundle\Entity\Newsletter;
 use Ibrows\Bundle\NewsletterBundle\Entity\Subscriber;
 use Ibrows\Bundle\NewsletterBundle\Block\BlockComposition;
@@ -81,8 +79,12 @@ class NewsletterRenderingController extends AbstractHashMandantController
             'overview' => $overview
         ));
     }
-    
-    protected function createTestNewsletter($design)
+
+    /**
+     * @param DesignInterface $design
+     * @return Newsletter
+     */
+    protected function createTestNewsletter(DesignInterface $design)
     {
         $newsletter = new Newsletter();
 
@@ -99,7 +101,10 @@ class NewsletterRenderingController extends AbstractHashMandantController
 
         return $newsletter;
     }
-    
+
+    /**
+     * @return Subscriber
+     */
     protected function createTestSubscriber()
     {
         $subscriber = new Subscriber();

@@ -2,9 +2,6 @@
 
 namespace Ibrows\Bundle\NewsletterBundle\Model\Subscriber;
 
-use Ibrows\Bundle\NewsletterBundle\Model\Mandant\MandantInterface;
-use Ibrows\Bundle\NewsletterBundle\Model\Newsletter\NewsletterInterface;
-
 interface SubscriberGenderTitleInterface extends SubscriberInterface
 {
     const

@@ -8,7 +8,6 @@ use Ibrows\Bundle\NewsletterBundle\Model\Newsletter\SendSettingsInterface;
 use Ibrows\Bundle\NewsletterBundle\Model\Design\DesignInterface;
 use Ibrows\Bundle\NewsletterBundle\Model\Block\BlockInterface;
 use Ibrows\Bundle\NewsletterBundle\Model\Subscriber\GroupInterface;
-
 use Doctrine\Common\Collections\Collection;
 
 interface MandantInterface

@@ -2,13 +2,10 @@
 
 namespace Ibrows\Bundle\NewsletterBundle\Controller;
 
-use Ibrows\Bundle\NewsletterBundle\Entity\Block;
-
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Ibrows\Bundle\NewsletterBundle\Model\Block\BlockInterface;
 
 /**
  * @Route("/provider")
@@ -48,7 +45,8 @@ class ProviderController extends AbstractController
         $newsletter = $this->getNewsletter();
         
         $blockClassName = $this->getClassManager()->getModel('block');
-        
+
+        /** @var BlockInterface $block */
         $block = new $blockClassName();
         $block->setName($data['name']);
         $block->setProviderOptions($data['option']);

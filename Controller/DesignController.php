@@ -1,4 +1,5 @@
 <?php
+
 namespace Ibrows\Bundle\NewsletterBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -38,7 +39,7 @@ class DesignController extends AbstractController
 		
 		$request = $this->getRequest();
 		if($request->getMethod() == 'POST'){
-			$form->bind($request);
+			$form->submit($request);
 				
 			if($form->isValid()){
 				$this->getMandantManager()->persistDesign($this->getMandantName(), $design);
@@ -62,12 +63,10 @@ class DesignController extends AbstractController
 		
 		$formtype = $this->getClassManager()->getForm('design');
 		$form = $this->createForm(new $formtype(), $design);
-		$renderer = $this->getRendererManager()->get($this->getMandant()->getRendererName());
 		
 		$request = $this->getRequest();
 		if($request->getMethod() == 'POST'){
-			$form->bind($request);
-				
+			$form->submit($request);
 			if($form->isValid()){
 				$this->getMandantManager()->persistDesign($this->getMandantName(), $design);
 			}

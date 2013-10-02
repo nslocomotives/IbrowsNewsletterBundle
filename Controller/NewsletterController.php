@@ -3,19 +3,14 @@
 namespace Ibrows\Bundle\NewsletterBundle\Controller;
 
 use Ibrows\Bundle\NewsletterBundle\Model\Job\MailJob;
-
 use Ibrows\Bundle\NewsletterBundle\Model\Newsletter\NewsletterInterface;
 use Ibrows\Bundle\NewsletterBundle\Model\Block\BlockInterface;
 use Ibrows\Bundle\NewsletterBundle\Model\Subscriber\SubscriberGenderTitleInterface;
-
 use Ibrows\Bundle\NewsletterBundle\Annotation\Wizard\Annotation as WizardAction;
 use Ibrows\Bundle\NewsletterBundle\Annotation\Wizard\AnnotationHandler as WizardActionHandler;
-
 use Doctrine\Common\Collections\Collection;
-
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -28,10 +23,7 @@ class NewsletterController extends AbstractController
 	public function indexAction()
 	{
         $this->setNewsletter(null);
-        
-        return $this->render($this->getTemplateManager()->getNewsletter('index'), array(
-            
-		));
+        return $this->render($this->getTemplateManager()->getNewsletter('index'));
 	}
     
     /**
@@ -40,7 +32,6 @@ class NewsletterController extends AbstractController
 	public function listAction()
 	{
         $this->setNewsletter(null);
-        
 		return $this->render($this->getTemplateManager()->getNewsletter('list'), array(
             'newsletters' => $this->getMandant()->getNewsletters()
 		));
@@ -53,7 +44,6 @@ class NewsletterController extends AbstractController
 	{
         $newsletter = $this->getNewsletterById($id);
         $this->setNewsletter($newsletter);
-        
         return $this->redirect($this->generateUrl('ibrows_newsletter_meta'));
 	}
 	
@@ -63,7 +53,6 @@ class NewsletterController extends AbstractController
 	public function createrediractionAction()
 	{
 		$this->setNewsletter(null);
-
         return $this->redirect($this->generateUrl('ibrows_newsletter_edit'));
 	}
 	
@@ -84,7 +73,7 @@ class NewsletterController extends AbstractController
 		
 		$request = $this->getRequest();
 		if($request->getMethod() == 'POST'){
-			$form->bind($request);
+			$form->submit($request);
 			
 			if($form->isValid()){
                 $this->setNewsletter($newsletter);
@@ -98,10 +87,14 @@ class NewsletterController extends AbstractController
             'wizard' => $this->getWizardActionAnnotationHandler(),
 		));
 	}
-	
+
+    /**
+     * @param WizardActionHandler $handler
+     * @return bool
+     */
     public function metaValidation(WizardActionHandler $handler)
     {
-        
+        return true;
     }
     
 	/**
@@ -164,12 +157,18 @@ class NewsletterController extends AbstractController
             'wizard' => $this->getWizardActionAnnotationHandler(),
 		));
 	}
-    
+
+    /**
+     * @param WizardActionHandler $handler
+     * @return bool|RedirectResponse
+     */
     public function editValidation(WizardActionHandler $handler)
     {
         if(is_null($this->getNewsletter())){
             return $this->redirect($handler->getStepUrl($handler->getLastValidAnnotation()));
         }
+
+        return true;
     }
     
     /**
@@ -190,7 +189,7 @@ class NewsletterController extends AbstractController
         
         $request = $this->getRequest();
         if($request->getMethod() == 'POST'){
-            $form->bind($request);
+            $form->submit($request);
 
             if($form->isValid()){
                 $this->setNewsletter($newsletter);
@@ -204,12 +203,18 @@ class NewsletterController extends AbstractController
             'wizard' => $this->getWizardActionAnnotationHandler(),
 		));
 	}
-    
+
+    /**
+     * @param WizardActionHandler $handler
+     * @return bool|RedirectResponse
+     */
     public function subscriberValidation(WizardActionHandler $handler)
     {
         if(is_null($this->getNewsletter())){
             return $this->redirect($handler->getStepUrl($handler->getLastValidAnnotation()));
         }
+
+        return true;
     }
     
     /**
@@ -245,9 +250,9 @@ class NewsletterController extends AbstractController
         $request = $this->getRequest();
         if($request->getMethod() == 'POST'){
             $plainpassword = $this->decryptPassword($password);
-            $form->bind($request);
+            $form->submit($request);
 	        
-        		// set password from send settings if necessary
+            // set password from send settings if necessary
 			$formpassword = $form->get('password')->getData();
             if($formpassword !== null){
                 $plainpassword = $formpassword;
@@ -266,7 +271,11 @@ class NewsletterController extends AbstractController
             'wizard' => $this->getWizardActionAnnotationHandler(),
 		));
 	}
-    
+
+    /**
+     * @param WizardActionHandler $handler
+     * @return bool|RedirectResponse
+     */
     public function settingsValidation(WizardActionHandler $handler)
     {
         $newsletter = $this->getNewsletter();
@@ -278,6 +287,8 @@ class NewsletterController extends AbstractController
         if(count($newsletter->getSubscribers()) <= 0){
             return $this->redirect($this->generateUrl('ibrows_newsletter_subscriber'));
         }
+
+        return true;
     }
 	
 	/**
@@ -308,7 +319,7 @@ class NewsletterController extends AbstractController
         $request = $this->getRequest();
         $error = '';
         if($request->getMethod() == 'POST' && $request->request->get('testmail')){
-            $testmailform->bind($request);
+            $testmailform->submit($request);
 
             if($testmailform->isValid()){
                 $mandant = $this->getMandant();
@@ -327,6 +338,8 @@ class NewsletterController extends AbstractController
                 
                 $mailjobClass = $this->getClassManager()->getModel('mailjob');
                 $tomail = $testmailform->get('email')->getData();
+
+                /** @var MailJob $mailjob */
                 $mailjob = new $mailjobClass($newsletter, $this->getSendSettings());
                 $mailjob->setToMail($tomail);
                 $mailjob->setBody($overview);
@@ -360,7 +373,11 @@ class NewsletterController extends AbstractController
 	{
         $this->get('ibrows_newsletter.mailer')->send($job);
 	}
-    
+
+    /**
+     * @param WizardActionHandler $handler
+     * @return bool|RedirectResponse
+     */
     public function summaryValidation(WizardActionHandler $handler)
     {
         $newsletter = $this->getNewsletter();
@@ -373,6 +390,8 @@ class NewsletterController extends AbstractController
         if(count($newsletter->getSubscribers()) <= 0){
             return $this->redirect($this->generateUrl('ibrows_newsletter_subscriber'));
         }
+
+        return true;
     }
     
     /**

@@ -1,47 +1,112 @@
 <?php
+
 namespace Ibrows\Bundle\NewsletterBundle\Service\orm;
 
 use Ibrows\Bundle\NewsletterBundle\Service\ClassManager;
-
 use Ibrows\Bundle\NewsletterBundle\Model\Design\DesignInterface;
 use Ibrows\Bundle\NewsletterBundle\Model\Newsletter\NewsletterInterface;
-
 use Ibrows\Bundle\NewsletterBundle\Service\orm\NewsletterManager;
 use Ibrows\Bundle\NewsletterBundle\Service\orm\MandantUserProvider;
 use Ibrows\Bundle\NewsletterBundle\Model\Mandant\Mandant;
 use Ibrows\Bundle\NewsletterBundle\Model\Mandant\MandantManager as BaseMandantManager;
-use Ibrows\Bundle\NewsletterBundle\Service\BlockManager;
-
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Bridge\Doctrine\RegistryInterface;
+use Ibrows\Bundle\NewsletterBundle\Model\Design\DesignManagerInterface;
+use Ibrows\Bundle\NewsletterBundle\Model\Newsletter\NewsletterManagerInterface;
+use Ibrows\Bundle\NewsletterBundle\Model\Subscriber\SubscriberManagerInterface;
+use Ibrows\Bundle\NewsletterBundle\Model\Statistic\StatisticManagerInterface;
+use Symfony\Component\Security\Core\User\UserProviderInterface;
 
 class MandantManager extends BaseMandantManager
 {
-	protected $doctrine;
-	protected $mandants;
-	protected $mandantClass;
-	protected $newsletterClass;
-	protected $subscriberClass;
-	protected $designClass;
-	protected $userClass;
-	protected $readLogClass;
-	protected $sendLogClass;
-	protected $unsubscribeLogClass;
-	
-	protected $newsletterManager;
-	protected $designManager;
-	protected $subscriberManager;
-	protected $statisticManager;
-	protected $userProvider;
+    /**
+     * @var RegistryInterface
+     */
+    protected $doctrine;
 
-	public function __construct(
+    /**
+     * @var array
+     */
+    protected $mandants;
+
+    /**
+     * @var string
+     */
+    protected $mandantClass;
+
+    /**
+     * @var string
+     */
+    protected $newsletterClass;
+
+    /**
+     * @var string
+     */
+    protected $subscriberClass;
+
+    /**
+     * @var string
+     */
+    protected $designClass;
+
+    /**
+     * @var string
+     */
+    protected $userClass;
+
+    /**
+     * @var string
+     */
+    protected $readLogClass;
+
+    /**
+     * @var string
+     */
+    protected $sendLogClass;
+
+    /**
+     * @var string
+     */
+    protected $unsubscribeLogClass;
+
+    /**
+     * @var NewsletterManagerInterface
+     */
+    protected $newsletterManager;
+
+    /**
+     * @var DesignManagerInterface
+     */
+    protected $designManager;
+
+    /**
+     * @var SubscriberManagerInterface
+     */
+    protected $subscriberManager;
+
+    /**
+     * @var StatisticManagerInterface
+     */
+    protected $statisticManager;
+
+    /**
+     * @var UserProviderInterface
+     */
+    protected $userProvider;
+
+    /**
+     * @param Registry $doctrine
+     * @param ClassManager $classManager
+     * @param array $mandants
+     */
+    public function __construct(
         Registry $doctrine,
 	    ClassManager $classManager,
-		$mandants
+		array $mandants
     ){
 		$this->doctrine = $doctrine;
 		$this->mandants = $mandants;
-		
 		$this->mandantClass = $classManager->getModel('mandant');
 		$this->newsletterClass = $classManager->getModel('newsletter');
 		$this->subscriberClass = $classManager->getModel('subscriber');
@@ -52,23 +117,30 @@ class MandantManager extends BaseMandantManager
 		$this->unsubscribeLogClass = $classManager->getModel('unsubscribelog');
 	}
 
-	public function get($name)
+    /**
+     * @param string $name
+     * @return object
+     */
+    public function get($name)
 	{
         $manager = $this->getObjectManager($name);
         $repository = $manager->getRepository($this->mandantClass);
-        
 		return $repository->findOneBy(array('name' => $name));
 	}
-	
-	public function getMandants()
+
+    /**
+     * @return array
+     */
+    public function getMandants()
 	{
 		return $this->mandants;
 	}
-	
-	/**
-	 * (non-PHPdoc)
-	 * @see Ibrows\Bundle\NewsletterBundle\Model\Mandant.MandantManagerInterface::getUserProvider()
-	 */
+
+    /**
+     * @var string $name
+     * @return MandantUserProvider|UserProviderInterface
+     * @see Ibrows\Bundle\NewsletterBundle\Model\Mandant.MandantManagerInterface::getUserProvider()
+     */
 	public function getUserProvider($name)
 	{
 		if ($this->userProvider === null) {
@@ -79,8 +151,12 @@ class MandantManager extends BaseMandantManager
 		
 		return $this->userProvider;
 	}
-	
-	public function getSubscriberManager($name)
+
+    /**
+     * @param string $name
+     * @return SubscriberManagerInterface|SubscriberManager
+     */
+    public function getSubscriberManager($name)
 	{
 		if ($this->subscriberManager === null) {
 			$manager = $this->getObjectManager($name);
@@ -90,8 +166,12 @@ class MandantManager extends BaseMandantManager
 		
 		return $this->subscriberManager;
 	}
-	
-	public function getNewsletterManager($name)
+
+    /**
+     * @param string $name
+     * @return NewsletterManagerInterface|NewsletterManager
+     */
+    public function getNewsletterManager($name)
 	{
 		if ($this->newsletterManager === null) {
 			$manager = $this->getObjectManager($name);
@@ -101,8 +181,12 @@ class MandantManager extends BaseMandantManager
 		
 		return $this->newsletterManager;
 	}
-	
-	public function getDesignManager($name)
+
+    /**
+     * @param string $name
+     * @return DesignManagerInterface|DesignManager
+     */
+    public function getDesignManager($name)
 	{
 		if ($this->designManager === null) {
 			$manager = $this->getObjectManager($name);
@@ -112,8 +196,12 @@ class MandantManager extends BaseMandantManager
 	
 		return $this->designManager;
 	}
-	
-	public function getStatisticManager($name)
+
+    /**
+     * @param string $name
+     * @return StatisticManagerInterface|StatisticManager
+     */
+    public function getStatisticManager($name)
 	{
 	    if ($this->statisticManager === null) {
 	        $manager = $this->getObjectManager($name);
@@ -128,8 +216,13 @@ class MandantManager extends BaseMandantManager
 	
 	    return $this->statisticManager;
 	}
-	
-	public function persistNewsletter($name, NewsletterInterface $newsletter)
+
+    /**
+     * @param string $name
+     * @param NewsletterInterface $newsletter
+     * @return NewsletterInterface|null
+     */
+    public function persistNewsletter($name, NewsletterInterface $newsletter)
 	{
 		$manager = $this->getObjectManager($name);
 		$newsletter->setMandant($this->get($name));

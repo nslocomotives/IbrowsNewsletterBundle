@@ -3,37 +3,73 @@
 namespace Ibrows\Bundle\NewsletterBundle\Model\Block;
 
 use Ibrows\Bundle\NewsletterBundle\Model\Newsletter\NewsletterInterface;
-
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\DBAL\Types\BlobType;
 
 abstract class Block implements BlockInterface
 {
+    /**
+     * @var int
+     */
     protected $id;
-    
+
+    /**
+     * @var string
+     */
     protected $name;
+
+    /**
+     * @var string
+     */
     protected $content;
+
+    /**
+     * @var int
+     */
     protected $position;
-    
+
+    /**
+     * @var string
+     */
     protected $providerName;
+
+    /**
+     * @var array
+     */
     protected $providerOptions = array();
-    
+
+    /**
+     * @var NewsletterInterface
+     */
     protected $newsletter;
-    
+
+    /**
+     * @var BlockInterface
+     */
     protected $parentBlock;
+
+    /**
+     * @var Collection|BlockInterface[]
+     */
     protected $blocks;
     
     public function __construct()
     {
         $this->blocks = new ArrayCollection();
     }
-    
+
+    /**
+     * @return int
+     */
     public function getId()
     {
         return $this->id;
     }
 
+    /**
+     * @return bool
+     */
     public function isCompound()
     {
         return count($this->blocks) > 0;
@@ -48,7 +84,7 @@ abstract class Block implements BlockInterface
     }
     
     /**
-     * @param type $name
+     * @param string $name
      * @return Block
      */
     public function setName($name)
@@ -170,9 +206,10 @@ abstract class Block implements BlockInterface
         $this->newsletter = $newsletter;
         return $this;
     }
-    
+
     /**
-     * @return BlockInterface
+     * @param array $blocks
+     * @return $this
      */
     public function addBlocks(array $blocks)
     {

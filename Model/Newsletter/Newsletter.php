@@ -1,20 +1,31 @@
 <?php
+
 namespace Ibrows\Bundle\NewsletterBundle\Model\Newsletter;
 
 use Ibrows\Bundle\NewsletterBundle\Model\Block\BlockInterface;
 use Ibrows\Bundle\NewsletterBundle\Model\Design\DesignInterface;
 use Ibrows\Bundle\NewsletterBundle\Model\Subscriber\SubscriberInterface;
 use Ibrows\Bundle\NewsletterBundle\Model\Mandant\MandantInterface;
-
 use Doctrine\Common\Collections\ArrayCollection;
-
 use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\Collection;
 
 abstract class Newsletter implements NewsletterInterface
 {
-	protected $id;
-	protected $blocks;
-	protected $mandant;
+    /**
+     * @var int
+     */
+    protected $id;
+
+    /**
+     * @var Collection|BlockInterface[]
+     */
+    protected $blocks;
+
+    /**
+     * @var MandantInterface
+     */
+    protected $mandant;
 	
     /**
 	 * @var string
@@ -182,7 +193,7 @@ abstract class Newsletter implements NewsletterInterface
 	}
 
     /**
-     * @param type $returnMail
+     * @param string $returnMail
      * @return Newsletter
      */
 	public function setReturnMail($returnMail)

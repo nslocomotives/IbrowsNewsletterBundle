@@ -31,8 +31,7 @@ class UnsubscribeController extends AbstractHashMandantController
         $form = $this->createForm(new $formtype($this->getMandantName(), $groupClass), $subscriber);
 
         if($request->getMethod() == 'POST'){
-            $form->bind($request);
-
+            $form->submit($request);
             if($form->isValid()){
                 $this->setNewsletter($newsletter);
             }

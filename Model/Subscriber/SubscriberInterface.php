@@ -13,6 +13,12 @@ interface SubscriberInterface
     public function getId();
 
     /**
+     * @param MandantInterface $mandant
+     * @return SubscriberInterface
+     */
+    public function setMandant(MandantInterface $mandant);
+
+    /**
      * @return string
      */
     public function __toString();

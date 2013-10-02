@@ -3,16 +3,26 @@
 namespace Ibrows\Bundle\NewsletterBundle\Form;
 
 use Doctrine\Common\Persistence\ObjectManager;
-
 use Symfony\Bridge\Doctrine\Form\ChoiceList\EntityChoiceList;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 
 class UnsubscribeType extends AbstractType
 {
+    /**
+     * @var string
+     */
     protected $managerName;
+
+    /**
+     * @var string
+     */
     protected $groupClass;
 
+    /**
+     * @param string $managerName
+     * @param string $groupClass
+     */
     public function __construct($managerName, $groupClass)
     {
         $this->managerName = $managerName;
@@ -40,5 +50,4 @@ class UnsubscribeType extends AbstractType
     public function getName() {
         return 'ibrows_newsletterbundle_unsubscribe';
     }
-
 }

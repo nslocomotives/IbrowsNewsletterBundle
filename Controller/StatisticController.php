@@ -2,12 +2,9 @@
 
 namespace Ibrows\Bundle\NewsletterBundle\Controller;
 
-use Ibrows\Bundle\NewsletterBundle\Model\Log\LogInterface;
 use Ibrows\Bundle\NewsletterBundle\Model\Job\JobInterface;
-
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -46,9 +43,9 @@ class StatisticController extends AbstractHashMandantController
 
         $statisticManager = $this->getStatisticManager();
 
-        $sendlogs = $statisticManager->getSendLogs(array(
+        /*$sendlogs = $statisticManager->getSendLogs(array(
             'newsletterId' => $newsletter->getId()
-        ));
+        ));*/
 
         $readlogs = $statisticManager->getReadLogs(array(
             'newsletterId' => $newsletter->getId()

@@ -69,7 +69,13 @@ class ImageProvider extends AbstractProvider
         
         return $string;
     }
-    
+
+    /**
+     * @param BlockInterface $block
+     * @param $update
+     * @return $this|bool
+     * @throws \InvalidArgumentException
+     */
     public function updateBlock(BlockInterface $block, $update)
     {
         if(!$update instanceof UploadedFile){
@@ -89,12 +95,12 @@ class ImageProvider extends AbstractProvider
         list($orgWidth, $orgHeight, $type) = getimagesize($filePath);
         
         if ($this->width === null)
-        		return;
+            return $this;
         
         $newWidth = $this->width;
         $newHeight = round($orgHeight/$orgWidth*$newWidth);
         if ($newWidth > $orgWidth)
-        		return;
+            return $this;
         
         $newImage = imagecreatetruecolor($newWidth, $newHeight);
         
@@ -121,6 +127,8 @@ class ImageProvider extends AbstractProvider
         
         imagecopyresampled($newImage, $orgImage, 0, 0, 0, 0, $newWidth, $newHeight, $orgWidth, $orgHeight);
         imagepng($newImage, $filePath);
+
+        return $this;
     }
     
     protected function getFilePath(BlockInterface $block)

@@ -5,9 +5,9 @@ namespace Ibrows\Bundle\NewsletterBundle\Command;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
-
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputInterface;
+use Ibrows\Bundle\NewsletterBundle\Model\Mandant\MandantInterface;
 
 class EnableMandantsCommand extends ContainerAwareCommand
 {
@@ -42,6 +42,7 @@ class EnableMandantsCommand extends ContainerAwareCommand
             if(!$mandant){
                 $output->writeln('Creating mandant <info>'. $mandantName .'</info>');
 
+                /** @var MandantInterface $mandant */
                 $mandant = new $mandantClassName();
 
                 $mandant->setName($mandantName);

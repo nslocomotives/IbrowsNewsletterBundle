@@ -6,6 +6,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Response;
 use Ibrows\Bundle\NewsletterBundle\Form\CreateSubscriberType;
+use Ibrows\Bundle\NewsletterBundle\Model\Subscriber\SubscriberInterface;
 
 /**
  * @Route("/subscriber")
@@ -18,7 +19,6 @@ class SubscriberController extends AbstractController
     public function listAction()
     {
         $subscribers = $this->getSubscribers();
-
         return $this->render($this->getTemplateManager()->getSubscriber('list'), array(
             'subscribers' => $subscribers
         ));
@@ -31,16 +31,15 @@ class SubscriberController extends AbstractController
 	{
 		$entity = $this->container->getParameter('ibrows_newsletter.classes.model.subscriber');
 
+        /** @var SubscriberInterface $subscriber */
 		$subscriber = new $entity();
 
 		$form = $this->createForm(new CreateSubscriberType($this->getMandantName(), $entity), $subscriber);
 
-		if ($this->getRequest()->isMethod('POST'))
-		{
-			$form->bind($this->getRequest());
+		if ($this->getRequest()->isMethod('POST')){
+			$form->submit($this->getRequest());
 
-			if ($form->isValid())
-			{
+			if ($form->isValid()){
 				$subscriber->setMandant($this->getMandant());
 
 				$em = $this->getDoctrine()->getManager($this->getMandantName());

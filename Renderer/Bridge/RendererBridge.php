@@ -2,6 +2,7 @@
 
 namespace Ibrows\Bundle\NewsletterBundle\Renderer\Bridge;
 
+use Ibrows\Bundle\NewsletterBundle\Model\Subscriber\SubscriberGenderTitleInterface;
 use Ibrows\Bundle\NewsletterBundle\Model\Subscriber\SubscriberInterface;
 use Ibrows\Bundle\NewsletterBundle\Model\Newsletter\NewsletterInterface;
 use Ibrows\Bundle\NewsletterBundle\Model\Mandant\MandantInterface;
@@ -104,9 +105,13 @@ class RendererBridge
     /**
      * @param SubscriberInterface $subscriber
      * @return string
+     * @throws \InvalidArgumentException
      */
     public function gendertitle(SubscriberInterface $subscriber)
     {
+        if(!$subscriber instanceof SubscriberGenderTitleInterface){
+            throw new \InvalidArgumentException("Subscriber has to implement SubscriberGenderTitleInterface for gendertitle method");
+        }
         return $this->genderTitleStrategy->getGenderTitle($subscriber);
     }
 }

@@ -1,18 +1,26 @@
 <?php
+
 namespace Ibrows\Bundle\NewsletterBundle\Form;
 
-use Doctrine\Common\Persistence\ObjectManager;
-
-use Symfony\Bridge\Doctrine\Form\ChoiceList\EntityChoiceList;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 
 class SubscriberType extends AbstractType
 {
-	protected $managerName;
-	protected $subscriberClass;
-	
-	public function __construct($managerName, $subscriberClass)
+    /**
+     * @var string
+     */
+    protected $managerName;
+
+    /**
+     * @var string
+     */
+    protected $subscriberClass;
+
+    /**
+     * @param string $managerName
+     * @param string $subscriberClass
+     */
+    public function __construct($managerName, $subscriberClass)
 	{
 		$this->managerName = $managerName;
 		$this->subscriberClass = $subscriberClass;
@@ -39,5 +47,4 @@ class SubscriberType extends AbstractType
 	public function getName() {
 		return 'ibrows_newsletterbundle_subscriber';
 	}
-
 }

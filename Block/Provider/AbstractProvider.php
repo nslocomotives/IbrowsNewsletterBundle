@@ -7,33 +7,62 @@ use Ibrows\Bundle\NewsletterBundle\Model\Block\BlockInterface;
 
 abstract class AbstractProvider implements ProviderInterface
 {
+    /**
+     * @var BlockProviderManager
+     */
     protected $blockProviderManager;
-    
+
+    /**
+     * @param BlockInterface $block
+     * @param $blockClassName
+     * @return $this|ProviderInterface
+     */
     public function initialize(BlockInterface $block, $blockClassName)
     {
         return $this;
     }
-    
+
+    /**
+     * @param BlockInterface $block
+     * @param mixed $update
+     * @return $this|ProviderInterface
+     */
     public function updateBlock(BlockInterface $block, $update)
     {
         return $this;
     }
 
+    /**
+     * @param BlockInterface $block
+     * @return $this|ProviderInterface
+     */
     public function updateClonedBlock(BlockInterface $block)
     {
         return $this;
     }
-    
+
+    /**
+     * @return array
+     */
     public function getOptionKeys()
     {
         return array();
     }
-    
+
+    /**
+     * @param BlockProviderManager $blockProviderManager
+     * @return ProviderInterface
+     */
     public function setBlockProviderManager(BlockProviderManager $blockProviderManager)
     {
         $this->blockProviderManager = $blockProviderManager;
+        return $this;
     }
-    
+
+    /**
+     * @param BlockInterface $block
+     * @return string
+     */
     public function getBlockDisplayContent(BlockInterface $block)
     {
         $content = $this->getStartBlockDisplayContent($block);
@@ -51,7 +80,11 @@ abstract class AbstractProvider implements ProviderInterface
         
         return $content.$this->getEndBlockDisplayContent($block);
     }
-    
+
+    /**
+     * @param BlockInterface $block
+     * @return string
+     */
     public function getBlockEditContent(BlockInterface $block)
     {
         $content = $this->getStartBlockEditContent($block);
@@ -69,42 +102,74 @@ abstract class AbstractProvider implements ProviderInterface
         
         return $content.$this->getEndBlockEditContent($block);
     }
-    
+
+    /**
+     * @param BlockInterface $block
+     * @return string
+     */
     protected function getStartBlockDisplayContent(BlockInterface $block)
     {
         return '';
     }
-    
+
+    /**
+     * @param BlockInterface $block
+     * @return string
+     */
     protected function getEndBlockDisplayContent(BlockInterface $block)
     {
         return '';
     }
-    
+
+    /**
+     * @param BlockInterface $block
+     * @return string
+     */
     protected function getPreBlockDisplayContent(BlockInterface $block)
     {
         return '';
     }
-    
+
+    /**
+     * @param BlockInterface $block
+     * @return string
+     */
     protected function getPostBlockDisplayContent(BlockInterface $block)
     {
         return '';
     }
-    
+
+    /**
+     * @param BlockInterface $block
+     * @return string
+     */
     protected function getStartBlockEditContent(BlockInterface $block)
     {
         return '';
     }
-    
+
+    /**
+     * @param BlockInterface $block
+     * @return string
+     */
     protected function getEndBlockEditContent(BlockInterface $block)
     {
         return '';
     }
-    
+
+    /**
+     * @param BlockInterface $block
+     * @return string
+     */
     protected function getPreBlockEditContent(BlockInterface $block)
     {
         return '';
     }
-    
+
+    /**
+     * @param BlockInterface $block
+     * @return string
+     */
     protected function getPostBlockEditContent(BlockInterface $block)
     {
         return '';
