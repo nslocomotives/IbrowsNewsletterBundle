@@ -2,44 +2,52 @@
 
 namespace Ibrows\Bundle\NewsletterBundle\Service;
 
+use Ibrows\Bundle\NewsletterBundle\Encryption\EncryptionInterface;
 use Ibrows\Bundle\NewsletterBundle\Model\Job\MailJob;
 
 class MailerService
 {
-	protected $mailer;
-	protected $transport;
-	protected $encryption;
-	
-	public function __construct($mailer, $transport, $encryption)
+    /**
+     * @var EncryptionInterface
+     */
+    protected $encryption;
+
+    /**
+     * @param EncryptionInterface $encryption
+     */
+    public function __construct(EncryptionInterface $encryption)
+    {
+        $this->encryption = $encryption;
+    }
+
+    /**
+     * @param MailJob $job
+     * @return array $failedRecipients
+     */
+    public function send(MailJob $job)
 	{
-		$this->mailer = $mailer;
-		$this->transport = $transport;
-		$this->encryption = $encryption;
-	}
-	
-	public function send(MailJob $job)
-	{
-		$message = \Swift_Message::newInstance()
-			->setSubject($job->getSubject())
+        $to = $job->getToName() ? array($job->getToMail() => $job->getToName()) : $job->getToMail();
+
+		$message = \Swift_Message::newInstance($job->getSubject(), $job->getBody(), 'text/html', 'utf8')
 			->setFrom(array($job->getSenderMail() => $job->getSenderName()))
 			->setReturnPath($job->getReturnMail())
-			->setBody($job->getBody())
-			->setContentType('text/html')
+            ->setTo($to)
 		;
 
-        $to = $job->getToName() ? array($job->getToMail() => $job->getToName()) : $job->getToMail();
-        $message->setTo($to);
-		
-		$this->transport->setUsername($job->getUsername());
-		$password = $this->encryption->decrypt($job->getPassword(), $job->getSalt());
-		$this->transport->setPassword($password);
-		
-		$this->transport->setHost($job->getHost());
-		$this->transport->setPort($job->getPort());
-		$this->transport->setEncryption($job->getEncryption());
-		$this->transport->setAuthMode($job->getAuthMode());
-		
-		$this->mailer->newInstance($this->transport)->send($message);
+        $transport = \Swift_SmtpTransport::newInstance($job->getHost(), $job->getPort())
+            ->setUsername($job->getUsername())
+            ->setPassword($this->encryption->decrypt($job->getPassword(), $job->getSalt()))
+            ->setEncryption($job->getEncryption())
+        ;
+
+        //$transport->setAuthMode($job->getAuthMode());
+
+        $mailer = \Swift_Mailer::newInstance($transport);
+
+        $failedRecipients = array();
+        $mailer->send($message, $failedRecipients);
+
+        return $failedRecipients;
 	}
 	
 }
