@@ -116,6 +116,14 @@ abstract class AbstractController extends Controller
     {
         return $this->getMandantManager()->getStatisticManager($this->getMandantName());
     }
+
+	/**
+	 * @return \Ibrows\Bundle\NewsletterBundle\Service\orm\SubscriberManager
+	 */
+	protected function getSubscriberManager()
+	{
+		return $this->getMandantManager()->getSubscriberManager($this->getMandantName());
+	}
     
     /**
      * @return Session

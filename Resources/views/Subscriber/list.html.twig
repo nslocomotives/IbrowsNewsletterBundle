@@ -5,6 +5,12 @@
 {% block newsletter_content %}
     <h1>{{ 'subscriber.list'|trans }}</h1>
 
+	{% for flashMessage in app.session.flashbag.get('notice') %}
+		<div class="alert">
+			{{ flashMessage|trans }}
+		</div>
+	{% endfor %}
+
     <table class="table table-striped">
         <thead>
         <tr>
@@ -14,6 +20,7 @@
             <th>{{ 'subscriber.company'|trans }}</th>
             <th>{{ 'subscriber.email'|trans }}</th>
             <th>{{ 'subscriber.groups'|trans }}</th>
+	        <th>&nbsp;</th>
         </tr>
         </thead>
         <tbody>
@@ -25,8 +32,15 @@
                 <td>{{ subscriber.companyname }}</td>
                 <td>{{ subscriber.email }}</td>
                 <td>{{ subscriber.groups|join(',') }}</td>
+	            <td>
+		            <a class="btn btn-danger" href="{{ path('ibrows_newsletter_subscriber_delete', { id: subscriber.id }) }}">
+			            {{ 'subscriber.delete.button'|trans }}
+		            </a>
+	            </td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
+
+	<a class="btn btn-primary" href="{{ path('ibrows_newsletter_subscriber_create') }}">{{ 'subscriber.create.button'|trans }}</a>
 {% endblock newsletter_content %}

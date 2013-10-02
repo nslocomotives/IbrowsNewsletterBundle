@@ -1,24 +1,30 @@
 {
-	"name": "ibrows/newsletter-bundle",
-	"type": "symfony-bundle",
-	"description": "Symfony NewsletterBundle",
-	"keywords": ["Newsletter", "iBROWS"],
-	"homepage": "https://github.com/ibrows/IbrowsNewsletterBundle",
-	"license": "MIT",
-	"authors": [
-		{
-			"name": "Dominik Spengler",
-			"email": "dominik.spengler@ibrows.ch"
-		},
-		{
-			"name": "Mike Meier",
-			"email": "mike.meier@ibrows.ch"
-		}
-	],
-	"minimum-stability": "stable",
-	"require": {
-		"symfony/symfony": "~2.3",
-        	"stfalcon/tinymce-bundle": "*"
+    "name": "ibrows/newsletter-bundle",
+    "type": "symfony-bundle",
+    "description": "Symfony NewsletterBundle",
+    "keywords": ["Newsletter", "iBROWS"],
+    "homepage": "https://github.com/ibrows/IbrowsNewsletterBundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Dominik Spengler",
+            "email": "dominik.spengler@ibrows.ch"
+        },
+        {
+            "name": "Mike Meier",
+            "email": "mike.meier@ibrows.ch"
+        }
+    ],
+    "contributors": [
+        {
+            "name": "Francesco Casula",
+            "email": "fra.casula@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "symfony/symfony": "~2.3",
+        "stfalcon/tinymce-bundle": "*"
     },
     "autoload": {
         "psr-0": { "Ibrows\\Bundle\\NewsletterBundle": "" }

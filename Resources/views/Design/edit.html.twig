@@ -3,10 +3,11 @@
 {% block layout_class %}design-edit{% endblock layout_class %}
 
 {% block head_javascripts %}
-{{ parent() }}
-<script type="text/javascript">
-jQuery('[data-element="overview"]').iframeAutoHeight();
-</script>
+	{{ parent() }}
+
+	<script type="text/javascript">
+		$('[data-element="overview"]').iframeAutoHeight();
+	</script>
 {% endblock %}
 
 {% block newsletter_content %}
@@ -20,9 +21,11 @@ jQuery('[data-element="overview"]').iframeAutoHeight();
             <input class="btn btn-primary" type="submit" name="edit" value="{{ 'form.save'|trans }}">
         </div>
     </form>
-    
+
     <h1>{{ 'design.preview'|trans }}</h1>
     <div class="newsletter-overview">
-		<iframe data-iframe-auto-height="true" src="{{ url('ibrows_newsletter_render_design', {'id' : design.id}) }}" />
+		<iframe data-iframe-auto-height="true" src="{{ url('ibrows_newsletter_render_design', {'id' : design.id}) }}"></iframe>
 	</div>
+
+	{{ tinymce_init() }}
 {% endblock %}
