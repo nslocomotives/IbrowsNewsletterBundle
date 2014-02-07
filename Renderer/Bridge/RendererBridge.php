@@ -56,7 +56,7 @@ class RendererBridge
             true
         );
 
-        return '<img src="'. $src .'" />';
+        return '<img width="0" height="0" src="'. $src .'" />';
     }
 
     /**
