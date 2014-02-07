@@ -51,10 +51,6 @@ class StatisticController extends AbstractHashMandantController
 
         $statisticManager = $this->getStatisticManager();
 
-        $sendlogs = $statisticManager->getSendLogs(array(
-            'newsletterId' => $newsletter->getId()
-        ));
-
         $readlogs = $statisticManager->getReadLogs(array(
             'newsletterId' => $newsletter->getId()
         ));
