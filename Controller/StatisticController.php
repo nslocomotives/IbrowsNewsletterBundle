@@ -22,19 +22,24 @@ class StatisticController extends AbstractHashMandantController
      */
     public function logreadAction($mandantHash, $newsletterHash, $subscriberHash)
     {
+        $imageResponse = new Response(base64_decode(self::TRANSPARENT_GIF), 200, array(
+            'Content-Type' => 'image/gif'
+        ));
+
+        // if a context is set, its testing or dev --> no log
+        if($this->getRequest()->query->get('context')){
+            return $imageResponse;
+        }
+
         $this->setMandantNameByHash($mandantHash);
 
         $newsletter = $this->getNewsletterByHash($newsletterHash);
         $subscriber = $this->getSubscriberByHash($newsletter, $subscriberHash);
 
-        // if no context is set, its live --> log
-        if(!$this->getRequest()->query->get('context')){
-            $this->addNewsletterReadLog($newsletter, $subscriber, "Newsletter read: logged by ".__METHOD__);
-        }
+        // log a read
+        $this->addNewsletterReadLog($newsletter, $subscriber, "Newsletter read: logged by ".__METHOD__);
 
-        return new Response(base64_decode(self::TRANSPARENT_GIF), 200, array(
-            'Content-Type' => 'image/gif'
-        ));
+        return $imageResponse;
     }
 
     /**
