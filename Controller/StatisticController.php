@@ -2,9 +2,11 @@
 
 namespace Ibrows\Bundle\NewsletterBundle\Controller;
 
+use Ibrows\Bundle\NewsletterBundle\Model\Job\MailJob;
 use Ibrows\Bundle\NewsletterBundle\Model\Log\LogInterface;
 use Ibrows\Bundle\NewsletterBundle\Model\Job\JobInterface;
 
+use Ibrows\Bundle\NewsletterBundle\Model\Log\Log;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
@@ -51,11 +53,14 @@ class StatisticController extends AbstractHashMandantController
 
         $statisticManager = $this->getStatisticManager();
 
+        /** @var Log[] $readlogs */
         $readlogs = $statisticManager->getReadLogs(array(
             'newsletterId' => $newsletter->getId()
         ));
 
         $objectManager = $this->getObjectManager();
+
+        /** @var MailJob[] $jobs */
         $jobs = $objectManager->getRepository($this->getClassManager()->getModel('mailjob'))->findBy(
             array(
                 'newsletterId' => $newsletter->getId()
@@ -67,6 +72,7 @@ class StatisticController extends AbstractHashMandantController
 
         $foundSubscriberIds = array();
         $filteredReadlogs = array_filter($readlogs, function($readlog)use(&$foundSubscriberIds){
+            /** @var Log $readlog */
             $subscriberId = $readlog->getSubscriberId();
             if(!in_array($subscriberId, $foundSubscriberIds)){
                 $foundSubscriberIds[] = $subscriberId;
@@ -87,7 +93,7 @@ class StatisticController extends AbstractHashMandantController
         $jobStati = array_keys($jobPie);
 
         $jobsSortedByCompleted = $jobs;
-        usort($jobsSortedByCompleted, function($a, $b){
+        usort($jobsSortedByCompleted, function(MailJob $a, MailJob $b){
             $dateA = $a->getCompleted() ?: $a->getCreated();
             $dateB = $b->getCompleted() ?: $b->getCreated();
             return $dateA > $dateB;
