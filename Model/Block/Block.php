@@ -48,7 +48,7 @@ abstract class Block implements BlockInterface
     }
     
     /**
-     * @param type $name
+     * @param string $name
      * @return Block
      */
     public function setName($name)

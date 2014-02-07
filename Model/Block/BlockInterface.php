@@ -67,4 +67,15 @@ interface BlockInterface extends RenderableInterface
     
     public function getNewsletter();
     public function setNewsletter(NewsletterInterface $newsletter = null);
+
+    /**
+     * @return string
+     */
+    public function getName();
+
+    /**
+     * @param string $name
+     * @return BlockInterface
+     */
+    public function setName($name);
 }
