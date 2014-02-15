@@ -8,12 +8,12 @@ use Doctrine\ORM\Mapping as ORM;
 
 class Mandant extends AbstractMandant
 {
-	/**
-	 * @var string
-	 * 
-	 * @ORM\Column(type="string", unique=true)
-	 */
-	protected $name;
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", unique=true)
+     */
+    protected $name;
 
     /**
      * @var string
@@ -28,19 +28,19 @@ class Mandant extends AbstractMandant
      * @ORM\Column(type="string")
      */
     protected $salt;
-    
-	/**
-	 * @var string
-	 * 
-	 * @ORM\Column(type="string", name="renderer_name")
-	 */
-	protected $rendererName;
-	
-	/**
-	 * @var unknown_type
-	 * 
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", name="renderer_name")
+     */
+    protected $rendererName;
+
+    /**
+     * @var unknown_type
+     *
      * @ORM\OneToOne(targetEntity="SendSettings")
      * @ORM\JoinColumn(name="send_settings_id", referencedColumnName="id")
-	 */
-	protected $sendSettings;
+     */
+    protected $sendSettings;
 }

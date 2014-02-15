@@ -12,7 +12,8 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class GenerateEntitiesCommand extends ContainerAwareCommand
 {
-    protected function configure(){
+    protected function configure()
+    {
         $this
             ->setName('ibrows:newsletter:entities:generate')
             ->setDescription('Generates the needed entities')
@@ -23,19 +24,20 @@ class GenerateEntitiesCommand extends ContainerAwareCommand
     }
 
     /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
+     * @param  InputInterface  $input
+     * @param  OutputInterface $output
      * @throws Exception
      * @todo Getting Path from Doctrine MetadataFactory or anywhere from Symfony
      */
-    protected function execute(InputInterface $input, OutputInterface $output){
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
         $namespace = $input->getArgument('namespace');
         $newsletterNamespace = $namespace.'\\Newsletter';
         $namespacePath = str_replace('\\', DIRECTORY_SEPARATOR, $namespace);
         $kernelPath = $this->getContainer()->getParameter('kernel.root_dir');
         $destPath = realpath($kernelPath.'/../src/'. $namespacePath);
 
-        if(!$destPath){
+        if (!$destPath) {
             throw new Exception("Entity path could not been resolved");
         }
 
@@ -46,8 +48,8 @@ class GenerateEntitiesCommand extends ContainerAwareCommand
 
         $search = array('{{TABLE_PREFIX}}', '{{NAMESPACE}}');
         $replace = array($input->getOption('table-prefix'), $newsletterNamespace);
-        foreach($iterator as $file){
-            if(is_dir($file)){
+        foreach ($iterator as $file) {
+            if (is_dir($file)) {
                 continue;
             }
 

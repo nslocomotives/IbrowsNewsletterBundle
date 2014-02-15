@@ -16,9 +16,6 @@ use Ibrows\Bundle\NewsletterBundle\Model\Newsletter\NewsletterInterface;
 use Ibrows\Bundle\NewsletterBundle\Model\Mandant\MandantInterface;
 use Ibrows\Bundle\NewsletterBundle\Model\User\MandantUserInterface;
 use Ibrows\Bundle\NewsletterBundle\Model\Subscriber\SubscriberInterface;
-use Ibrows\Bundle\NewsletterBundle\Model\Subscriber\SubscriberGenderTitleInterface;
-use Ibrows\Bundle\NewsletterBundle\Model\Subscriber\SubscriberLocaleInterface;
-use Ibrows\Bundle\NewsletterBundle\Model\Log\LogInterface;
 
 use Ibrows\Bundle\NewsletterBundle\Annotation\Wizard\AnnotationHandler as WizardActionAnnotationHandler;
 
@@ -50,10 +47,10 @@ abstract class AbstractController extends Controller
      * @return RendererBridge
      */
     protected function getRendererBridge()
-	{
-		return $this->get($this->getParameter('ibrows_newsletter.serviceid.rendererbridge'));
-	}
-	
+    {
+        return $this->get($this->getParameter('ibrows_newsletter.serviceid.rendererbridge'));
+    }
+
     /**
      * @return EncryptionInterface
      */
@@ -84,8 +81,8 @@ abstract class AbstractController extends Controller
 
     protected function getMandantNameByHash($hash)
     {
-        foreach($this->getParameter('ibrows_newsletter.mandants') as $mandantName => $mandantHash){
-            if($hash == $mandantHash){
+        foreach ($this->getParameter('ibrows_newsletter.mandants') as $mandantName => $mandantHash) {
+            if ($hash == $mandantHash) {
                 return $mandantName;
             }
         }
@@ -100,15 +97,15 @@ abstract class AbstractController extends Controller
     {
         return $this->get('ibrows_newsletter.mandant_manager');
     }
-    
+
     /**
      * @return ObjectManager
      */
     protected function getObjectManager()
     {
-    		return $this->getMandantManager()->getObjectManager($this->getMandantName());
+            return $this->getMandantManager()->getObjectManager($this->getMandantName());
     }
-    
+
     /**
      * @return StatisticManager
      */
@@ -116,7 +113,7 @@ abstract class AbstractController extends Controller
     {
         return $this->getMandantManager()->getStatisticManager($this->getMandantName());
     }
-    
+
     /**
      * @return Session
      */
@@ -132,7 +129,7 @@ abstract class AbstractController extends Controller
     {
         return $this->get('ibrows_newsletter.rendererbridge.methodshelper');
     }
-    
+
     /**
      * @return string
      * @throws InvalidConfigurationException
@@ -141,7 +138,7 @@ abstract class AbstractController extends Controller
     {
         $user = $this->getUser();
 
-        if(!$user instanceof MandantUserInterface){
+        if (!$user instanceof MandantUserInterface) {
             throw new InvalidConfigurationException('Make sure you are logged in and your user class implements Ibrows\Bundle\NewsletterBundle\Model\User\MandantUserInterface');
         }
 
@@ -171,7 +168,7 @@ abstract class AbstractController extends Controller
     {
         return $this->get('ibrows_newsletter.template_manager');
     }
-    
+
     /**
      * @return ClassManager
      */
@@ -179,7 +176,7 @@ abstract class AbstractController extends Controller
     {
         return $this->get('ibrows_newsletter.class_manager');
     }
-    
+
     /**
      * @return BlockProviderManager
      */
@@ -187,7 +184,7 @@ abstract class AbstractController extends Controller
     {
         return $this->get('ibrows_newsletter.block_provider_manager');
     }
-    
+
     /**
      * @return RendererManager
      */
@@ -195,7 +192,7 @@ abstract class AbstractController extends Controller
     {
         return $this->get('ibrows_newsletter.renderer_manager');
     }
-    
+
     /**
      * @return NewsletterManager
      */
@@ -203,7 +200,7 @@ abstract class AbstractController extends Controller
     {
         return $this->getMandantManager()->getNewsletterManager($this->getMandantName());
     }
-    
+
     /**
      * @return DesignManager
      */
@@ -211,7 +208,7 @@ abstract class AbstractController extends Controller
     {
         return $this->getMandantManager()->getDesignManager($this->getMandantName());
     }
-    
+
     /**
      * @return WizardActionAnnotationHandler
      */
@@ -219,7 +216,7 @@ abstract class AbstractController extends Controller
     {
         return $this->get('ibrows_newsletter.annotation.wizard.handler');
     }
-    
+
     /**
      * @return true|Response
      */
@@ -227,37 +224,38 @@ abstract class AbstractController extends Controller
     {
         return $this->getWizardActionAnnotationHandler()->getValidation();
     }
-    
+
     /**
-     * @param NewsletterInterface $newsletter
+     * @param  NewsletterInterface $newsletter
      * @return AbstractController
      */
     protected function setNewsletter(NewsletterInterface $newsletter = null)
     {
         $session = $this->getSession();
-        
-        if(is_null($newsletter)){
+
+        if (is_null($newsletter)) {
             $session->set('ibrows_newsletter.wizard.newsletterid', null);
+
             return $this;
         }
-        
+
         $mandantName = $this->getMandantName();
         $this->getMandantManager()->persistNewsletter($mandantName, $newsletter);
         $session->set('ibrows_newsletter.wizard.newsletterid', $newsletter->getId());
-        
+
         return $this;
     }
 
     /**
-     * @param NewsletterInterface $newsletter
-     * @param integer $subscriberId
+     * @param  NewsletterInterface   $newsletter
+     * @param  integer               $subscriberId
      * @return SubscriberInterface
      * @throws NotFoundHttpException
      */
     protected function getSubscriberById(NewsletterInterface $newsletter, $subscriberId)
     {
-        foreach($newsletter->getSubscribers() as $newsletterSubscriber){
-            if($newsletterSubscriber->getId() == $subscriberId){
+        foreach ($newsletter->getSubscribers() as $newsletterSubscriber) {
+            if ($newsletterSubscriber->getId() == $subscriberId) {
                 return $newsletterSubscriber;
             }
         }
@@ -266,18 +264,18 @@ abstract class AbstractController extends Controller
     }
 
     /**
-     * @param integer $id
+     * @param  integer               $id
      * @return NewsletterInterface
      * @throws NotFoundHttpException
      */
     protected function getNewsletterById($id)
     {
         $newsletter = $this->getNewsletterManager()->get($id);
-        
-        if(!$newsletter){
+
+        if (!$newsletter) {
             throw $this->createNotFoundException("Newsletter with id $id not found");
         }
-        
+
         return $newsletter;
     }
 
@@ -288,26 +286,26 @@ abstract class AbstractController extends Controller
     {
         return $this->getMandant()->getSubscribers();
     }
-    
+
     /**
-     * @param string $hash
+     * @param  string                $hash
      * @return NewsletterInterface
      * @throws NotFoundHttpException
      */
     protected function getNewsletterByHash($hash)
     {
         $newsletter = $this->getNewsletterManager()->getByHash($hash);
-        
-        if(!$newsletter){
+
+        if (!$newsletter) {
             throw $this->createNotFoundException("Newsletter with hash $hash not found");
         }
-        
+
         return $newsletter;
     }
 
     /**
-     * @param NewsletterInterface $newsletter
-     * @param string $hash
+     * @param  NewsletterInterface   $newsletter
+     * @param  string                $hash
      * @return SubscriberInterface
      * @throws NotFoundHttpException
      */
@@ -315,15 +313,15 @@ abstract class AbstractController extends Controller
     {
         $subscriber = null;
 
-        foreach($newsletter->getSubscribers() as $newsletterSubscriber){
-            if($newsletterSubscriber->getHash() == $hash){
+        foreach ($newsletter->getSubscribers() as $newsletterSubscriber) {
+            if ($newsletterSubscriber->getHash() == $hash) {
                 return $newsletterSubscriber;
             }
         }
 
         throw $this->createNotFoundException("Subscriber with hash $hash not found in newsletter #". $newsletter->getId());
     }
-    
+
     /**
      * @return NewsletterInterface
      * @throws NotFoundHttpException
@@ -331,14 +329,14 @@ abstract class AbstractController extends Controller
     protected function getNewsletter()
     {
         $newsletterId = $this->getSession()->get('ibrows_newsletter.wizard.newsletterid', null);
-        
-        if(is_null($newsletterId)){
+
+        if (is_null($newsletterId)) {
             return null;
         }
-        
+
         return $this->getNewsletterById($newsletterId);
     }
-    
+
     /**
      * @return SendSettingsInterface
      * @throws NotFoundHttpException
@@ -347,13 +345,13 @@ abstract class AbstractController extends Controller
     {
         $newsletter = $this->getNewsletter();
 
-        if($newsletter !== null) {
+        if ($newsletter !== null) {
             return $newsletter->getSendSettings();
         }
 
         return null;
     }
-    
+
     /**
      * @param SendSettings $sendSettings
      */
@@ -364,10 +362,10 @@ abstract class AbstractController extends Controller
             $plainpassword = $sendSettings->getPassword();
             $sendSettings->setPassword($this->encryptPassword($plainpassword));
 
-			// clone sendSetting if newsletter has none assigned 
-			// in order to always get a different one from the mandant
+            // clone sendSetting if newsletter has none assigned
+            // in order to always get a different one from the mandant
             if ($newsletter->getSendSettings() === null) {
-				$sendSettings = clone($sendSettings);
+                $sendSettings = clone($sendSettings);
             }
         }
 
@@ -380,29 +378,31 @@ abstract class AbstractController extends Controller
     }
 
     /**
-     * @param string $password
+     * @param  string $password
      * @return string
      */
     protected function encryptPassword($password)
     {
         $encryption = $this->getEncryptionService();
+
         return $encryption->encrypt($password, $this->getMandant()->getSalt());
     }
 
     /**
-     * @param string $password
+     * @param  string $password
      * @return string
      */
     protected function decryptPassword($password)
     {
         $encryption = $this->getEncryptionService();
+
         return $encryption->decrypt($password, $this->getMandant()->getSalt());
     }
-    
+
     /**
      * @see Symfony\Bundle\FrameworkBundle\Controller.Controller::render()
      */
-	public function render($view, array $parameters = array(), Response $response = null)
+    public function render($view, array $parameters = array(), Response $response = null)
     {
         $basetemplate = $this->getTemplateManager()->getBaseTemplate();
         $parameters = array_merge($parameters, array(
@@ -410,7 +410,7 @@ abstract class AbstractController extends Controller
             'mandant' => $this->getMandant(),
             'tinymceCustomButtons' => json_encode($this->getBridgeMethodsHelper()->getMethodDefinitions())
         ));
-    		
+
         return $this->container->get('templating')->renderResponse($view, $parameters, $response);
     }
 }

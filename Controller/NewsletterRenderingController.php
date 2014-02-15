@@ -4,14 +4,10 @@ namespace Ibrows\Bundle\NewsletterBundle\Controller;
 
 use Ibrows\Bundle\NewsletterBundle\Model\Subscriber\SubscriberGenderTitleInterface;
 
-use Ibrows\Bundle\NewsletterBundle\Model\Subscriber\SubscriberInterface;
-
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use Ibrows\Bundle\NewsletterBundle\Entity\Newsletter;
 use Ibrows\Bundle\NewsletterBundle\Entity\Subscriber;
-use Ibrows\Bundle\NewsletterBundle\Block\BlockComposition;
 
 /**
  * @Route("/render")
@@ -30,28 +26,28 @@ class NewsletterRenderingController extends AbstractHashMandantController
         $subscriber = $this->getSubscriberByHash($newsletter, $subscriberHash);
 
         $request = $this->getRequest();
-        if(!$request->query->get('context')){
+        if (!$request->query->get('context')) {
             $this->addNewsletterReadLog($newsletter, $subscriber, "Newsletter read: logged by ".__METHOD__);
         }
 
         $renderername = $this->getMandant()->getRendererName();
         $bridge = $this->getRendererBridge();
         $context = $this->getRequest()->query->get('context');
-        
-		$overview = $this->getRendererManager()->renderNewsletter(
-			$renderername, 
-			$bridge, 
-			$newsletter, 
-			$mandant, 
-			$subscriber,
-			$context
-		);
+
+        $overview = $this->getRendererManager()->renderNewsletter(
+            $renderername,
+            $bridge,
+            $newsletter,
+            $mandant,
+            $subscriber,
+            $context
+        );
 
         return $this->render($this->getTemplateManager()->getNewsletter('overview'), array(
             'overview' => $overview
         ));
     }
-    
+
     /**
      * @Route("/show/design/{id}", name="ibrows_newsletter_render_design")
      */
@@ -81,7 +77,7 @@ class NewsletterRenderingController extends AbstractHashMandantController
             'overview' => $overview
         ));
     }
-    
+
     protected function createTestNewsletter($design)
     {
         $newsletter = new Newsletter();
@@ -99,7 +95,7 @@ class NewsletterRenderingController extends AbstractHashMandantController
 
         return $newsletter;
     }
-    
+
     protected function createTestSubscriber()
     {
         $subscriber = new Subscriber();

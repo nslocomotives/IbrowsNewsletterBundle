@@ -8,17 +8,17 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 abstract class Mandant implements MandantInterface
 {
-	protected $name;
+    protected $name;
     protected $hash;
     protected $salt;
-	protected $rendererName;
+    protected $rendererName;
 
-	protected $blocks;
-	protected $designs;
-	protected $newsletters;
+    protected $blocks;
+    protected $designs;
+    protected $newsletters;
     protected $subscribers;
     protected $subscriberGroups;
-    
+
     protected $sendSettings;
 
     public function __construct()
@@ -36,26 +36,27 @@ abstract class Mandant implements MandantInterface
      * @return Mandant
      */
     public function setName($name)
-	{
-		$this->name = $name;
-		return $this;
-	}
-	
-	public function getName()
-	{
-		return $this->name;
-	}
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getName()
+    {
+        return $this->name;
+    }
 
     public function getHash()
     {
         return $this->hash;
     }
-    
+
     public function getSalt()
     {
         return $this->salt;
     }
-    
+
     public function getRendererName()
     {
         return $this->rendererName;
@@ -64,19 +65,20 @@ abstract class Mandant implements MandantInterface
     public function setRendererName($rendererName)
     {
         $this->rendererName = $rendererName;
+
         return $this;
     }
-	
-	public function getNewsletters()
-	{
-		return $this->newsletters;
-	}
-	
+
+    public function getNewsletters()
+    {
+        return $this->newsletters;
+    }
+
     public function getBlocks()
     {
-		return $this->blocks;
+        return $this->blocks;
     }
-    
+
     public function getDesigns()
     {
         return $this->designs;
@@ -91,7 +93,7 @@ abstract class Mandant implements MandantInterface
     {
         return $this->subscriberGroups;
     }
-    
+
     public function getSendSettings()
     {
         return $this->sendSettings;
@@ -100,15 +102,17 @@ abstract class Mandant implements MandantInterface
     public function setHash($hash)
     {
         $this->hash = $hash;
+
         return $this;
     }
 
     public function setSendSettings(SendSettingsInterface $settings)
     {
         $this->sendSettings = $settings;
+
         return $this;
     }
-    
+
     protected function generateSalt()
     {
         return sha1(uniqid().time());

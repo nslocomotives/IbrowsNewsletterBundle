@@ -10,7 +10,7 @@ class BlockProviderCompilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
-        if(!$container->hasDefinition('ibrows_newsletter.block_provider_manager')) {
+        if (!$container->hasDefinition('ibrows_newsletter.block_provider_manager')) {
             return;
         }
 
@@ -21,8 +21,8 @@ class BlockProviderCompilerPass implements CompilerPassInterface
         $taggedServices = $container->findTaggedServiceIds(
             'ibrows_newsletter.block.provider'
         );
-        
-        foreach($taggedServices as $id => $attributes){
+
+        foreach ($taggedServices as $id => $attributes) {
             $definition->addMethodCall(
                 'addBlockProvider',
                 array($id, new Reference($id))

@@ -21,18 +21,18 @@ class MailerService
     }
 
     /**
-     * @param MailJob $job
-     * @return array $failedRecipients
+     * @param  MailJob $job
+     * @return array   $failedRecipients
      */
     public function send(MailJob $job)
-	{
+    {
         $to = $job->getToName() ? array($job->getToMail() => $job->getToName()) : $job->getToMail();
 
-		$message = \Swift_Message::newInstance($job->getSubject(), $job->getBody(), 'text/html', 'utf8')
-			->setFrom(array($job->getSenderMail() => $job->getSenderName()))
-			->setReturnPath($job->getReturnMail())
+        $message = \Swift_Message::newInstance($job->getSubject(), $job->getBody(), 'text/html', 'utf8')
+            ->setFrom(array($job->getSenderMail() => $job->getSenderName()))
+            ->setReturnPath($job->getReturnMail())
             ->setTo($to)
-		;
+        ;
 
         $transport = \Swift_SmtpTransport::newInstance($job->getHost(), $job->getPort())
             ->setUsername($job->getUsername())
@@ -48,6 +48,6 @@ class MailerService
         $mailer->send($message, $failedRecipients);
 
         return $failedRecipients;
-	}
-	
+    }
+
 }

@@ -4,5 +4,5 @@ namespace Ibrows\Bundle\NewsletterBundle\Model\User;
 
 interface MandantUserInterface
 {
-	public function getMandant();
+    public function getMandant();
 }

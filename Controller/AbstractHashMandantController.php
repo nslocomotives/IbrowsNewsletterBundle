@@ -8,9 +8,10 @@ abstract class AbstractHashMandantController extends AbstractController
 
     protected function getMandantName()
     {
-        if(!$this->mandantName){
+        if (!$this->mandantName) {
             return parent::getMandantName();
         }
+
         return $this->mandantName;
     }
 

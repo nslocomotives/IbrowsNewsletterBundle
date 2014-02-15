@@ -22,7 +22,7 @@ interface BlockInterface extends RenderableInterface
     public function setProviderOption($key, $value);
 
     /**
-     * @param BlockInterface $block
+     * @param  BlockInterface $block
      * @return BlockInterface
      */
     public function setParentBlock(BlockInterface $block = null);
@@ -38,13 +38,13 @@ interface BlockInterface extends RenderableInterface
     public function isCompound();
 
     /**
-     * @param BlockInterface $block
+     * @param  BlockInterface $block
      * @return BlockInterface
      */
     public function addBlock(BlockInterface $block);
 
     /**
-     * @param BlockInterface $block
+     * @param  BlockInterface $block
      * @return BlockInterface
      */
     public function removeBlock(BlockInterface $block);
@@ -55,16 +55,16 @@ interface BlockInterface extends RenderableInterface
     public function getBlocks();
 
     /**
-     * @param BlockInterface[] $blocks
+     * @param  BlockInterface[] $blocks
      * @return BlockInterface
      */
     public function setBlocks(array $blocks);
 
     public function addBlocks(array $blocks);
-    
+
     public function setContent($content);
     public function getContent();
-    
+
     public function getNewsletter();
     public function setNewsletter(NewsletterInterface $newsletter = null);
 
@@ -74,7 +74,7 @@ interface BlockInterface extends RenderableInterface
     public function getName();
 
     /**
-     * @param string $name
+     * @param  string         $name
      * @return BlockInterface
      */
     public function setName($name);

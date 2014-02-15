@@ -23,9 +23,10 @@ class McryptAdapter extends AbstractAdapter
     /**
      * @param string $cypher
      * @param string $mode
-     * @param int $ivMode
+     * @param int    $ivMode
      */
-    public function __construct($cypher = MCRYPT_RIJNDAEL_256, $mode = MCRYPT_MODE_ECB, $ivMode = MCRYPT_RAND){
+    public function __construct($cypher = MCRYPT_RIJNDAEL_256, $mode = MCRYPT_MODE_ECB, $ivMode = MCRYPT_RAND)
+    {
         $this->cypher = $cypher;
         $this->mode = $mode;
 
@@ -34,24 +35,28 @@ class McryptAdapter extends AbstractAdapter
     }
 
     /**
-     * @param string $data
-     * @param string $key
+     * @param  string $data
+     * @param  string $key
      * @return string
      */
-    public function encrypt($data, $key){
+    public function encrypt($data, $key)
+    {
         // strip key to max length
         $key = substr($key, 0, 20);
+
         return mcrypt_encrypt($this->cypher, $key, $data, MCRYPT_MODE_ECB, $this->iv);
     }
 
     /**
-     * @param string $data
-     * @param string $key
+     * @param  string $data
+     * @param  string $key
      * @return string
      */
-    public function decrypt($data, $key){
+    public function decrypt($data, $key)
+    {
         // strip key to max length
         $key = substr($key, 0, 20);
+
         return trim(mcrypt_decrypt($this->cypher, $key, $data, MCRYPT_MODE_ECB, $this->iv));
     }
 

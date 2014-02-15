@@ -16,9 +16,9 @@ newsletter:
     provider:
       'ibrows_newsletter.block.provider.textarea':
         name: Text
-      'ibrows_newsletter.block.provider.image': 
+      'ibrows_newsletter.block.provider.image':
         name: Bild
-      'ibrows_newsletter.block.provider.textareaandimage': 
+      'ibrows_newsletter.block.provider.textareaandimage':
         name: Text mit Bild
         textwidth: Textbreite
         imagewidth: Bildbreite
@@ -47,7 +47,7 @@ newsletter:
       informal: Hallo %subscriber.firstname%
   error:
     mail: "Der Versand war nicht möglich: %message%"
-  generate:   
+  generate:
     mail: Versand starten
 
 mandant:
@@ -99,11 +99,11 @@ form:
   cancel: Abbrechen
   send: Senden
   testmail: Testversand
-  
+
 security:
   login:
     mandant:  Mandant
-  
+
 layout:
   header:
     title:

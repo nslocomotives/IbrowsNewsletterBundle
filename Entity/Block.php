@@ -9,37 +9,37 @@ use Doctrine\ORM\Mapping as ORM;
 class Block extends BaseBlock
 {
     /**
-	 * @var string
-	 * 
-	 * @ORM\Column(type="string", nullable=true)
-	 */
-	protected $name;
-    
+     * @var string
+     *
+     * @ORM\Column(type="string", nullable=true)
+     */
+    protected $name;
+
     /**
-	 * @var string
-	 * 
-	 * @ORM\Column(type="text", nullable=true)
-	 */
-	protected $content;
-    
+     * @var string
+     *
+     * @ORM\Column(type="text", nullable=true)
+     */
+    protected $content;
+
     /**
-	 * @var integer
-	 * 
-	 * @ORM\Column(type="integer")
-	 */
-	protected $position;
-    
+     * @var integer
+     *
+     * @ORM\Column(type="integer")
+     */
+    protected $position;
+
     /**
-	 * @var string
-	 * 
-	 * @ORM\Column(type="text", name="provider_name")
-	 */
-	protected $providerName;
-    
+     * @var string
+     *
+     * @ORM\Column(type="text", name="provider_name")
+     */
+    protected $providerName;
+
     /**
-	 * @var array
-	 * 
-	 * @ORM\Column(type="array", name="provider_options")
-	 */
-	protected $providerOptions = array();
+     * @var array
+     *
+     * @ORM\Column(type="array", name="provider_options")
+     */
+    protected $providerOptions = array();
 }

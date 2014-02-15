@@ -2,10 +2,6 @@
 
 namespace Ibrows\Bundle\NewsletterBundle\Form;
 
-use Doctrine\Common\Persistence\ObjectManager;
-
-use Symfony\Bridge\Doctrine\Form\ChoiceList\EntityChoiceList;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 
 class UnsubscribeType extends AbstractType
@@ -21,9 +17,10 @@ class UnsubscribeType extends AbstractType
 
     /**
      * @param FormBuilderInterface $builder
-     * @param array $options
+     * @param array                $options
      */
-    public function buildForm(FormBuilderInterface $builder, array $options) {
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
         $builder
             ->add('groups', 'entity', array(
                 'em' => $this->managerName,
@@ -37,7 +34,8 @@ class UnsubscribeType extends AbstractType
     /**
      * @return string
      */
-    public function getName() {
+    public function getName()
+    {
         return 'ibrows_newsletterbundle_unsubscribe';
     }
 

@@ -3,7 +3,6 @@
 namespace Ibrows\Bundle\NewsletterBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 /**
  * @Route("/unsubscribe")
@@ -21,7 +20,7 @@ class UnsubscribeController extends AbstractHashMandantController
         $subscriber = $this->getSubscriberByHash($newsletter, $subscriberHash);
 
         $request = $this->getRequest();
-        if(!$request->query->get('context')){
+        if (!$request->query->get('context')) {
             $this->addNewsletterReadLog($newsletter, $subscriber, "Newsletter read: logged by ".__METHOD__);
         }
 
@@ -30,10 +29,10 @@ class UnsubscribeController extends AbstractHashMandantController
         $formtype = $this->getClassManager()->getForm('unsubscribe');
         $form = $this->createForm(new $formtype($this->getMandantName(), $groupClass), $subscriber);
 
-        if($request->getMethod() == 'POST'){
+        if ($request->getMethod() == 'POST') {
             $form->bind($request);
 
-            if($form->isValid()){
+            if ($form->isValid()) {
                 $this->setNewsletter($newsletter);
             }
         }

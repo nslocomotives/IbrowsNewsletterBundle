@@ -9,32 +9,30 @@ use Ibrows\Bundle\NewsletterBundle\Model\Design\DesignInterface;
 use Ibrows\Bundle\NewsletterBundle\Model\Block\BlockInterface;
 use Ibrows\Bundle\NewsletterBundle\Model\Subscriber\GroupInterface;
 
-use Doctrine\Common\Collections\Collection;
-
 interface MandantInterface
 {
     /**
      * @return NewsletterInterface[]
      */
-	public function getNewsletters();
-    
+    public function getNewsletters();
+
     /**
      * @return BlockInterface[]
      */
     public function getBlocks();
-    
+
     /**
      * @return DesignInterface[]
      */
     public function getDesigns();
-    
+
     /**
      * @return string
      */
     public function getRendererName();
 
     /**
-     * @param string $rendererName
+     * @param  string           $rendererName
      * @return MandantInterface
      */
     public function setRendererName($rendererName);
@@ -45,18 +43,18 @@ interface MandantInterface
     public function getSendSettings();
 
     /**
-     * @param SendSettingsInterface $settings
+     * @param  SendSettingsInterface $settings
      * @return MandantInterface
      */
     public function setSendSettings(SendSettingsInterface $settings);
-    
+
     /**
      * @return string
      */
     public function getName();
 
     /**
-     * @param string $name
+     * @param  string           $name
      * @return MandantInterface
      */
     public function setName($name);
@@ -77,11 +75,11 @@ interface MandantInterface
     public function getHash();
 
     /**
-     * @param string $hash
+     * @param  string           $hash
      * @return MandantInterface
      */
     public function setHash($hash);
-    
+
     /**
      * @return string
      */

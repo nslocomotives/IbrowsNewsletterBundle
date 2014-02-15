@@ -11,7 +11,7 @@ class RendererCompilerPass implements CompilerPassInterface
     public function process(ContainerBuilder $container)
     {
         // add all tagged renderers
-        if(!$container->hasDefinition('ibrows_newsletter.renderer_manager')) {
+        if (!$container->hasDefinition('ibrows_newsletter.renderer_manager')) {
             return;
         }
 
@@ -22,8 +22,8 @@ class RendererCompilerPass implements CompilerPassInterface
         $taggedServices = $container->findTaggedServiceIds(
             'ibrows_newsletter.renderer'
         );
-        
-        foreach($taggedServices as $id => $attributes){
+
+        foreach ($taggedServices as $id => $attributes) {
             $definition->addMethodCall(
                 'addRenderer',
                 array($id, new Reference($id))
@@ -31,7 +31,7 @@ class RendererCompilerPass implements CompilerPassInterface
         }
 
         // set correct gendertitle strategy
-        if(!$container->hasDefinition('ibrows_newsletter.rendererbridge')) {
+        if (!$container->hasDefinition('ibrows_newsletter.rendererbridge')) {
             return;
         }
 

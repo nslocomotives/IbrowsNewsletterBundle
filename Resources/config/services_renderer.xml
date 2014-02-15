@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<container 
+<container
     xmlns="http://symfony.com/schema/dic/services"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd"
@@ -13,28 +13,28 @@
             <parameter key="debug">%kernel.debug%</parameter>
         </parameter>
     </parameters>
-    
+
     <services>
-    
+
         <service id="ibrows_newsletter.renderer.null" class="Ibrows\Bundle\NewsletterBundle\Renderer\NullRenderer">
             <tag name="ibrows_newsletter.renderer" />
         </service>
-        
+
         <service id="ibrows_newsletter.renderer.twig" class="Ibrows\Bundle\NewsletterBundle\Renderer\TwigRenderer">
-            <argument>%ibrows_newsletter.renderer.twig.options%</argument> 
+            <argument>%ibrows_newsletter.renderer.twig.options%</argument>
             <tag name="ibrows_newsletter.renderer" />
         </service>
 
         <service id="ibrows_newsletter.rendererbridge.gendertitlestrategy.translator" class="%ibrows_newsletter.gendertitlestrategy.class%">
             <argument type="service" id="translator" />
-            <argument>%ibrows_newsletter.gendertitlestrategy.translator.translationdomain%</argument> 
+            <argument>%ibrows_newsletter.gendertitlestrategy.translator.translationdomain%</argument>
             <argument type="collection">
                 <argument key="lastname">getLastname</argument>
                 <argument key="firstname">getFirstname</argument>
                 <argument key="companyname">getCompanyname</argument>
             </argument>
         </service>
-        
+
         <service id="ibrows_newsletter.rendererbridge" class="%ibrows_newsletter.rendererbridge.class%">
             <argument type="service" id="router" />
         </service>
