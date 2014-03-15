@@ -19,14 +19,14 @@ class BridgeMethodsHelper
         $reflection = new \ReflectionClass($this->bridge);
         $definitions = array();
 
-        foreach($reflection->getMethods() as $reflectionMethod){
-            if(substr($reflectionMethod->getName(), 0, 2) == "__"){
+        foreach ($reflection->getMethods() as $reflectionMethod) {
+            if (substr($reflectionMethod->getName(), 0, 2) == "__") {
                 continue;
             }
 
             $parameters = array();
 
-            foreach($reflectionMethod->getParameters() as $reflectionParameter){
+            foreach ($reflectionMethod->getParameters() as $reflectionParameter) {
                 $parameters[] = array(
                     'name' => $reflectionParameter->getName(),
                     'isOptional' => $reflectionParameter->isOptional(),

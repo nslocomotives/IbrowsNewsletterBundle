@@ -10,13 +10,13 @@ interface SubscriberGroupsInterface extends SubscriberInterface
     public function getGroups();
 
     /**
-     * @param GroupInterface $group
+     * @param  GroupInterface            $group
      * @return SubscriberGroupsInterface
      */
     public function addGroup(GroupInterface $group);
 
     /**
-     * @param GroupInterface $group
+     * @param  GroupInterface            $group
      * @return SubscriberGroupsInterface
      */
     public function removeGroup(GroupInterface $group);

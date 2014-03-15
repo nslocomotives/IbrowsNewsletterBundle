@@ -21,7 +21,8 @@ abstract class Log implements LogInterface
     protected $message;
     protected $mandantName;
 
-    public function __construct(){
+    public function __construct()
+    {
         $this->createdAt = new \DateTime();
     }
 
@@ -50,12 +51,13 @@ abstract class Log implements LogInterface
     }
 
     /**
-     * @param integer $newsletterId
+     * @param  integer      $newsletterId
      * @return LogInterface
      */
     public function setNewsletterId($newsletterId)
     {
         $this->newsletterId = $newsletterId;
+
         return $this;
     }
 
@@ -68,12 +70,13 @@ abstract class Log implements LogInterface
     }
 
     /**
-     * @param integer $subscriberId
+     * @param  integer      $subscriberId
      * @return LogInterface
      */
     public function setSubscriberId($subscriberId)
     {
         $this->subscriberId = $subscriberId;
+
         return $this;
     }
 
@@ -86,12 +89,13 @@ abstract class Log implements LogInterface
     }
 
     /**
-     * @param string $message
+     * @param  string       $message
      * @return LogInterface
      */
     public function setMessage($message)
     {
         $this->message = $message;
+
         return $this;
     }
 
@@ -104,12 +108,13 @@ abstract class Log implements LogInterface
     }
 
     /**
-     * @param string $locale
+     * @param  string       $locale
      * @return LogInterface
      */
     public function setSubscriberLocale($locale)
     {
         $this->subscriberLocale = $locale;
+
         return $this;
     }
 
@@ -122,12 +127,13 @@ abstract class Log implements LogInterface
     }
 
     /**
-     * @param string $email
+     * @param  string       $email
      * @return LogInterface
      */
     public function setSubscriberEmail($email)
     {
         $this->subscriberEmail = $email;
+
         return $this;
     }
 
@@ -140,12 +146,13 @@ abstract class Log implements LogInterface
     }
 
     /**
-     * @param string $gender
+     * @param  string       $gender
      * @return LogInterface
      */
     public function setSubscriberGender($gender)
     {
         $this->subscriberGender = $gender;
+
         return $this;
     }
 
@@ -158,12 +165,13 @@ abstract class Log implements LogInterface
     }
 
     /**
-     * @param string $title
+     * @param  string       $title
      * @return LogInterface
      */
     public function setSubscriberTitle($title)
     {
         $this->subscriberTitle = $title;
+
         return $this;
     }
 
@@ -176,12 +184,13 @@ abstract class Log implements LogInterface
     }
 
     /**
-     * @param string $firstname
+     * @param  string       $firstname
      * @return LogInterface
      */
     public function setSubscriberFirstname($firstname)
     {
         $this->subscriberFirstname = $firstname;
+
         return $this;
     }
 
@@ -194,12 +203,13 @@ abstract class Log implements LogInterface
     }
 
     /**
-     * @param string $lastname
+     * @param  string       $lastname
      * @return LogInterface
      */
     public function setSubscriberLastname($lastname)
     {
         $this->subscriberLastname = $lastname;
+
         return $this;
     }
 
@@ -212,28 +222,30 @@ abstract class Log implements LogInterface
     }
 
     /**
-     * @param string $locale
+     * @param  string       $locale
      * @return LogInterface
      */
     public function setSubscriberCompanyname($companyname)
     {
         $this->subscriberCompanyname = $companyname;
+
         return $this;
     }
 
     /**
-     * 
-     * @param string $name
+     *
+     * @param  string       $name
      * @return LogInterface
      */
     public function setMandantName($name)
     {
         $this->mandantName = $name;
+
         return $this;
     }
-    
+
     /**
-     * 
+     *
      * @return string
      */
     public function getMandantName()

@@ -38,13 +38,13 @@ interface SubscriberInterface
     public function getNewsletters();
 
     /**
-     * @param NewsletterInterface $newsletter
+     * @param  NewsletterInterface $newsletter
      * @return SubscriberInterface
      */
     public function addNewsletter(NewsletterInterface $newsletter);
 
     /**
-     * @param NewsletterInterface $newsletter
+     * @param  NewsletterInterface $newsletter
      * @return SubscriberInterface
      */
     public function removeNewsletter(NewsletterInterface $newsletter);

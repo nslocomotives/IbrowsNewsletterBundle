@@ -3,12 +3,10 @@
 namespace Ibrows\Bundle\NewsletterBundle\Controller;
 
 use Ibrows\Bundle\NewsletterBundle\Model\Job\MailJob;
-use Ibrows\Bundle\NewsletterBundle\Model\Log\LogInterface;
 use Ibrows\Bundle\NewsletterBundle\Model\Job\JobInterface;
 
 use Ibrows\Bundle\NewsletterBundle\Model\Log\Log;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use Symfony\Component\HttpFoundation\Response;
 
@@ -29,7 +27,7 @@ class StatisticController extends AbstractHashMandantController
         ));
 
         // if a context is set, its testing or dev --> no log
-        if($this->getRequest()->query->get('context')){
+        if ($this->getRequest()->query->get('context')) {
             return $imageResponse;
         }
 
@@ -71,20 +69,22 @@ class StatisticController extends AbstractHashMandantController
         );
 
         $foundSubscriberIds = array();
-        $filteredReadlogs = array_filter($readlogs, function($readlog)use(&$foundSubscriberIds){
+        $filteredReadlogs = array_filter($readlogs, function ($readlog) use (&$foundSubscriberIds) {
             /** @var Log $readlog */
             $subscriberId = $readlog->getSubscriberId();
-            if(!in_array($subscriberId, $foundSubscriberIds)){
+            if (!in_array($subscriberId, $foundSubscriberIds)) {
                 $foundSubscriberIds[] = $subscriberId;
+
                 return true;
             }
+
             return false;
         });
 
         $jobPie = array();
-        foreach($jobs as $job){
+        foreach ($jobs as $job) {
             $status = $job->getStatus();
-            if(!isset($jobPie[$status])){
+            if (!isset($jobPie[$status])) {
                 $jobPie[$status] = 0;
             }
             $jobPie[$status]++;
@@ -93,36 +93,37 @@ class StatisticController extends AbstractHashMandantController
         $jobStati = array_keys($jobPie);
 
         $jobsSortedByCompleted = $jobs;
-        usort($jobsSortedByCompleted, function(MailJob $a, MailJob $b){
+        usort($jobsSortedByCompleted, function (MailJob $a, MailJob $b) {
             $dateA = $a->getCompleted() ?: $a->getCreated();
             $dateB = $b->getCompleted() ?: $b->getCreated();
+
             return $dateA > $dateB;
         });
 
         $jobLine = array();
         $jobWalkLine = array();
-        foreach($jobsSortedByCompleted as $job){
+        foreach ($jobsSortedByCompleted as $job) {
 
             $dateTime = $job->getCompleted() ?: $job->getCreated();
             $date = $dateTime->format('d.m.Y H:i:s');
 
-            foreach($jobStati as $jobStatus){
-                if(!isset($jobWalkLine[$jobStatus])){
+            foreach ($jobStati as $jobStatus) {
+                if (!isset($jobWalkLine[$jobStatus])) {
                     $jobWalkLine[$jobStatus] = 0;
                 }
 
-                if(!isset($jobLine[$date])){
+                if (!isset($jobLine[$date])) {
                     $jobLine[$date] = array();
                 }
 
-                if($job->getStatus() == $jobStatus){
+                if ($job->getStatus() == $jobStatus) {
                     $jobLine[$date][$jobStatus] = ++$jobWalkLine[$jobStatus];
-                }else{
+                } else {
                     $jobLine[$date][$jobStatus] = $jobWalkLine[$jobStatus];
                 }
             }
         }
-        
+
         $completedAmount = array_key_exists(JobInterface::STATUS_COMPLETED, $jobPie)?$jobPie[JobInterface::STATUS_COMPLETED]: 0;
         $readAmount = count($filteredReadlogs);
         $unreadAmount = $completedAmount-$readAmount;

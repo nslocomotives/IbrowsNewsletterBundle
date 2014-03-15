@@ -20,7 +20,7 @@ interface LogInterface
     public function getNewsletterId();
 
     /**
-     * @param integer $newsletterId
+     * @param  integer      $newsletterId
      * @return LogInterface
      */
     public function setNewsletterId($newsletterId);
@@ -31,7 +31,7 @@ interface LogInterface
     public function getSubscriberId();
 
     /**
-     * @param integer $subscriberId
+     * @param  integer      $subscriberId
      * @return LogInterface
      */
     public function setSubscriberId($subscriberId);
@@ -42,7 +42,7 @@ interface LogInterface
     public function getMessage();
 
     /**
-     * @param string $message
+     * @param  string       $message
      * @return LogInterface
      */
     public function setMessage($message);
@@ -53,7 +53,7 @@ interface LogInterface
     public function getSubscriberLocale();
 
     /**
-     * @param string $locale
+     * @param  string       $locale
      * @return LogInterface
      */
     public function setSubscriberLocale($locale);
@@ -64,7 +64,7 @@ interface LogInterface
     public function getSubscriberEmail();
 
     /**
-     * @param string $email
+     * @param  string       $email
      * @return LogInterface
      */
     public function setSubscriberEmail($email);
@@ -75,7 +75,7 @@ interface LogInterface
     public function getSubscriberGender();
 
     /**
-     * @param string $gender
+     * @param  string       $gender
      * @return LogInterface
      */
     public function setSubscriberGender($gender);
@@ -86,7 +86,7 @@ interface LogInterface
     public function getSubscriberTitle();
 
     /**
-     * @param string $title
+     * @param  string       $title
      * @return LogInterface
      */
     public function setSubscriberTitle($title);
@@ -97,7 +97,7 @@ interface LogInterface
     public function getSubscriberFirstname();
 
     /**
-     * @param string $firstname
+     * @param  string       $firstname
      * @return LogInterface
      */
     public function setSubscriberFirstname($firstname);
@@ -108,7 +108,7 @@ interface LogInterface
     public function getSubscriberLastname();
 
     /**
-     * @param string $lastname
+     * @param  string       $lastname
      * @return LogInterface
      */
     public function setSubscriberLastname($lastname);
@@ -119,18 +119,18 @@ interface LogInterface
     public function getSubscriberCompanyname();
 
     /**
-     * @param string $companyname
+     * @param  string       $companyname
      * @return LogInterface
      */
     public function setSubscriberCompanyname($companyname);
-    
+
     /**
      * @return string
      */
     public function getMandantName();
-    
+
     /**
-     * @param string $mandantName
+     * @param  string       $mandantName
      * @return LogInterface
      */
     public function setMandantName($mandantName);

@@ -16,31 +16,32 @@ class RendererBridge
     protected $genderTitleStrategy;
 
     /**
-     * @param RouterInterface $router
+     * @param RouterInterface              $router
      * @param GenderTitleStrategyInterface $genderTitleStrategy
      */
     public function __construct(
         RouterInterface $router,
         GenderTitleStrategyInterface $genderTitleStrategy
-    ){
+    ) {
         $this->router = $router;
         $this->genderTitleStrategy = $genderTitleStrategy;
     }
 
     /**
-     * @param string $format
+     * @param  string $format
      * @return string
      */
     public function now($format = 'd.m.Y')
     {
         $now = new \DateTime();
+
         return $now->format($format);
     }
 
     /**
-     * @param MandantInterface $mandant
-     * @param NewsletterInterface $newsletter
-     * @param SubscriberInterface $subscriber
+     * @param  MandantInterface    $mandant
+     * @param  NewsletterInterface $newsletter
+     * @param  SubscriberInterface $subscriber
      * @return string
      */
     public function statisticlogreadimage(MandantInterface $mandant, NewsletterInterface $newsletter, SubscriberInterface $subscriber, $context)
@@ -60,9 +61,9 @@ class RendererBridge
     }
 
     /**
-     * @param MandantInterface $mandant
-     * @param NewsletterInterface $newsletter
-     * @param SubscriberInterface $subscriber
+     * @param  MandantInterface    $mandant
+     * @param  NewsletterInterface $newsletter
+     * @param  SubscriberInterface $subscriber
      * @param $context
      * @return string
      */
@@ -81,19 +82,19 @@ class RendererBridge
     }
 
     /**
-     * @param MandantInterface $mandant
-     * @param NewsletterInterface $newsletter
-     * @param SubscriberInterface $subscriber
+     * @param  MandantInterface    $mandant
+     * @param  NewsletterInterface $newsletter
+     * @param  SubscriberInterface $subscriber
      * @param $context
      * @return string
      */
     public function unsubscribelink(MandantInterface $mandant, NewsletterInterface $newsletter, SubscriberInterface $subscriber, $context)
     {
         return $this->router->generate(
-            'ibrows_newsletter_unsubscribe', 
+            'ibrows_newsletter_unsubscribe',
             array(
                 'mandantHash' => $mandant->getHash(),
-                'newsletterHash' => $newsletter->getHash(), 
+                'newsletterHash' => $newsletter->getHash(),
                 'subscriberHash' => $subscriber->getHash(),
                 'context' => $context
             ),
@@ -102,7 +103,7 @@ class RendererBridge
     }
 
     /**
-     * @param SubscriberInterface $subscriber
+     * @param  SubscriberInterface $subscriber
      * @return string
      */
     public function gendertitle(SubscriberInterface $subscriber)

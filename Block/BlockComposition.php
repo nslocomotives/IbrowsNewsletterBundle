@@ -10,12 +10,12 @@ use Doctrine\Common\Collections\Collection;
 class BlockComposition implements RenderableInterface
 {
     /**
-     * @var type 
+     * @var type
      */
     protected $blockProvider;
-    
+
     /**
-     * @var Collection 
+     * @var Collection
      */
     protected $blocks;
 
@@ -24,15 +24,16 @@ class BlockComposition implements RenderableInterface
         $this->blockProvider = $blockProvider;
         $this->blocks = $blocks;
     }
-    
-    public function getContent(){
+
+    public function getContent()
+    {
         $content = '';
-        
-        foreach($this->blocks as $block){
+
+        foreach ($this->blocks as $block) {
             $content .= $this->blockProvider->get($block->getProviderName())
                 ->getBlockDisplayContent($block);
         }
-        
+
         return $content;
     }
 }

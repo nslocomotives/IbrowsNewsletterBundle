@@ -11,16 +11,16 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Design extends BaseDesign
 {
-	/**
-	 * @ORM\Id
-	 * @ORM\Column(type="integer")
-	 * @ORM\GeneratedValue(strategy="AUTO")
-	 */
-	protected $id;
+    /**
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
 
-	/**
-	 * @ORM\ManyToOne(targetEntity="Mandant", inversedBy="designs")
-	 * @ORM\JoinColumn(name="mandant_id", referencedColumnName="id")
-	 */
-	protected $mandant;
+    /**
+     * @ORM\ManyToOne(targetEntity="Mandant", inversedBy="designs")
+     * @ORM\JoinColumn(name="mandant_id", referencedColumnName="id")
+     */
+    protected $mandant;
 }

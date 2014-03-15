@@ -4,16 +4,16 @@ namespace Ibrows\Bundle\NewsletterBundle\Annotation\Wizard;
 
 class AnnotationBag
 {
-    
+
     protected $annotation;
     protected $annotations;
-    
+
     public function __construct(Annotation $annotation, array $annotations)
     {
         $this->annotation = $annotation;
         $this->annotations = $annotations;
     }
-    
+
     /**
      * @return Annotation
      */
@@ -21,7 +21,7 @@ class AnnotationBag
     {
         return $this->annotation;
     }
-    
+
     /**
      * @return array
      */
@@ -29,5 +29,5 @@ class AnnotationBag
     {
         return $this->annotations;
     }
-    
+
 }

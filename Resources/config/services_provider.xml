@@ -11,14 +11,14 @@
             </call>
             <tag name="ibrows_newsletter.block.provider" />
         </service>
-        
+
         <service id="ibrows_newsletter.block.provider.textareaandimage" class="Ibrows\Bundle\NewsletterBundle\Block\Provider\TextAreaAndImageProvider">
             <call method="setBlockProviderManager">
                 <argument type="service" id="ibrows_newsletter.block_provider_manager" />
             </call>
             <tag name="ibrows_newsletter.block.provider" />
         </service>
-        
+
         <service id="ibrows_newsletter.block.provider.image" class="Ibrows\Bundle\NewsletterBundle\Block\Provider\ImageProvider">
             <argument type="service" id="request" strict="false" />
             <argument>%ibrows_newsletter.filesystem.block.directory%</argument>

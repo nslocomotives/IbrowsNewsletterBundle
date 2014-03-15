@@ -42,7 +42,7 @@
                 'newsletter.dialog.abort': '{{ 'newsletter.dialog.abort'|trans }}'
             }
         });
-        
+
         jQuery(function(){
             $edit.ready();
         });
@@ -58,16 +58,16 @@
         <input type="submit" name="continue" class="btn" value="{{ 'form.continue'|trans }}">
     </div>
 {% endmacro displayformcontrols %}
-    
+
 {% block newsletter_content %}
-    
+
     {# generate hidden tinymce textarea because otherwise variable tinyMCE is not defined #}
     <div style="display:none;"><textarea class="tinymce"></textarea></div>
-    
+
     <div data-container="newsletter-edit">
-        
+
         <div class="block-delete-droppable" data-element="block-delete-droppable" style="display:none;"></div>
-        
+
         <div data-element="new-block-dialog" title="{{ 'newsletter.block.new'|trans }}">
             <div data-element="new-block-dialog-accordion">
                 {% for blockProviderId, blockProvider in blockProviderManager.blockProviders %}
@@ -81,11 +81,11 @@
                                 </div>
                             #}
                             <div>
-                                <input 
+                                <input
                                     data-form-field="true"
                                     required="required"
                                     type="hidden"
-                                    name="name" 
+                                    name="name"
                                 >
                             </div>
                             {% for blockProviderOptionKey, blockProviderOptionOptions in blockProvider.optionKeys %}
@@ -93,11 +93,11 @@
                                     {{ ('newsletter.block.provider.'~blockProviderId|lower~'.'~blockProviderOptionKey|lower)|trans }}
                                 </div>
                                 <div>
-                                    <input 
+                                    <input
                                         data-form-field="true"
                                         {% if blockProviderOptionOptions.required|default(true) == true %}required="required"{% endif %}
                                         type="text"
-                                        name="option[{{ blockProviderOptionKey }}]" 
+                                        name="option[{{ blockProviderOptionKey }}]"
                                     >
                                 </div>
                             {% endfor %}
@@ -117,15 +117,15 @@
                 {% endfor %}
             </ul>
         </div>
-            
+
         <h1>{{ 'newsletter.edit'|trans({'%name%': newsletter.name}) }}</h1>
-        
+
         <form method="post" enctype="multipart/form-data" action="" class="blocks" data-element="blocks-form">
 
             <input data-element="clone-block-newsletter-id" type="hidden" name="clone" value="" />
 
             {{ _self.displayformcontrols() }}
-            
+
             <ul id="blocks">
                 {% for block in newsletter.blocks %}
                     <li data-element="block" data-element-id="{{ block.id }}" class="block">
@@ -133,11 +133,11 @@
                     </li>
                 {% endfor %}
             </ul>
-            
+
             {{ _self.displayformcontrols() }}
-            
+
         </form>
-        
+
         <di
     </div>
 {% endblock %}

@@ -5,9 +5,6 @@ namespace Ibrows\Bundle\NewsletterBundle\Model\Newsletter;
 use Ibrows\Bundle\NewsletterBundle\Model\Block\BlockInterface;
 use Ibrows\Bundle\NewsletterBundle\Model\Subscriber\SubscriberInterface;
 use Ibrows\Bundle\NewsletterBundle\Model\Design\DesignInterface;
-use Ibrows\Bundle\NewsletterBundle\Model\Newsletter\SendSettingsInterface;
-
-use Doctrine\Common\Collections\Collection;
 
 interface NewsletterInterface
 {
@@ -23,14 +20,14 @@ interface NewsletterInterface
      */
     public function getMandant();
 
-	public function getSubject();
-	public function getSenderMail();
-	public function getSenderName();
-	public function getReturnMail();
-    
+    public function getSubject();
+    public function getSenderMail();
+    public function getSenderName();
+    public function getReturnMail();
+
     public function getId();
     public function getHash();
-    
+
     /**
      * @return SubscriberInterface[]
      */
@@ -42,7 +39,7 @@ interface NewsletterInterface
     public function getSendSettings();
 
     /**
-     * @param SendSettingsInterface $settings
+     * @param  SendSettingsInterface $settings
      * @return NewsletterInterface
      */
     public function setSendSettings(SendSettingsInterface $settings);
@@ -53,13 +50,13 @@ interface NewsletterInterface
     public function getBlocks();
 
     /**
-     * @param BlockInterface $block
+     * @param  BlockInterface      $block
      * @return NewsletterInterface
      */
     public function addBlock(BlockInterface $block);
 
     /**
-     * @param BlockInterface $block
+     * @param  BlockInterface      $block
      * @return NewsletterInterface
      */
     public function removeBlock(BlockInterface $block);

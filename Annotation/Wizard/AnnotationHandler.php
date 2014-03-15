@@ -15,80 +15,81 @@ class AnnotationHandler
     protected $annotations = array();
     protected $currentAnnotation;
     protected $currentAnnotationKey;
-    
+
     public function __construct(Router $router)
     {
         $this->router = $router;
     }
-    
-    public function handle(FilterControllerEvent $event, $annotationBags){
-        usort($annotationBags, function($a, $b){
+
+    public function handle(FilterControllerEvent $event, $annotationBags)
+    {
+        usort($annotationBags, function ($a, $b) {
             return $a->getAnnotation()->getNumber() > $b->getAnnotation()->getNumber();
         });
 
         $this->annotationBags = array_values($annotationBags);
-        
+
         $annotations = array();
-        foreach($annotationBags as $annotationBag){
+        foreach ($annotationBags as $annotationBag) {
             $annotations[] = $annotationBag->getAnnotation();
         }
         $this->annotations = $annotations;
-        
+
         $controllerArray = $event->getController();
         $controller = $controllerArray[0];
-        
+
         $hasFoundAnyErrors = false;
         $wizardValidation = true;
         $hasFoundCurrentMethod = false;
-        
+
         /* @var $annotationBag AnnotationBag */
-        foreach($annotationBags as $annotationBag){
+        foreach ($annotationBags as $annotationBag) {
             $annotation = $annotationBag->getAnnotation();
-            
+
             $validationMethodName = $annotation->getValidationMethod();
             $validation = $controller->$validationMethodName($this);
-            
-            if($validation instanceof Response){
+
+            if ($validation instanceof Response) {
                 $hasFoundAnyErrors = true;
             }
-            
-            if(!$wizardValidation instanceof Response && $validation instanceof Response && !$hasFoundCurrentMethod){
+
+            if (!$wizardValidation instanceof Response && $validation instanceof Response && !$hasFoundCurrentMethod) {
                 $wizardValidation = $validation;
             }
-            
+
             $isValid = ($hasFoundAnyErrors OR $wizardValidation instanceof Response OR $validation instanceof Response) ? false : true;
             $annotation->setIsValid($isValid);
-            
-            if(true === $annotation->isCurrentMethod()){
+
+            if (true === $annotation->isCurrentMethod()) {
                 $this->currentAnnotation = $annotation;
                 $hasFoundCurrentMethod = true;
             }
         }
-        
+
         $this->validation = $wizardValidation;
     }
-    
+
     public function getLastValidAnnotation()
     {
         $lastAnnotation = null;
-        
-        foreach($this->annotationBags as $annotationBag){
+
+        foreach ($this->annotationBags as $annotationBag) {
             $annotation = $annotationBag->getAnnotation();
-            if(!$annotation->isValid()){
+            if (!$annotation->isValid()) {
                 return $lastAnnotation;
             }
-            
+
             $lastAnnotation = $annotation;
         }
-        
+
         return null;
     }
-    
+
     public function getAnnotations()
     {
         return $this->annotations;
     }
-    
+
     /**
      * @return true|Response
      */
@@ -96,7 +97,7 @@ class AnnotationHandler
     {
         return $this->validation;
     }
-    
+
     /**
      * @return string
      * @throws \InvalidArgumentException
@@ -104,13 +105,13 @@ class AnnotationHandler
     public function getNextStepUrl()
     {
         $currentNumber = $this->currentAnnotation->getNumber();
-        
-        foreach($this->annotations as $annotation){
-            if($annotation->getNumber() == $currentNumber+1){
+
+        foreach ($this->annotations as $annotation) {
+            if ($annotation->getNumber() == $currentNumber+1) {
                 return $this->getStepUrl($annotation);
             }
         }
-        
+
         throw new \InvalidArgumentException("No route found");
     }
 
@@ -122,7 +123,7 @@ class AnnotationHandler
     {
         return $this->getStepUrl($this->currentAnnotation);
     }
-    
+
     /**
      * @return string
      * @throws \InvalidArgumentException
@@ -130,29 +131,29 @@ class AnnotationHandler
     public function getPrevStepUrl()
     {
         $currentNumber = $this->currentAnnotation->getNumber();
-        
-        foreach($this->annotations as $annotation){
-            if($annotation->getNumber() == $currentNumber-1){
+
+        foreach ($this->annotations as $annotation) {
+            if ($annotation->getNumber() == $currentNumber-1) {
                 return $this->getStepUrl($annotation);
             }
         }
-        
+
         throw new \InvalidArgumentException("No route found");
     }
-    
+
     /**
-     * @param \Symfony\Component\Routing\Annotation\Route $annotation
+     * @param  \Symfony\Component\Routing\Annotation\Route $annotation
      * @return type
      * @throws \InvalidArgumentException
      */
     public function getStepUrl(Annotation $annotation)
     {
-        foreach($annotation->getAnnotationBag()->getAnnotations() as $annotation){
-            if($annotation instanceof Route){
+        foreach ($annotation->getAnnotationBag()->getAnnotations() as $annotation) {
+            if ($annotation instanceof Route) {
                 return $this->router->generate($annotation->getName());
             }
         }
-        
+
         throw new \InvalidArgumentException("No route found");
     }
 }

@@ -4,7 +4,7 @@
 
 {% block newsletter_content %}
     <h1>{{ 'design.list'|trans }}</h1>
-    
+
     <table class="table table-striped">
 		<thead>
             <tr>
@@ -25,9 +25,9 @@
 			{% endfor %}
 		</tbody>
     </table>
-	
+
 	<a href="{{ url('ibrows_newsletter_design_create') }}" class="btn btn-primary">
-        <span class="icon-plus icon-white"></span> 
+        <span class="icon-plus icon-white"></span>
         {{ 'design.create'|trans }}
     </a>
 {% endblock newsletter_content %}
