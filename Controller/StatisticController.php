@@ -2,6 +2,7 @@
 
 namespace Ibrows\Bundle\NewsletterBundle\Controller;
 
+use Doctrine\ORM\EntityRepository;
 use Ibrows\Bundle\NewsletterBundle\Model\Job\MailJob;
 use Ibrows\Bundle\NewsletterBundle\Model\Job\JobInterface;
 
@@ -58,15 +59,18 @@ class StatisticController extends AbstractHashMandantController
 
         $objectManager = $this->getObjectManager();
 
+        /** @var EntityRepository $mailJobRepo */
+        $mailJobRepo = $objectManager->getRepository($this->getClassManager()->getModel('mailjob'));
+
+        $qb = $mailJobRepo->createQueryBuilder('j');
+        $qb
+            ->select('partial j.{id, error, status, created, scheduled, completed}')
+            ->where('j.newsletterId = '. (int)$newsletter->getId())
+            ->orderBy('j.status', 'ASC')
+        ;
+
         /** @var MailJob[] $jobs */
-        $jobs = $objectManager->getRepository($this->getClassManager()->getModel('mailjob'))->findBy(
-            array(
-                'newsletterId' => $newsletter->getId()
-            ),
-            array(
-                'status' => 'ASC'
-            )
-        );
+        $jobs = $qb->getQuery()->execute(null, Query::HYDRATE_OBJECT);
 
         $foundSubscriberIds = array();
         $filteredReadlogs = array_filter($readlogs, function ($readlog) use (&$foundSubscriberIds) {
