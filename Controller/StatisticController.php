@@ -70,7 +70,7 @@ class StatisticController extends AbstractHashMandantController
         ;
 
         /** @var MailJob[] $jobs */
-        $jobs = $qb->getQuery()->execute(null, Query::HYDRATE_OBJECT);
+        $jobs = $qb->getQuery()->execute();
 
         $foundSubscriberIds = array();
         $filteredReadlogs = array_filter($readlogs, function ($readlog) use (&$foundSubscriberIds) {
