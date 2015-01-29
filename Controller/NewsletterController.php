@@ -392,7 +392,17 @@ class NewsletterController extends AbstractController
         $objectManager = $this->getObjectManager();
         $subscribers = $newsletter->getSubscribers();
         $count = 1;
+        $receiverMails = array();
+
         foreach ($subscribers as $subscriber) {
+            $receiverMail = $subscriber->getEmail();
+
+            // If subscriber already in list - do not add again
+            if(in_array($receiverMail, $receiverMails)){
+                continue;
+            }
+            $receiverMails[] = $receiverMail;
+
             if ($count % $sendSettings->getInterval() === 0) {
                 $time = $sendSettings->getStarttime();
                 $time->modify('+ 1 minutes');
@@ -410,7 +420,7 @@ class NewsletterController extends AbstractController
             /* @var $mailjob MailJob */
             $mailjob = new $mailjobClass($newsletter, $sendSettings);
             $mailjob->setBody($body);
-            $mailjob->setToMail($subscriber->getEmail());
+            $mailjob->setToMail($receiverMail);
 
             if ($subscriber instanceof SubscriberGenderTitleInterface) {
                 $mailjob->setToName($subscriber->getFirstname().' '. $subscriber->getLastname());
@@ -421,6 +431,7 @@ class NewsletterController extends AbstractController
             $this->addNewsletterSendLog($newsletter, $subscriber, "Mail ready to send: logged by ".__METHOD__);
             $objectManager->persist($mailjob);
             ++$count;
+
             //TODO: better memory leak handling
             if ($count % 200 == 0) {
                 $objectManager->flush();
