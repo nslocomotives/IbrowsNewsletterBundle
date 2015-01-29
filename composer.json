@@ -21,6 +21,6 @@
         "stfalcon/tinymce-bundle": "*"
     },
     "autoload": {
-        "psr-4": { "Ibrows\\Bundle\\NewsletterBundle": "" }
+        "psr-4": { "Ibrows\\Bundle\\NewsletterBundle\\": "" }
     }
 }
