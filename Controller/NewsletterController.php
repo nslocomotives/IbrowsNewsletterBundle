@@ -2,19 +2,15 @@
 
 namespace Ibrows\Bundle\NewsletterBundle\Controller;
 
-use Ibrows\Bundle\NewsletterBundle\Model\Job\MailJob;
-
-use Ibrows\Bundle\NewsletterBundle\Model\Newsletter\NewsletterInterface;
-use Ibrows\Bundle\NewsletterBundle\Model\Block\BlockInterface;
-use Ibrows\Bundle\NewsletterBundle\Model\Subscriber\SubscriberGenderTitleInterface;
-
+use Doctrine\Common\Collections\Collection;
 use Ibrows\Bundle\NewsletterBundle\Annotation\Wizard\Annotation as WizardAction;
 use Ibrows\Bundle\NewsletterBundle\Annotation\Wizard\AnnotationHandler as WizardActionHandler;
-
-use Doctrine\Common\Collections\Collection;
-
+use Ibrows\Bundle\NewsletterBundle\Model\Block\BlockInterface;
+use Ibrows\Bundle\NewsletterBundle\Model\Job\MailJob;
+use Ibrows\Bundle\NewsletterBundle\Model\Newsletter\NewsletterInterface;
+use Ibrows\Bundle\NewsletterBundle\Model\Subscriber\SubscriberGenderTitleInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 class NewsletterController extends AbstractController
@@ -26,9 +22,10 @@ class NewsletterController extends AbstractController
     {
         $this->setNewsletter(null);
 
-        return $this->render($this->getTemplateManager()->getNewsletter('index'), array(
-
-        ));
+        return $this->render(
+            $this->getTemplateManager()->getNewsletter('index'),
+            array()
+        );
     }
 
     /**
@@ -38,13 +35,18 @@ class NewsletterController extends AbstractController
     {
         $this->setNewsletter(null);
 
-        return $this->render($this->getTemplateManager()->getNewsletter('list'), array(
-            'newsletters' => $this->getMandant()->getNewsletters()
-        ));
+        return $this->render(
+            $this->getTemplateManager()->getNewsletter('list'),
+            array(
+                'newsletters' => $this->getMandant()->getNewsletters()
+            )
+        );
     }
 
     /**
      * @Route("/edit/redirection/{id}", name="ibrows_newsletter_edit_redirection")
+     * @param int $id
+     * @return RedirectResponse
      */
     public function editredirectionAction($id)
     {
@@ -90,16 +92,21 @@ class NewsletterController extends AbstractController
             }
         }
 
-        return $this->render($this->getTemplateManager()->getNewsletter('create'), array(
-            'newsletter' => $newsletter,
-            'form' => $form->createView(),
-            'wizard' => $this->getWizardActionAnnotationHandler(),
-        ));
+        return $this->render(
+            $this->getTemplateManager()->getNewsletter('create'),
+            array(
+                'newsletter' => $newsletter,
+                'form'       => $form->createView(),
+                'wizard'     => $this->getWizardActionAnnotationHandler(),
+            )
+        );
     }
 
+    /**
+     * @param WizardActionHandler $handler
+     */
     public function metaValidation(WizardActionHandler $handler)
     {
-
     }
 
     /**
@@ -120,12 +127,12 @@ class NewsletterController extends AbstractController
 
             $blockPostArray = $request->request->get('block');
             if (!is_array($blockPostArray)) {
-               $blockPostArray = array();
+                $blockPostArray = array();
             }
 
             $blockFileArray = $request->files->get('block');
             if (!is_array($blockFileArray)) {
-               $blockFileArray = array();
+                $blockFileArray = array();
             }
 
             foreach ($blockPostArray as $blockId => $content) {
@@ -155,19 +162,28 @@ class NewsletterController extends AbstractController
             }
         }
 
-        return $this->render($this->getTemplateManager()->getNewsletter('edit'), array(
-            'blockProviderManager' => $this->getBlockProviderManager(),
-            'newsletter' => $newsletter,
-            'newsletters' => $this->getMandant()->getNewsletters(),
-            'wizard' => $this->getWizardActionAnnotationHandler(),
-        ));
+        return $this->render(
+            $this->getTemplateManager()->getNewsletter('edit'),
+            array(
+                'blockProviderManager' => $this->getBlockProviderManager(),
+                'newsletter'           => $newsletter,
+                'newsletters'          => $this->getMandant()->getNewsletters(),
+                'wizard'               => $this->getWizardActionAnnotationHandler(),
+            )
+        );
     }
 
+    /**
+     * @param WizardActionHandler $handler
+     * @return RedirectResponse|null
+     */
     public function editValidation(WizardActionHandler $handler)
     {
         if (is_null($this->getNewsletter())) {
             return $this->redirect($handler->getStepUrl($handler->getLastValidAnnotation()));
         }
+
+        return null;
     }
 
     /**
@@ -197,18 +213,27 @@ class NewsletterController extends AbstractController
             }
         }
 
-        return $this->render($this->getTemplateManager()->getNewsletter('subscriber'), array(
-            'newsletter' => $this->getNewsletter(),
-            'form' => $form->createView(),
-            'wizard' => $this->getWizardActionAnnotationHandler(),
-        ));
+        return $this->render(
+            $this->getTemplateManager()->getNewsletter('subscriber'),
+            array(
+                'newsletter' => $this->getNewsletter(),
+                'form'       => $form->createView(),
+                'wizard'     => $this->getWizardActionAnnotationHandler(),
+            )
+        );
     }
 
+    /**
+     * @param WizardActionHandler $handler
+     * @return RedirectResponse|null
+     */
     public function subscriberValidation(WizardActionHandler $handler)
     {
         if (is_null($this->getNewsletter())) {
             return $this->redirect($handler->getStepUrl($handler->getLastValidAnnotation()));
         }
+
+        return null;
     }
 
     /**
@@ -246,7 +271,7 @@ class NewsletterController extends AbstractController
             $plainpassword = $this->decryptPassword($password);
             $form->bind($request);
 
-                // set password from send settings if necessary
+            // set password from send settings if necessary
             $formpassword = $form->get('password')->getData();
             if ($formpassword !== null) {
                 $plainpassword = $formpassword;
@@ -260,13 +285,20 @@ class NewsletterController extends AbstractController
             }
         }
 
-        return $this->render($this->getTemplateManager()->getNewsletter('settings'), array(
-            'newsletter' => $this->getNewsletter(),
-            'form' => $form->createView(),
-            'wizard' => $this->getWizardActionAnnotationHandler(),
-        ));
+        return $this->render(
+            $this->getTemplateManager()->getNewsletter('settings'),
+            array(
+                'newsletter' => $this->getNewsletter(),
+                'form'       => $form->createView(),
+                'wizard'     => $this->getWizardActionAnnotationHandler(),
+            )
+        );
     }
 
+    /**
+     * @param WizardActionHandler $handler
+     * @return RedirectResponse|null
+     */
     public function settingsValidation(WizardActionHandler $handler)
     {
         $newsletter = $this->getNewsletter();
@@ -278,6 +310,8 @@ class NewsletterController extends AbstractController
         if (count($newsletter->getSubscribers()) <= 0) {
             return $this->redirect($this->generateUrl('ibrows_newsletter_subscriber'));
         }
+
+        return null;
     }
 
     /**
@@ -327,6 +361,8 @@ class NewsletterController extends AbstractController
 
                 $mailjobClass = $this->getClassManager()->getModel('mailjob');
                 $tomail = $testmailform->get('email')->getData();
+
+                /** @var MailJob $mailjob */
                 $mailjob = new $mailjobClass($newsletter, $this->getSendSettings());
                 $mailjob->setToMail($tomail);
                 $mailjob->setBody($overview);
@@ -343,22 +379,17 @@ class NewsletterController extends AbstractController
             }
         }
 
-        return $this->render($this->getTemplateManager()->getNewsletter('summary'), array(
-            'newsletter' => $newsletter,
-            'subscriber' => $newsletter->getSubscribers()->first(),
-            'mandantHash' => $this->getMandant()->getHash(),
-            'testmailform' => $testmailform->createView(),
-            'wizard' => $this->getWizardActionAnnotationHandler(),
-            'error' => $error,
-        ));
-    }
-
-    /**
-     * @param MailJob $job
-     */
-    protected function send(MailJob $job)
-    {
-        $this->get('ibrows_newsletter.mailer')->send($job);
+        return $this->render(
+            $this->getTemplateManager()->getNewsletter('summary'),
+            array(
+                'newsletter'   => $newsletter,
+                'subscriber'   => $newsletter->getSubscribers()->first(),
+                'mandantHash'  => $this->getMandant()->getHash(),
+                'testmailform' => $testmailform->createView(),
+                'wizard'       => $this->getWizardActionAnnotationHandler(),
+                'error'        => $error,
+            )
+        );
     }
 
     public function summaryValidation(WizardActionHandler $handler)
@@ -398,7 +429,7 @@ class NewsletterController extends AbstractController
             $receiverMail = $subscriber->getEmail();
 
             // If subscriber already in list - do not add again
-            if(in_array($receiverMail, $receiverMails)){
+            if (in_array($receiverMail, $receiverMails)) {
                 continue;
             }
             $receiverMails[] = $receiverMail;
@@ -423,12 +454,12 @@ class NewsletterController extends AbstractController
             $mailjob->setToMail($receiverMail);
 
             if ($subscriber instanceof SubscriberGenderTitleInterface) {
-                $mailjob->setToName($subscriber->getFirstname().' '. $subscriber->getLastname());
+                $mailjob->setToName($subscriber->getFirstname() . ' ' . $subscriber->getLastname());
             }
 
             $mailjob->setStatus(MailJob::STATUS_READY);
 
-            $this->addNewsletterSendLog($newsletter, $subscriber, "Mail ready to send: logged by ".__METHOD__);
+            $this->addNewsletterSendLog($newsletter, $subscriber, "Mail ready to send: logged by " . __METHOD__);
             $objectManager->persist($mailjob);
             ++$count;
 
@@ -454,14 +485,25 @@ class NewsletterController extends AbstractController
             return $this->redirect($this->generateUrl('ibrows_newsletter_index', array(), true));
         }
 
-        return $this->render($this->getTemplateManager()->getNewsletter('send'), array(
-            'newsletter' => $newsletter
-        ));
+        return $this->render(
+            $this->getTemplateManager()->getNewsletter('send'),
+            array(
+                'newsletter' => $newsletter
+            )
+        );
     }
 
     /**
-     * @param Collection $blocks
-     * @param array      $blockParameters
+     * @param MailJob $job
+     */
+    protected function send(MailJob $job)
+    {
+        $this->get('ibrows_newsletter.mailer')->send($job);
+    }
+
+    /**
+     * @param Collection|BlockInterface[] $blocks
+     * @param array $blockParameters
      */
     protected function updateBlocksRecursive(Collection $blocks, array $blockParameters)
     {

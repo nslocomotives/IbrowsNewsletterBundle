@@ -7,18 +7,52 @@ use Ibrows\Bundle\NewsletterBundle\Renderer\RenderableInterface;
 
 interface BlockInterface extends RenderableInterface
 {
+    /**
+     * @return int
+     */
     public function getId();
 
+    /**
+     * @return int
+     */
     public function getPosition();
+
+    /**
+     * @param int $position
+     */
     public function setPosition($position);
 
+    /**
+     * @return string
+     */
     public function getProviderName();
+
+    /**
+     * @param string $providerName
+     */
     public function setProviderName($providerName);
 
+    /**
+     * @return array
+     */
     public function getProviderOptions();
+
+    /**
+     * @param string $key
+     * @param string $default
+     * @return string
+     */
     public function getProviderOption($key, $default = null);
 
+    /**
+     * @param array $options
+     */
     public function setProviderOptions(array $options);
+
+    /**
+     * @param string $key
+     * @param string $value
+     */
     public function setProviderOption($key, $value);
 
     /**
@@ -55,17 +89,33 @@ interface BlockInterface extends RenderableInterface
     public function getBlocks();
 
     /**
-     * @param  BlockInterface[] $blocks
-     * @return BlockInterface
+     * @param BlockInterface[] $blocks
      */
     public function setBlocks(array $blocks);
 
+    /**
+     * @param BlockInterface[] $blocks
+     */
     public function addBlocks(array $blocks);
 
+    /**
+     * @param string $content
+     */
     public function setContent($content);
+
+    /**
+     * @return string
+     */
     public function getContent();
 
+    /**
+     * @return NewsletterInterface
+     */
     public function getNewsletter();
+
+    /**
+     * @param NewsletterInterface $newsletter
+     */
     public function setNewsletter(NewsletterInterface $newsletter = null);
 
     /**
@@ -74,7 +124,7 @@ interface BlockInterface extends RenderableInterface
     public function getName();
 
     /**
-     * @param  string         $name
+     * @param  string $name
      * @return BlockInterface
      */
     public function setName($name);

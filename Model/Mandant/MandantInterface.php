@@ -2,12 +2,12 @@
 
 namespace Ibrows\Bundle\NewsletterBundle\Model\Mandant;
 
-use Ibrows\Bundle\NewsletterBundle\Model\Newsletter\NewsletterInterface;
-use Ibrows\Bundle\NewsletterBundle\Model\Subscriber\SubscriberInterface;
-use Ibrows\Bundle\NewsletterBundle\Model\Newsletter\SendSettingsInterface;
-use Ibrows\Bundle\NewsletterBundle\Model\Design\DesignInterface;
 use Ibrows\Bundle\NewsletterBundle\Model\Block\BlockInterface;
+use Ibrows\Bundle\NewsletterBundle\Model\Design\DesignInterface;
+use Ibrows\Bundle\NewsletterBundle\Model\Newsletter\NewsletterInterface;
+use Ibrows\Bundle\NewsletterBundle\Model\Newsletter\SendSettingsInterface;
 use Ibrows\Bundle\NewsletterBundle\Model\Subscriber\GroupInterface;
+use Ibrows\Bundle\NewsletterBundle\Model\Subscriber\SubscriberInterface;
 
 interface MandantInterface
 {
@@ -32,8 +32,7 @@ interface MandantInterface
     public function getRendererName();
 
     /**
-     * @param  string           $rendererName
-     * @return MandantInterface
+     * @param string $rendererName
      */
     public function setRendererName($rendererName);
 
@@ -44,7 +43,6 @@ interface MandantInterface
 
     /**
      * @param  SendSettingsInterface $settings
-     * @return MandantInterface
      */
     public function setSendSettings(SendSettingsInterface $settings);
 
@@ -54,8 +52,7 @@ interface MandantInterface
     public function getName();
 
     /**
-     * @param  string           $name
-     * @return MandantInterface
+     * @param  string $name
      */
     public function setName($name);
 
@@ -75,8 +72,7 @@ interface MandantInterface
     public function getHash();
 
     /**
-     * @param  string           $hash
-     * @return MandantInterface
+     * @param  string $hash
      */
     public function setHash($hash);
 

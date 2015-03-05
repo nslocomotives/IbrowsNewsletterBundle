@@ -2,10 +2,9 @@
 
 namespace Ibrows\Bundle\NewsletterBundle\Model\Block;
 
-use Ibrows\Bundle\NewsletterBundle\Model\Newsletter\NewsletterInterface;
-
-use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Ibrows\Bundle\NewsletterBundle\Model\Newsletter\NewsletterInterface;
 
 abstract class Block implements BlockInterface
 {
@@ -71,7 +70,7 @@ abstract class Block implements BlockInterface
      */
     public function setPosition($position)
     {
-        $this->position = (int) $position;
+        $this->position = (int)$position;
 
         return $this;
     }
@@ -123,8 +122,19 @@ abstract class Block implements BlockInterface
     }
 
     /**
+     * @param  array $options
+     * @return Block
+     */
+    public function setProviderOptions(array $options)
+    {
+        $this->providerOptions = $options;
+
+        return $this;
+    }
+
+    /**
      * @param  string $key
-     * @param  mixed  $default
+     * @param  mixed $default
      * @return mixed
      */
     public function getProviderOption($key, $default = null)
@@ -138,23 +148,12 @@ abstract class Block implements BlockInterface
 
     /**
      * @param  string $key
-     * @param  mixed  $value
+     * @param  mixed $value
      * @return Block
      */
     public function setProviderOption($key, $value)
     {
         $this->providerOptions[$key] = $value;
-
-        return $this;
-    }
-
-    /**
-     * @param  array $options
-     * @return Block
-     */
-    public function setProviderOptions(array $options)
-    {
-        $this->providerOptions = $options;
 
         return $this;
     }
