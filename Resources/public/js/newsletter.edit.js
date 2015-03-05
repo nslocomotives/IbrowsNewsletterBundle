@@ -17,9 +17,47 @@ ns.edit = function ($options) {
         }
 
         $self.setupNewBlockDialog();
+        $self.setupBlockMetaDataEdit();
         $self.setupCloneBlockDialog();
         $self.setupBlockSortable();
         $self.setupBlockDeleteDroppable();
+    };
+
+    this.setupBlockMetaDataEdit = function () {
+        var buttons = {};
+        buttons[$options.trans['newsletter.dialog.abort']] = function ($event) {
+            $elements.blockMetadataEditDialog.dialog('close');
+        };
+
+        $elements.blockMetadataEditDialog.dialog({
+            autoOpen: false,
+            modal: true,
+            buttons: buttons,
+            width: '600',
+            position: 'center'
+        });
+
+        $elements['block'].dblclick(function () {
+            var elem = jQuery(this);
+            var blockId = elem.attr($options.attributes.blockId);
+            var blockContainer = $elements.block.filter('[data-element-id="' + blockId + '"]');
+
+            $elements.blockMetadataEditDialog.html('');
+            $elements.blockMetadataEditDialog.dialog('open');
+
+            jQuery.get($options.url.blockMetadataEdit, {block: blockId}, function (data) {
+                $elements.blockMetadataEditDialog.html(data);
+
+                $elements.blockMetadataEditDialog.find('form').on('submit', function (e) {
+                    var form = jQuery(this);
+                    e.preventDefault();
+
+                    jQuery.post($options.url.blockMetadataEdit, form.serialize(), function (response) {
+                        $elements.blockMetadataEditDialog.dialog('close');
+                    });
+                });
+            });
+        });
     };
 
     this.setupBlockSortable = function () {

@@ -2,13 +2,10 @@
 
 namespace Ibrows\Bundle\NewsletterBundle\Controller;
 
-use Ibrows\Bundle\NewsletterBundle\Entity\Block;
-
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-
-use Symfony\Component\HttpFoundation\Response;
-
+use Ibrows\Bundle\NewsletterBundle\Form\BlockMetadataEditType;
 use Ibrows\Bundle\NewsletterBundle\Model\Block\BlockInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @Route("/provider")
@@ -61,9 +58,9 @@ class ProviderController extends AbstractController
 
         $this->getMandantManager()->persistNewsletter($this->getMandant()->getName(), $newsletter);
 
-        $html = '<li data-element="block" data-element-id="'. $block->getId() .'" class="block">' .
+        $html = '<li data-element="block" data-element-id="' . $block->getId() . '" class="block">' .
             $provider->getBlockEditContent($block) .
-        '</li>';
+            '</li>';
 
         $json = array(
             'html' => $html,
@@ -73,6 +70,62 @@ class ProviderController extends AbstractController
         $response->headers->set('Content-Type', 'application/json');
 
         return $response;
+    }
+
+    /**
+     * @Route("/blockmetadataedit", name="ibrows_newsletter_blockmetadata_edit")
+     */
+    public function blockmetadataeditAction()
+    {
+        $request = $this->getRequest();
+        if (!$blockId = (int)$request->get('block')) {
+            throw $this->createNotFoundException('Need Block-Id Parameter');
+        }
+
+        $newsletter = $this->getNewsletter();
+        $block = null;
+
+        foreach ($newsletter->getBlocks() as $newsletterBlock) {
+            if ($newsletterBlock->getId() == $blockId) {
+                $block = $newsletterBlock;
+                break;
+            }
+        }
+
+        if (!$block) {
+            throw $this->createNotFoundException('Block #' . $blockId . ' not found');
+        }
+
+        if (!$provider = $this->getBlockProviderManager()->get($block->getProviderName())) {
+            throw $this->createNotFoundException('BlockProvider not found');
+        }
+
+        $form = $this->createForm(new BlockMetadataEditType($provider), $block);
+
+        if ($request->isMethod('POST')) {
+            $form->bind($request);
+
+            if ($form->isValid()) {
+                $this->getMandantManager()->persistNewsletter($this->getMandant()->getName(), $newsletter);
+
+                $json = array(
+                    'html' => $provider->getBlockEditContent($block),
+                );
+
+                $response = new Response(json_encode($json));
+                $response->headers->set('Content-Type', 'application/json');
+
+                return $response;
+            }
+        }
+
+        return $this->render(
+            'IbrowsNewsletterBundle:Newsletter:editblockmetadata.html.twig',
+            array(
+                'blockId' => $block->getId(),
+                'form'    => $form->createView(),
+            )
+        );
     }
 
     /**

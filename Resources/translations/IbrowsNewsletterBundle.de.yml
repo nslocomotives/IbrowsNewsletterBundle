@@ -13,6 +13,8 @@ newsletter:
     clone: Kopieren
     add: Hinzufügen
     new: Neuer Block
+    metadata:
+        edit: Metadaten editieren
     provider:
       'ibrows_newsletter.block.provider.textarea':
         name: Text
