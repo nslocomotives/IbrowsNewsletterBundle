@@ -392,6 +392,10 @@ class NewsletterController extends AbstractController
         );
     }
 
+    /**
+     * @param WizardActionHandler $handler
+     * @return null|RedirectResponse
+     */
     public function summaryValidation(WizardActionHandler $handler)
     {
         $newsletter = $this->getNewsletter();
@@ -404,6 +408,8 @@ class NewsletterController extends AbstractController
         if (count($newsletter->getSubscribers()) <= 0) {
             return $this->redirect($this->generateUrl('ibrows_newsletter_subscriber'));
         }
+
+        return null;
     }
 
     /**
